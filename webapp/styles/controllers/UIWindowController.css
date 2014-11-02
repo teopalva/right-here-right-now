@@ -1,0 +1,11 @@
+.ui-window-controller {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.ui-window-controller > * {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}

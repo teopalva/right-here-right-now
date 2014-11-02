@@ -1,0 +1,23 @@
+/**
+ * @namespace Notifications
+ * @description Notifications is the namespace for every notification that the application has to deal with.
+ * Ideally each components that has to publish notifications should define here its own notifications under
+ * its sub-namespace.
+ */
+var Notifications = Notifications || {};
+
+
+/**
+ * VisualizationModuleController notifications sub-namespace
+ */
+Notifications.mapController = {
+    //whenever a map change its position / zoom
+    MAP_POSITION_OR_ZOOM_CHANGED : "com.divvy.mapContainerController.mapPositionOrZoomChanged",
+    ZOOM_CHANGED : "com.divvy.mapContainerController.mapZoomChanged",
+};
+
+Notifications.mapContainerController = {
+    //Whenever a new map is open/closed
+    MAP_CONFIGURATION_CHANGED : "com.divvy.mapContainerController.mapConfigurationChanged"
+
+};
