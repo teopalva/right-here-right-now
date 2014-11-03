@@ -30,5 +30,6 @@ function UIWindowController(windowContainer) {
         _mapOverlayViewController.getView().setFrame(0, 0, "100%", "100%");
         _mapOverlayViewController.getView().setViewBox(0, 0, 3750, 1000);
         _mapOverlayViewController.getView().appendTo(windowElement);
+        _mapOverlayViewController.viewDidAppear();
     } ();
 }

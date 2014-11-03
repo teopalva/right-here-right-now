@@ -1,0 +1,9 @@
+.ui-button-view-controller > .title {
+    font-size: 24px;
+    fill: rgba(255,255,255,1);
+    pointer-events: none;
+}
+
+.ui-button-view-controller .background {
+    cursor: pointer;
+}
