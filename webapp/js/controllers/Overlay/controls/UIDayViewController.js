@@ -18,6 +18,12 @@ function UIDayViewController() {
     // Weather icon
     var _weatherImage;
 
+    // Label that holds sunrise information
+    var _sunriseLabel;
+
+    // Label that holds sunset information
+    var _sunsetLabel;
+
     /////////////////////  PUBLIC METHODS /////////////////////
     /**
      * @override
@@ -53,6 +59,22 @@ function UIDayViewController() {
             self.add(_weatherImage);
         });
 
+        // Sunrise label
+        _sunriseLabel.getView().setFrame(0.05, 208, 144, 35);
+        _sunriseLabel.getView().setViewBox(0, 0, 144, 35);
+        _sunriseLabel.setText("Sunrise: " + model.getTimeModel().getSunriseTime());
+        _sunriseLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        _sunriseLabel.setTextSize(model.getThemeModel().mediumTextSize());
+        self.add(_sunriseLabel);
+
+        // Sunset label
+        _sunsetLabel.getView().setFrame(0.05, 243, 144, 35);
+        _sunsetLabel.getView().setViewBox(0, 0, 144, 35);
+        _sunsetLabel.setText("Sunset: " + model.getTimeModel().getSunsetTime());
+        _sunsetLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        _sunsetLabel.setTextSize(model.getThemeModel().mediumTextSize());
+        self.add(_sunsetLabel);
+
         // Call super
         super_viewDidAppear.call(self);
     };
@@ -67,6 +89,8 @@ function UIDayViewController() {
         // Setup UI
         _dateLabel = new UILabelViewController();
         _timeLabel = new UILabelViewController();
+        _sunriseLabel = new UILabelViewController();
+        _sunsetLabel = new UILabelViewController();
 
         // Weather icon
         _weatherImage = new UIImageViewController();
