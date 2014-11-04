@@ -38,3 +38,11 @@ Notifications.areaOfInterest = {
 Notifications.weather = {
     WEATHER_UPDATED : "com.divvy.weather.weatherUpdated"
 };
+
+/**
+ * Notifications about map layers
+ * @type {{}}
+ */
+Notifications.mapLayers = {
+    LAYERS_STATUS_CHANGED : "com.righthererightnow.mapLayers.layersStatusChanged"
+};

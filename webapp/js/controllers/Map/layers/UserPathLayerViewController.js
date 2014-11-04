@@ -64,7 +64,6 @@ function UserPathLayerViewController() {
                 coordinates = d3.mouse(this);
                 var x = coordinates[0];
                 var y = coordinates[1];
-                //console.log("x= " + x + "  y= " + y);
 
                 var coord = self.unproject(x, y);
 
@@ -81,6 +80,7 @@ function UserPathLayerViewController() {
 
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_CLEANED);
+        self.pathChanged();
     } ();
 }
 

@@ -61,7 +61,14 @@ function MapViewController(htmlContainer) {
         });
     };*/
 
+    /**
+     * Handles LAYERS_STATUS_CHANGED notification
+     */
     this.updateMap = function() {
+        // Clean map
+        cleanMap();
+
+        // Draw layers
         var layersControllers = _layersControllersFactory.getMapLayers();
 
         layersControllers.forEach(function(Controller) {
@@ -206,6 +213,7 @@ function MapViewController(htmlContainer) {
             .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
         self.visualizationTypeChanged();*/
         self.updateMap();
+        notificationCenter.subscribe(self, self.updateMap, Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     } ();
 }
 

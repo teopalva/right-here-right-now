@@ -20,7 +20,9 @@ function MapLayersModel() {
         var activeLayers = [];
 
         d3.keys(_layerStatus).forEach(function(value) {
-            activeLayers.push(value);
+            if(_layerStatus[value] == true) {
+                activeLayers.push(value);
+            }
         });
 
         return activeLayers;
@@ -34,6 +36,8 @@ function MapLayersModel() {
         layerArray.forEach(function(value) {
             _layerStatus[value] = true;
         });
+
+        notificationCenter.dispatch(Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     };
 
     /**
@@ -44,6 +48,8 @@ function MapLayersModel() {
         layerArray.forEach(function(value) {
             _layerStatus[value] = false;
         });
+
+        notificationCenter.dispatch(Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     };
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
