@@ -48,7 +48,7 @@ function WeatherModel() {
      * Updates data
      */
     this.updateData = function() {
-        // TODO: restore ajax call when the app is finished
+        // TODO: restore ajax call when the app is ready
         /*
         $.ajax({
             url : "http://api.wunderground.com/api/e4c22e5150092e01/conditions/q/IL/Chicago.json",
@@ -61,7 +61,7 @@ function WeatherModel() {
             }
         });*/
 
-        // TODO: remove these
+        // TODO: remove these when the app the ready
         _conditions = "Overcast";//parsed_json["current_observation"]["weather"];
         _fahrenheit = 56.4;//parsed_json["current_observation"]["temp_f"];
         _celsius = 16.4;//parsed_json["current_observation"]["temp_c"];
@@ -73,6 +73,7 @@ function WeatherModel() {
      */
     this.startUpdates = function() {
         self.updateData();
+        // TODO uncomment when the app is ready
         //_updateTimer = setInterval(self.updateData, _intervalMillis);
     };
 
