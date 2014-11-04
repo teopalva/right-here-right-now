@@ -61,6 +61,14 @@ function MapViewController(htmlContainer) {
         });
     };*/
 
+    this.updateMap = function() {
+        var layersControllers = _layersControllersFactory.getMapLayers();
+
+        layersControllers.forEach(function(Controller) {
+            self.add(new Controller());
+        });
+    };
+
 
     /**
      * @override
@@ -138,7 +146,7 @@ function MapViewController(htmlContainer) {
 
 
     var init = function() {
-        //_layersControllersFactory = new MapLayerViewControllersFactory();
+        _layersControllersFactory = new MapLayersFactory();
 
         // Initializing the _mapTilesLayer
         _mapTilesLayer = L.tileLayer(_mapURL, {
@@ -148,7 +156,7 @@ function MapViewController(htmlContainer) {
         });
 
         // Draw the map container box
-        _mapContainer = L.map(_htmlContainer.node());
+        _mapContainer = L.map(_htmlContainer.node(), {zoomControl: false});
         _mapContainer.setView(model.getMapModel().getDefaultFocusPoint(), _defaultZoom);
 
         var tileLayers = {
@@ -197,6 +205,7 @@ function MapViewController(htmlContainer) {
         self.getNotificationCenter()
             .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
         self.visualizationTypeChanged();*/
+        self.updateMap();
     } ();
 }
 

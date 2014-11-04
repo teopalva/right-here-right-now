@@ -1,4 +1,7 @@
 /**
+ * @class MapOverlayViewController
+ * @description
+ *
  *
  * @constructor
  */
@@ -7,20 +10,23 @@ function MapOverlayViewController() {
     /////////////////////////////// PRIVATE ATTRIBUTES ///////////////////////////////
     var self = this;
 
-    var button;
+    var _padding = {top: 12.5, left: 12.5};
+
+
+    // Tools
+    var _dayViewController;
+    var _dayViewSize = {width: 316.5, height: 283.5};
 
     /////////////////////////////// PUBLIC METHODS ///////////////////////////////
     /**
-     *
+     * @override
      */
     var super_viewDidAppear = this.viewDidAppear;
     this.viewDidAppear = function() {
-        button = new UIButtonViewController();
-        button.getView().setFrame(0, 0, 200, 200);
-        button.getView().setViewBox(0, 0, 200, 200);
 
-        button.setTitle("CIAOOOO");
-        self.add(button);
+        _dayViewController.getView().setFrame(_padding.left, _padding.top, _dayViewSize.width, _dayViewSize.height);
+        _dayViewController.getView().setViewBox(0, 0, _dayViewSize.width, _dayViewSize.height);
+        self.add(_dayViewController);
 
         addBehaviours();
 
@@ -30,13 +36,13 @@ function MapOverlayViewController() {
 
     /////////////////////////////// PRIVATE METHODS ///////////////////////////////
     var addBehaviours = function() {
-        button.onClick(function() {
-            console.log("CIAO BELLLI");
-        });
+
     };
 
     var init = function() {
         self.getView().addClass("map-overlay-view-controller");
+
+        _dayViewController = new UIDayViewController();
 
     } ();
 }

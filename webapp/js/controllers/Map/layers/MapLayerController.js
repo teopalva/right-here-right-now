@@ -22,12 +22,21 @@ function MapLayerController() {
     };
 
     /**
+     *
+     * @param x
+     * @param y
+     */
+    this.unproject = function(x, y) {
+        return model.getMapModel().unprojectAtDefaultZoom(x, y);
+    };
+
+    /**
      * Wrapper for the standard d3 projection
      */
     this.d3projection = function(latLng) {
         var point = self.project(latLng[1], latLng[0]);
         return [point.x, point.y];
-    } ;
+    };
 
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////

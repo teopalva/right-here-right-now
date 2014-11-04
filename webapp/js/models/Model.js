@@ -11,6 +11,21 @@ function Model() {
     // Holds the status of the current map context
     var _mapModel;
 
+    // Holds information about the boundary selected by the user within which data has to be visualized
+    var _areaOfInterestModel;
+
+    // Holds color information for visualization purposes
+    var _colorModel;
+
+    // Holds UI information
+    var _themeModel;
+
+    // Holds time information
+    var _timeModel;
+
+    // Holds weather information
+    var _weatherModel;
+
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      *
@@ -20,8 +35,51 @@ function Model() {
         return _mapModel;
     };
 
+    /**
+     * Returns the model that keeps information about the boundary within which data has to be visualized
+     */
+    this.getAreaOfInterestModel = function() {
+        return _areaOfInterestModel;
+    };
+
+    /**
+     * Returns the color model
+     */
+    this.getColorModel = function() {
+        return _colorModel;
+    };
+
+    /**
+     * Returns theme model
+     * @returns {*}
+     */
+    this.getThemeModel = function() {
+        return _themeModel;
+    };
+
+    /**
+     * Returns the time model
+     * @returns {*}
+     */
+    this.getTimeModel = function() {
+        return _timeModel;
+    };
+
+    /**
+     * Returns the weather model
+     * @returns {*}
+     */
+    this.getWeatherModel = function() {
+        return _weatherModel;
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {
         _mapModel = new MapModel();
+        _areaOfInterestModel = new AreaOfInterestModel();
+        _colorModel = new ColorModel();
+        _themeModel = new ThemeModel();
+        _timeModel = new TimeModel();
+        _weatherModel = new  WeatherModel();
     } ();
 }

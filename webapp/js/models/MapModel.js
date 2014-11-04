@@ -51,6 +51,10 @@ function MapModel() {
         return _map.project(new L.LatLng(lat,long), _defaultZoomForProjecting);
     };
 
+    this.unprojectAtDefaultZoom = function(x, y) {
+        return _map.unproject(new L.point(x, y), _defaultZoomForProjecting);
+    };
+
 
     /**
      *

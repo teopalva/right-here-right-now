@@ -269,6 +269,14 @@ function UIView() {
         _svg.style("pointer-events", "visiblePainted");
     };
 
+    /**
+     * Set the UIView background color
+     * @param color
+     */
+    this.setBackgroundColor = function(color) {
+        _eventsLayer.style("fill", color);
+    };
+
 
 
     //////////////////////// PRIVATE METHODS ////////////////////////
