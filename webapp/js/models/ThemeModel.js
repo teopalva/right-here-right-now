@@ -33,6 +33,22 @@ function ThemeModel() {
         return "24px";
     };
 
+    /**
+     *
+     * @returns {string}
+     */
+    this.mediumTextSize = function() {
+        return "20px";
+    };
+
+    /**
+     *
+     * @returns {string}
+     */
+    this.smallTextSize = function() {
+        return "16px";
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {
 
