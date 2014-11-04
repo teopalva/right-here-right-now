@@ -26,7 +26,7 @@ function TimeModel() {
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      * Returns current date (javascript Date)
-     * @returns {Date}
+     * @returns {String}
      */
     this.getCurrentDate = function() {
         return _date;
@@ -37,7 +37,7 @@ function TimeModel() {
      * @returns {String}
      */
     this.getSunriseTime = function() {
-        return _sunrise.getHours()+" : "+_sunrise.getMinutes();
+        return _sunrise.getHours()+" : "+ toTwoDigits(_sunrise.getMinutes());
     };
 
     /**
@@ -45,7 +45,7 @@ function TimeModel() {
      * @returns {String}
      */
     this.getSunsetTime = function() {
-        return _sunset.getHours()+" : " + _sunset.getMinutes();
+        return _sunset.getHours()+" : " + toTwoDigits(_sunset.getMinutes());
     };
 
     /**
@@ -85,6 +85,16 @@ function TimeModel() {
 
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
+    /**
+     * Returns a two digits string when minutes < 10
+     * Example: 10:3 becomes 10:03
+     * @param minutes
+     * @returns {string}
+     */
+    var toTwoDigits = function(minutes){
+        return ( minutes<10?'0':'') + minutes;
+    };
+
     var init = function() {
 
     } ();

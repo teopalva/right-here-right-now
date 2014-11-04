@@ -24,6 +24,10 @@ function UIDayViewController() {
     // Label that holds sunset information
     var _sunsetLabel;
 
+    var _tempLabelF;
+
+    var _tempLabelC;
+
     /////////////////////  PUBLIC METHODS /////////////////////
     /**
      * Handler method for WEATHER_UPDATED notification
@@ -31,6 +35,8 @@ function UIDayViewController() {
     this.weatherUpdated = function() {
         var conditions = model.getWeatherModel().getCurrentConditions();
         _weatherImage.setImagePath("assets/images/weather/" + weatherIconMapping[conditions].day);
+        _tempLabelF.setText("Temp : " + model.getWeatherModel().getCurrentFahrenheitTemperature() + " F");
+        _tempLabelC.setText("Temp : " + model.getWeatherModel().getCurrentCelsiusTemperature() + " C");
     };
 
     /**
@@ -39,15 +45,15 @@ function UIDayViewController() {
     this.clockUpdated = function(){
         var time = model.getTimeModel().getCurrentDate();
         _dateLabel.setText(model.getTimeModel().getCurrentDate().toDateString());
-        _timeLabel.setText(time.getHours() + ":" + time.getMinutes());
+        _timeLabel.setText(time.getHours() + ":" + toTwoDigits(time.getMinutes()));
     };
 
     /**
      * Handler method for the SUN
      */
     this.sunUpdated = function(){
-        _sunriseLabel.setText("Sunrise: " + model.getTimeModel().getSunriseTime());
-        _sunsetLabel.setText("Sunset: " + model.getTimeModel().getSunsetTime());
+        _sunriseLabel.setText("Sunrise : " + model.getTimeModel().getSunriseTime());
+        _sunsetLabel.setText("Sunset : " + model.getTimeModel().getSunsetTime());
     }
 
     /**
@@ -94,12 +100,40 @@ function UIDayViewController() {
         _sunsetLabel.setTextAlignment(TextAlignment.LEFT);
         self.add(_sunsetLabel);
 
+        // TempF label
+        _tempLabelF.getView().setFrame(172,208,144,35);
+        _tempLabelF.getView().setViewBox(0,0,144,35);
+        _tempLabelF.setTextColor(model.getThemeModel().defaultToolTextColor());
+        _tempLabelF.setTextSize(model.getThemeModel().mediumTextSize());
+        _tempLabelF.setTextAlignment(TextAlignment.RIGHT);
+        self.add(_tempLabelF);
+
+
+        // TempC label
+        _tempLabelC.getView().setFrame(172,243,144,35);
+        _tempLabelC.getView().setViewBox(0,0,144,35);
+        _tempLabelC.setTextColor(model.getThemeModel().defaultToolTextColor());
+        _tempLabelC.setTextSize(model.getThemeModel().mediumTextSize());
+        _tempLabelC.setTextAlignment(TextAlignment.RIGHT);
+        self.add(_tempLabelC);
+
         // Call super
         super_viewDidAppear.call(self);
     };
 
 
     /////////////////////  PRIVATE METHODS /////////////////////
+
+    /**
+     * Returns a two digits string when minutes < 10
+     * Example: 10:3 becomes 10:03
+     * @param minutes
+     * @returns {string}
+     */
+    var toTwoDigits = function(minutes){
+        return ( minutes<10?'0':'') + minutes;
+    };
+
     var init = function() {
         self.getView().addClass("ui-day-view-controller");
 
@@ -110,6 +144,8 @@ function UIDayViewController() {
         _timeLabel = new UILabelViewController();
         _sunriseLabel = new UILabelViewController();
         _sunsetLabel = new UILabelViewController();
+        _tempLabelF = new UILabelViewController();
+        _tempLabelC = new UILabelViewController();
 
         // Weather icon
         _weatherImage = new UIImageViewController();
