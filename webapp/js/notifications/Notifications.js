@@ -30,3 +30,19 @@ Notifications.areaOfInterest = {
     POINT_ADDED_TO_PATH : "com.divvy.areaOfInterest.pointAddedToPath",
     PATH_CLEANED : "com.divvy.areaOfInterest.pathCleaned"
 };
+
+/**
+ * Notifications about weather
+ * @type {{}}
+ */
+Notifications.weather = {
+    WEATHER_UPDATED : "com.divvy.weather.weatherUpdated"
+};
+
+/**
+ * Notifications about map layers
+ * @type {{}}
+ */
+Notifications.mapLayers = {
+    LAYERS_STATUS_CHANGED : "com.righthererightnow.mapLayers.layersStatusChanged"
+};

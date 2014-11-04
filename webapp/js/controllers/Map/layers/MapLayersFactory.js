@@ -12,8 +12,15 @@ function MapLayersFactory() {
     this.getMapLayers = function() {
         var layers = [];
 
-        // Here there should be some form of if, or switch
-        layers.push(UserPathLayerViewController);
+        var activeLayers = model.getMapLayersModel().getActiveLayers();
+
+        activeLayers.forEach(function(layer) {
+            switch(layer) {
+                case Layers.USER_PATH:
+                    layers.push(UserPathLayerViewController);
+                    break;
+            }
+        });
 
         return layers;
     };

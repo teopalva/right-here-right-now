@@ -26,6 +26,15 @@ function UIDayViewController() {
 
     /////////////////////  PUBLIC METHODS /////////////////////
     /**
+     * Handler method for WEATHER_UPDATED notification
+     */
+    this.weatherUpdated = function() {
+        var conditions = model.getWeatherModel().getCurrentConditions();
+        _weatherImage.setImagePath("assets/images/weather/" + weatherIconMapping[conditions].day);
+    };
+
+
+    /**
      * @override
      */
     var super_viewDidAppear = this.viewDidAppear;
@@ -54,10 +63,7 @@ function UIDayViewController() {
         // Setup weather icon
         _weatherImage.getView().setFrame(102.5, 105, 113, 113);
         _weatherImage.getView().setViewBox(0, 0, 113, 113);
-        model.getWeatherModel().getCurrentConditions(function(conditions) {
-            _weatherImage.setImagePath("assets/images/weather/" + weatherIconMapping[conditions].day);
-            self.add(_weatherImage);
-        });
+        self.add(_weatherImage);
 
         // Sunrise label
         _sunriseLabel.getView().setFrame(0.05, 208, 144, 35);
@@ -94,6 +100,12 @@ function UIDayViewController() {
 
         // Weather icon
         _weatherImage = new UIImageViewController();
+
+        // Subscribe to notifications
+        notificationCenter.subscribe(self, self.weatherUpdated, Notifications.weather.WEATHER_UPDATED);
+
+        // Start updates
+        model.getWeatherModel().startUpdates();
     } ();
 }
 

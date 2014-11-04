@@ -49,6 +49,7 @@ function NotificationCenter () {
         });
     };
 
+
     /**
      * Unsuscribe an observer from all notifications
      * @param observer

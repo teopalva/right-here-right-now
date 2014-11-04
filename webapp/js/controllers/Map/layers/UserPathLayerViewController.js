@@ -22,6 +22,7 @@ function UserPathLayerViewController() {
 
         var points = canvas.selectAll("circle").data(path);
 
+        // Update
         points
             .attr("cx", function(d) {
                 var point = self.project(d.latitude, d.longitude);
@@ -33,6 +34,7 @@ function UserPathLayerViewController() {
             })
             .attr("r", 10);
 
+        // Enter
         points.enter().append("circle")
             .attr("cx", function(d) {
                 var point = self.project(d.latitude, d.longitude);
@@ -44,6 +46,7 @@ function UserPathLayerViewController() {
             })
             .attr("r", 10);
 
+        // Exit
         points.exit().remove();
     };
 
@@ -61,18 +64,10 @@ function UserPathLayerViewController() {
                 coordinates = d3.mouse(this);
                 var x = coordinates[0];
                 var y = coordinates[1];
-                console.log("x= " + x + "  y= " + y);
 
                 var coord = self.unproject(x, y);
 
                 model.getAreaOfInterestModel().addPoint(coord.lat, coord.lng);
-                /*
-                var point = self.project(coord.lat, coord.lng);
-                self.getView().getSvg()
-                    .append("circle")
-                    .attr("cx", point.x)
-                    .attr("cy", point.y)
-                    .attr("r", 10);*/
             });
 
         // Call super
@@ -85,6 +80,7 @@ function UserPathLayerViewController() {
 
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_CLEANED);
+        self.pathChanged();
     } ();
 }
 
