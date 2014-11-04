@@ -22,10 +22,7 @@ function MapViewController(htmlContainer) {
         map: 'krbalmryde.jk1dm68f'
     };
     var _mapURL = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
-    var _mapAttribution = 'Map data &copy; ' +
-        '<a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="http://mapbox.com">Mapbox</a>';
+    var _mapAttribution = '';
 
     // Make out Map-layer object, this is what contains the actual map itself
     var _mapTilesLayer;
