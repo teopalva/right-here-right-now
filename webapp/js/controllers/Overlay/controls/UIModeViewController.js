@@ -22,7 +22,7 @@ function UIModeViewController() {
          // RECTANGULAR SELECTION
         _rectModeButton.getView().setFrame(40, 22, 22, 38.5);
         _rectModeButton.getView().setViewBox(0, 0, 22, 38.5);
-        _rectModeButton.setImage("/icons/transport/walking.svg");
+        //_rectModeButton.setImage("/icons/transport/walking.svg");
         self.add(_rectModeButton);
 
         // Call super
