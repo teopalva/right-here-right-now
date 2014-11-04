@@ -71,6 +71,7 @@ function UIDayViewController() {
         _sunriseLabel.setText("Sunrise: " + model.getTimeModel().getSunriseTime());
         _sunriseLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         _sunriseLabel.setTextSize(model.getThemeModel().mediumTextSize());
+        _sunriseLabel.setTextAlignment(TextAlignment.LEFT);
         self.add(_sunriseLabel);
 
         // Sunset label
@@ -79,6 +80,7 @@ function UIDayViewController() {
         _sunsetLabel.setText("Sunset: " + model.getTimeModel().getSunsetTime());
         _sunsetLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         _sunsetLabel.setTextSize(model.getThemeModel().mediumTextSize());
+        _sunsetLabel.setTextAlignment(TextAlignment.LEFT);
         self.add(_sunsetLabel);
 
         // Call super
