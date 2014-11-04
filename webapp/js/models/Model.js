@@ -26,6 +26,9 @@ function Model() {
     // Holds weather information
     var _weatherModel;
 
+    // Holds information about which layer to visualize
+    var _mapLayersModel;
+
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      *
@@ -73,6 +76,14 @@ function Model() {
         return _weatherModel;
     };
 
+    /**
+     * Returns map layers model
+     * @returns {*}
+     */
+    this.getMapLayersModel = function() {
+        return _mapLayersModel;
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {
         // Map
@@ -92,5 +103,8 @@ function Model() {
 
         // Weather
         _weatherModel = new  WeatherModel();
+
+        // Map layers
+        _mapLayersModel = new  MapLayersModel();
     } ();
 }
