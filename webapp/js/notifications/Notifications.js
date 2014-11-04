@@ -46,3 +46,12 @@ Notifications.weather = {
 Notifications.mapLayers = {
     LAYERS_STATUS_CHANGED : "com.righthererightnow.mapLayers.layersStatusChanged"
 };
+
+/**
+ * Notifications about the time
+ * @type {{}}
+ */
+Notifications.time = {
+    CLOCK_UPDATED : "com.righthererightnow.time.clockUpdated",
+    SUN_UPDATED : "com.righthererightnow.time.sunUpdated"
+}
