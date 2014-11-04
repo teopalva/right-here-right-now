@@ -24,6 +24,14 @@ function ThemeModel() {
     this.defaultToolTextColor = function() {
         return "rgba(246, 246, 246, 1.0)";
     };
+    
+    this.selectedButtonColor = function() {
+        return "rgba(35, 84, 204, 1.0)";
+    };
+    
+    this.deselectedButtonColor = function() {
+        return "rgba(45, 108, 214, 0.3)";
+    };
 
     /**
      *
