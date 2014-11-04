@@ -8,25 +8,80 @@ function WeatherModel() {
     ///////////////////////////// PRIVATE ATTRIBUTES /////////////////////////////
     var self = this;
 
+    // Weather conditions
+    var _conditions = null;
+
+    // Temperatures
+    var _fahrenheit;
+    var _celsius;
+
+    // Update timer
+    var _updateTimer;
+    var _intervalMillis = 20000;
+
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
-    this.getCurrentConditions = function(callBack) {
+    /**
+     * Get a string that represents current weather conditions. @see wunderground to known the vocabularies
+     * @returns {*}
+     */
+    this.getCurrentConditions = function() {
+        return _conditions;
+    };
+
+    /**
+     * Get current temperature in fahrenheit
+     * @returns {*}
+     */
+    this.getCurrentFahrenheitTemperature = function() {
+        return _fahrenheit;
+    };
+
+    /**
+     * Get current temperature in celsius
+     * @returns {*}
+     */
+    this.getCurrentCelsiusTemperature = function() {
+        return _celsius;
+    };
+
+    /**
+     * Updates data
+     */
+    this.updateData = function() {
+        // TODO: restore ajax call when the app is finished
+        /*
         $.ajax({
             url : "http://api.wunderground.com/api/e4c22e5150092e01/conditions/q/IL/Chicago.json",
             dataType : "jsonp",
             success : function(parsed_json) {
-                callBack(parsed_json["current_observation"]["weather"]);
+                _conditions = parsed_json["current_observation"]["weather"];
+                _fahrenheit = parsed_json["current_observation"]["temp_f"];
+                _celsius = parsed_json["current_observation"]["temp_c"];
+                notificationCenter.dispatch(Notifications.weather.WEATHER_UPDATED);
             }
-        });
+        });*/
+
+        // TODO: remove these
+        _conditions = "Overcast";//parsed_json["current_observation"]["weather"];
+        _fahrenheit = 56.4;//parsed_json["current_observation"]["temp_f"];
+        _celsius = 16.4;//parsed_json["current_observation"]["temp_c"];
+        notificationCenter.dispatch(Notifications.weather.WEATHER_UPDATED);
     };
 
-    this.getCurrentFahrenheitTemperature = function(callBack) {
-
+    /**
+     * Starts the timer that updates the model at a given interval
+     */
+    this.startUpdates = function() {
+        self.updateData();
+        //_updateTimer = setInterval(self.updateData, _intervalMillis);
     };
 
-    this.getCurrentCelsiusTemperature = function(callBack) {
-
+    /**
+     * Stops the timer that updates the model
+     */
+    this.stopUpdates = function() {
+        clearInterval(_updateTimer);
     };
-
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {

@@ -75,11 +75,22 @@ function Model() {
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {
+        // Map
         _mapModel = new MapModel();
+
+        // Area of interest
         _areaOfInterestModel = new AreaOfInterestModel();
+
+        // Colors
         _colorModel = new ColorModel();
+
+        // Theme
         _themeModel = new ThemeModel();
+
+        // Time
         _timeModel = new TimeModel();
+
+        // Weather
         _weatherModel = new  WeatherModel();
     } ();
 }
