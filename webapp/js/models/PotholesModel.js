@@ -67,7 +67,7 @@ function PotholesModel() {
     };
 
     /**
-     * Stops the timer that updates the model
+     * Stops the timer that updates the model.
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
