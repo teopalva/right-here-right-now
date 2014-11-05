@@ -20,6 +20,10 @@ function Model() {
     // Holds information about the vehicles
     var _vehiclesModel;
 
+    // Holds information about the lights
+    var _lightsModel;
+
+
     // Holds color information for visualization purposes
     var _colorModel;
 
@@ -66,6 +70,13 @@ function Model() {
      */
     this.getVehiclesModel = function(){
         return _vehiclesModel;
+    };
+
+    /**
+     * Returns the model that keeps information about the lights
+     */
+    this.getLightsModel = function(){
+        return _lightsModel;
     };
 
     /**
@@ -128,6 +139,9 @@ function Model() {
 
         //Vehicles Model
         _vehiclesModel = new VehiclesModel();
+
+        // LIghts Model
+        _lightsModel = new LightsModel();
 
         // Colors
         _colorModel = new ColorModel();

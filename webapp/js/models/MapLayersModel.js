@@ -67,5 +67,6 @@ var Layers = {
     USER_PATH: "UserPathLayerViewController",
     POTHOLES: "PotholesLayerViewController",
     VEHICLES: "VehiclesLayerViewController",
+    LIGHTS: "LightsLayerViewController",
     CTA: "CtaLayerViewController"
 };
