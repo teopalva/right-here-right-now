@@ -11,6 +11,9 @@ function UserPathLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    // To draw the icons on the map
+    var _markersViewController;
+
     // Mouse event
     var _clickFlag = false;
 
@@ -25,32 +28,7 @@ function UserPathLayerViewController() {
 
         var points = canvas.selectAll("circle").data(path);
 
-        // Update
-        points
-            .attr("cx", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.x;
-            })
-            .attr("cy", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.y;
-            })
-            .attr("r", 2);
-
-        // Enter
-        points.enter().append("circle")
-            .attr("cx", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.x;
-            })
-            .attr("cy", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.y;
-            })
-            .attr("r", 2);
-
-        // Exit
-        points.exit().remove();
+        _markersViewController.draw(self,points);
     };
 
     var drag;
@@ -105,11 +83,14 @@ function UserPathLayerViewController() {
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var init = function() {
+
         self.getView().addClass("user-path-layer-view-controller");
+        _markersViewController = new MarkersViewController();
 
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_CLEANED);
         self.pathChanged();
+
     } ();
 }
 

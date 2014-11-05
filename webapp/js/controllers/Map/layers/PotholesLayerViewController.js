@@ -1,27 +1,41 @@
-
+/**
+ * @description
+ * @constructor
+ */
 function PotholesLayerViewController() {
     MapLayerController.call(this);
 
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    // To draw the icons on the map
+    var _markersViewController;
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    this.layerStatusChanged = function () {
-
+    /**
+     * Adds the potholes on the screen
+     */
+    this.potholesAdded = function () {
+        model.getPotholesModel().startUpdates();
     };
 
     /**
-     * Called after the view is added to the a parent view
-     * @override
+     * Removes the potholes from the screen
      */
-    var super_viewDidAppear = this.viewDidAppear;
-    this.viewDidAppear = function(){
+    this.potholesCleaned = function () {
+        model.getPotholesModel().stopUpdates();
+        self.potholesUpdated();
+    };
 
+    /**
+     * Updates the potoles on the screen
+     */
+    this.potholesUpdated = function () {
+        var potholes = model.getPotholesModel().getPotholes();
+        var canvas = self.getView().getSvg();
+        var points = canvas.selectAll("circle").data(potholes);
+        _markersViewController.draw(self,points);
 
-
-        // Call super
-        super_viewDidAppear.call(self);
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
@@ -29,13 +43,11 @@ function PotholesLayerViewController() {
     var init = function() {
         self.getView().addClass("potholes-layer-view-controller");
 
-        //TODO: do it when the button is clicked
+        _markersViewController = new MarkersViewController();
 
-        /*
-        notificationCenter.subscribe(self, self.layersStatusChanged, Notifications.mapLayers.LAYERS_STATUS_CHANGED);
-        self.layerStatusChanged();
-        model.getPotholesModel().startUpdates();
-        */
+        notificationCenter.subscribe(self, self.potholesAdded, Notifications.potholes.LAYER_ADDED);
+        notificationCenter.subscribe(self, self.potholesCleaned, Notifications.potholes.LAYER_CLEANED);
+        notificationCenter.subscribe(self, self.potholesUpdated, Notifications.potholes.LAYER_UPDATED);
 
     } ();
 }

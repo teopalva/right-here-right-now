@@ -41,7 +41,6 @@ function PotholesModel() {
      *  Update the potholes information
      */
     this.updatePotholes = function() {
-        console.log("I am PotholesModel.updatePotholes()");
         // remove the old potholes
         self.clearPotholes();
 
@@ -50,9 +49,13 @@ function PotholesModel() {
         var query = "?$select=creation_date,latitude,longitude&$where=status=%27Open%27&$order=creation_date%20DESC";
         d3.json(link + query, function(json){
            json.forEach(function(pothole){
+               // Add only if we know both latitude and longitude
+               if(pothole.latitude && pothole.longitude)
                 _potholes.push(pothole);
            });
+            notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
         });
+
     };
 
     /**

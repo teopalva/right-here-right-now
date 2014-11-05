@@ -29,11 +29,7 @@ function UILayersBarViewController() {
         _potholesButton.setTitle("Potole!");
         _potholesButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
         _potholesButton.onClick(function(d){
-            invertSelection(_potholesButton);
-            model.getPotholesModel().startUpdates();
-            //notificationCenter.subscribe(self, self.layersStatusChanged, Notifications.mapLayers.LAYERS_STATUS_CHANGED);
-            //self.layerStatusChanged();
-            //model.getPotholesModel().startUpdates();
+            invertSelection(_potholesButton,"potholes");
         });
         self.add(_potholesButton);
         
@@ -77,13 +73,15 @@ function UILayersBarViewController() {
 
     }();
     
-    var invertSelection = function(button) {
+    var invertSelection = function(button, layerName) {
         if (button.isSelected()) {
             button.deselect();
             button.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
+            notificationCenter.dispatch(Notifications[layerName].LAYER_CLEANED);
         } else {
             button.select();
             button.getView().setBackgroundColor(model.getThemeModel().selectedButtonColor());
+            notificationCenter.dispatch(Notifications[layerName].LAYER_ADDED);
         }
     };
     

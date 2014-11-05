@@ -32,6 +32,18 @@ Notifications.areaOfInterest = {
 };
 
 /**
+ * Notifications about the potholes
+ * @type {{}}
+ */
+Notifications.potholes = {
+    // Dispatched by the layer button
+    LAYER_ADDED : "com.righthererightnow.potholes.layerAdded",
+    LAYER_CLEANED: "com.righthererightnow.potholes.layerCleaned",
+    // Dispatched by the model
+    LAYER_UPDATED: "com.righthererightnow.potholes.layerUpdated"
+}
+
+/**
  * Notifications about weather
  * @type {{}}
  */
