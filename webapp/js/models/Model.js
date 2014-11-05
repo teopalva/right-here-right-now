@@ -26,6 +26,9 @@ function Model() {
     // Holds weather information
     var _weatherModel;
 
+    // Holds cta buses information
+    var _ctaModel;
+
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      *
@@ -73,6 +76,14 @@ function Model() {
         return _weatherModel;
     };
 
+    /**
+     * Returns the cta model
+     * @returns {*}
+     */
+    this.getCtaModel = function() {
+        return _ctaModel;
+    }
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {
         // Map
@@ -92,5 +103,8 @@ function Model() {
 
         // Weather
         _weatherModel = new  WeatherModel();
+
+        // Cta
+        _ctaModel = new CtaModel();
     } ();
 }

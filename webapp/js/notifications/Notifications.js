@@ -38,3 +38,14 @@ Notifications.areaOfInterest = {
 Notifications.weather = {
     WEATHER_UPDATED : "com.divvy.weather.weatherUpdated"
 };
+
+/**
+ * Notifications about CTA buses
+ * @type {{}}
+ */
+Notifications.cta = {
+    TIME : "com.righthererightnow.cta.time",
+    VECHICLES: "com.righthererightnow.cta.vechicles",
+    STOPS: "com.righthererightnow.cta.stops"
+};
+

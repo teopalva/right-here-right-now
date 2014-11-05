@@ -16,7 +16,7 @@ function WeatherModel() {
     var _celsius;
 
     // Update timer
-    var _updateTimer;
+    var _updateTimer = null;
     var _intervalMillis = 20000;
 
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
@@ -72,9 +72,11 @@ function WeatherModel() {
      * Starts the timer that updates the model at a given interval
      */
     this.startUpdates = function() {
-        self.updateData();
-        // TODO uncomment when the app is ready
-        //_updateTimer = setInterval(self.updateData, _intervalMillis);
+        if(_updateTimer == null) {
+            self.updateData();
+            // TODO uncomment when the app is ready
+            //_updateTimer = setInterval(self.updateData, _intervalMillis);
+        }
     };
 
     /**
@@ -82,6 +84,7 @@ function WeatherModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
+        _updateTimer = null;
     };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////

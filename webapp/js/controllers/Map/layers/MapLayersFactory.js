@@ -14,6 +14,7 @@ function MapLayersFactory() {
 
         // Here there should be some form of if, or switch
         layers.push(UserPathLayerViewController);
+        layers.push(CtaLayerViewController);
 
         return layers;
     };
