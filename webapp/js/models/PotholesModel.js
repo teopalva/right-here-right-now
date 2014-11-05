@@ -44,13 +44,18 @@ function PotholesModel() {
         // remove the old potholes
         self.clearPotholes();
 
-        // retrieve new data
+        /* Retrieve new data :
+         *  SELECT creation_date,latitude,longitude
+         *  WHERE status = 'Open' AND latitude != null AND longitude != NULL
+         *  ORDER BY creation_date DESC
+         */
         var link = "http://data.cityofchicago.org/resource/7as2-ds3y.json";
-        var query = "?$select=creation_date,latitude,longitude&$where=status=%27Open%27&$order=creation_date%20DESC";
+        var query = "?$select=creation_date,latitude,longitude" +
+                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL" +
+                    "&$order=creation_date%20DESC";
+
         d3.json(link + query, function(json){
            json.forEach(function(pothole){
-               // Add only if we know both latitude and longitude
-               if(pothole.latitude && pothole.longitude)
                 _potholes.push(pothole);
            });
             notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
