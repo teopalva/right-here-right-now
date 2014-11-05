@@ -19,11 +19,24 @@ function UIModeViewController() {
     this.viewDidAppear = function () {
         var toolViewBox = self.getView().getViewBox();
         
-         // RECTANGULAR SELECTION
-        _rectModeButton.getView().setFrame(40, 22, 22, 38.5);
-        _rectModeButton.getView().setViewBox(0, 0, 22, 38.5);
-        //_rectModeButton.setImage("/icons/transport/walking.svg");
+        // NEW TRIP
+        _newTripButton.getView().setFrame(31.5, 65, 253.5, 76);
+        _newTripButton.getView().setViewBox(0, 0, 253.5, 76);
+        _newTripButton.setImage("/webapp/assets/icon/newTripButton.svg");
+        _newTripButton.setTitle("NEW TRIP");
+        self.add(_newTripButton);
+        
+        // RECTANGULAR SELECTION
+        _rectModeButton.getView().setFrame(31.5, 169, 113, 113);
+        _rectModeButton.getView().setViewBox(0, 0, 113, 113);
+        _rectModeButton.setImage("/webapp/assets/icon/rectMode_deselected.svg");
         self.add(_rectModeButton);
+        
+        // CUSTOM PATH
+        _pathModeButton.getView().setFrame(172.5, 169, 113, 113);
+        _pathModeButton.getView().setViewBox(0, 0, 113, 113);
+        _pathModeButton.setImage("/webapp/assets/icon/pathMode_deselected.svg");
+        self.add(_pathModeButton);
 
         // Call super
         super_viewDidAppear.call(self);
@@ -38,6 +51,7 @@ function UIModeViewController() {
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
         
          // Setup UI
+        _newTripButton = new UIButtonViewController;
         _rectModeButton = new UIButtonViewController;
         _pathModeButton = new UIButtonViewController;
 

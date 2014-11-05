@@ -11,8 +11,8 @@ function UILayersBarViewController() {
     /////////////////////  PRIVATE ATTRIBUTES /////////////////////
     var self = this;
     
-    var _p = {x: 20, y: 20, w: 170.5, h: 51};
-    var _verticalPadding = 61;
+    var _p = {x: 20, y: 20, w: 190.5, h: 55};
+    var _verticalPadding = 65;
 
 
     /////////////////////  PUBLIC METHODS /////////////////////
@@ -33,8 +33,9 @@ function UILayersBarViewController() {
          // Button 2
         _trafficLightsButton.getView().setFrame(_p.x, _p.y + _verticalPadding*1, _p.w, _p.h);
         _trafficLightsButton.getView().setViewBox(0, 0, _p.w, _p.h);
-        _trafficLightsButton.setTitle("Traffic Lights");
-        _trafficLightsButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
+        _trafficLightsButton.setTitle("CTA");
+        //_trafficLightsButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
+        _trafficLightsButton.setImage("/webapp/assets/icon/layers_icons/CTA_deselected.png");
         self.add(_trafficLightsButton);
         
          // Button 3

@@ -24,25 +24,25 @@ function UITripInfoViewController() {
         // Walk
         _walkButton.getView().setFrame(40, 22, 22, 38.5);
         _walkButton.getView().setViewBox(0, 0, 22, 38.5);
-        _walkButton.setImage("/icons/transport/walking.svg");
+        _walkButton.setImage("/webapp/assets/icon/transport/walking.svg");
         self.add(_walkButton);
 
         // Bike
         _bikeButton.getView().setFrame(93, 22, 41, 38.5);
         _bikeButton.getView().setViewBox(0, 0, 41, 38.5);
-        _bikeButton.setImage("/icons/transport/bike.svg");
+        _bikeButton.setImage("/webapp/assets/icon/transport/bike.svg");
         self.add(_bikeButton);
         
         // Car
         _carButton.getView().setFrame(164, 22, 50, 42.5);
         _carButton.getView().setViewBox(0, 0, 50, 42.5);
-        _carButton.setImage("/icons/transport/car.svg");
+        _carButton.setImage("/webapp/assets/icon/transport/car.svg");
         self.add(_carButton);
         
         // Bus
         _busButton.getView().setFrame(239, 22, 37.5, 38.5);
         _busButton.getView().setViewBox(0, 0, 37.5, 38.5);
-        _busButton.setImage("/icons/transport/bus.svg");
+        _busButton.setImage("/webapp/assets/icon/transport/bus.svg");
         self.add(_busButton);
         
         // Call super
