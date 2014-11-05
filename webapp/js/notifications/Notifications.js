@@ -32,6 +32,18 @@ Notifications.areaOfInterest = {
 };
 
 /**
+ * Notifications about the potholes
+ * @type {{}}
+ */
+Notifications.potholes = {
+    // Dispatched by the layer button
+    LAYER_ADDED : "com.righthererightnow.potholes.layerAdded",
+    LAYER_CLEANED: "com.righthererightnow.potholes.layerCleaned",
+    // Dispatched by the model
+    LAYER_UPDATED: "com.righthererightnow.potholes.layerUpdated"
+}
+
+/**
  * Notifications about weather
  * @type {{}}
  */
@@ -39,6 +51,22 @@ Notifications.weather = {
     WEATHER_UPDATED : "com.divvy.weather.weatherUpdated"
 };
 
+/**
+ * Notifications about map layers
+ * @type {{}}
+ */
+Notifications.mapLayers = {
+    LAYERS_STATUS_CHANGED : "com.righthererightnow.mapLayers.layersStatusChanged"
+};
+
+/**
+ * Notifications about the time
+ * @type {{}}
+ */
+Notifications.time = {
+    CLOCK_UPDATED : "com.righthererightnow.time.clockUpdated",
+    SUN_UPDATED : "com.righthererightnow.time.sunUpdated"
+}
 /**
  * Notifications about CTA buses
  * @type {{}}

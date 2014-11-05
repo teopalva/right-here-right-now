@@ -22,10 +22,7 @@ function MapViewController(htmlContainer) {
         map: 'krbalmryde.jk1dm68f'
     };
     var _mapURL = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
-    var _mapAttribution = 'Map data &copy; ' +
-        '<a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="http://mapbox.com">Mapbox</a>';
+    var _mapAttribution = '';
 
     // Make out Map-layer object, this is what contains the actual map itself
     var _mapTilesLayer;
@@ -61,7 +58,14 @@ function MapViewController(htmlContainer) {
         });
     };*/
 
+    /**
+     * Handles LAYERS_STATUS_CHANGED notification
+     */
     this.updateMap = function() {
+        // Clean map
+        cleanMap();
+
+        // Draw layers
         var layersControllers = _layersControllersFactory.getMapLayers();
 
         layersControllers.forEach(function(Controller) {
@@ -206,6 +210,7 @@ function MapViewController(htmlContainer) {
             .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
         self.visualizationTypeChanged();*/
         self.updateMap();
+        notificationCenter.subscribe(self, self.updateMap, Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     } ();
 }
 

@@ -49,9 +49,13 @@ function WeatherModel() {
      */
     this.updateData = function() {
         // TODO: restore ajax call when the app is ready
+
         /*
+        // Keys for the weather. They are the same, just use the second one as a backup
+        var key1 = "e4c22e5150092e01";
+        var key2 = "0de84738476e1349";
         $.ajax({
-            url : "http://api.wunderground.com/api/e4c22e5150092e01/conditions/q/IL/Chicago.json",
+            url : "http://api.wunderground.com/api/" + key1 + "/conditions/q/IL/Chicago.json",
             dataType : "jsonp",
             success : function(parsed_json) {
                 _conditions = parsed_json["current_observation"]["weather"];
@@ -59,7 +63,8 @@ function WeatherModel() {
                 _celsius = parsed_json["current_observation"]["temp_c"];
                 notificationCenter.dispatch(Notifications.weather.WEATHER_UPDATED);
             }
-        });*/
+        });
+        */
 
         // TODO: remove these when the app the ready
         _conditions = "Overcast";//parsed_json["current_observation"]["weather"];

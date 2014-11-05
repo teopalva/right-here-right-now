@@ -11,6 +11,13 @@ function UserPathLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    // To draw the icons on the map
+    var _markersViewController;
+    var _markersColor = "black";
+
+    // Mouse event
+    var _clickFlag = false;
+
     //////////////////////////// PUBLIC METHODS ////////////////////////////
     /**
      * This methods handles POINT_ADDED_TO_PATH, PATH_CLEANED notifications
@@ -22,34 +29,10 @@ function UserPathLayerViewController() {
 
         var points = canvas.selectAll("circle").data(path);
 
-        // Update
-        points
-            .attr("cx", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.x;
-            })
-            .attr("cy", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.y;
-            })
-            .attr("r", 10);
-
-        // Enter
-        points.enter().append("circle")
-            .attr("cx", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.x;
-            })
-            .attr("cy", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.y;
-            })
-            .attr("r", 10);
-
-        // Exit
-        points.exit().remove();
+        _markersViewController.draw(self,points,_markersColor);
     };
 
+    var drag;
     /**
      * Called after the view is added to the a parent view
      * @override
@@ -57,30 +40,58 @@ function UserPathLayerViewController() {
     var super_viewDidAppear = this.viewDidAppear;
     this.viewDidAppear = function() {
 
-        self.getView().getSvg()
-            .style("pointer-events", "visiblePainted")
-            .on("click", function() {
+        self.getView().getSvg().on( "mousedown",function() {
+            _clickFlag = true;
+        });
+
+        self.getView().getSvg().on( "mousemove",function() {
+            _clickFlag = false;
+        });
+
+        self.getView().getSvg().on( "mouseup",function() {
+            if(_clickFlag == true) {
                 var coordinates = [0, 0];
                 coordinates = d3.mouse(this);
                 var x = coordinates[0];
                 var y = coordinates[1];
-                //console.log("x= " + x + "  y= " + y);
 
                 var coord = self.unproject(x, y);
 
                 model.getAreaOfInterestModel().addPoint(coord.lat, coord.lng);
-            });
+            }
+        });
+
+
+        self.getView().getSvg()
+            .style("pointer-events", "visiblePainted");
+            /*
+            .on("dragend", function() {
+                console.log("drag end");
+                var coordinates = [0, 0];
+                coordinates = d3.mouse(this);
+                var x = coordinates[0];
+                var y = coordinates[1];
+
+                var coord = self.unproject(x, y);
+
+                model.getAreaOfInterestModel().addPoint(coord.lat, coord.lng);
+            });*/
 
         // Call super
         super_viewDidAppear.call(self);
     };
 
+
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var init = function() {
+
         self.getView().addClass("user-path-layer-view-controller");
+        _markersViewController = new MarkersViewController();
 
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_CLEANED);
+        self.pathChanged();
+
     } ();
 }
 

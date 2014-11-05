@@ -14,6 +14,9 @@ function Model() {
     // Holds information about the boundary selected by the user within which data has to be visualized
     var _areaOfInterestModel;
 
+    // Holds information about the potholes
+    var _potholesModel;
+
     // Holds color information for visualization purposes
     var _colorModel;
 
@@ -25,6 +28,9 @@ function Model() {
 
     // Holds weather information
     var _weatherModel;
+
+    // Holds information about which layer to visualize
+    var _mapLayersModel;
 
     // Holds cta buses information
     var _ctaModel;
@@ -43,6 +49,13 @@ function Model() {
      */
     this.getAreaOfInterestModel = function() {
         return _areaOfInterestModel;
+    };
+
+    /**
+     * Returns the model that keeps information about the potholes
+     */
+    this.getPotholesModel = function(){
+        return _potholesModel;
     };
 
     /**
@@ -84,6 +97,14 @@ function Model() {
         return _ctaModel;
     }
 
+    /**
+     * Returns map layers model
+     * @returns {*}
+     */
+    this.getMapLayersModel = function() {
+        return _mapLayersModel;
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {
         // Map
@@ -91,6 +112,9 @@ function Model() {
 
         // Area of interest
         _areaOfInterestModel = new AreaOfInterestModel();
+
+        // Potholes Model
+        _potholesModel = new PotholesModel();
 
         // Colors
         _colorModel = new ColorModel();
@@ -103,6 +127,9 @@ function Model() {
 
         // Weather
         _weatherModel = new  WeatherModel();
+
+        // Map layers
+        _mapLayersModel = new  MapLayersModel();
 
         // Cta
         _ctaModel = new CtaModel();
