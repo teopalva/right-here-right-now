@@ -24,6 +24,10 @@ function UIModeViewController() {
         _newTripButton.getView().setViewBox(0, 0, 253.5, 76);
         _newTripButton.setImage("/webapp/assets/icon/newTripButton.svg");
         _newTripButton.setTitle("NEW TRIP");
+        // TODO add all behaviors on new trip click
+        _newTripButton.onClick(function(){
+            model.getAreaOfInterestModel().clearPath();
+        });
         self.add(_newTripButton);
         
         // RECTANGULAR SELECTION

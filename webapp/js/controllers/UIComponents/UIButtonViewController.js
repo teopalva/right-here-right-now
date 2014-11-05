@@ -109,7 +109,7 @@ function UIButtonViewController() {
      *
      */
     this.isSelected = function() {
-        self.getView().hasClass(UIButtonStatus.SELECTED);
+        return self.getView().hasClass(UIButtonStatus.SELECTED);
     };
 
 
