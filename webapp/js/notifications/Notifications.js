@@ -67,3 +67,13 @@ Notifications.time = {
     CLOCK_UPDATED : "com.righthererightnow.time.clockUpdated",
     SUN_UPDATED : "com.righthererightnow.time.sunUpdated"
 }
+/**
+ * Notifications about CTA buses
+ * @type {{}}
+ */
+Notifications.cta = {
+    TIME : "com.righthererightnow.cta.time",
+    VECHICLES: "com.righthererightnow.cta.vechicles",
+    STOPS: "com.righthererightnow.cta.stops"
+};
+

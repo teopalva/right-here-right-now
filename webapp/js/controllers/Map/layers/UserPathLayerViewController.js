@@ -13,6 +13,7 @@ function UserPathLayerViewController() {
 
     // To draw the icons on the map
     var _markersViewController;
+    var _markersColor = "black";
 
     // Mouse event
     var _clickFlag = false;
@@ -28,7 +29,7 @@ function UserPathLayerViewController() {
 
         var points = canvas.selectAll("circle").data(path);
 
-        _markersViewController.draw(self,points);
+        _markersViewController.draw(self,points,_markersColor);
     };
 
     var drag;

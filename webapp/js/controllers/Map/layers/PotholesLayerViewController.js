@@ -10,6 +10,7 @@ function PotholesLayerViewController() {
 
     // To draw the icons on the map
     var _markersViewController;
+    var _markersColor = "brown";
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
     /**
@@ -34,7 +35,7 @@ function PotholesLayerViewController() {
         var potholes = model.getPotholesModel().getPotholes();
         var canvas = self.getView().getSvg();
         var points = canvas.selectAll("circle").data(potholes);
-        _markersViewController.draw(self,points);
+        _markersViewController.draw(self,points,_markersColor);
 
     };
 

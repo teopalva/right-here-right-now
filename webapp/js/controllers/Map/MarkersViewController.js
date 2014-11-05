@@ -14,7 +14,7 @@ function MarkersViewController(){
      * @param context is the Layer View Controller associated to the icon
      * @param points are the points to draw
      */
-    this.draw = function(context,points){
+    this.draw = function(context,points,color){
 
         // Update
         points
@@ -26,7 +26,8 @@ function MarkersViewController(){
                 var point = context.project(d.latitude, d.longitude);
                 return point.y;
             })
-            .attr("r", 2);
+            .attr("r", 2)
+            .style("fill",color);
 
         // Enter
         points.enter().append("circle")
@@ -38,7 +39,8 @@ function MarkersViewController(){
                 var point = context.project(d.latitude, d.longitude);
                 return point.y;
             })
-            .attr("r", 2);
+            .attr("r", 2)
+            .style("fill",color);;
 
         // Exit
         points.exit().remove();

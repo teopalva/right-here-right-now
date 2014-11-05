@@ -65,5 +65,6 @@ function MapLayersModel() {
  */
 var Layers = {
     USER_PATH: "UserPathLayerViewController",
-    POTHOLES: "PotholesLayerViewController"
+    POTHOLES: "PotholesLayerViewController",
+    CTA: "CtaLayerViewController"
 };

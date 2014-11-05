@@ -32,6 +32,9 @@ function Model() {
     // Holds information about which layer to visualize
     var _mapLayersModel;
 
+    // Holds cta buses information
+    var _ctaModel;
+
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      *
@@ -87,6 +90,14 @@ function Model() {
     };
 
     /**
+     * Returns the cta model
+     * @returns {*}
+     */
+    this.getCtaModel = function() {
+        return _ctaModel;
+    }
+
+    /**
      * Returns map layers model
      * @returns {*}
      */
@@ -119,5 +130,8 @@ function Model() {
 
         // Map layers
         _mapLayersModel = new  MapLayersModel();
+
+        // Cta
+        _ctaModel = new CtaModel();
     } ();
 }
