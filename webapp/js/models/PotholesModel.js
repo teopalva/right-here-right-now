@@ -41,7 +41,7 @@ function PotholesModel() {
      *  Update the potholes information
      */
     this.updatePotholes = function() {
-
+        console.log("I am PotholesModel.updatePotholes()");
         // remove the old potholes
         self.clearPotholes();
 

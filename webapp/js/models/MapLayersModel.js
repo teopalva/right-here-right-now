@@ -64,5 +64,6 @@ function MapLayersModel() {
  * LAYERS ENUM
  */
 var Layers = {
-    USER_PATH: "UserPathLayerViewController"
+    USER_PATH: "UserPathLayerViewController",
+    POTHOLES: "PotholesLayerViewController"
 };

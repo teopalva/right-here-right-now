@@ -19,6 +19,9 @@ function MapLayersFactory() {
                 case Layers.USER_PATH:
                     layers.push(UserPathLayerViewController);
                     break;
+                case Layers.POTHOLES:
+                    layers.push(PotholesLayerViewController);
+                    break;
             }
         });
 

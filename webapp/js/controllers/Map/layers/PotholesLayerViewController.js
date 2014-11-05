@@ -18,6 +18,8 @@ function PotholesLayerViewController() {
     var super_viewDidAppear = this.viewDidAppear;
     this.viewDidAppear = function(){
 
+
+
         // Call super
         super_viewDidAppear.call(self);
     };
@@ -28,11 +30,13 @@ function PotholesLayerViewController() {
         self.getView().addClass("potholes-layer-view-controller");
 
         //TODO: do it when the button is clicked
+
         /*
         notificationCenter.subscribe(self, self.layersStatusChanged, Notifications.mapLayers.LAYERS_STATUS_CHANGED);
         self.layerStatusChanged();
         model.getPotholesModel().startUpdates();
         */
+
     } ();
 }
 
