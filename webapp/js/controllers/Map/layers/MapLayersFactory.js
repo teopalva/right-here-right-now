@@ -22,6 +22,9 @@ function MapLayersFactory() {
                 case Layers.POTHOLES:
                     layers.push(PotholesLayerViewController);
                     break;
+                case Layers.VEHICLES:
+                    layers.push(VehiclesLayerViewController);
+                    break;
                 case Layers.CTA:
                     layers.push(CtaLayerViewController);
                     break;

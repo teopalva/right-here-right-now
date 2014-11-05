@@ -40,7 +40,7 @@ function UILayersBarViewController() {
         _abandonedButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
         //_abandonedButton.setImage("/webapp/assets/icon/layers_icons/CTA.png");
         _abandonedButton.onClick(function(d){
-            invertSelection(_abandonedButton);
+            invertSelection(_abandonedButton,"vehicles");
         });
         self.add(_abandonedButton);
         

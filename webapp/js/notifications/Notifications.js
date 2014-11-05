@@ -44,6 +44,18 @@ Notifications.potholes = {
 }
 
 /**
+ * Notifications about the abandoned vehicles
+ * @type {{}}
+ */
+Notifications.vehicles = {
+    // Dispatched by the layer button
+    LAYER_ADDED : "com.righthererightnow.vehicles.layerAdded",
+    LAYER_CLEANED: "com.righthererightnow.vehicles.layerCleaned",
+    // Dispatched by the model
+    LAYER_UPDATED: "com.righthererightnow.vehicles.layerUpdated"
+}
+
+/**
  * Notifications about weather
  * @type {{}}
  */

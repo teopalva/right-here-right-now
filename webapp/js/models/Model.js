@@ -17,6 +17,9 @@ function Model() {
     // Holds information about the potholes
     var _potholesModel;
 
+    // Holds information about the vehicles
+    var _vehiclesModel;
+
     // Holds color information for visualization purposes
     var _colorModel;
 
@@ -56,6 +59,13 @@ function Model() {
      */
     this.getPotholesModel = function(){
         return _potholesModel;
+    };
+
+    /**
+     * Returns the model that keeps information about the vehicles
+     */
+    this.getVehiclesModel = function(){
+        return _vehiclesModel;
     };
 
     /**
@@ -115,6 +125,9 @@ function Model() {
 
         // Potholes Model
         _potholesModel = new PotholesModel();
+
+        //Vehicles Model
+        _vehiclesModel = new VehiclesModel();
 
         // Colors
         _colorModel = new ColorModel();
