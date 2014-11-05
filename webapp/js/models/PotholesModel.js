@@ -1,3 +1,7 @@
+/**
+ * @description Stores all the information about the potholes
+ * @constructor
+ */
 function PotholesModel() {
     ///////////////////////// PRIVATE ATTRIBUTES /////////////////////////
     var self = this;
@@ -39,7 +43,7 @@ function PotholesModel() {
     this.updatePotholes = function() {
 
         // remove the old potholes
-        this.clearPotholes();
+        self.clearPotholes();
 
         // retrieve new data
         var link = "http://data.cityofchicago.org/resource/7as2-ds3y.json";
