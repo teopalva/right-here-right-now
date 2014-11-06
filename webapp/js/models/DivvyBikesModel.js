@@ -11,7 +11,7 @@ function DivvyBikesModel() {
 
     // Update timer
     var _updateTimer;
-    var _intervalMillis = 15000; // 15 seconds
+    var _intervalMillis = 10000; // 10 seconds
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
