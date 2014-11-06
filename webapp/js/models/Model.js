@@ -23,6 +23,8 @@ function Model() {
     // Holds information about the lights
     var _lightsModel;
 
+    //Holds information about the divvy bikes
+    var _divvyBikesModel;
 
     // Holds color information for visualization purposes
     var _colorModel;
@@ -77,6 +79,13 @@ function Model() {
      */
     this.getLightsModel = function(){
         return _lightsModel;
+    };
+
+    /**
+     * Returns the model that keeps information about the divvy bikes
+     */
+    this.getDivvyBikesModel = function(){
+        return _divvyBikesModel;
     };
 
     /**
@@ -140,8 +149,11 @@ function Model() {
         //Vehicles Model
         _vehiclesModel = new VehiclesModel();
 
-        // LIghts Model
+        // Lights Model
         _lightsModel = new LightsModel();
+
+        // Divvy bikes Model
+        _divvyBikesModel = new DivvyBikesModel();
 
         // Colors
         _colorModel = new ColorModel();

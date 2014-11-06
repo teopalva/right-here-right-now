@@ -62,7 +62,7 @@ function UILayersBarViewController() {
         _divvyButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
         //_divvyButton.setImage("/webapp/assets/icon/layers_icons/CTA.png");
         _divvyButton.onClick(function(d){
-            invertSelection(_divvyButton);
+            invertSelection(_divvyButton,"divvyBikes");
         });
         self.add(_divvyButton);
         

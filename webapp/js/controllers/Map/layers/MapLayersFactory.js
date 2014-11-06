@@ -28,6 +28,9 @@ function MapLayersFactory() {
             case Layers.LIGHTS:
                 layers.push(LightsLayerViewController);
                 break;
+            case Layers.DIVVY_BIKES:
+                layers.push(DivvyBikesLayerViewController);
+                break;
             case Layers.CTA:
                 layers.push(CtaLayerViewController);
                 break;

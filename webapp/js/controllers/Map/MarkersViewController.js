@@ -26,8 +26,10 @@ function MarkersViewController(){
                 var point = context.project(d.latitude, d.longitude);
                 return point.y;
             })
-            .attr("r", 2)
-            .style("fill",color);
+            .attr("r", 1)
+            .style("fill",color)
+            .style("stroke","white")
+            .style("stroke-width","0.2px");
 
         // Enter
         points.enter().append("circle")
@@ -39,8 +41,10 @@ function MarkersViewController(){
                 var point = context.project(d.latitude, d.longitude);
                 return point.y;
             })
-            .attr("r", 2)
-            .style("fill",color);;
+            .attr("r", 1)
+            .style("fill",color)
+            .style("stroke","white")
+            .style("stroke-width","0.2px");
 
         // Exit
         points.exit().remove();

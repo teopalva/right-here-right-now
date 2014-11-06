@@ -68,6 +68,18 @@ Notifications.lights = {
 }
 
 /**
+ * Notifications about the divvy bikes
+ * @type {{}}
+ */
+Notifications.divvyBikes = {
+    // Dispatched by the layer button
+    LAYER_ADDED : "com.righthererightnow.divvyBikes.layerAdded",
+    LAYER_CLEANED: "com.righthererightnow.divvyBikes.layerCleaned",
+    // Dispatched by the model
+    LAYER_UPDATED: "com.righthererightnow.divvyBikes.layerUpdated"
+}
+
+/**
  * Notifications about weather
  * @type {{}}
  */
