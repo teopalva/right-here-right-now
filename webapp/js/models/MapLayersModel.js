@@ -68,7 +68,6 @@ var Layers = {
     POTHOLES: "PotholesLayerViewController",
     VEHICLES: "VehiclesLayerViewController",
     LIGHTS: "LightsLayerViewController",
-    CTA: "CtaLayerViewController"
     CTA: "CtaLayerViewController",
     AREA_OF_INTEREST: "AreaOfInterestViewController"
 };
