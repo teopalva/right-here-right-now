@@ -30,6 +30,26 @@ function UserPathLayerViewController() {
         var points = canvas.selectAll("circle").data(path);
 
         _markersViewController.draw(self,points,_markersColor);
+
+        // TODO debug
+        var boundaries = model.getAreaOfInterestModel().getAreaOfInterest();
+
+        if(boundaries != null) {
+            var boundPath = d3.geo.path();
+            boundPath.projection(self.d3projection);
+
+
+
+            self.getView().getSvg().selectAll("path")
+                .data(boundaries.features)
+                .attr("d", boundPath)
+                .enter().append("path")
+                .attr("d", boundPath)
+                .style("fill", "rgba(222,235,247, 0.5)")
+                .style("stroke", "rgba(222,235,247, 1.0)")
+                .style("stroke-width", 0.3);
+
+        }
     };
 
     var drag;
@@ -90,6 +110,7 @@ function UserPathLayerViewController() {
 
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_CLEANED);
+        notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_UPDATED);
         self.pathChanged();
 
     } ();
