@@ -33,17 +33,20 @@ function PotholesLayerViewController() {
      */
     this.potholesUpdated = function () {
         var potholes = model.getPotholesModel().getPotholes();
-        // filter objects
-        var data = model.getAreaOfInterestModel().filterObjects(potholes);
+        var data = potholes;
+        if (model.getAreaOfInterestModel().getAreaOfInterest()) {
+            // filter objects
+            data = model.getAreaOfInterestModel().filterObjects(potholes);
+        }
         var canvas = self.getView().getSvg();
         var points = canvas.selectAll("circle").data(data);
-        _markersViewController.draw(self,points,_markersColor);
+        _markersViewController.draw(self, points, _markersColor);
 
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
 
-    var init = function() {
+    var init = function () {
         self.getView().addClass("potholes-layer-view-controller");
 
         _markersViewController = new MarkersViewController();
@@ -51,8 +54,9 @@ function PotholesLayerViewController() {
         notificationCenter.subscribe(self, self.potholesAdded, Notifications.potholes.LAYER_ADDED);
         notificationCenter.subscribe(self, self.potholesCleaned, Notifications.potholes.LAYER_CLEANED);
         notificationCenter.subscribe(self, self.potholesUpdated, Notifications.potholes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.potholesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
 
-    } ();
+    }();
 }
 
 Utils.extend(PotholesLayerViewController, MapLayerController);

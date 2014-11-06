@@ -23,10 +23,9 @@ function UserPathLayerViewController() {
      * This methods handles POINT_ADDED_TO_PATH, PATH_CLEANED notifications
      */
     this.pathChanged = function() {
+        
         var path = model.getAreaOfInterestModel().getPath();
-
         var canvas = self.getView().getSvg();
-
         var points = canvas.selectAll("circle").data(path);
 
         _markersViewController.draw(self,points,_markersColor);

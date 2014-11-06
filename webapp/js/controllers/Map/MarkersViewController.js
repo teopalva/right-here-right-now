@@ -54,7 +54,7 @@ function MarkersViewController(){
                _lastUpdate[i] = d;
                return bool;
             })
-            .style("fill","black")
+            .style("fill","red")
             .style("stroke","white")
             .style("stroke-width","0.2px");
 

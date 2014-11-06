@@ -131,3 +131,11 @@ Notifications.crimes = {
     // Dispatched by the model
     LAYER_UPDATED: "com.righthererightnow.crimes.layerUpdated"
 };
+
+/**
+ * Notifications about buttons events
+ * @type {{}}
+ */
+Notifications.buttons = {
+    NEW_TRIP_CLICKED : "com.righthererightnow.buttons.newTripClicked",
+};

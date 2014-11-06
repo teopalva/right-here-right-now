@@ -14,7 +14,7 @@ function AreaOfInterestModel() {
     // feature of the selection (CA for now)
     var _CAs = null;
     var _feature = null;
-    var _multipoligon = null;
+    var _multipoligonCA = null;
 
     var _communitiesURI = "/webapp/data/chicago_community_district_map.json";
 
@@ -69,15 +69,25 @@ function AreaOfInterestModel() {
     };
 
     /**
-     *
+     *  Filters the given objects checking if they belong to the area of interest
+     *  Area of interest has to be selected
      */
     this.filterObjects = function (objects) {
         var res = [];
+        var area = self.getAreaOfInterest();
+        /*if (!area) {
+            console.log("Empty area of interest!");
+            return;
+        }*/
+        var multipolygon = area.features[0].geometry;
+        var _multipolygon = [];
+        _multipolygon.push(multipolygon.coordinates);
+        //console.log(_multipolygon, _multipoligonCA);
         objects.forEach(function (o) {
             var coordinates = [];
             coordinates.push(o.longitude);
             coordinates.push(o.latitude);
-            if (self.isPointInArea(coordinates, _multipoligon)) {
+            if (self.isPointInArea(coordinates, _multipolygon)) {
                 res.push(o);
             }
         });
@@ -87,10 +97,10 @@ function AreaOfInterestModel() {
     /**
      * Returns a Feature collection of the area selected by the user
      */
-    this.getAreaOfInterest = function() {
+    this.getAreaOfInterest = function () {
         var areaOfInterest = null;
 
-        if(_featureCollection != null) {
+        if (_featureCollection != null) {
             areaOfInterest = computeFeatureCollectionBoundRectangle(_featureCollection);
         }
 
@@ -107,23 +117,23 @@ function AreaOfInterestModel() {
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
     // Updates feature collection of the user selected area
-    var updateFeatureCollection = function() {
-        if(_path.length  > 1) {
+    var updateFeatureCollection = function () {
+        if (_path.length > 1) {
             var directionsService = new google.maps.DirectionsService();
             var request = {
                 origin: new google.maps.LatLng(_path[0].latitude, _path[0].longitude),
-                destination: new google.maps.LatLng(_path[_path.length -1].latitude, _path[_path.length -1].longitude),
+                destination: new google.maps.LatLng(_path[_path.length - 1].latitude, _path[_path.length - 1].longitude),
                 travelMode: google.maps.TravelMode.WALKING
             };
             // Route the directions and pass the response to a
             // function to create markers for each step.
-            directionsService.route(request, function(response, status) {
+            directionsService.route(request, function (response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
 
                     // Compute coordinates
                     var coordinates = [];
-                    response["routes"][0]["overview_path"].forEach(function(point) {
-                        coordinates.push([point["B"],point["k"]]);
+                    response["routes"][0]["overview_path"].forEach(function (point) {
+                        coordinates.push([point["B"], point["k"]]);
                     });
 
                     /*
@@ -155,11 +165,12 @@ function AreaOfInterestModel() {
     };
 
 
-    var computeFeatureCollectionPolygonWithCoordinates = function(coordinates) {
+    var computeFeatureCollectionPolygonWithCoordinates = function (coordinates) {
         var featureCollection = {};
         featureCollection["type"] = "FeatureCollection";
         featureCollection["features"] = [
-            { "type": "Feature",
+            {
+                "type": "Feature",
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [
@@ -168,33 +179,35 @@ function AreaOfInterestModel() {
                 },
                 "properties": {
                     "prop0": "value0",
-                    "prop1": {"this": "that"}
+                    "prop1": {
+                        "this": "that"
+                    }
                 }
             }
         ];
         return featureCollection;
     };
 
-    var computeFeatureCollectionBoundRectangle = function(featureCollection) {
+    var computeFeatureCollectionBoundRectangle = function (featureCollection) {
         var minLat = 1000;
         var minLon = 1000;
         var maxLat = -1000;
         var maxLon = -1000;
 
-        featureCollection["features"][0]["geometry"]["coordinates"][0].forEach(function(lngLat) {
+        featureCollection["features"][0]["geometry"]["coordinates"][0].forEach(function (lngLat) {
             var lon = lngLat[0];
             var lat = lngLat[1];
 
-            if(lon < minLon) {
+            if (lon < minLon) {
                 minLon = lon;
             }
-            if(lon > maxLon) {
+            if (lon > maxLon) {
                 maxLon = lon;
             }
-            if(lat < minLat) {
+            if (lat < minLat) {
                 minLat = lat;
             }
-            if(lat > maxLat) {
+            if (lat > maxLat) {
                 maxLat = lat;
             }
         });
@@ -218,11 +231,11 @@ function AreaOfInterestModel() {
                 if (feature.id == selectedArea) {
                     // store feature
                     _feature = feature;
-                    _multipoligon = feature.geometry.coordinates;
+                    _multipoligonCA = feature.geometry.coordinates;
                     break;
                 }
             }
-            if (_multipoligon === null)
+            if (_multipoligonCA === null)
                 return;
         });
     };

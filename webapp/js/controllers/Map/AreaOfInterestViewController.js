@@ -51,9 +51,9 @@ function AreaOfInterestViewController(parentController) {
     var init = function () {
         self.getView().addClass("selected-area-layer-view-controller");
 
-        notificationCenter.subscribe(self, self.showAreaOfInterest, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
+        /*notificationCenter.subscribe(self, self.showAreaOfInterest, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
         notificationCenter.subscribe(self, self.hideAreaOfInterest, Notifications.areaOfInterest.PATH_CLEANED);
-
+        */
     }();
 
 }
