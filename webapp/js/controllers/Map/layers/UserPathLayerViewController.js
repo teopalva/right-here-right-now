@@ -47,8 +47,10 @@ function UserPathLayerViewController() {
                 .attr("d", boundPath)
                 .style("fill", "rgba(222,235,247, 0.5)")
                 .style("stroke", "rgba(222,235,247, 1.0)")
-                .style("stroke-width", 0.3);
-
+                .style("stroke-width", 0.3)
+                .exit().remove();
+        } else {
+            self.getView().getSvg().selectAll("path").remove();
         }
     };
 
@@ -61,7 +63,7 @@ function UserPathLayerViewController() {
     this.viewDidAppear = function() {
 
         self.getView().getSvg().on( "mousedown",function() {
-            _clickFlag = true;            
+            _clickFlag = true;
         });
 
         self.getView().getSvg().on( "mousemove",function() {
@@ -77,7 +79,7 @@ function UserPathLayerViewController() {
 
                 var coord = self.unproject(x, y);
 
-                model.getAreaOfInterestModel().addPoint(coord.lat, coord.lng);                
+                model.getAreaOfInterestModel().addPoint(coord.lat, coord.lng);
             }
         });
 
