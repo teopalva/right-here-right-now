@@ -57,9 +57,13 @@ function MarkersViewController(){
                _lastUpdate[i] = d;
                return bool;
             })
+<<<<<<< HEAD
+            .style("fill","red")
+=======
             .transition().duration(1500)
             */
             .style("fill",color)
+>>>>>>> 06b23fc86f21c892d31baff4e70b4e3b21b2964b
             .style("stroke","white")
             .style("stroke-width","0.2px");
 

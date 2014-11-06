@@ -43,9 +43,8 @@ function UIDayViewController() {
      * Handler method for the CLOCK
      */
     this.clockUpdated = function(){
-        var time = model.getTimeModel().getCurrentDate();
         _dateLabel.setText(model.getTimeModel().getCurrentDate().toDateString());
-        _timeLabel.setText(time.getHours() + ":" + toTwoDigits(time.getMinutes()));
+        _timeLabel.setText(model.getTimeModel().getCurrentTime());
     };
 
     /**

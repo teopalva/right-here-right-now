@@ -32,12 +32,16 @@ function TimeModel() {
         return _date;
     };
 
+    this.getCurrentTime = function() {
+        return formatAMPM(_date);
+    };
+
     /**
      * Returns the sunrise time of today
      * @returns {String}
      */
     this.getSunriseTime = function() {
-        return _sunrise.getHours()+" : "+ toTwoDigits(_sunrise.getMinutes());
+        return formatAMPM(_sunrise);
     };
 
     /**
@@ -45,7 +49,7 @@ function TimeModel() {
      * @returns {String}
      */
     this.getSunsetTime = function() {
-        return _sunset.getHours()+" : " + toTwoDigits(_sunset.getMinutes());
+        return formatAMPM(_sunset);
     };
 
     /**
@@ -86,14 +90,20 @@ function TimeModel() {
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     /**
-     * Returns a two digits string when minutes < 10
-     * Example: 10:3 becomes 10:03
-     * @param minutes
+     * Return a time in AM / PM format
+     * @param date
      * @returns {string}
      */
-    var toTwoDigits = function(minutes){
-        return ( minutes<10?'0':'') + minutes;
-    };
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
 
     var init = function() {
 
