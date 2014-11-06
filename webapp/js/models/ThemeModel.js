@@ -46,7 +46,7 @@ function ThemeModel() {
      * @returns {string}
      */
     this.mediumTextSize = function() {
-        return "20px";
+        return "19px";
     };
 
     /**
