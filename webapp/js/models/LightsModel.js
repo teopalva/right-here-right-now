@@ -1,8 +1,8 @@
 /**
- * @description Stores all the information about the potholes
+ * @description Stores all the information about the lights
  * @constructor
  */
-function PotholesModel() {
+function LightsModel() {
     ///////////////////////// PRIVATE ATTRIBUTES /////////////////////////
     var self = this;
 
@@ -11,7 +11,7 @@ function PotholesModel() {
      *      - latitude : number
      *      - longitude : number
      */
-    var _potholes = [];
+    var _lights = [];
 
     // Update timer
     var _updateTimer;
@@ -20,45 +20,44 @@ function PotholesModel() {
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
     /**
-     * Returns the potholes objects in the form:
-     *      - creation_date : date (when the pothole has been found)
+     * Returns the lights objects in the form:
+     *      - creation_date : date (when the light has been found)
      *      - latitude : number
      *      - longitude : number
      * @returns {Array}
      */
-    this.getPotholes = function(){
-        return _potholes;
+    this.getLights = function(){
+        return _lights;
     }
 
     /**
-     * Remove the old potholes
+     * Remove the old lights
      */
-    this.clearPotholes = function(){
-        _potholes = [];
+    this.clearLights = function(){
+        _lights = [];
     }
 
     /**
-     *  Update the potholes information
+     *  Update the lights information
      */
-    this.updatePotholes = function() {
-        // remove the old potholes
-        self.clearPotholes();
+    this.updateLights = function() {
+        // remove the old lights
+        self.clearLights();
 
         /* Retrieve new data :
          *  SELECT creation_date,latitude,longitude
          *  WHERE status = 'Open' AND latitude != null AND longitude != NULL
          *  ORDER BY creation_date DESC
          */
-        var link = "http://data.cityofchicago.org/resource/7as2-ds3y.json";
+        var link = "http://data.cityofchicago.org/resource/zuxi-7xem.json";
         var query = "?$select=creation_date,latitude,longitude" +
                     "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL" +
                     "&$order=creation_date%20DESC";
-
         d3.json(link + query, function(json){
-           json.forEach(function(pothole){
-                _potholes.push(pothole);
-           });
-            notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
+            json.forEach(function(light){
+                _lights.push(light);
+            });
+            notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
         });
 
     };
@@ -67,8 +66,8 @@ function PotholesModel() {
      * Starts the timer that updates the model at a given interval
      */
     this.startUpdates = function() {
-        self.updatePotholes();
-        _updateTimer = setInterval(self.updatePotholes, _intervalMillis);
+        self.updateLights();
+        _updateTimer = setInterval(self.updateLights, _intervalMillis);
     };
 
     /**
@@ -76,7 +75,7 @@ function PotholesModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        self.clearPotholes();
+        self.clearLights();
     };
 
 

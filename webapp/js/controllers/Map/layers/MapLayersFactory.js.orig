@@ -9,11 +9,29 @@ function MapLayersFactory() {
     var self = this;
 
     /////////////////////////////// PUBLIC METHODS ///////////////////////////////
-    this.getMapLayers = function() {
+    this.getMapLayers = function () {
         var layers = [];
 
         var activeLayers = model.getMapLayersModel().getActiveLayers();
 
+<<<<<<< HEAD
+        activeLayers.forEach(function (layer) {
+            switch (layer) {
+            case Layers.USER_PATH:
+                layers.push(UserPathLayerViewController);
+                break;
+            case Layers.POTHOLES:
+                layers.push(PotholesLayerViewController);
+                break;
+            case Layers.VEHICLES:
+                layers.push(VehiclesLayerViewController);
+                break;
+            case Layers.CTA:
+                layers.push(CtaLayerViewController);
+                break;
+            case Layers.AREA_OF_INTEREST:
+                layers.push(AreaOfInterestViewController);
+=======
         activeLayers.forEach(function(layer) {
             switch(layer) {
                 case Layers.USER_PATH:
@@ -28,28 +46,18 @@ function MapLayersFactory() {
                 case Layers.LIGHTS:
                     layers.push(LightsLayerViewController);
                     break;
-                case Layers.DIVVY_BIKES:
-                    layers.push(DivvyBikesLayerViewController);
-                    break;
                 case Layers.CTA:
                     layers.push(CtaLayerViewController);
                     break;
-                case Layers.AREA_OF_INTEREST:
-                    layers.push(AreaOfInterestViewController);
-                    break;
-                case Layers.CRIMES:
-                    layers.push(CrimesLayerViewController);
-                    break;
-                
+>>>>>>> 4f3fa1fb30394c8a6aff70368b64afb8e07eb0e6
             }
-
         });
 
         return layers;
     };
 
     /////////////////////////////// PRIVATE METHODS ///////////////////////////////
-    var init = function() {
+    var init = function () {
 
-    } ();
+    }();
 }

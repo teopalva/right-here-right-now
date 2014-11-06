@@ -44,6 +44,42 @@ Notifications.potholes = {
 };
 
 /**
+ * Notifications about the abandoned vehicles
+ * @type {{}}
+ */
+Notifications.vehicles = {
+    // Dispatched by the layer button
+    LAYER_ADDED : "com.righthererightnow.vehicles.layerAdded",
+    LAYER_CLEANED: "com.righthererightnow.vehicles.layerCleaned",
+    // Dispatched by the model
+    LAYER_UPDATED: "com.righthererightnow.vehicles.layerUpdated"
+}
+
+/**
+ * Notifications about the lights out
+ * @type {{}}
+ */
+Notifications.lights = {
+    // Dispatched by the layer button
+    LAYER_ADDED : "com.righthererightnow.lights.layerAdded",
+    LAYER_CLEANED: "com.righthererightnow.lights.layerCleaned",
+    // Dispatched by the model
+    LAYER_UPDATED: "com.righthererightnow.lights.layerUpdated"
+}
+
+/**
+ * Notifications about the divvy bikes
+ * @type {{}}
+ */
+Notifications.divvyBikes = {
+    // Dispatched by the layer button
+    LAYER_ADDED : "com.righthererightnow.divvyBikes.layerAdded",
+    LAYER_CLEANED: "com.righthererightnow.divvyBikes.layerCleaned",
+    // Dispatched by the model
+    LAYER_UPDATED: "com.righthererightnow.divvyBikes.layerUpdated"
+}
+
+/**
  * Notifications about weather
  * @type {{}}
  */

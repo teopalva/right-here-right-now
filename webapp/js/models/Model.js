@@ -17,6 +17,15 @@ function Model() {
     // Holds information about the potholes
     var _potholesModel;
 
+    // Holds information about the vehicles
+    var _vehiclesModel;
+
+    // Holds information about the lights
+    var _lightsModel;
+
+    //Holds information about the divvy bikes
+    var _divvyBikesModel;
+
     // Holds color information for visualization purposes
     var _colorModel;
 
@@ -60,6 +69,27 @@ function Model() {
      */
     this.getPotholesModel = function(){
         return _potholesModel;
+    };
+
+    /**
+     * Returns the model that keeps information about the vehicles
+     */
+    this.getVehiclesModel = function(){
+        return _vehiclesModel;
+    };
+
+    /**
+     * Returns the model that keeps information about the lights
+     */
+    this.getLightsModel = function(){
+        return _lightsModel;
+    };
+
+    /**
+     * Returns the model that keeps information about the divvy bikes
+     */
+    this.getDivvyBikesModel = function(){
+        return _divvyBikesModel;
     };
 
     /**
@@ -123,6 +153,15 @@ function Model() {
 
         // Potholes Model
         _potholesModel = new PotholesModel();
+
+        //Vehicles Model
+        _vehiclesModel = new VehiclesModel();
+
+        // Lights Model
+        _lightsModel = new LightsModel();
+
+        // Divvy bikes Model
+        _divvyBikesModel = new DivvyBikesModel();
 
         // Colors
         _colorModel = new ColorModel();
