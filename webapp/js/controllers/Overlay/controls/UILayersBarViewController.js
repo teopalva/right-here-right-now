@@ -51,7 +51,7 @@ function UILayersBarViewController() {
         _lightsButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
         //_lightsButton.setImage("/webapp/assets/icon/layers_icons/CTA.png");
         _lightsButton.onClick(function(d){
-            invertSelection(_lightsButton);
+            invertSelection(_lightsButton,"lights");
         });
         self.add(_lightsButton);
         

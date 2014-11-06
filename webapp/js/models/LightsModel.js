@@ -1,19 +1,17 @@
 /**
- * @description Stores all the information about the potholes
+ * @description Stores all the information about the lights
  * @constructor
  */
-function VehiclesModel() {
+function LightsModel() {
     ///////////////////////// PRIVATE ATTRIBUTES /////////////////////////
     var self = this;
 
     /* Contains objects in the form:
-     *      - creation_date : date (when the vehicle has been found)
-     *      - vehicle_make_model : string
-     *      - vehicle_color : string
+     *      - creation_date : date
      *      - latitude : number
      *      - longitude : number
      */
-    var _vechicles = [];
+    var _lights = [];
 
     // Update timer
     var _updateTimer;
@@ -22,46 +20,44 @@ function VehiclesModel() {
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
     /**
-     * Returns the vechile objects in the form:
-     *      - creation_date : date (when the vehicle has been found)
-     *      - vehicle_make_model : string
-     *      - vehicle_color : string
+     * Returns the lights objects in the form:
+     *      - creation_date : date (when the light has been found)
      *      - latitude : number
      *      - longitude : number
      * @returns {Array}
      */
-    this.getVehicles = function(){
-        return _vechicles;
+    this.getLights = function(){
+        return _lights;
     }
 
     /**
-     * Remove the old potholes
+     * Remove the old lights
      */
-    this.clearVehicles = function(){
-        _vechicles = [];
+    this.clearLights = function(){
+        _lights = [];
     }
 
     /**
-     *  Update the potholes information
+     *  Update the lights information
      */
-    this.updateVehicles = function() {
-        // remove the old potholes
-        self.clearVehicles();
+    this.updateLights = function() {
+        // remove the old lights
+        self.clearLights();
 
         /* Retrieve new data :
-         *  SELECT creation_date,vehicle_color,vehicle_make_model,latitude,longitude
+         *  SELECT creation_date,latitude,longitude
          *  WHERE status = 'Open' AND latitude != null AND longitude != NULL
          *  ORDER BY creation_date DESC
          */
-        var link = "http://data.cityofchicago.org/resource/3c9v-pnva.json";
-        var query = "?$select=creation_date,vehicle_color,vehicle_make_model,latitude,longitude" +
+        var link = "http://data.cityofchicago.org/resource/zuxi-7xem.json";
+        var query = "?$select=creation_date,latitude,longitude" +
                     "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL" +
                     "&$order=creation_date%20DESC";
         d3.json(link + query, function(json){
-            json.forEach(function(vehicle){
-                _vechicles.push(vehicle);
+            json.forEach(function(light){
+                _lights.push(light);
             });
-            notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);
+            notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
         });
 
     };
@@ -70,8 +66,8 @@ function VehiclesModel() {
      * Starts the timer that updates the model at a given interval
      */
     this.startUpdates = function() {
-        self.updateVehicles();
-        _updateTimer = setInterval(self.updateVehicles, _intervalMillis);
+        self.updateLights();
+        _updateTimer = setInterval(self.updateLights, _intervalMillis);
     };
 
     /**
@@ -79,7 +75,7 @@ function VehiclesModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        self.clearVehicles();
+        self.clearLights();
     };
 
 

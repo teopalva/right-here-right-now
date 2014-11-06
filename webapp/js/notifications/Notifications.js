@@ -56,6 +56,18 @@ Notifications.vehicles = {
 }
 
 /**
+ * Notifications about the lights out
+ * @type {{}}
+ */
+Notifications.lights = {
+    // Dispatched by the layer button
+    LAYER_ADDED : "com.righthererightnow.lights.layerAdded",
+    LAYER_CLEANED: "com.righthererightnow.lights.layerCleaned",
+    // Dispatched by the model
+    LAYER_UPDATED: "com.righthererightnow.lights.layerUpdated"
+}
+
+/**
  * Notifications about weather
  * @type {{}}
  */
