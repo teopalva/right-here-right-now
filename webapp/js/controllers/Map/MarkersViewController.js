@@ -17,7 +17,7 @@ function MarkersViewController(){
      */
     this.draw = function(context,points,color){
 
-
+        /*
         // Go back to the normal color if no changes occur
         points
             .attr("cx", function(d) {
@@ -33,9 +33,11 @@ function MarkersViewController(){
                 // Filter out all the stations that HAVEN'T changed
                 return  ! areDifferent(d ,_lastUpdate[i]);
             })
+            .transition().duration(1500)
             .style("fill",color)
             .style("stroke","white")
             .style("stroke-width","0.2px");
+        */
 
         // Update when a difference is found
         points
@@ -48,20 +50,23 @@ function MarkersViewController(){
                 return point.y;
             })
             .attr("r", 1)
+            /*
             .filter(function(d,i){
                 // FIlter out all the stations that HAVE changed
                var bool =   areDifferent(d ,_lastUpdate[i]);
                _lastUpdate[i] = d;
                return bool;
             })
-            .style("fill","black")
+            .transition().duration(1500)
+            */
+            .style("fill",color)
             .style("stroke","white")
             .style("stroke-width","0.2px");
 
         // Enter
         points.enter().append("circle")
             .attr("cx", function(d,i) {
-                _lastUpdate[i] = d ;
+                //_lastUpdate[i] = d ;
                 var point = context.project(d.latitude, d.longitude);
                 return point.x;
             })
