@@ -40,7 +40,7 @@ function UILayersBarViewController() {
         _CTAButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
         _CTAButton.setImage("/webapp/assets/icon/layers_icons/CTA.png");
         _CTAButton.onClick(function(d){
-            invertSelection(_CTAButton);
+            invertSelection(_CTAButton,"cta");
         });
         self.add(_CTAButton);
         
@@ -50,7 +50,7 @@ function UILayersBarViewController() {
         _crimeButton.setTitle("Crime");
         _crimeButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
         _crimeButton.onClick(function(d){
-            invertSelection(_crimeButton);
+            invertSelection(_crimeButton, "crimes");
         });
         self.add(_crimeButton);
 

@@ -35,6 +35,10 @@ function Model() {
     // Holds cta buses information
     var _ctaModel;
 
+    // Holds crimes information
+    var _crimesModel;
+
+
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      *
@@ -105,6 +109,10 @@ function Model() {
         return _mapLayersModel;
     };
 
+    this.getCrimesModel = function() {
+        return _crimesModel;
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {
         // Map
@@ -133,5 +141,9 @@ function Model() {
 
         // Cta
         _ctaModel = new CtaModel();
+
+        // Crimes
+        _crimesModel = new CrimesModel();
+
     } ();
 }

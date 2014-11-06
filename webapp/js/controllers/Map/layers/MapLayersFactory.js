@@ -25,6 +25,10 @@ function MapLayersFactory() {
                 case Layers.CTA:
                     layers.push(CtaLayerViewController);
                     break;
+                case Layers.CRIMES:
+                    layers.push(CrimesLayerViewController);
+                    break;
+
             }
         });
 

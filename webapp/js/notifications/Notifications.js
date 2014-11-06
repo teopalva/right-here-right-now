@@ -41,7 +41,7 @@ Notifications.potholes = {
     LAYER_CLEANED: "com.righthererightnow.potholes.layerCleaned",
     // Dispatched by the model
     LAYER_UPDATED: "com.righthererightnow.potholes.layerUpdated"
-}
+};
 
 /**
  * Notifications about weather
@@ -66,14 +66,31 @@ Notifications.mapLayers = {
 Notifications.time = {
     CLOCK_UPDATED : "com.righthererightnow.time.clockUpdated",
     SUN_UPDATED : "com.righthererightnow.time.sunUpdated"
-}
+};
+
 /**
  * Notifications about CTA buses
  * @type {{}}
  */
 Notifications.cta = {
+    // Dispatched by the layer button
+    LAYER_ADDED : "com.righthererightnow.cta.layerAdded",
+    LAYER_CLEANED: "com.righthererightnow.cta.layerCleaned",
+    // Dispatched by the model
+    LAYER_UPDATED: "com.righthererightnow.cta.layerUpdated",
     TIME : "com.righthererightnow.cta.time",
     VECHICLES: "com.righthererightnow.cta.vechicles",
     STOPS: "com.righthererightnow.cta.stops"
 };
 
+/**
+ * Notifications about crimes
+ * @type {{}}
+ */
+Notifications.crimes = {
+    // Dispatched by the layer button
+    LAYER_ADDED : "com.righthererightnow.crimes.layerAdded",
+    LAYER_CLEANED: "com.righthererightnow.crimes.layerCleaned",
+    // Dispatched by the model
+    LAYER_UPDATED: "com.righthererightnow.crimes.layerUpdated"
+};

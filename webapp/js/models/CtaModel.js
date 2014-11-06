@@ -8,8 +8,6 @@ function CtaModel() {
     //////////////////////// PRIVATE ATTRIBUTES ////////////////////////
     var self = this;
 
-
-
     // CTA API
     var _site = "http://www.ctabustracker.com/bustime/api/v1/";
     var _key = "key=PS2GNpW4RCK4AXiiJssFsjWF9";
@@ -47,15 +45,23 @@ function CtaModel() {
 
     this.getRoutes = function() {
         return _routes;
-    }
+    };
+
+    this.clearVehicles = function() {
+        _vehicles = [];
+    };
+
+    this.clearData = function() {
+        _routes = [];
+        _stops= [];
+        _vehicles= [];
+    };
 
     /**
      * Start of the queries
      */
     this.retrieveData = function() {
-        _routes = [];
-        _stops= [];
-        _vehicles= [];
+        self.clearData();
         getRoutes();
     };
 
@@ -63,10 +69,17 @@ function CtaModel() {
      * Update the list of buses in the area.
      */
     this.updateVehicles = function() {
-        _vehicles = [];
-        console.log("updating...")
+        self.clearVehicles();
+        console.log("updating...");
+
+        // TODO: check if it is better to always notify (isLast = true)
+        var isLast = false;
+
         for(var i in _routes) {
-            getVehicles(_routes[i]);
+            if(i == _routes.length - 1) {
+                isLast = true;
+            }
+            getVehicles(_routes[i], isLast);
         }
     };
 
@@ -90,7 +103,7 @@ function CtaModel() {
      */
     this.startUpdates = function() {
         if(_updateTimer == null) {
-            self.updateTime();
+            self.updateVehicles();
             //_updateTimer = setInterval(self.updateTime, _intervalMillis);
         }
     };
@@ -101,13 +114,12 @@ function CtaModel() {
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
         _updateTimer = null;
+        self.clearVehicles();
     };
 
 
     //////////////////////// PRIVATE METHODS ////////////////////////
     var init = function() {
-        // Subscription to events
-        //notificationCenter.subscribe(self, getBusFromArea, Notifications.cta.ROUTES);
 
     } ();
 
@@ -119,7 +131,7 @@ function CtaModel() {
      * Get all the vehicles traveling on a given route.
      * @param route
      */
-    var getVehicles = function(route) {
+    var getVehicles = function(route, isLast) {
         var query = "getvehicles?";
         var attributes = "rt=" + route + "&";
         var url = _site + query + attributes + _key;
@@ -136,21 +148,22 @@ function CtaModel() {
                 var delay = $(this).find('dly').text();
                 var route = $(this).find('rt').text();
 
-
-
                 var vehicleInfo = { id: id,
-                    lat: lat,
-                    lon: lon,
+                    latitude: lat,
+                    longitude: lon,
                     heading: heading,
                     delay: delay,
                     route: route};
 
+                // Check if the vehicle is in the selected Area
                 if(inArea(vehicleInfo)) {
                     _vehicles.push(vehicleInfo);
                 }
 
             });
-            notificationCenter.dispatch(Notifications.cta.VECHICLES);
+            if(isLast) {
+                notificationCenter.dispatch(Notifications.cta.VECHICLES);
+            }
         });
 
 
@@ -161,7 +174,7 @@ function CtaModel() {
      * @param route
      * @param direction
      */
-    var getStops = function(route, direction) {
+    var getStops = function(route, direction, isLast) {
         var query = "getstops?";
         var attributes = "rt=" + route + "&dir=" + direction + "&";
         var url = _site + query + attributes + _key;
@@ -179,9 +192,10 @@ function CtaModel() {
 
                 var stopInfo = {id: id,
                     name: name,
-                    lat: lat,
-                    lon: lon};
+                    latitude: lat,
+                    longitude: lon};
 
+                // Check if the stop is in the selected Area
                 if(inArea(stopInfo)) {
                     // Add stop to list of interesting stops
                     _stops.push(stopInfo);
@@ -192,11 +206,13 @@ function CtaModel() {
                     }
                 }
             });
-            if(_stops.length > 0) {
+            // Notify just if stops are found and if it is the last query about stops.
+            if(isLast && _stops.length > 0) {
                 notificationCenter.dispatch(Notifications.cta.STOPS);
             }
             if(_updateTimer == null) {
                 //_updateTimer = setInterval(self.updateVehicles, _intervalMillis);
+                // TODO: temporary implementation. just for test
                 _updateTimer = 1;
                 self.updateVehicles();
             }
@@ -224,8 +240,14 @@ function CtaModel() {
             console.log("Route " + route);
             console.log(directions);
 
+            // TODO: check if it is better to always notify (isLast = true)
+            var isLast = false;
+
             for(var i in directions) {
-                getStops(route, directions[i]);
+                if(i == directions.length - 1) {
+                    isLast = true;
+                }
+                getStops(route, directions[i], isLast);
             }
         });
     };
@@ -251,14 +273,21 @@ function CtaModel() {
         });
     };
 
+
+    /**
+     * Temporary implementation
+     * TODO: use area
+     * @param geoElement
+     * @returns {boolean}
+     */
     var inArea = function(geoElement) {
         var maxLon =  -87.647011;
         var minLon = -87.674949;
         var maxLat = 41.874009;
         var minLat = 41.867238;
 
-        var latitude = parseFloat(geoElement.lat, 10);
-        var longitude = parseFloat(geoElement.lon, 10);
+        var latitude = parseFloat(geoElement.latitude, 10);
+        var longitude = parseFloat(geoElement.longitude, 10);
 
         //console.log(geoElement);
         //console.log("lat: " + latitude + " lon: " + longitude);
