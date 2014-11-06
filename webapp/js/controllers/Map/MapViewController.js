@@ -17,6 +17,8 @@ function MapViewController(htmlContainer) {
     var _mapContainer;
     var _defaultZoom = 13;
 
+    var _selectedAreaLayer = null;
+
     var _mapID = {
         aerial: 'macs91.k25dm9i2',
         map: 'krbalmryde.jk1dm68f'
@@ -61,14 +63,14 @@ function MapViewController(htmlContainer) {
     /**
      * Handles LAYERS_STATUS_CHANGED notification
      */
-    this.updateMap = function() {
+    this.updateMap = function () {
         // Clean map
         cleanMap();
 
         // Draw layers
         var layersControllers = _layersControllersFactory.getMapLayers();
 
-        layersControllers.forEach(function(Controller) {
+        layersControllers.forEach(function (Controller) {
             self.add(new Controller());
         });
     };
@@ -78,10 +80,12 @@ function MapViewController(htmlContainer) {
      * @override
      * @param childController
      */
-    this.add = function(childController) {
+    this.add = function (childController) {
         self.getChildren().push(childController);
         childController.setParentController(self);
-        _svgLayerGroup.append(function(){return childController.getView().getSvg().node();});
+        _svgLayerGroup.append(function () {
+            return childController.getView().getSvg().node();
+        });
         childController.viewDidAppear();
     };
 
@@ -90,8 +94,8 @@ function MapViewController(htmlContainer) {
      * @override
      * @param childController
      */
-    var oldRemove = this.remove;    // Save super
-    this.remove = function(childController) {
+    var oldRemove = this.remove; // Save super
+    this.remove = function (childController) {
         //_mapContainer.removeLayer(childController.getLayerGroup());
 
         childController.dispose();
@@ -104,7 +108,7 @@ function MapViewController(htmlContainer) {
 
 
 
-    this.onMapReset = function() {
+    this.onMapReset = function () {
 
         var topLeftCoord = model.getMapModel().getTopLeftCoordOfInterest();
         var bottomRightCoord = model.getMapModel().getBottomRightCoordOfInterest();
@@ -116,40 +120,106 @@ function MapViewController(htmlContainer) {
         var height = bottomRight.y - topLeft.y;
 
         //project at a fixed zoom level
-        var viewBoxTopLeft = model.getMapModel().projectAtDefaultZoom(topLeftCoord.lat,topLeftCoord.lng);
-        var viewBoxBottomRight =  model.getMapModel().projectAtDefaultZoom(bottomRightCoord.lat,bottomRightCoord.lng);
+        var viewBoxTopLeft = model.getMapModel().projectAtDefaultZoom(topLeftCoord.lat, topLeftCoord.lng);
+        var viewBoxBottomRight = model.getMapModel().projectAtDefaultZoom(bottomRightCoord.lat, bottomRightCoord.lng);
         var viewBoxWidth = viewBoxBottomRight.x - viewBoxTopLeft.x;
         var viewBoxHeight = viewBoxBottomRight.y - viewBoxTopLeft.y;
 
 
-        self.getView().setFrame(0,0,width,height);
-        self.getView().setViewBox(0,0,viewBoxWidth,viewBoxHeight);
-        self.getView().getSvg().style("top",topLeft.y + "px");
-        self.getView().getSvg().style("left",topLeft.x + "px");
+        self.getView().setFrame(0, 0, width, height);
+        self.getView().setViewBox(0, 0, viewBoxWidth, viewBoxHeight);
+        self.getView().getSvg().style("top", topLeft.y + "px");
+        self.getView().getSvg().style("left", topLeft.x + "px");
 
-        _svgLayerGroup.attr("transform","translate(" + [-viewBoxTopLeft.x,-viewBoxTopLeft.y] + ")");
+        _svgLayerGroup.attr("transform", "translate(" + [-viewBoxTopLeft.x, -viewBoxTopLeft.y] + ")");
 
         //show again what's hidden in onZoomReset
-        _svgLayerGroup.attr("opacity",1);
+        _svgLayerGroup.attr("opacity", 1);
     };
 
 
-    this.onZoomStart = function() {
+    this.onZoomStart = function () {
         //when the zoom start hide everything
-        _svgLayerGroup.attr("opacity",0);
+        _svgLayerGroup.attr("opacity", 0);
     };
 
+    /*
+     
+    this.highlightAreaOfInterest = function () {
+
+        console.log("highligth");
+        //if (_selectedAreaLayer !== null) {
+        //this.map.addLayer(_selectedAreaLayer);
+        //_selectedAreaLayer.bringToFront();
+        //} else
+
+        var feature = model.getAreaOfInterestModel().getSelectedFeature();
+
+        function onEachFeature(feature, layer) {
+            console.log(layer);
+
+
+            // A function to reset the colors when a neighborhood is not longer 'hovered'
+            function resetHighlight(e) {
+                var layer = e.target;
+                layer.setStyle({
+                    weight: 1,
+                    opacity: 1,
+                    color: '#09F',
+                    fillOpacity: 0.7,
+                    fillColor: '#FEB24C'
+                });
+            }
+            // Set hover colors
+            function highlightFeature(e) {
+                var layer = e.target;
+                layer.setStyle({
+                    weight: 2,
+                    opacity: 1,
+                    color: '#09F',
+                    fillOpacity: 0.7,
+                    fillColor: '#1abc9c'
+                });
+            }
+
+             layer.on({
+                //mouseover: highlightFeature,
+                //mouseout: resetHighlight,
+                click: none
+            });
+        }
+
+
+        _selectedAreaLayer = L.geoJson(feature, {
+            onEachFeature: onEachFeature,
+            weight: 1,
+            opacity: 1,
+            color: '#09F',
+            fillOpacity: 0.7,
+            fillColor: 'grey'
+        }).addTo(_mapContainer);
+
+        _selectedAreaLayer.bringToBack();
+
+
+    };*/
+
+    this.hideAreaOfInterest = function () {
+        if (_selectedAreaLayer !== null)
+            _mapContainer.removeLayer(_selectedAreaLayer);
+    };
 
     /////////////////////////// PRIVATE METHODS ///////////////////////////
-    var cleanMap = function() {
+
+    var cleanMap = function () {
         // Remove all children
-        while(self.getChildren().length > 0) {
+        while (self.getChildren().length > 0) {
             self.remove(self.getChildren()[0]);
         }
     };
 
 
-    var init = function() {
+    var init = function () {
         _layersControllersFactory = new MapLayersFactory();
 
         // Initializing the _mapTilesLayer
@@ -160,7 +230,9 @@ function MapViewController(htmlContainer) {
         });
 
         // Draw the map container box
-        _mapContainer = L.map(_htmlContainer.node(), {zoomControl: false});
+        _mapContainer = L.map(_htmlContainer.node(), {
+            zoomControl: false
+        });
         _mapContainer.setView(model.getMapModel().getDefaultFocusPoint(), _defaultZoom);
 
         var tileLayers = {
@@ -192,7 +264,7 @@ function MapViewController(htmlContainer) {
 
 
         // Bind MapViewController view to _mapContainer pane
-        d3.select(_mapContainer.getPanes().overlayPane).append(function() {
+        d3.select(_mapContainer.getPanes().overlayPane).append(function () {
             return self.getView().getSvg().node();
         });
 
@@ -211,7 +283,8 @@ function MapViewController(htmlContainer) {
         self.visualizationTypeChanged();*/
         self.updateMap();
         notificationCenter.subscribe(self, self.updateMap, Notifications.mapLayers.LAYERS_STATUS_CHANGED);
-    } ();
+
+    }();
 }
 
 // Inheritance

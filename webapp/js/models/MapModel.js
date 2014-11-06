@@ -89,7 +89,6 @@ function MapModel() {
         });
     };
 
-
     /**
      *
      * @param lat

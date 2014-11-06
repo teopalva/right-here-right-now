@@ -33,8 +33,10 @@ function PotholesLayerViewController() {
      */
     this.potholesUpdated = function () {
         var potholes = model.getPotholesModel().getPotholes();
+        // filter objects
+        var data = model.getAreaOfInterestModel().filterObjects(potholes);
         var canvas = self.getView().getSvg();
-        var points = canvas.selectAll("circle").data(potholes);
+        var points = canvas.selectAll("circle").data(data);
         _markersViewController.draw(self,points,_markersColor);
 
     };

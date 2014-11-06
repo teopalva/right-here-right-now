@@ -41,7 +41,7 @@ function UserPathLayerViewController() {
     this.viewDidAppear = function() {
 
         self.getView().getSvg().on( "mousedown",function() {
-            _clickFlag = true;
+            _clickFlag = true;            
         });
 
         self.getView().getSvg().on( "mousemove",function() {
@@ -57,7 +57,7 @@ function UserPathLayerViewController() {
 
                 var coord = self.unproject(x, y);
 
-                model.getAreaOfInterestModel().addPoint(coord.lat, coord.lng);
+                model.getAreaOfInterestModel().addPoint(coord.lat, coord.lng);                
             }
         });
 
