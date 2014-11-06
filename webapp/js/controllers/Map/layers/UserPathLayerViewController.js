@@ -38,8 +38,6 @@ function UserPathLayerViewController() {
             var boundPath = d3.geo.path();
             boundPath.projection(self.d3projection);
 
-
-
             self.getView().getSvg().selectAll("path")
                 .data(boundaries.features)
                 .attr("d", boundPath)
@@ -47,8 +45,8 @@ function UserPathLayerViewController() {
                 .attr("d", boundPath)
                 .style("fill", "rgba(222,235,247, 0.5)")
                 .style("stroke", "rgba(222,235,247, 1.0)")
-                .style("stroke-width", 0.3)
-                .exit().remove();
+                .style("stroke-width", 0.3);
+
         } else {
             self.getView().getSvg().selectAll("path").remove();
         }
