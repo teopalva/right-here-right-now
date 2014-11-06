@@ -53,6 +53,7 @@ function DivvyBikesModel() {
             parsedJson.stationBeanList.forEach(function(divvyBike){
                 _divvyBikes.push(divvyBike);
             });
+            console.log("Divvy bikes JSON last update at " + parsedJson.executionTime);
             notificationCenter.dispatch(Notifications.divvyBikes.LAYER_UPDATED);
         });
 
