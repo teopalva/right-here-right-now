@@ -107,6 +107,14 @@ function AreaOfInterestModel() {
         return areaOfInterest;
     };
 
+    /**
+     * Returns a feature collection representing the actual direction from starting point to ending point toward
+     * way-points
+     */
+    this.getDirections = function() {
+        return _featureCollection;
+    };
+
     this.getSelectedFeature = function () {
         return _feature;
     };

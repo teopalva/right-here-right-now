@@ -112,6 +112,10 @@ function UserPathLayerViewController() {
 
         // Exit
         points.exit().remove();
+
+
+        // Draw directions
+        //drawDirections();
     };
 
     var drag;
@@ -165,6 +169,27 @@ function UserPathLayerViewController() {
 
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
+    var drawDirections = function() {
+        var directions = model.getAreaOfInterestModel().getDirections();
+
+        if(directions != null) {
+            var boundPath = d3.geo.path();
+            boundPath.projection(self.d3projection);
+
+            self.getView().getSvg().selectAll(".route")
+                .data(directions.features)
+                .attr("d", boundPath)
+                .enter().append("path").classed("route", true)
+                .attr("d", boundPath)
+                .style("fill", "white")
+                .style("stroke", "black")
+                .style("stroke-width", 0.3);
+
+        } else {
+            self.getView().getSvg().selectAll(".route").remove();
+        }
+    };
+
     var init = function() {
 
         self.getView().addClass("user-path-layer-view-controller");
