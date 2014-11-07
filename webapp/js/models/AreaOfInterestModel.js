@@ -107,6 +107,14 @@ function AreaOfInterestModel() {
         return areaOfInterest;
     };
 
+    /**
+     * Returns a feature collection representing the actual direction from starting point to ending point toward
+     * way-points
+     */
+    this.getDirections = function() {
+        return _featureCollection;
+    };
+
     this.getSelectedFeature = function () {
         return _feature;
     };
@@ -120,9 +128,19 @@ function AreaOfInterestModel() {
     var updateFeatureCollection = function () {
         if (_path.length > 1) {
             var directionsService = new google.maps.DirectionsService();
+
+            var tmpWaypoints = [];
+            for(var i = 1; i < (_path.length -1); i++) {
+                tmpWaypoints.push({
+                    location: new google.maps.LatLng(_path[i].latitude, _path[i].longitude),
+                    stopover:false
+                });
+            }
+
             var request = {
                 origin: new google.maps.LatLng(_path[0].latitude, _path[0].longitude),
                 destination: new google.maps.LatLng(_path[_path.length - 1].latitude, _path[_path.length - 1].longitude),
+                waypoints: tmpWaypoints,
                 travelMode: google.maps.TravelMode.WALKING
             };
             // Route the directions and pass the response to a
@@ -136,27 +154,9 @@ function AreaOfInterestModel() {
                         coordinates.push([point["B"], point["k"]]);
                     });
 
-                    /*
-                     var featureCollection = {};
-                     featureCollection["type"] = "FeatureCollection";
-                     featureCollection["features"] = [
-                     { "type": "Feature",
-                     "geometry": {
-                     "type": "Polygon",
-                     "coordinates": [
-                     coordinates
-                     ]
-                     },
-                     "properties": {
-                     "prop0": "value0",
-                     "prop1": {"this": "that"}
-                     }
-                     }
-                     ];*/
                     _featureCollection = computeFeatureCollectionPolygonWithCoordinates(coordinates);
 
                     notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
-                    //_featureCollection = featureCollection;
                 }
             });
         } else {
