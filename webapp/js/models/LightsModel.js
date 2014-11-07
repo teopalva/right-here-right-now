@@ -55,6 +55,7 @@ function LightsModel() {
                     "&$order=creation_date%20DESC";
         d3.json(link + query, function(json){
             json.forEach(function(light){
+                light.id = (light.latitude + light.longitude).toString().hashCode();
                 _lights.push(light);
             });
             notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);

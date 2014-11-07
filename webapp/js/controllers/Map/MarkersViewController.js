@@ -17,28 +17,6 @@ function MarkersViewController(){
      */
     this.draw = function(context,points,color){
 
-        /*
-        // Go back to the normal color if no changes occur
-        points
-            .attr("cx", function(d) {
-                var point = context.project(d.latitude, d.longitude);
-                return point.x;
-            })
-            .attr("cy", function(d) {
-                var point = context.project(d.latitude, d.longitude);
-                return point.y;
-            })
-            .attr("r", 1)
-            .filter(function(d,i){
-                // Filter out all the stations that HAVEN'T changed
-                return  ! areDifferent(d ,_lastUpdate[i]);
-            })
-            .transition().duration(1500)
-            .style("fill",color)
-            .style("stroke","white")
-            .style("stroke-width","0.2px");
-        */
-
         // Update when a difference is found
         points
             .attr("cx", function(d) {
@@ -50,23 +28,17 @@ function MarkersViewController(){
                 return point.y;
             })
             .attr("r", 1)
-            /*
-            .filter(function(d,i){
-                // FIlter out all the stations that HAVE changed
-               var bool =   areDifferent(d ,_lastUpdate[i]);
-               _lastUpdate[i] = d;
-               return bool;
+            .filter(function(d){
+                return hasChanged(d , _lastUpdate);
             })
-            .transition().duration(1500)
-            */
             .style("fill",color)
             .style("stroke","white")
             .style("stroke-width","0.2px");
 
         // Enter
         points.enter().append("circle")
-            .attr("cx", function(d,i) {
-                //_lastUpdate[i] = d ;
+            .attr("cx", function(d) {
+                console.log("New Point Notification");
                 var point = context.project(d.latitude, d.longitude);
                 return point.x;
             })
@@ -80,15 +52,55 @@ function MarkersViewController(){
             .style("stroke-width","0.2px");
 
         // Exit
-        points.exit().remove();
+        points.exit()
+            .attr("dont_care",function(){
+                console.log("Remove Notification");
+            })
+            .remove();
+
+        // Repopulate _lastUpdate
+        _lastUpdate = [];
+        points.attr("dontcare",function(d){_lastUpdate.push(d);});
 
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
 
-    // Return true when the two objects are different
-    var areDifferent = function( obj1 , obj2 ) {
-        return JSON.stringify(obj1) != JSON.stringify(obj2);
+
+    /**
+     * Checks if obj has changed
+     * @param obj
+     * @param arr
+     * @returns {boolean}
+     */
+    var hasChanged = function (obj , arr){
+        for (i in arr){
+            if(isIt(arr[i], obj) && ! isEqual(arr[i], obj)) {
+                console.log("Update Notification");
+                return true;
+            }}
+        return false;
+    };
+
+    /**
+     * Checks if two objects are the same looking at their ID
+     * @param obj1
+     * @param obj2
+     * @returns {boolean}
+     */
+    var isIt = function (obj1 , obj2){
+        // TODO: need to handle in a different way for the buses
+        return obj1.id == obj2.id;
+    };
+
+    /**
+     * Checks if two object are exactly the same
+     * @param obj1
+     * @param obj2
+     * @returns {boolean}
+     */
+    var isEqual = function( obj1 , obj2 ){
+        return JSON.stringify(obj1) == JSON.stringify(obj2);
     };
 
     var init = function(){

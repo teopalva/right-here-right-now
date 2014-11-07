@@ -59,6 +59,7 @@ function VehiclesModel() {
                     "&$order=creation_date%20DESC";
         d3.json(link + query, function(json){
             json.forEach(function(vehicle){
+                vehicle.id = (vehicle.latitude + vehicle.longitude).toString().hashCode();
                 _vechicles.push(vehicle);
             });
             notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);

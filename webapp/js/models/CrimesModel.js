@@ -11,7 +11,7 @@ function CrimesModel() {
 
     // Update timer
     var _updateTimer = null;
-    var _intervalMillis = 2000;
+    var _intervalMillis = 10000;
 
     //////////////////////// PUBLIC METHODS ////////////////////////
     /**
@@ -46,11 +46,11 @@ function CrimesModel() {
         var date = new Date(elapsed);
         var query = "?$select=primary_type,description,date,latitude,longitude&$where=date>=%27" + date.toISOString() + "%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
         d3.json(link + query, function(json){
-            console.log(json)
-            json.forEach(function(pothole){
+            json.forEach(function(crime){
                 // Add only if we know both latitude and longitude
-                if(pothole.latitude && pothole.longitude)
-                    _crimes.push(pothole);
+                if(crime.latitude && crime.longitude)
+                    crime.id = (crime.latitude + crime.longitude).toString().hashCode();
+                    _crimes.push(crime);
             });
             notificationCenter.dispatch(Notifications.crimes.LAYER_UPDATED);
         });

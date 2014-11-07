@@ -11,6 +11,7 @@ function CtaModel() {
     // CTA API
     var _site = "http://www.ctabustracker.com/bustime/api/v1/";
     var _key = "key=PS2GNpW4RCK4AXiiJssFsjWF9";
+    var _key1 = "key=17505d0615f04180b8a67faa7d6016cc";
 
     // CTA Time
     var _time;
