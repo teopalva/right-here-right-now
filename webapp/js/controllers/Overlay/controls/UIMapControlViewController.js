@@ -18,31 +18,35 @@ function UIMapControlViewController() {
     var super_viewDidAppear = this.viewDidAppear;
     this.viewDidAppear = function () {
         var toolViewBox = self.getView().getViewBox();
-        
+
         // satellite map button
         _satelliteButton.getView().setFrame(0, 27, 187, 40);
         _satelliteButton.getView().setViewBox(0, 0, 187, 40);
         _satelliteButton.setTitle("satellite map");
+        _satelliteButton.onClick(model.getMapModel().changeLayer.bind(model.getMapModel(), "satellite"));
         self.add(_satelliteButton);
-        
+
         // street map button
         _streetButton.getView().setFrame(0, 80, 187, 40);
         _streetButton.getView().setViewBox(0, 0, 187, 40);
         _streetButton.setTitle("street map");
+        _streetButton.onClick(model.getMapModel().changeLayer.bind(model.getMapModel(), "street"));
         self.add(_streetButton);
-        
+
         // zoom +
         _zoomPlusButton.getView().setFrame(188, 27.5, 83, 48);
         _zoomPlusButton.getView().setViewBox(0, 0, 83, 48);
         _zoomPlusButton.setImage("/webapp/assets/icon/zoom_plus.svg");
+        _zoomPlusButton.onClick(model.getMapModel().zoomIn);
         self.add(_zoomPlusButton);
-        
+
         // zoom -
         _zoomMinusButton.getView().setFrame(188, 81.5, 83, 35.5);
         _zoomMinusButton.getView().setViewBox(0, 0, 83, 35.5);
         _zoomMinusButton.setImage("/webapp/assets/icon/zoom_minus.svg");
+        _zoomMinusButton.onClick(model.getMapModel().zoomOut);
         self.add(_zoomMinusButton);
-        
+
         // zoom box
         _zoomButton.getView().setFrame(188, 13.5, 83, 118);
         _zoomButton.getView().setViewBox(0, 0, 83, 118);
@@ -60,7 +64,7 @@ function UIMapControlViewController() {
         self.getView().addClass("ui-map-control-view-controller");
 
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
-        
+
         _satelliteButton = new UIButtonViewController;
         _streetButton = new UIButtonViewController;
         _zoomPlusButton = new UIButtonViewController;
@@ -71,4 +75,3 @@ function UIMapControlViewController() {
 }
 
 Utils.extend(UIMapControlViewController, UIViewController);
-

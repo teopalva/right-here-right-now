@@ -33,15 +33,20 @@ function DivvyBikesLayerViewController() {
      */
     this.divvyBikesUpdated = function () {
         var divvyBikes = model.getDivvyBikesModel().getDivvyBikes();
+        var data = divvyBikes;
+        if (model.getAreaOfInterestModel().getAreaOfInterest()) {
+            // filter objects
+            data = model.getAreaOfInterestModel().filterObjects(divvyBikes);
+        }
         var canvas = self.getView().getSvg();
-        var points = canvas.selectAll("circle").data(divvyBikes);
-        _markersViewController.draw(self,points,_markersColor);
+        var points = canvas.selectAll("circle").data(data);
+        _markersViewController.draw(self, points, _markersColor);
 
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
 
-    var init = function() {
+    var init = function () {
         self.getView().addClass("divvyBikes-layer-view-controller");
 
         _markersViewController = new MarkersViewController();
@@ -49,8 +54,9 @@ function DivvyBikesLayerViewController() {
         notificationCenter.subscribe(self, self.divvyBikesAdded, Notifications.divvyBikes.LAYER_ADDED);
         notificationCenter.subscribe(self, self.divvyBikesCleaned, Notifications.divvyBikes.LAYER_CLEANED);
         notificationCenter.subscribe(self, self.divvyBikesUpdated, Notifications.divvyBikes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.divvyBikesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
 
-    } ();
+    }();
 }
 
 Utils.extend(DivvyBikesLayerViewController, MapLayerController);

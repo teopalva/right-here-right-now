@@ -33,15 +33,20 @@ function LightsLayerViewController() {
      */
     this.lightsUpdated = function () {
         var lights = model.getLightsModel().getLights();
+        var data = lights;
+        if (model.getAreaOfInterestModel().getAreaOfInterest()) {
+            // filter objects
+            data = model.getAreaOfInterestModel().filterObjects(lights);
+        }
         var canvas = self.getView().getSvg();
-        var points = canvas.selectAll("circle").data(lights);
-        _markersViewController.draw(self,points,_markersColor);
+        var points = canvas.selectAll("circle").data(data);
+        _markersViewController.draw(self, points, _markersColor);
 
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
 
-    var init = function() {
+    var init = function () {
         self.getView().addClass("lights-layer-view-controller");
 
         _markersViewController = new MarkersViewController();
@@ -49,8 +54,9 @@ function LightsLayerViewController() {
         notificationCenter.subscribe(self, self.lightsAdded, Notifications.lights.LAYER_ADDED);
         notificationCenter.subscribe(self, self.lightsCleaned, Notifications.lights.LAYER_CLEANED);
         notificationCenter.subscribe(self, self.lightsUpdated, Notifications.lights.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.lightsUpdated, Notifications.areaOfInterest.PATH_UPDATED);
 
-    } ();
+    }();
 }
 
 Utils.extend(LightsLayerViewController, MapLayerController);

@@ -11,11 +11,17 @@ function MapModel() {
 
     // This is the default latitude and longitude of the Map center.
 
-    var  _focusPoint = { latitude:41.876320, longitude:-87.572841 };
+    var _focusPoint = {
+        latitude: 41.876320,
+        longitude: -87.572841
+    };
     var _topLeftCoord = new L.latLng(42.1, -88.0);
     var _bottomRightCoord = new L.latLng(41.1, -87.0);
     var _defaultZoomForProjecting = 10;
 
+    var _mapContainer;
+    var _tileLayers;
+    var _mapLayer;
 
     ////////////////////////// PUBLIC METHODS //////////////////////////
 
@@ -24,7 +30,7 @@ function MapModel() {
      *
      * @returns {Array} [latitude, longitude]
      */
-    this.getMapBounds = function() {
+    this.getMapBounds = function () {
         return _map.getBounds();
     };
 
@@ -32,14 +38,14 @@ function MapModel() {
     /**
      *
      */
-    this.getTopLeftCoordOfInterest = function() {
+    this.getTopLeftCoordOfInterest = function () {
         return _topLeftCoord;
-    } ;
+    };
 
     /**
      *
      */
-    this.getBottomRightCoordOfInterest = function() {
+    this.getBottomRightCoordOfInterest = function () {
         return _bottomRightCoord;
     };
 
@@ -47,11 +53,11 @@ function MapModel() {
     /**
      *
      */
-    this.projectAtDefaultZoom = function(lat,long) {
-        return _map.project(new L.LatLng(lat,long), _defaultZoomForProjecting);
+    this.projectAtDefaultZoom = function (lat, long) {
+        return _map.project(new L.LatLng(lat, long), _defaultZoomForProjecting);
     };
 
-    this.unprojectAtDefaultZoom = function(x, y) {
+    this.unprojectAtDefaultZoom = function (x, y) {
         return _map.unproject(new L.point(x, y), _defaultZoomForProjecting);
     };
 
@@ -59,7 +65,7 @@ function MapModel() {
     /**
      *
      */
-    this.getZoomLevel = function() {
+    this.getZoomLevel = function () {
         return _map.getZoomLevel();
     };
 
@@ -67,7 +73,7 @@ function MapModel() {
      *
      * @returns {*[]}
      */
-    this.getDefaultFocusPoint = function() {
+    this.getDefaultFocusPoint = function () {
         return [
             _focusPoint.latitude,
             _focusPoint.longitude
@@ -78,13 +84,13 @@ function MapModel() {
      * Set the current leaflet map object to be used with this model
      * @param map
      */
-    this.setMap = function(map) {
+    this.setMap = function (map) {
         _map = map;
-        _map.on("move", function(){
+        _map.on("move", function () {
             notificationCenter.dispatch(Notifications.mapController.MAP_POSITION_OR_ZOOM_CHANGED)
         });
 
-        _map.on("zoomend", function(){
+        _map.on("zoomend", function () {
             notificationCenter.dispatch(Notifications.mapController.ZOOM_CHANGED);
         });
     };
@@ -95,9 +101,9 @@ function MapModel() {
      * @param long
      * @returns {*}
      */
-    this.fromLatLngToLayerPoint = function(lat,long){
+    this.fromLatLngToLayerPoint = function (lat, long) {
         return _map.latLngToLayerPoint(new L.LatLng(lat, long));
-    } ;
+    };
 
     /**
      *
@@ -105,16 +111,40 @@ function MapModel() {
      * @param y
      * @returns {*}
      */
-    this.layerPointToLatLng = function(x,y){
+    this.layerPointToLatLng = function (x, y) {
         return _map.layerPointToLatLng(new L.Point(x, y));
     };
 
+    this.zoomIn = function () {
+        _map.zoomIn(1);
+    };
 
+    this.zoomOut = function () {
+        _map.zoomOut(1);
+    };
 
+    this.changeLayer = function (type) {
+        if (_mapLayer)
+            _mapContainer.removeLayer(_mapLayer);
+        switch (type) {
+        case "satellite":
+            _mapLayer = _tileLayers.aerial.addTo(_mapContainer);
+            break;
+        case "street":
+            _mapLayer = _tileLayers.map.addTo(_mapContainer);
+            break;
+        }
+    }
 
+    this.setMapContainer = function (m) {
+        _mapContainer = m;
+    };
+
+    this.setTileLayers = function (t) {
+        _tileLayers = t;
+    };
 
     ////////////////////////////////// PRIVATE METHODS //////////////////////////////////
-    var init = function() {
-    } ();
+    var init = function () {}();
 
 }

@@ -14,7 +14,6 @@ function MapViewController(htmlContainer) {
 
     var _htmlContainer = htmlContainer;
 
-    var _mapContainer;
     var _defaultZoom = 13;
 
     var _selectedAreaLayer = null;
@@ -235,7 +234,7 @@ function MapViewController(htmlContainer) {
         });
         _mapContainer.setView(model.getMapModel().getDefaultFocusPoint(), _defaultZoom);
 
-        var tileLayers = {
+        _tileLayers = {
             aerial: L.tileLayer(_mapURL, {
                 id: _mapID.aerial,
                 maxZoom: 20,
@@ -249,26 +248,22 @@ function MapViewController(htmlContainer) {
         };
 
         // Add the base map layer to the map container box
-        _mapContainer.addLayer(tileLayers.map);
+        _mapContainer.addLayer(_tileLayers.map);
 
-        //L.control.layers(tileLayers,[], {position: "topleft"}).addTo(_mapContainer);
-
+        //L.control.layers(_tileLayers,[], {position: "topleft"}).addTo(_mapContainer);
 
         _svgLayerGroup = self.getView().getSvg().append("g");
 
-
-
         // SET MAP ON THE MODEL TO GET LEAFLET UTILITIES
         model.getMapModel().setMap(_mapContainer);
-
-
 
         // Bind MapViewController view to _mapContainer pane
         d3.select(_mapContainer.getPanes().overlayPane).append(function () {
             return self.getView().getSvg().node();
         });
 
-
+        model.getMapModel().setMapContainer(_mapContainer);
+        model.getMapModel().setTileLayers(_tileLayers);
 
         // Subscribe to notifications
         _mapContainer.on("viewreset", self.onMapReset);
