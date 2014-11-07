@@ -26,11 +26,21 @@ function UserPathLayerViewController() {
         
         var path = model.getAreaOfInterestModel().getPath();
         var canvas = self.getView().getSvg();
+
+        /*
         var points = canvas.selectAll("circle").data(path);
 
-        _markersViewController.draw(self,points,_markersColor);
+        if(path.length > 0) {
+            _markersViewController.draw(self,[points[0]],model.getColorModel().pathStartPointColor());
+            if(path.length > 1) {
+                _markersViewController.draw(self, [points[points.length -1]],model.getColorModel().pathEndPointColor());
+                if(path.length > 2) {
+                    _markersViewController.draw(self,points.slice(1, points.length -1),model.getColorModel().pathWaypointColor());
+                }
+            }
+        }*/
 
-        // TODO debug
+        // Draw boundary
         var boundaries = model.getAreaOfInterestModel().getAreaOfInterest();
 
         if(boundaries != null) {
@@ -42,13 +52,66 @@ function UserPathLayerViewController() {
                 .attr("d", boundPath)
                 .enter().append("path")
                 .attr("d", boundPath)
-                .style("fill", "rgba(222,235,247, 0.5)")
-                .style("stroke", "rgba(222,235,247, 1.0)")
+                .style("fill", model.getColorModel().areaOfInterestFillColor())
+                .style("stroke", model.getColorModel().areaOfInterestStrokeColor())
                 .style("stroke-width", 0.3);
 
         } else {
             self.getView().getSvg().selectAll("path").remove();
         }
+
+        // Draw points
+        var points = canvas.selectAll(".points").data(path);
+
+        points
+            .attr("cx", function(d) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.x;
+            })
+            .attr("cy", function(d) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.y;
+            })
+            .attr("r", 1)
+            .style("fill",function(d, i) {
+                if(i == 0) {
+                    return model.getColorModel().pathStartPointColor();
+                } else if(i == (path.length -1)) {
+                    return model.getColorModel().pathEndPointColor();
+                } else {
+                    return model.getColorModel().pathWaypointColor();
+                }
+            })
+            .style("stroke","white")
+            .style("stroke-width","0.2px");
+
+        // Enter
+        points.enter().append("circle")
+            .classed("points", true)
+            .attr("cx", function(d,i) {
+                //_lastUpdate[i] = d ;
+                var point = self.project(d.latitude, d.longitude);
+                return point.x;
+            })
+            .attr("cy", function(d) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.y;
+            })
+            .attr("r", 1)
+            .style("fill",function(d, i) {
+                if(i == 0) {
+                    return model.getColorModel().pathStartPointColor();
+                } else if(i == (path.length -1)) {
+                    return model.getColorModel().pathEndPointColor();
+                } else {
+                    return model.getColorModel().pathWaypointColor();
+                }
+            })
+            .style("stroke","white")
+            .style("stroke-width","0.2px");
+
+        // Exit
+        points.exit().remove();
     };
 
     var drag;

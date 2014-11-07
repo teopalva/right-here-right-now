@@ -28,14 +28,14 @@ function LightsModel() {
      */
     this.getLights = function(){
         return _lights;
-    }
+    };
 
     /**
      * Remove the old lights
      */
     this.clearLights = function(){
         _lights = [];
-    }
+    };
 
     /**
      *  Update the lights information

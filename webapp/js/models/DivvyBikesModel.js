@@ -6,7 +6,7 @@ function DivvyBikesModel() {
     ///////////////////////// PRIVATE ATTRIBUTES /////////////////////////
     var self = this;
 
-    // Desctiption at the getDivvyBikes Method
+    // Description at the getDivvyBikes Method
     var _divvyBikes = [];
 
     // Update timer
@@ -29,14 +29,14 @@ function DivvyBikesModel() {
      */
     this.getDivvyBikes = function(){
         return _divvyBikes;
-    }
+    };
 
     /**
      * Remove the old divvyBikes
      */
     this.clearDivvyBikes = function(){
         _divvyBikes = [];
-    }
+    };
 
     /**
      *  Update the divvyBikes information
