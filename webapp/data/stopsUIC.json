@@ -1,0 +1,236 @@
+{
+  "4638":{
+    "name":"Halsted & Harrison",
+    "latitude":"41.873831019714",
+    "longitude":"-87.647214531898",
+    "route":"8"
+  },
+  "4639":{
+    "name":"Halsted & Polk",
+    "latitude":"41.871937629893",
+    "longitude":"-87.647150158882",
+    "route":"8"
+  },
+  "4640":{
+    "name":"Halsted & Taylor",
+    "latitude":"41.869896380997",
+    "longitude":"-87.647096514702",
+    "route":"8"
+  },
+  "6344":{
+    "name":"Racine & Taylor",
+    "latitude":"41.869293181468",
+    "longitude":"-87.656731009483",
+    "route":"60"
+  },
+  "6627":{
+    "name":"900 W Taylor",
+    "latitude":"41.869664689136",
+    "longitude":"-87.648534178734",
+    "route":"157"
+  },
+  "6628":{
+    "name":"Taylor & Morgan",
+    "latitude":"41.869536858784",
+    "longitude":"-87.651361227036",
+    "route":"157"
+  },
+  "6629":{
+    "name":"Taylor & Aberdeen",
+    "latitude":"41.869504901156",
+    "longitude":"-87.65401661396",
+    "route":"157"
+  },
+  "6631":{
+    "name":"Taylor & Throop",
+    "latitude":"41.869417017597",
+    "longitude":"-87.659069895744",
+    "route":"157"
+  },
+  "6632":{
+    "name":"Taylor & Loomis",
+    "latitude":"41.869373075773",
+    "longitude":"-87.661403417587",
+    "route":"157"
+  },
+  "6633":{
+    "name":"Taylor & Laflin",
+    "latitude":"41.869333128633",
+    "longitude":"-87.663999795914",
+    "route":"157"
+  },
+  "6636":{
+    "name":"Taylor & Paulina",
+    "latitude":"41.869241250117",
+    "longitude":"-87.668929696083",
+    "route":"157"
+  },
+  "6637":{
+    "name":"Polk Pink Line Station",
+    "latitude":"41.871610075752",
+    "longitude":"-87.669643163681",
+    "route":"157"
+  },
+  "6638":{
+    "name":"Polk & Wood",
+    "latitude":"41.871590102885",
+    "longitude":"-87.671408057213",
+    "route":"157"
+  },
+  "6639":{
+    "name":"Polk & Wolcott",
+    "latitude":"41.871546162554",
+    "longitude":"-87.673677206039",
+    "route":"157"
+  },
+  "6689":{
+    "name":"Polk & Wolcott",
+    "latitude":"41.871482249291",
+    "longitude":"-87.673881053925",
+    "route":"157"
+  },
+  "6690":{
+    "name":"Polk & Wood",
+    "latitude":"41.871530184244",
+    "longitude":"-87.671595811844",
+    "route":"157"
+  },
+  "6691":{
+    "name":"Polk Pink Line Station",
+    "latitude":"41.87155015713",
+    "longitude":"-87.669739723206",
+    "route":"157"
+  },
+  "6692":{
+    "name":"Taylor & Marshfield",
+    "latitude":"41.869217281787",
+    "longitude":"-87.667615413666",
+    "route":"157"
+  },
+  "6693":{
+    "name":"Taylor & Ashland",
+    "latitude":"41.869225271231",
+    "longitude":"-87.666660547256",
+    "route":"157"
+  },
+  "6694":{
+    "name":"Taylor & Laflin",
+    "latitude":"41.869265218438",
+    "longitude":"-87.664278745651",
+    "route":"157"
+  },
+  "6695":{
+    "name":"Taylor & Loomis",
+    "latitude":"41.869313155054",
+    "longitude":"-87.661719918251",
+    "route":"157"
+  },
+  "6696":{
+    "name":"Taylor & Throop",
+    "latitude":"41.86935709692",
+    "longitude":"-87.659289836884",
+    "route":"157"
+  },
+  "6697":{
+    "name":"Taylor & Racine",
+    "latitude":"41.869389054621",
+    "longitude":"-87.656854391098",
+    "route":"157"
+  },
+  "6698":{
+    "name":"Taylor & Aberdeen",
+    "latitude":"41.869436991144",
+    "longitude":"-87.654402852058",
+    "route":"157"
+  },
+  "6699":{
+    "name":"Taylor & Morgan",
+    "latitude":"41.869480932925",
+    "longitude":"-87.651345133781",
+    "route":"157"
+  },
+  "6700":{
+    "name":"900 W Taylor",
+    "latitude":"41.869468948806",
+    "longitude":"-87.648759484291",
+    "route":"157"
+  },
+  "6701":{
+    "name":"Taylor & Halsted",
+    "latitude":"41.869484927631",
+    "longitude":"-87.647375464439",
+    "route":"157"
+  },
+  "15292":{
+    "name":"Racine & Taylor",
+    "latitude":"41.869496911747",
+    "longitude":"-87.65682220459",
+    "route":"60"
+  },
+  "15401":{
+    "name":"Racine & Lexington",
+    "latitude":"41.872400996298",
+    "longitude":"-87.656972408295",
+    "route":"60"
+  },
+  "15402":{
+    "name":"Racine & Cabrini",
+    "latitude":"41.871206622614",
+    "longitude":"-87.656854391098",
+    "route":"60"
+  },
+  "15404":{
+    "name":"Racine & Roosevelt",
+    "latitude":"41.867255842972",
+    "longitude":"-87.656655907631",
+    "route":"60"
+  },
+  "15793":{
+    "name":"Ashland & Polk",
+    "latitude":"41.872085428163",
+    "longitude":"-87.666386961937",
+    "route":"9"
+  },
+  "15811":{
+    "name":"Taylor & Racine",
+    "latitude":"41.869448975269",
+    "longitude":"-87.65684902668",
+    "route":"157"
+  },
+  "15993":{
+    "name":"Racine & Lexington",
+    "latitude":"41.871689967161",
+    "longitude":"-87.656725645065",
+    "route":"60"
+  },
+  "17061":{
+    "name":"Ashland & Taylor",
+    "latitude":"41.869568816396",
+    "longitude":"-87.666322588921",
+    "route":"9"
+  },
+  "17063":{
+    "name":"Ashland & Taylor",
+    "latitude":"41.868969608515",
+    "longitude":"-87.666585445404",
+    "route":"9"
+  },
+  "17117":{
+    "name":"Taylor & Ashland",
+    "latitude":"41.869297176186",
+    "longitude":"-87.666639089584",
+    "route":"157"
+  },
+  "17183":{
+    "name":"Ashland & Polk",
+    "latitude":"41.871334449626",
+    "longitude":"-87.666633725166",
+    "route":"9"
+  },
+  "17277":{
+    "name":"Taylor & Halsted",
+    "latitude":"41.869696646684",
+    "longitude":"-87.647370100021",
+    "route":"157"
+  }
+}

@@ -34,8 +34,15 @@ function CrimesLayerViewController() {
      */
     this.crimesUpdated = function () {
         var crimes = model.getCrimesModel().getCrimes();
+
+        var data = crimes;
+        if (model.getAreaOfInterestModel().getAreaOfInterest()) {
+            // filter objects
+            data = model.getAreaOfInterestModel().filterObjects(crimes);
+        }
+
         var canvas = self.getView().getSvg();
-        var points = canvas.selectAll("circle").data(crimes);
+        var points = canvas.selectAll("circle").data(data);
         _markersViewController.draw(self,points,_markersColor);
 
     };
@@ -50,6 +57,8 @@ function CrimesLayerViewController() {
         notificationCenter.subscribe(self, self.crimesAdded, Notifications.crimes.LAYER_ADDED);
         notificationCenter.subscribe(self, self.crimesCleaned, Notifications.crimes.LAYER_CLEANED);
         notificationCenter.subscribe(self, self.crimesUpdated, Notifications.crimes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
+
 
     } ();
 }

@@ -42,9 +42,13 @@ function CrimesModel() {
         // retrieve new data
         var link = "https://data.cityofchicago.org/resource/ijzp-q8t2.json";
         var days = 30;
+        var limit = 1000;
         var elapsed = Date.now() - days * 86400000;
         var date = new Date(elapsed);
-        var query = "?$select=primary_type,description,date,latitude,longitude&$where=date>=%27" + date.toISOString() + "%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+        var query = "?$select=primary_type,description,date,latitude,longitude&$where=date>=%27" + date.toISOString() +
+            "%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL&$limit=" + limit;
+            // TODO: Pre Filter
+            //"&within_box(location_col_identifier, top_left_latitude, top_left_longitude, bottom_right_latitude, bottom_right_longitude)";
         d3.json(link + query, function(json){
             json.forEach(function(crime){
                 // Add only if we know both latitude and longitude

@@ -70,6 +70,7 @@ var Layers = {
     LIGHTS: "LightsLayerViewController",
     DIVVY_BIKES: "DivvyBikesLayerViewController",
     CTA: "CtaLayerViewController",
+    CTA: "CtaStopsLayerViewController",
     AREA_OF_INTEREST: "AreaOfInterestViewController",
     CRIMES: "CrimesLayerViewController"
 };
