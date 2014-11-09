@@ -33,6 +33,7 @@ function MapLayersFactory() {
                     break;
                 case Layers.CTA:
                     layers.push(CtaLayerViewController);
+                    layers.push(CtaStopsLayerViewController);
                     break;
                 case Layers.AREA_OF_INTEREST:
                     layers.push(AreaOfInterestViewController);

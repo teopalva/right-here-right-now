@@ -9,35 +9,48 @@ function CtaLayerViewController() {
 
     //////////////////////// PRIVATE ATTRIBUTES ////////////////////////
     var self = this;
+    var _counter = 0;
 
     // To draw the icons on the map
     var _markersViewController;
     var _vehiclesColor = "teal";
-    var _stopsColor = "blue";
+    //var _stopsColor = "blue";
 
     //////////////////////// PUBLIC METHODS ////////////////////////
-    this.timeChanged = function() {
-        var time = model.getCtaModel().getCtaTime();
-        console.log(time);
-    };
+    //this.timeChanged = function() {
+    //    var time = model.getCtaModel().getCtaTime();
+    //    console.log(time);
+    //};
 
     this.vehiclesChanged = function() {
-        var vehicles = model.getCtaModel().getVehicles();
-        console.log("Vehicles");
-        console.log(vehicles);
-        var canvas = self.getView().getSvg();
-        var points = canvas.selectAll("circle").data(vehicles);
-        _markersViewController.draw(self,points,_vehiclesColor);
+        // Draw only when all the queries ended.
+        if(++_counter === model.getCtaModel().getRoutes().length) {
+            var vehicles = model.getCtaModel().getVehicles();
+            console.log("Vehicles");
+            console.log(vehicles);
+
+            var data = vehicles;
+            if (model.getAreaOfInterestModel().getAreaOfInterest()) {
+                // filter objects
+                data = model.getAreaOfInterestModel().filterObjects(vehicles);
+            }
+
+            var canvas = self.getView().getSvg();
+            var points = canvas.selectAll("circle").data(data);
+            _markersViewController.draw(self, points, _vehiclesColor);
+
+            _counter = 0;
+        }
     };
 
-    this.stopsChanged = function() {
-        var stops = model.getCtaModel().getStops();
-        console.log("Stops");
-        console.log(stops);
-        var canvas = self.getView().getSvg();
-        var points = canvas.selectAll("circle").data(stops);
-        _markersViewController.draw(self,points,_stopsColor);
-    };
+    //this.stopsChanged = function() {
+    //    var stops = model.getCtaModel().getStops();
+    //    //console.log("Stops");
+    //    //console.log(stops);
+    //    var canvas = self.getView().getSvg();
+    //    var points = canvas.selectAll("circle").data(stops);
+    //    _markersViewController.draw(self,points,_stopsColor);
+    //};
 
     /**
      * Start all the query related on the selected area
@@ -45,7 +58,7 @@ function CtaLayerViewController() {
     this.layerAdded = function() {
         //model.getCtaModel().setArea();
         // TODO: in the following method
-        model.getCtaModel().retrieveData();
+        //model.getCtaModel().retrieveData();
     };
 
     /**
@@ -54,7 +67,7 @@ function CtaLayerViewController() {
     this.layerCleaned = function() {
         console.log("layer removed");
         model.getCtaModel().clearData();
-        self.stopsChanged();
+        //self.stopsChanged();
         self.vehiclesChanged();
     };
 
@@ -65,17 +78,19 @@ function CtaLayerViewController() {
         _markersViewController = new MarkersViewController();
 
         // Subscribe to notifications
-        notificationCenter.subscribe(self, self.timeChanged, Notifications.cta.TIME);
-        notificationCenter.subscribe(self, self.stopsChanged, Notifications.cta.STOPS);
-        notificationCenter.subscribe(self, self.vehiclesChanged, Notifications.cta.VECHICLES);
+        //notificationCenter.subscribe(self, self.timeChanged, Notifications.cta.TIME);
+        //notificationCenter.subscribe(self, self.stopsChanged, Notifications.cta.STOPS);
+        notificationCenter.subscribe(self, self.vehiclesChanged, Notifications.cta.VEHICLES);
 
         notificationCenter.subscribe(self, self.layerAdded, Notifications.cta.LAYER_ADDED);
         notificationCenter.subscribe(self, self.layerCleaned, Notifications.cta.LAYER_CLEANED);
         //notificationCenter.subscribe(self, self.ctaUpdated, Notifications.cta.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.vehiclesChanged, Notifications.areaOfInterest.PATH_UPDATED);
+
 
         //model.getCtaModel().startUpdates();
     } ();
 
 }
 
-Utils.extend(PotholesLayerViewController, MapLayerController);
+Utils.extend(CtaLayerViewController, MapLayerController);

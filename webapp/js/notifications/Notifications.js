@@ -116,7 +116,7 @@ Notifications.cta = {
     // Dispatched by the model
     LAYER_UPDATED: "com.righthererightnow.cta.layerUpdated",
     TIME : "com.righthererightnow.cta.time",
-    VECHICLES: "com.righthererightnow.cta.vechicles",
+    VEHICLES: "com.righthererightnow.cta.vechicles",
     STOPS: "com.righthererightnow.cta.stops"
 };
 
