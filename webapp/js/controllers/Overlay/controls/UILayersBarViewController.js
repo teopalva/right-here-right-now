@@ -67,7 +67,7 @@ function UILayersBarViewController() {
      * Handler method for LAYERS_STATUS_CHANGED notification
      */
     this.layerStatusChanged = function() {
-        _bindings.forEach(function(layerGroup, i) {
+        _bindings.forEach(function(layerGroup) {
 
             var color;
             var allActive = model.getMapLayersModel().areAllLayersActive(layerGroup.layers);
