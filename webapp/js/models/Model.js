@@ -41,7 +41,7 @@ function Model() {
     // Holds information about which layer to visualize
     var _mapLayersModel;
 
-    // Holds cta buses information
+    // Holds cta buses and stops information
     var _ctaModel;
 
     // Holds crimes information

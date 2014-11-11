@@ -63,14 +63,41 @@ function MapViewController(htmlContainer) {
      * Handles LAYERS_STATUS_CHANGED notification
      */
     this.updateMap = function () {
-        // Clean map
-        cleanMap();
+        // Current layers
+        var currentLayers = self.getChildren();
 
         // Draw layers
         var layersControllers = _layersControllersFactory.getMapLayers();
 
+        // Remove inactive layers
+        var active;
+        for(var j = currentLayers.length -1; j >= 0; j--) {
+            active = false;
+            var i = 0;
+            while(i < layersControllers.length && !active) {
+                if(currentLayers[j] instanceof layersControllers[i]) {
+                    active = true;
+                }
+                i++;
+            }
+            if(!active) {
+                self.remove(currentLayers[j]);
+            }
+        }
+
+        // Add new active layers
         layersControllers.forEach(function (Controller) {
-            self.add(new Controller());
+            active = false;
+            var i = 0;
+            while(i < currentLayers.length && !active) {
+                if(currentLayers[i] instanceof Controller) {
+                    active = true;
+                }
+                i++;
+            }
+            if(!active) {
+                self.add(new Controller());
+            }
         });
     };
 

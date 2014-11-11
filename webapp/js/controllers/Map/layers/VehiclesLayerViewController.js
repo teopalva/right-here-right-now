@@ -13,20 +13,6 @@ function VehiclesLayerViewController() {
     var _markersColor = "blue";
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Adds the potholes on the screen
-     */
-    this.vehiclesAdded = function () {
-        model.getVehiclesModel().startUpdates();
-    };
-
-    /**
-     * Removes the potholes from the screen
-     */
-    this.vehiclesCleaned = function () {
-        model.getVehiclesModel().stopUpdates();
-        self.vehiclesUpdated();
-    };
 
     /**
      * Updates the potoles on the screen
@@ -44,6 +30,19 @@ function VehiclesLayerViewController() {
 
     };
 
+    /**
+     * @overridden
+     */
+    var super_dispose = this.dispose;
+    this.dispose = function() {
+        // Call super dispose
+        super_dispose.call(self);
+
+        // Do cleaning stuff here
+        model.getVehiclesModel().stopUpdates();
+        notificationCenter.unsuscribeFromAll(self);
+    };
+
     ////////////////////////// PRIVATE METHODS //////////////////////////
 
     var init = function () {
@@ -51,10 +50,10 @@ function VehiclesLayerViewController() {
 
         _markersViewController = new MarkersViewController();
 
-        notificationCenter.subscribe(self, self.vehiclesAdded, Notifications.vehicles.LAYER_ADDED);
-        notificationCenter.subscribe(self, self.vehiclesCleaned, Notifications.vehicles.LAYER_CLEANED);
         notificationCenter.subscribe(self, self.vehiclesUpdated, Notifications.vehicles.LAYER_UPDATED);
         notificationCenter.subscribe(self, self.vehiclesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
+
+        model.getVehiclesModel().startUpdates();
 
     }();
 }

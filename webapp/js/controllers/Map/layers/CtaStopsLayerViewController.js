@@ -16,6 +16,9 @@ function CtaStopsLayerViewController() {
 
     //////////////////////// PUBLIC METHODS ////////////////////////
 
+    /**
+     * Draw stops when new ones are retrieved
+     */
     this.stopsChanged = function() {
         var stops = model.getCtaModel().getStops();
         console.log("Stops");
@@ -33,21 +36,28 @@ function CtaStopsLayerViewController() {
     };
 
     /**
-     * Start all the query related on the selected area
+     *
      */
-    this.layerAdded = function() {
-        //model.getCtaModel().setArea();
-        // TODO: in the following method
+    this.pathChanged = function() {
+        model.getCtaModel().stopUpdates();
         model.getCtaModel().retrieveData();
+
+        //self.stopsChanged();
     };
 
     /**
-     * Clear Data
+     * @overridden
      */
-    this.layerCleaned = function() {
-        console.log("layer removed");
-        model.getCtaModel().clearData();
-        self.stopsChanged();
+    var super_dispose = this.dispose;
+    this.dispose = function() {
+        console.log("CTA Stops Dispose")
+
+        // Call super dispose
+        super_dispose.call(self);
+
+        // Do cleaning stuff here
+        model.getCtaModel().stopUpdates();
+        notificationCenter.unsuscribeFromAll(self);
     };
 
     //////////////////////// PRIVATE METHODS ////////////////////////
@@ -57,12 +67,13 @@ function CtaStopsLayerViewController() {
         _markersViewController = new MarkersViewController();
 
         // Subscribe to notifications
+        // TODO: restore to draw stops
         //notificationCenter.subscribe(self, self.stopsChanged, Notifications.cta.STOPS);
 
-        notificationCenter.subscribe(self, self.layerAdded, Notifications.cta.LAYER_ADDED);
-        notificationCenter.subscribe(self, self.layerCleaned, Notifications.cta.LAYER_CLEANED);
-        //notificationCenter.subscribe(self, self.ctaUpdated, Notifications.cta.LAYER_UPDATED);
-        //notificationCenter.subscribe(self, self.stopsChanged, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_UPDATED);
+
+        // Start all the queries
+        model.getCtaModel().retrieveData();
 
     } ();
 

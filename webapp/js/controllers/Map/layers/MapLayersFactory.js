@@ -31,9 +31,11 @@ function MapLayersFactory() {
                 case Layers.DIVVY_BIKES:
                     layers.push(DivvyBikesLayerViewController);
                     break;
-                case Layers.CTA:
-                    layers.push(CtaLayerViewController);
+                case Layers.CTA_STOPS:
                     layers.push(CtaStopsLayerViewController);
+                    break;
+                case Layers.CTA_BUSES:
+                    layers.push(CtaLayerViewController);
                     break;
                 case Layers.AREA_OF_INTEREST:
                     layers.push(AreaOfInterestViewController);

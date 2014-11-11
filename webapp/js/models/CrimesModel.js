@@ -23,20 +23,20 @@ function CrimesModel() {
      */
     this.getCrimes = function(){
         return _crimes;
-    }
+    };
 
     /**
      * Remove the old crimes
      */
     this.clearCrimes = function(){
         _crimes = [];
-    }
+    };
 
     /**
      *  Update the crimes information
      */
     this.updateCrimes = function() {
-        // remove the old potholes
+        // remove the old crimes
         self.clearCrimes();
 
         // retrieve new data
@@ -45,16 +45,33 @@ function CrimesModel() {
         var limit = 1000;
         var elapsed = Date.now() - days * 86400000;
         var date = new Date(elapsed);
-        var query = "?$select=primary_type,description,date,latitude,longitude&$where=date>=%27" + date.toISOString() +
-            "%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL&$limit=" + limit;
-            // TODO: Pre Filter
-            //"&within_box(location_col_identifier, top_left_latitude, top_left_longitude, bottom_right_latitude, bottom_right_longitude)";
+
+        var query = "?$select=primary_type,description,date,latitude,longitude,id" +
+            "&$limit=" + limit +
+            "&$order=date%20DESC" +
+            "&$where=date>=%27" + date.toISOString() + "%27" +
+            "%20and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+
+        var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
+        if(areaOfInterest) {
+            var coordinates = d3.geo.bounds(areaOfInterest);
+
+            //  0: long
+            //  1: lat
+            var bottomLeft = coordinates[0];
+            var topRight = coordinates[1];
+
+            query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
+        }
+
+
         d3.json(link + query, function(json){
+            console.log(json);
             json.forEach(function(crime){
                 // Add only if we know both latitude and longitude
-                if(crime.latitude && crime.longitude)
-                    crime.id = (crime.latitude + crime.longitude).toString().hashCode();
+                if(crime.latitude && crime.longitude) {
                     _crimes.push(crime);
+                }
             });
             notificationCenter.dispatch(Notifications.crimes.LAYER_UPDATED);
         });
@@ -82,6 +99,4 @@ function CrimesModel() {
     var init = function() {
 
     } ();
-
-
 }

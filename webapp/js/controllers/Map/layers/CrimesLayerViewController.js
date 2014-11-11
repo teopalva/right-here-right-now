@@ -15,24 +15,10 @@ function CrimesLayerViewController() {
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
     /**
-     * Adds the crimes on the screen
-     */
-    this.crimesAdded = function () {
-        model.getCrimesModel().startUpdates();
-    };
-
-    /**
-     * Removes the crimes from the screen
-     */
-    this.crimesCleaned = function () {
-        model.getCrimesModel().stopUpdates();
-        self.crimesUpdated();
-    };
-
-    /**
      * Updates the crimes on the screen
      */
     this.crimesUpdated = function () {
+        console.log("crimeUpdated")
         var crimes = model.getCrimesModel().getCrimes();
 
         var data = crimes;
@@ -47,6 +33,24 @@ function CrimesLayerViewController() {
 
     };
 
+    this.pathChanged = function() {
+        model.getCrimesModel().stopUpdates();
+        model.getCrimesModel().updateCrimes();
+    };
+
+    /**
+     * @overridden
+     */
+    var super_dispose = this.dispose;
+    this.dispose = function() {
+        // Call super dispose
+        super_dispose.call(self);
+
+        // Do cleaning stuff here
+        model.getCrimesModel().stopUpdates();
+        notificationCenter.unsuscribeFromAll(self);
+    };
+
     ////////////////////////// PRIVATE METHODS //////////////////////////
 
     var init = function() {
@@ -54,12 +58,10 @@ function CrimesLayerViewController() {
 
         _markersViewController = new MarkersViewController();
 
-        notificationCenter.subscribe(self, self.crimesAdded, Notifications.crimes.LAYER_ADDED);
-        notificationCenter.subscribe(self, self.crimesCleaned, Notifications.crimes.LAYER_CLEANED);
         notificationCenter.subscribe(self, self.crimesUpdated, Notifications.crimes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_UPDATED);
 
-
+        model.getCrimesModel().startUpdates();
     } ();
 }
 

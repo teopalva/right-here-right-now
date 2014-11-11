@@ -51,7 +51,6 @@ function DivvyBikesModel() {
             // I need to parse the Json since the proxy send me back an ugly string
             var parsedJson = JSON.parse(json.results);
             parsedJson.stationBeanList.forEach(function(divvyBike){
-                divvyBike.id = (divvyBike.latitude + divvyBike.longitude).toString().hashCode();
                 _divvyBikes.push(divvyBike);
             });
             console.log("Divvy bikes JSON last update at " + parsedJson.executionTime);

@@ -28,13 +28,11 @@ function CtaModel() {
     // CTA Vehicles
     var _vehicles= [];
 
-
     // Update timer
     var _updateTimer = null;
     var _intervalMillis = 5000;
 
     //////////////////////// PUBLIC METHODS ////////////////////////
-
     this.getCtaTime = function() {
         return _time;
     };
@@ -54,10 +52,8 @@ function CtaModel() {
                 delay: _vehicles[i].delay,
                 route: _vehicles[i].route
             };
-
             vehicles[_vehicles[i].id] = vehicleInfo;
         }
-
         return JSON.stringify(vehicles);
     };
 
@@ -74,17 +70,19 @@ function CtaModel() {
                 latitude: _stops[i].latitude,
                 longitude: _stops[i].longitude,
                 route: _stops[i].route
-
             };
             stops[_stops[i].id] = stopInfo;
         }
-
         return JSON.stringify(stops);
     };
 
 
     this.getRoutes = function() {
         return _routes;
+    };
+
+    this.getFakeVehicles = function() {
+        return fakeVehicles;
     };
 
     this.clearVehicles = function() {
@@ -152,7 +150,7 @@ function CtaModel() {
     this.startUpdates = function() {
         console.log("UTIMER");
         console.log(_updateTimer);
-        if(_updateTimer == null) {
+        if(_updateTimer === null) {
             self.updateVehicles();
             _updateTimer = setInterval(self.updateVehicles, _intervalMillis);
         }
@@ -180,14 +178,17 @@ function CtaModel() {
         d3.json("/webapp/data/stops.json", function(json){
             for(var i in json) {
                 json[i].id = i;
-                _stops.push(json[i]);
 
-                // If not already in _routes
-                if(_routes.indexOf(json[i].route) == -1) {
-                    _routes.push(json[i].route);
+                // Add just stops that are in the selected Area
+                if(inArea(json[i])) {
+                    _stops.push(json[i]);
+
+                    // If not already in _routes
+                    if (_routes.indexOf(json[i].route) == -1) {
+                        _routes.push(json[i].route);
+                    }
                 }
             }
-            _routes.push("50");
             notificationCenter.dispatch(Notifications.cta.STOPS);
             self.startUpdates();
         });
@@ -200,7 +201,10 @@ function CtaModel() {
         d3.json("/webapp/data/vehicles.json", function(json){
             for(var i in json) {
                 json[i].id = i;
-                _vehicles.push(json[i]);
+                // Check if the vehicle is in the selected Area
+                if(inArea(json[i])) {
+                    _vehicles.push(json[i]);
+                }
             }
             console.log(_vehicles);
             notificationCenter.dispatch(Notifications.cta.VEHICLES);
@@ -301,13 +305,6 @@ function CtaModel() {
                 notificationCenter.dispatch(Notifications.cta.STOPS);
                 self.startUpdates();
             }
-            //if(_updateTimer == null) {
-                //_updateTimer = setInterval(self.updateVehicles, _intervalMillis);
-                // TODO: temporary implementation. just for test
-                //_updateTimer = 1;
-                //self.updateVehicles();
-            //}
-
         });
     };
 
@@ -354,34 +351,28 @@ function CtaModel() {
 
     /**
      * Temporary implementation
-     * TODO: use area
      * @param geoElement
      * @returns {boolean}
      */
     var inArea = function(geoElement) {
-    //    var maxLon =  -87.647011;
-    //    var minLon = -87.674949;
-    //    var maxLat = 41.874009;
-    //    var minLat = 41.867238;
-    //
-    //    var latitude = parseFloat(geoElement.latitude, 10);
-    //    var longitude = parseFloat(geoElement.longitude, 10);
-    //
-    //    //console.log(geoElement);
-    //    //console.log("lat: " + latitude + " lon: " + longitude);
-    //
-    //
-    //
-    //    if(minLat < latitude && latitude < maxLat &&
-    //        minLon< longitude && longitude < maxLon) {
-    //        return true;
-    //    }
-    //    return false;
+        if(model.getAreaOfInterestModel().getAreaOfInterest()) {
 
+            var latitude = parseFloat(geoElement.latitude, 10);
+            var longitude = parseFloat(geoElement.longitude, 10);
 
-        return true;
-    }
+            var coordinates = [longitude, latitude];
 
+            var area = model.getAreaOfInterestModel().getAreaOfInterest();
+            /*if (!area) {
+             console.log("Empty area of interest!");
+             return;
+             }*/
+            var multipolygon = area.features[0].geometry;
+            var _multipolygon = [];
+            _multipolygon.push(multipolygon.coordinates);
 
-
+            return model.getAreaOfInterestModel().isPointInArea(coordinates, _multipolygon)
+        }
+        return false;
+    };
 }

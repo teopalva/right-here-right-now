@@ -7,6 +7,7 @@ function PotholesModel() {
     var self = this;
 
     /* Contains objects in the form:
+     *      - id : number
      *      - creation_date : date
      *      - latitude : number
      *      - longitude : number
@@ -28,14 +29,14 @@ function PotholesModel() {
      */
     this.getPotholes = function(){
         return _potholes;
-    }
+    };
 
     /**
      * Remove the old potholes
      */
     this.clearPotholes = function(){
         _potholes = [];
-    }
+    };
 
     /**
      *  Update the potholes information
@@ -44,21 +45,26 @@ function PotholesModel() {
         // remove the old potholes
         self.clearPotholes();
 
-        /* Retrieve new data :
-         *  SELECT creation_date,latitude,longitude
-         *  WHERE status = 'Open' AND latitude != null AND longitude != NULL
-         *  LIMIT 10000
-         *  ORDER BY creation_date DESC
-         */
         var link = "http://data.cityofchicago.org/resource/7as2-ds3y.json";
-        var query = "?$select=creation_date,latitude,longitude" +
-                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL" +
+        var query = "?$select=service_request_number%20as%20id,creation_date,latitude,longitude" +
                     "&$limit=10000" +
-                    "&$order=creation_date%20DESC";
+                    "&$order=creation_date%20DESC" +
+                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+
+        var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
+        if(areaOfInterest) {
+            var coordinates = d3.geo.bounds(areaOfInterest);
+
+            //  0: long
+            //  1: lat
+            var bottomLeft = coordinates[0];
+            var topRight = coordinates[1];
+
+            query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
+        }
 
         d3.json(link + query, function(json){
            json.forEach(function(pothole){
-                pothole.id = (pothole.latitude + pothole.longitude).toString().hashCode();
                 _potholes.push(pothole);
            });
             notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
