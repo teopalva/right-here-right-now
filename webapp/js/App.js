@@ -19,8 +19,8 @@ function App() {
      * Initialization stuffs
      */
     var init = function() {
-        model = new Model();
         notificationCenter = new NotificationCenter();
+        model = new Model();
 
         var body = d3.select("body");
         _mainWindowController = new UIWindowController(body);

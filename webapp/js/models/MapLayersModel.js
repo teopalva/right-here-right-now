@@ -82,6 +82,8 @@ function MapLayersModel() {
         d3.values(Layers).forEach(function(value) {
             _layerStatus[value] = false;
         });
+
+        self.enableLayers([Layers.USER_PATH]);
     } ();
 }
 
