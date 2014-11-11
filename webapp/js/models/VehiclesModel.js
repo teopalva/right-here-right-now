@@ -7,6 +7,7 @@ function VehiclesModel() {
     var self = this;
 
     /* Contains objects in the form:
+     *      - id : number
      *      - creation_date : date (when the vehicle has been found)
      *      - vehicle_make_model : string
      *      - vehicle_color : string
@@ -48,18 +49,26 @@ function VehiclesModel() {
         // remove the old potholes
         self.clearVehicles();
 
-        /* Retrieve new data :
-         *  SELECT creation_date,vehicle_color,vehicle_make_model,latitude,longitude
-         *  WHERE status = 'Open' AND latitude != null AND longitude != NULL
-         *  ORDER BY creation_date DESC
-         */
         var link = "http://data.cityofchicago.org/resource/3c9v-pnva.json";
-        var query = "?$select=creation_date,vehicle_color,vehicle_make_model,latitude,longitude" +
-                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL" +
-                    "&$order=creation_date%20DESC";
+        var query = "?$select=service_request_number%20as%20id,creation_date,vehicle_color,vehicle_make_model,latitude,longitude" +
+                    "&$order=creation_date%20DESC"+
+                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+
+        var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
+        if(areaOfInterest) {
+            var coordinates = d3.geo.bounds(areaOfInterest);
+
+            //  0: long
+            //  1: lat
+            var bottomLeft = coordinates[0];
+            var topRight = coordinates[1];
+
+            query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
+        }
+
+
         d3.json(link + query, function(json){
             json.forEach(function(vehicle){
-                vehicle.id = (vehicle.latitude + vehicle.longitude).toString().hashCode();
                 _vechicles.push(vehicle);
             });
             notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);

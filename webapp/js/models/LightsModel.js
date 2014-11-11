@@ -48,29 +48,37 @@ function LightsModel() {
         // remove the old lights
         self.clearLights();
 
-        /* Retrieve new data :
-         *  SELECT creation_date,latitude,longitude
-         *  WHERE status = 'Open' AND latitude != null AND longitude != NULL
-         *  ORDER BY creation_date DESC
-         *  LIMIT 3000
-         */
         var link = "http://data.cityofchicago.org/resource/zuxi-7xem.json";
-        var query = "?$select=creation_date,latitude,longitude" +
-                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL" +
+        var query = "?$select=service_request_number%20as%20id,creation_date,latitude,longitude" +
                     "&$order=creation_date%20DESC" +
-                    "&$limit=3000";
+                    "&$limit=1000" +
+                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+
+        /*
+        var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
+        if(areaOfInterest) {
+            var coordinates = d3.geo.bounds(areaOfInterest);
+
+            //  0: long
+            //  1: lat
+            var bottomLeft = coordinates[0];
+            var topRight = coordinates[1];
+
+            query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
+        }
+        */
+
+
         d3.json(link + query, function(json){
             json.forEach(function(light){
-                light.id = (light.latitude + light.longitude).toString().hashCode();
-                light.number_out = "1 or 2";
+                light.number_out = "3 or more";
                 _lights.push(light);
             });
 
             var link2 = "http://data.cityofchicago.org/resource/3aav-uy2v.json";
             d3.json(link2 + query, function(json){
                 json.forEach(function(light){
-                    light.id = (light.latitude + light.longitude).toString().hashCode();
-                    light.number_out = "3 or more";
+                    light.number_out = "1 or 2";
                     _lights.push(light);
                 });
                 notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
