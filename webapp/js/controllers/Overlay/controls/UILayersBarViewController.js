@@ -33,7 +33,7 @@ function UILayersBarViewController() {
         // Button 1
         _potholesButton.getView().setFrame(_p.x, _p.y, _p.w, _p.h);
         _potholesButton.getView().setViewBox(0, 0, _p.w, _p.h);
-        _potholesButton.setTitle("Potole!");
+        _potholesButton.setTitle("Potholes");
         _potholesButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
         _potholesButton.onClick(function (d) {
             invertSelection(_potholesButton, "potholes");
