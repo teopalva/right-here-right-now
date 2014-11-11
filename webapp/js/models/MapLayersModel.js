@@ -80,7 +80,7 @@ function MapLayersModel() {
     ///////////////////////// PRIVATE METHODS /////////////////////////
     var init = function() {
         d3.values(Layers).forEach(function(value) {
-            _layerStatus[value] = true;
+            _layerStatus[value] = false;
         });
     } ();
 }
