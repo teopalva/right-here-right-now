@@ -16,7 +16,7 @@ function PotholesLayerViewController() {
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
     /**
-     * Updates the potoles on the screen
+     * Updates the potholes on the screen
      */
     this.potholesUpdated = function () {
         var potholes = model.getPotholesModel().getPotholes();
