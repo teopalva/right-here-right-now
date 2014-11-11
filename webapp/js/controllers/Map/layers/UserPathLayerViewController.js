@@ -12,8 +12,8 @@ function UserPathLayerViewController() {
     var self = this;
 
     // To draw the icons on the map
-    var _markersViewController;
-    var _markersColor = "black";
+    var _markersVC = [];
+
 
     // Mouse event
     var _clickFlag = false;
@@ -27,18 +27,6 @@ function UserPathLayerViewController() {
         var path = model.getAreaOfInterestModel().getPath();
         var canvas = self.getView().getSvg();
 
-        /*
-        var points = canvas.selectAll("circle").data(path);
-
-        if(path.length > 0) {
-            _markersViewController.draw(self,[points[0]],model.getColorModel().pathStartPointColor());
-            if(path.length > 1) {
-                _markersViewController.draw(self, [points[points.length -1]],model.getColorModel().pathEndPointColor());
-                if(path.length > 2) {
-                    _markersViewController.draw(self,points.slice(1, points.length -1),model.getColorModel().pathWaypointColor());
-                }
-            }
-        }*/
 
         // Draw boundary
         var boundaries = model.getAreaOfInterestModel().getAreaOfInterest();
@@ -61,6 +49,27 @@ function UserPathLayerViewController() {
         }
 
         // Draw points
+        var markers = canvas.selectAll(".ui-map-marker-view-controller").data(path);
+
+        // Update
+
+        // Enter
+        markers.enter().append(function (d, i) {
+            var marker = new UIMapMarkerViewController();
+            var point = self.project(d.latitude, d.longitude);
+            marker.getView().setFramePosition(point.x, point.y);
+            self.addWithoutAppendingView(marker);
+            return marker.getView().getSvg().node();
+        });
+        /*
+        markers.enter().appendViewController(self, function(d, i) {
+            return marker;
+        })*/
+
+        // Exit
+        
+
+        /*
         var points = canvas.selectAll(".points").data(path);
 
         points
@@ -112,7 +121,7 @@ function UserPathLayerViewController() {
 
         // Exit
         points.exit().remove();
-
+    */
 
         // Draw directions
         //drawDirections();
@@ -191,9 +200,7 @@ function UserPathLayerViewController() {
     };
 
     var init = function() {
-
         self.getView().addClass("user-path-layer-view-controller");
-        _markersViewController = new MarkersViewController();
 
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_CLEANED);

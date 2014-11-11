@@ -19,10 +19,65 @@ function UILayersBarViewController() {
     };
     var _verticalPadding = 65;
 
-    var _buttons = [];
+    //var _buttons = [];
+
+    var _bindings = [
+        {
+            title: "Potholes",
+            button: new UIButtonViewController(),
+            layers: [Layers.POTHOLES]
+        },
+        {
+            title: "Abandoned Vehicles",
+            button: new UIButtonViewController(),
+            layers: [Layers.VEHICLES]
+        },
+        {
+            title: "Streets Lights Out",
+            button: new UIButtonViewController(),
+            layers: [Layers.LIGHTS]
+        },
+        {
+            title: "Divvy Bikes",
+            button: new UIButtonViewController(),
+            layers: [Layers.DIVVY_BIKES]
+        },
+        {
+            title: "CTA",
+            button: new UIButtonViewController(),
+            layers: [Layers.CTA_STOPS, Layers.CTA_BUSES]
+        },
+        {
+            title: "Crimes",
+            button: new UIButtonViewController(),
+            layers: [Layers.CRIMES]
+        }
+    ];
+
+
+
+
+
+
 
 
     /////////////////////  PUBLIC METHODS /////////////////////
+
+    /**
+     * Handler method for LAYERS_STATUS_CHANGED notification
+     */
+    this.layerStatusChanged = function() {
+        _bindings.forEach(function(layerGroup, i) {
+
+            var color;
+            var allActive = model.getMapLayersModel().areAllLayersActive(layerGroup.layers);
+
+            color = allActive ? model.getThemeModel().selectedButtonColor() : model.getThemeModel().deselectedButtonColor();
+
+            layerGroup.button.getView().setBackgroundColor(color);
+        });
+    };
+
     /**
      * @override
      */
@@ -30,7 +85,24 @@ function UILayersBarViewController() {
     this.viewDidAppear = function () {
         var toolViewBox = self.getView().getViewBox();
 
+        _bindings.forEach(function(layerGroup, i) {
+            layerGroup.button.setTitle(layerGroup.title);
+            layerGroup.button.getView().setFrame(_p.x, _p.y + _verticalPadding * i, _p.w, _p.h);
+            layerGroup.button.getView().setViewBox(0, 0, _p.w, _p.h);
+
+            layerGroup.button.onClick(function(layers) {
+                if(model.getMapLayersModel().areAllLayersActive(layers)) {
+                    model.getMapLayersModel().disableLayers(layers);
+                } else {
+                    model.getMapLayersModel().enableLayers(layers);
+                }
+            }, layerGroup.layers);
+            self.add(layerGroup.button);
+        });
+
+        self.layerStatusChanged();
         // Button 1
+        /*
         _potholesButton.getView().setFrame(_p.x, _p.y, _p.w, _p.h);
         _potholesButton.getView().setViewBox(0, 0, _p.w, _p.h);
         _potholesButton.setTitle("Potole!");
@@ -92,7 +164,7 @@ function UILayersBarViewController() {
         _crimeButton.onClick(function (d) {
             invertSelection(_crimeButton, "crimes");
         });
-        self.add(_crimeButton);
+        self.add(_crimeButton);*/
 
         // Call super
         super_viewDidAppear.call(self);
@@ -101,13 +173,14 @@ function UILayersBarViewController() {
     /*
      *  Deselect all buttons and clean all layers
      */
+    /*
     this.deselectAll = function () {
         for (var b in _buttons) {
             _buttons[b].button.deselect();
             _buttons[b].button.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
             notificationCenter.dispatch(Notifications[_buttons[b].layerName].LAYER_CLEANED);
         }
-    };
+    };*/
 
     /////////////////////  PRIVATE METHODS /////////////////////
 
@@ -117,6 +190,7 @@ function UILayersBarViewController() {
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
 
         // Setup UI
+        /*
         _potholesButton = new UIButtonViewController;
         _buttons.push({
             button: _potholesButton,
@@ -146,12 +220,13 @@ function UILayersBarViewController() {
         _buttons.push({
             button: _crimeButton,
             layerName: "crimes"
-        });
+        });*/
 
-        notificationCenter.subscribe(self, self.deselectAll, Notifications.buttons.NEW_TRIP_CLICKED);
-
+        //notificationCenter.subscribe(self, self.deselectAll, Notifications.buttons.NEW_TRIP_CLICKED);
+        notificationCenter.subscribe(self, self.layerStatusChanged, Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     }();
 
+    /*
     var invertSelection = function (button, layerName) {
         if (button.isSelected()) {
             button.deselect();
@@ -162,7 +237,7 @@ function UILayersBarViewController() {
             button.getView().setBackgroundColor(model.getThemeModel().selectedButtonColor());
             notificationCenter.dispatch(Notifications[layerName].LAYER_ADDED);
         }
-    };
+    };*/
 
 }
 

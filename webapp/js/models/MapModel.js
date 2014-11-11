@@ -66,7 +66,8 @@ function MapModel() {
      *
      */
     this.getZoomLevel = function () {
-        return _map.getZoomLevel();
+        //return _map.getZoomLevel();
+        return _map.getZoom();
     };
 
     /**

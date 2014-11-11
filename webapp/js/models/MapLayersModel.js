@@ -52,6 +52,31 @@ function MapLayersModel() {
         notificationCenter.dispatch(Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     };
 
+    /**
+     * Test if the given layer is active
+     * @param layer a layer enum constant @see Layers enum
+     * @returns boolean
+     */
+    this.isLayerActive = function(layer) {
+        return _layerStatus[layer];
+    };
+
+    /**
+     * Test if the given layers are all active
+     * @param layersArray an array of layer enum constant @see Layers enum
+     * @returns boolean
+     */
+    this.areAllLayersActive = function(layersArray) {
+        var allActive = true;
+
+        // If all layers are active..
+        layersArray.forEach(function(layer) {
+            allActive = allActive && self.isLayerActive(layer);
+        });
+
+        return allActive;
+    };
+
     ///////////////////////// PRIVATE METHODS /////////////////////////
     var init = function() {
         d3.values(Layers).forEach(function(value) {
@@ -69,8 +94,8 @@ var Layers = {
     VEHICLES: "VehiclesLayerViewController",
     LIGHTS: "LightsLayerViewController",
     DIVVY_BIKES: "DivvyBikesLayerViewController",
-    CTA: "CtaLayerViewController",
-    CTA: "CtaStopsLayerViewController",
+    CTA_STOPS: "CtaLayerViewController",
+    CTA_BUSES: "CtaStopsLayerViewController",
     AREA_OF_INTEREST: "AreaOfInterestViewController",
     CRIMES: "CrimesLayerViewController"
 };

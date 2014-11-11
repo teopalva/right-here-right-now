@@ -1,5 +1,7 @@
 /**
+ * @class PotholesLayerViewController
  * @description
+ *
  * @constructor
  */
 function PotholesLayerViewController() {
@@ -13,21 +15,6 @@ function PotholesLayerViewController() {
     var _markersColor = "brown";
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Adds the potholes on the screen
-     */
-    this.potholesAdded = function () {
-        model.getPotholesModel().startUpdates();
-    };
-
-    /**
-     * Removes the potholes from the screen
-     */
-    this.potholesCleaned = function () {
-        model.getPotholesModel().stopUpdates();
-        self.potholesUpdated();
-    };
-
     /**
      * Updates the potoles on the screen
      */
@@ -44,6 +31,19 @@ function PotholesLayerViewController() {
 
     };
 
+    /**
+     * @overridden
+     */
+    var super_dispose = this.dispose;
+    this.dispose = function() {
+        // Call super dispose
+        super_dispose.call(self);
+
+        // Do cleaning stuff here
+        model.getPotholesModel().stopUpdates();
+        notificationCenter.unsuscribeFromAll(self);
+    };
+
     ////////////////////////// PRIVATE METHODS //////////////////////////
 
     var init = function () {
@@ -51,11 +51,10 @@ function PotholesLayerViewController() {
 
         _markersViewController = new MarkersViewController();
 
-        notificationCenter.subscribe(self, self.potholesAdded, Notifications.potholes.LAYER_ADDED);
-        notificationCenter.subscribe(self, self.potholesCleaned, Notifications.potholes.LAYER_CLEANED);
         notificationCenter.subscribe(self, self.potholesUpdated, Notifications.potholes.LAYER_UPDATED);
         notificationCenter.subscribe(self, self.potholesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
 
+        model.getPotholesModel().startUpdates();
     }();
 }
 

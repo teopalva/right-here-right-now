@@ -15,7 +15,7 @@ function PotholesModel() {
 
     // Update timer
     var _updateTimer;
-    var _intervalMillis = 60000; // 1 minute
+    var _intervalMillis = 6000; // 1 minute
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
@@ -28,14 +28,14 @@ function PotholesModel() {
      */
     this.getPotholes = function(){
         return _potholes;
-    }
+    };
 
     /**
      * Remove the old potholes
      */
     this.clearPotholes = function(){
         _potholes = [];
-    }
+    };
 
     /**
      *  Update the potholes information
