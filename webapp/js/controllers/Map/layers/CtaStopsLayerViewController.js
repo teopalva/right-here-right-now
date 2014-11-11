@@ -42,7 +42,7 @@ function CtaStopsLayerViewController() {
         model.getCtaModel().stopUpdates();
         model.getCtaModel().retrieveData();
 
-        //self.stopsChanged();
+        self.stopsChanged();
     };
 
     /**
@@ -68,7 +68,7 @@ function CtaStopsLayerViewController() {
 
         // Subscribe to notifications
         // TODO: restore to draw stops
-        //notificationCenter.subscribe(self, self.stopsChanged, Notifications.cta.STOPS);
+        notificationCenter.subscribe(self, self.stopsChanged, Notifications.cta.STOPS);
 
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_UPDATED);
 
