@@ -13,20 +13,6 @@ function DivvyBikesLayerViewController() {
     var _markersColor = "orange";
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Adds the divvyBikes on the screen
-     */
-    this.divvyBikesAdded = function () {
-        model.getDivvyBikesModel().startUpdates();
-    };
-
-    /**
-     * Removes the divvyBikes from the screen
-     */
-    this.divvyBikesCleaned = function () {
-        model.getDivvyBikesModel().stopUpdates();
-        self.divvyBikesUpdated();
-    };
 
     /**
      * Updates the potoles on the screen
@@ -44,6 +30,19 @@ function DivvyBikesLayerViewController() {
 
     };
 
+    /**
+     * @overridden
+     */
+    var super_dispose = this.dispose;
+    this.dispose = function() {
+        // Call super dispose
+        super_dispose.call(self);
+
+        // Do cleaning stuff here
+        model.getDivvyBikesModel().stopUpdates();
+        notificationCenter.unsuscribeFromAll(self);
+    };
+
     ////////////////////////// PRIVATE METHODS //////////////////////////
 
     var init = function () {
@@ -51,11 +50,10 @@ function DivvyBikesLayerViewController() {
 
         _markersViewController = new MarkersViewController();
 
-        notificationCenter.subscribe(self, self.divvyBikesAdded, Notifications.divvyBikes.LAYER_ADDED);
-        notificationCenter.subscribe(self, self.divvyBikesCleaned, Notifications.divvyBikes.LAYER_CLEANED);
         notificationCenter.subscribe(self, self.divvyBikesUpdated, Notifications.divvyBikes.LAYER_UPDATED);
         notificationCenter.subscribe(self, self.divvyBikesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
 
+        model.getDivvyBikesModel().startUpdates();
     }();
 }
 

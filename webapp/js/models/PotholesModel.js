@@ -16,7 +16,7 @@ function PotholesModel() {
 
     // Update timer
     var _updateTimer;
-    var _intervalMillis = 6000; // 1 minute
+    var _intervalMillis = 60000; // 1 minute
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 

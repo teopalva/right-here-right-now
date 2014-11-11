@@ -13,20 +13,6 @@ function LightsLayerViewController() {
     var _markersColor = "green";
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Adds the lights on the screen
-     */
-    this.lightsAdded = function () {
-        model.getLightsModel().startUpdates();
-    };
-
-    /**
-     * Removes the lights from the screen
-     */
-    this.lightsCleaned = function () {
-        model.getLightsModel().stopUpdates();
-        self.lightsUpdated();
-    };
 
     /**
      * Updates the potoles on the screen
@@ -44,6 +30,19 @@ function LightsLayerViewController() {
 
     };
 
+    /**
+     * @overridden
+     */
+    var super_dispose = this.dispose;
+    this.dispose = function() {
+        // Call super dispose
+        super_dispose.call(self);
+
+        // Do cleaning stuff here
+        model.getLightsModel().stopUpdates();
+        notificationCenter.unsuscribeFromAll(self);
+    };
+
     ////////////////////////// PRIVATE METHODS //////////////////////////
 
     var init = function () {
@@ -51,11 +50,10 @@ function LightsLayerViewController() {
 
         _markersViewController = new MarkersViewController();
 
-        notificationCenter.subscribe(self, self.lightsAdded, Notifications.lights.LAYER_ADDED);
-        notificationCenter.subscribe(self, self.lightsCleaned, Notifications.lights.LAYER_CLEANED);
         notificationCenter.subscribe(self, self.lightsUpdated, Notifications.lights.LAYER_UPDATED);
         notificationCenter.subscribe(self, self.lightsUpdated, Notifications.areaOfInterest.PATH_UPDATED);
 
+        model.getLightsModel().startUpdates();
     }();
 }
 
