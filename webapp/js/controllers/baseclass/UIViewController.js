@@ -32,6 +32,11 @@ function UIViewController() {
         childController.viewDidAppear();
     };
 
+    this.addWithoutAppendingView = function(childController) {
+        _children.push(childController);
+        childController.setParentController(self);
+    };
+
     /**
      * Returns all the children controllers
      * @returns {Array}

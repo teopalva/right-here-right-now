@@ -214,13 +214,23 @@ function UIView() {
     };
 
     /**
-     *
+     * Set frame position for the UIView
      * @param x
      * @param y
      */
     this.setFramePosition = function(x, y) {
         _svg.attr("x", x);
         _svg.attr("y", y);
+    };
+
+    /**
+     * Set the frame size for the UIView
+     * @param width
+     * @param height
+     */
+    this.setFrameSize = function(width, height) {
+        _svg.attr("width", width);
+        _svg.attr("height", height);
     };
 
     /**
