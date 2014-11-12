@@ -48,7 +48,10 @@ function PotholesLayerViewController() {
 
 
 
-        var size = {width: 100, height: 100};
+        var size = {
+            width: model.getVisualizationModel().potholesMarkerIconSize().width,
+            height: model.getVisualizationModel().potholesMarkerIconSize().height
+        };
         var markers;
 
         // Draw marker type based on zoom level
@@ -74,7 +77,7 @@ function PotholesLayerViewController() {
                 .append("image")
                 .classed("marker", true)
                 .classed("pin", true)
-                .attr("xlink:href", "assets/icon/markers/pothole.svg")
+                .attr("xlink:href", model.getVisualizationModel().potholesMarkerIconPath())
                 .attr("x", function(d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x - (size.width / 2);
@@ -109,6 +112,7 @@ function PotholesLayerViewController() {
                 .append("circle")
                 .classed("marker", true)
                 .classed("point", true)
+                .style("fill", model.getVisualizationModel().potholesMarkerColor())
                 .attr("cx", function(d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x;
@@ -117,7 +121,7 @@ function PotholesLayerViewController() {
                     var point = self.project(d.latitude, d.longitude);
                     return point.y;
                 })
-                .attr("r", 5);
+                .attr("r", model.getVisualizationModel().markerRadius());
 
             // Exit
             markers.exit().remove();
