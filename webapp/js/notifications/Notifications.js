@@ -113,6 +113,22 @@ Notifications.violentCrimes = {
 };
 
 /**
+ * Notifications about propertyCrimes
+ * @type {{}}
+ */
+Notifications.propertyCrimes = {
+    LAYER_UPDATED: "com.righthererightnow.propertyCrimes.layerUpdated"
+};
+
+/**
+ * Notifications about qualityOfLifeCrimes
+ * @type {{}}
+ */
+Notifications.qualityOfLifeCrimes = {
+    LAYER_UPDATED: "com.righthererightnow.qualityOfLife.layerUpdated"
+};
+
+/**
  * Notifications about buttons events
  * @type {{}}
  */

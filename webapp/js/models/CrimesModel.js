@@ -92,7 +92,7 @@ function CrimesModel() {
                 }
             });
             console.log("Crimes file downloaded");
-            notificationCenter.dispatch(Notifications.violentCrimes.LAYER_UPDATED);
+            self.startUpdates();
         });
 
     };
@@ -102,6 +102,8 @@ function CrimesModel() {
      */
     this.startUpdates = function() {
         notificationCenter.dispatch(Notifications.violentCrimes.LAYER_UPDATED);
+        notificationCenter.dispatch(Notifications.propertyCrimes.LAYER_UPDATED);
+        notificationCenter.dispatch(Notifications.qualityOfLifeCrimes.LAYER_UPDATED);
     };
 
 

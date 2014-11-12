@@ -40,6 +40,12 @@ function MapLayersFactory() {
                 case Layers.VIOLENT_CRIMES:
                     layers.push(ViolentCrimesLayerViewController);
                     break;
+                case Layers.PROPERTY_CRIMES:
+                    layers.push(PropertyCrimesLayerViewController);
+                    break;
+                case Layers.QUALITY_OF_LIFE_CRIMES:
+                    layers.push(QualityOfLifeCrimesLayerViewController);
+                    break;
                 
             }
 
