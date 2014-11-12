@@ -14,6 +14,9 @@ function Model() {
     // Holds information about the boundary selected by the user within which data has to be visualized
     var _areaOfInterestModel;
 
+    // Holds information about recent data updates
+    var _newsFeedModel;
+
     // Holds information about the potholes
     var _potholesModel;
 
@@ -48,6 +51,7 @@ function Model() {
     var _crimesModel;
 
 
+
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      *
@@ -62,6 +66,13 @@ function Model() {
      */
     this.getAreaOfInterestModel = function() {
         return _areaOfInterestModel;
+    };
+
+    /**
+     * Returns news feed model that contains information about recent data updates
+     */
+    this.getNewsFeedModel = function() {
+        return _newsFeedModel;
     };
 
     /**
@@ -150,6 +161,9 @@ function Model() {
 
         // Area of interest
         _areaOfInterestModel = new AreaOfInterestModel();
+
+        // News feed model
+        _newsFeedModel = new NewsFeedModel();
 
         // Potholes Model
         _potholesModel = new PotholesModel();
