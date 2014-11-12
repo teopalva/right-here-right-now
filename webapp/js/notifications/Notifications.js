@@ -32,6 +32,10 @@ Notifications.areaOfInterest = {
     PATH_UPDATED : "com.divvy.areaOfInterest.pathUpdated"
 };
 
+Notifications.newsfeed = {
+    NEWS_POSTED : "com.divvy.newsfeed.newsPosted"
+};
+
 /**
  * Notifications about the potholes
  * @type {{}}
@@ -105,15 +109,27 @@ Notifications.cta = {
 };
 
 /**
- * Notifications about crimes
+ * Notifications about violentCrimes
  * @type {{}}
  */
-Notifications.crimes = {
-    // Dispatched by the layer button
-    LAYER_ADDED : "com.righthererightnow.crimes.layerAdded",
-    LAYER_CLEANED: "com.righthererightnow.crimes.layerCleaned",
-    // Dispatched by the model
-    LAYER_UPDATED: "com.righthererightnow.crimes.layerUpdated"
+Notifications.violentCrimes = {
+    LAYER_UPDATED: "com.righthererightnow.violentCrimes.layerUpdated"
+};
+
+/**
+ * Notifications about propertyCrimes
+ * @type {{}}
+ */
+Notifications.propertyCrimes = {
+    LAYER_UPDATED: "com.righthererightnow.propertyCrimes.layerUpdated"
+};
+
+/**
+ * Notifications about qualityOfLifeCrimes
+ * @type {{}}
+ */
+Notifications.qualityOfLifeCrimes = {
+    LAYER_UPDATED: "com.righthererightnow.qualityOfLife.layerUpdated"
 };
 
 /**

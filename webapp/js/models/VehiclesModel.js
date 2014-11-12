@@ -54,6 +54,7 @@ function VehiclesModel() {
                     "&$order=creation_date%20DESC"+
                     "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
+        /*
         var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
         if(areaOfInterest) {
             var coordinates = d3.geo.bounds(areaOfInterest);
@@ -65,6 +66,7 @@ function VehiclesModel() {
 
             query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
         }
+        */
 
 
         d3.json(link + query, function(json){

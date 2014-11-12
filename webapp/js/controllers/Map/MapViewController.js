@@ -134,9 +134,6 @@ function MapViewController(htmlContainer) {
         var viewBoxWidth = viewBoxBottomRight.x - viewBoxTopLeft.x;
         var viewBoxHeight = viewBoxBottomRight.y - viewBoxTopLeft.y;
 
-        console.log("vbw= " + viewBoxWidth);
-        console.log("vbh= " + viewBoxHeight);
-
         self.getView().setFrame(0, 0, width, height);
         self.getView().setViewBox(0, 0, viewBoxWidth, viewBoxHeight);
         self.getView().getSvg().style("top", topLeft.y + "px");

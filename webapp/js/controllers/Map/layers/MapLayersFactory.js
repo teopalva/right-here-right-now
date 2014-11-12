@@ -37,11 +37,14 @@ function MapLayersFactory() {
                 case Layers.CTA_BUSES:
                     layers.push(CtaLayerViewController);
                     break;
-                case Layers.AREA_OF_INTEREST:
-                    layers.push(AreaOfInterestViewController);
+                case Layers.VIOLENT_CRIMES:
+                    layers.push(ViolentCrimesLayerViewController);
                     break;
-                case Layers.CRIMES:
-                    layers.push(CrimesLayerViewController);
+                case Layers.PROPERTY_CRIMES:
+                    layers.push(PropertyCrimesLayerViewController);
+                    break;
+                case Layers.QUALITY_OF_LIFE_CRIMES:
+                    layers.push(QualityOfLifeCrimesLayerViewController);
                     break;
                 
             }

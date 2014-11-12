@@ -73,6 +73,7 @@ function UILayersBarViewController() {
         },
 
         {
+<<<<<<< HEAD
             title: "Places of Interest",
             label: new UILabelViewController(),
             elements: [{
@@ -88,6 +89,11 @@ function UILayersBarViewController() {
                 button: new UIButtonViewController(),
                 layers: [Layers.CRIMES]
             }]
+=======
+            title: "Crimes",
+            button: new UIButtonViewController(),
+            layers: [Layers.VIOLENT_CRIMES]
+>>>>>>> 31d7a5d843ed10af3789f50d190c2dbf8399f76b
         }
     ];
 
