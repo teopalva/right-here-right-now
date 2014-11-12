@@ -14,41 +14,80 @@ function UILayersBarViewController() {
     var _p = {
         x: 20,
         y: 20,
-        w: 260,
+        w: 280,
         h: 55
     };
-    var _verticalPadding = 65;
+    var _verticalPadding = 60;
 
     var _bindings = [
+
         {
-            title: "Potholes",
-            button: new UIButtonViewController(),
-            layers: [Layers.POTHOLES]
+            title: "Trasport",
+            label: new UILabelViewController(),
+            elements: [{
+                    title: "CTA",
+                    button: new UIButtonViewController(),
+                    layers: [Layers.CTA_STOPS, Layers.CTA_BUSES]
+            },
+                {
+                    title: "Divvy Bikes",
+                    button: new UIButtonViewController(),
+                    layers: [Layers.DIVVY_BIKES]
+            }]
         },
+
         {
-            title: "Abandoned Vehicles",
-            button: new UIButtonViewController(),
-            layers: [Layers.VEHICLES]
+            title: "Street Issues",
+            label: new UILabelViewController(),
+            elements: [{
+                title: "Potholes",
+                button: new UIButtonViewController(),
+                layers: [Layers.POTHOLES]
+            }, {
+                title: "Abandoned Vehicles",
+                button: new UIButtonViewController(),
+                layers: [Layers.VEHICLES]
+            }, {
+                title: "Streets Lights Out",
+                button: new UIButtonViewController(),
+                layers: [Layers.LIGHTS]
+            }]
         },
-        {
-            title: "Streets Lights Out",
-            button: new UIButtonViewController(),
-            layers: [Layers.LIGHTS]
-        },
-        {
-            title: "Divvy Bikes",
-            button: new UIButtonViewController(),
-            layers: [Layers.DIVVY_BIKES]
-        },
-        {
-            title: "CTA",
-            button: new UIButtonViewController(),
-            layers: [Layers.CTA_STOPS, Layers.CTA_BUSES]
-        },
+
         {
             title: "Crimes",
-            button: new UIButtonViewController(),
-            layers: [Layers.CRIMES]
+            label: new UILabelViewController(),
+            elements: [{
+                title: "Violent Crimes",
+                button: new UIButtonViewController(),
+                layers: [Layers.CRIMES]
+            }, {
+                title: "Property Crimes",
+                button: new UIButtonViewController(),
+                layers: [Layers.CRIMES]
+            }, {
+                title: "Quality-of-life Crimes",
+                button: new UIButtonViewController(),
+                layers: [Layers.CRIMES]
+            }]
+        },
+
+        {
+            title: "Places of Interest",
+            label: new UILabelViewController(),
+            elements: [{
+                title: "Restaurants",
+                button: new UIButtonViewController(),
+                layers: [Layers.CRIMES]
+            }, {
+                title: "Bars",
+                button: new UIButtonViewController(),
+                layers: [Layers.CRIMES]
+            }, {
+                title: "Stores",
+                button: new UIButtonViewController(),
+                layers: [Layers.CRIMES]
+            }]
         }
     ];
 
@@ -57,15 +96,17 @@ function UILayersBarViewController() {
     /**
      * Handler method for LAYERS_STATUS_CHANGED notification
      */
-    this.layerStatusChanged = function() {
-        _bindings.forEach(function(layerGroup) {
+    this.layerStatusChanged = function () {
+        _bindings.forEach(function (category) {
+            category.elements.forEach(function (layer) {
 
-            var color;
-            var allActive = model.getMapLayersModel().areAllLayersActive(layerGroup.layers);
+                var color;
+                var allActive = model.getMapLayersModel().areAllLayersActive(layer.layers);
 
-            color = allActive ? model.getThemeModel().selectedButtonColor() : model.getThemeModel().deselectedButtonColor();
+                color = allActive ? model.getThemeModel().selectedButtonColor() : model.getThemeModel().deselectedButtonColor();
 
-            layerGroup.button.getView().setBackgroundColor(color);
+                layer.button.getView().setBackgroundColor(color);
+            });
         });
     };
 
@@ -73,22 +114,41 @@ function UILayersBarViewController() {
      * @override
      */
     var super_viewDidAppear = this.viewDidAppear;
+    
     this.viewDidAppear = function () {
         var toolViewBox = self.getView().getViewBox();
 
-        _bindings.forEach(function(layerGroup, i) {
-            layerGroup.button.setTitle(layerGroup.title);
-            layerGroup.button.getView().setFrame(_p.x, _p.y + _verticalPadding * i, _p.w, _p.h);
-            layerGroup.button.getView().setViewBox(0, 0, _p.w, _p.h);
+        var tot = 0;
 
-            layerGroup.button.onClick(function(layers) {
-                if(model.getMapLayersModel().areAllLayersActive(layers)) {
+        _bindings.forEach(function (category, i) {
+            var label = category.label;
+            label.setText(category.title);
+            label.setTextColor("white");
+            label.setTextAlignment("left");
+            label.getView().setFrame(_p.x, _p.y + _verticalPadding * (tot), _p.w, _p.h);
+            label.getView().setViewBox(0, 0, _p.w, _p.h);
+
+            category.elements.forEach(function (layer, j) {
+
+                tot++;
+                layer.button.setTitle(layer.title);
+                layer.button.getView().setFrame(_p.x, _p.y + _verticalPadding * (tot), _p.w, _p.h);
+                layer.button.getView().setViewBox(0, 0, _p.w, _p.h);
+
+                layer.button.onClick(function (layers) {
+                if (model.getMapLayersModel().areAllLayersActive(layers)) {
                     model.getMapLayersModel().disableLayers(layers);
                 } else {
                     model.getMapLayersModel().enableLayers(layers);
                 }
-            }, layerGroup.layers);
-            self.add(layerGroup.button);
+            }, layer.layers);
+                
+                self.add(layer.button);
+            });
+
+            tot++;
+
+            self.add(category.label);
         });
 
         self.layerStatusChanged();

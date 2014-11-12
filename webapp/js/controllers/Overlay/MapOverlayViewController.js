@@ -29,7 +29,7 @@ function MapOverlayViewController() {
     //var _mapControlViewSize = {width: 316.5, height: 145};
     
     var _layersBarViewController;
-    var _layersBarViewSize = {width: 300, height: 974};
+    var _layersBarViewSize = {width: 320, height: 974};
 
     /////////////////////////////// PUBLIC METHODS ///////////////////////////////
     /**
