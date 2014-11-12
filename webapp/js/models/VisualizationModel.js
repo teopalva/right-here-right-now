@@ -1,10 +1,10 @@
 /**
- * @class ColorModel
+ * @class VisualizationModel
  * @description Model that keeps color information
  *
  * @constructor
  */
-function ColorModel() {
+function VisualizationModel() {
     ///////////////////////////// PRIVATE ATTRIBUTES /////////////////////////////
     var self = this;
 
@@ -47,6 +47,14 @@ function ColorModel() {
      */
     this.areaOfInterestStrokeColor = function() {
         return "rgba(246,246,246, 1.0)";
+    };
+
+    /**
+     * Returns the level of zoom at which markers can be shown with more details
+     * @returns {number}
+     */
+    this.detailedMarkerZoomLevel = function() {
+        return 15;
     };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////

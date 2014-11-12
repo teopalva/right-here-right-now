@@ -11,6 +11,11 @@ function UIModeViewController() {
     /////////////////////  PRIVATE ATTRIBUTES /////////////////////
     var self = this;
 
+    var _newTripButton;
+    var _rectModeButton;
+    var _pathModeButton;
+
+
     /////////////////////  PUBLIC METHODS /////////////////////
     /**
      * @override
@@ -25,8 +30,8 @@ function UIModeViewController() {
         _newTripButton.setImage("/webapp/assets/icon/newTripButton.svg");
         _newTripButton.setTitle("NEW TRIP");
         _newTripButton.onClick(function () {
+            console.log("clicked");
             model.getAreaOfInterestModel().clearPath();
-            notificationCenter.dispatch(Notifications.buttons.NEW_TRIP_CLICKED);
         });
         self.add(_newTripButton);
 

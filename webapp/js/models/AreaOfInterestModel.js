@@ -11,12 +11,6 @@ function AreaOfInterestModel() {
 
     var _path = [];
 
-    // feature of the selection (CA for now)
-    var _CAs = null;
-    var _feature = null;
-    var _multipoligonCA = null;
-
-    var _communitiesURI = "/webapp/data/chicago_community_district_map.json";
 
     // Feature collection of the user selected area
     var _featureCollection = null;
@@ -42,7 +36,7 @@ function AreaOfInterestModel() {
     this.clearPath = function () {
         _path = [];
         updateFeatureCollection();
-        notificationCenter.dispatch(Notifications.areaOfInterest.PATH_CLEANED);
+        notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
     };
 
     /**
@@ -71,14 +65,16 @@ function AreaOfInterestModel() {
     /**
      *  Filters the given objects checking if they belong to the area of interest
      *  Area of interest has to be selected
+     *
+     *  @return {Array}
      */
     this.filterObjects = function (objects) {
         var res = [];
         var area = self.getAreaOfInterest();
-        /*if (!area) {
+        if (area == null) {
             console.log("Empty area of interest!");
-            return;
-        }*/
+            return [];
+        }
         var multipolygon = area.features[0].geometry;
         var _multipolygon = [];
         _multipolygon.push(multipolygon.coordinates);
@@ -95,7 +91,9 @@ function AreaOfInterestModel() {
     };
 
     /**
-     * Returns a Feature collection of the area selected by the user
+     * Returns a Feature collection of the area selected by the user. If no area is selected returns null.
+     *
+     * @return {FeatureCollection}|null
      */
     this.getAreaOfInterest = function () {
         var areaOfInterest = null;
@@ -115,13 +113,9 @@ function AreaOfInterestModel() {
         return _featureCollection;
     };
 
-    this.getSelectedFeature = function () {
-        return _feature;
-    };
 
-    this.getCAs = function () {
-        return _CAs;
-    };
+
+
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
     // Updates feature collection of the user selected area
@@ -220,28 +214,26 @@ function AreaOfInterestModel() {
         return computeFeatureCollectionPolygonWithCoordinates([bottomLeft, topLeft, topRight, bottomRight, bottomLeft]);
     };
 
-    var loadCA = function () {
-        var selectedArea = 28;
-        d3.json(_communitiesURI, function (error, geojsonFeatures) {
-            var features = geojsonFeatures.features;
-            _CAs = features;
-
-            for (var i in features) {
-                var feature = features[i];
-                if (feature.id == selectedArea) {
-                    // store feature
-                    _feature = feature;
-                    _multipoligonCA = feature.geometry.coordinates;
-                    break;
-                }
-            }
-            if (_multipoligonCA === null)
-                return;
-        });
-    };
-
     var init = function () {
-        loadCA();
     }();
 
 }
+
+var AreaOfInterestType = {
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

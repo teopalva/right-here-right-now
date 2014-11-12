@@ -134,6 +134,12 @@ function UIViewController() {
     };
 
 
+    var _updateControllers;
+    var _enterControllers;
+    var _exitControllers;
+    this.data = function(arrayOfData) {
+
+    };
 
 
 

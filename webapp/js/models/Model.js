@@ -27,7 +27,7 @@ function Model() {
     var _divvyBikesModel;
 
     // Holds color information for visualization purposes
-    var _colorModel;
+    var _visualizationModel;
 
     // Holds UI information
     var _themeModel;
@@ -93,10 +93,10 @@ function Model() {
     };
 
     /**
-     * Returns the color model
+     * Returns the Visualization model
      */
-    this.getColorModel = function() {
-        return _colorModel;
+    this.getVisualizationModel = function() {
+        return _visualizationModel;
     };
 
     /**
@@ -164,7 +164,7 @@ function Model() {
         _divvyBikesModel = new DivvyBikesModel();
 
         // Colors
-        _colorModel = new ColorModel();
+        _visualizationModel = new VisualizationModel();
 
         // Theme
         _themeModel = new ThemeModel();

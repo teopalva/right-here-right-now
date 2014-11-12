@@ -10,25 +10,20 @@ function PotholesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
-    // To draw the icons on the map
-    var _markersViewController;
-    var _markersColor = "brown";
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
     /**
      * Updates the potholes on the screen
      */
     this.potholesUpdated = function () {
-        var potholes = model.getPotholesModel().getPotholes();
-        var data = potholes;
-        if (model.getAreaOfInterestModel().getAreaOfInterest()) {
-            // filter objects
-            data = model.getAreaOfInterestModel().filterObjects(potholes);
-        }
-        var canvas = self.getView().getSvg();
-        var points = canvas.selectAll("circle").data(data);
-        _markersViewController.draw(self, points, _markersColor);
+        draw();
+    };
 
+    /**
+     * Handler method for ZOOM_CHANGED notification
+     */
+    this.zoomChanged = function() {
+        draw();
     };
 
     /**
@@ -45,14 +40,98 @@ function PotholesLayerViewController() {
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
+    var draw = function() {
+        var potholes = model.getPotholesModel().getPotholes();
+        potholes = model.getAreaOfInterestModel().filterObjects(potholes);
+
+        var canvas = self.getView().getSvg();
+
+
+
+        var size = {width: 100, height: 100};
+        var markers;
+
+        // Draw marker type based on zoom level
+        if(model.getMapModel().getZoomLevel() >= model.getVisualizationModel().detailedMarkerZoomLevel()) {
+            canvas.selectAll(".marker.point").remove();
+            markers = canvas.selectAll(".marker.pin").data(potholes);
+
+            // Update
+            markers
+                .attr("x", function(d) {
+                    var point = self.project(d.latitude, d.longitude);
+                    return point.x - (size.width / 2);
+                })
+                .attr("y", function(d) {
+                    var point = self.project(d.latitude, d.longitude);
+                    return point.y - size.height;
+                });
+
+
+            // Enter
+
+            markers.enter()
+                .append("image")
+                .classed("marker", true)
+                .classed("pin", true)
+                .attr("xlink:href", "assets/icon/markers/pothole.svg")
+                .attr("x", function(d) {
+                    var point = self.project(d.latitude, d.longitude);
+                    return point.x - (size.width / 2);
+                })
+                .attr("y", function(d) {
+                    var point = self.project(d.latitude, d.longitude);
+                    return point.y - size.height;
+                })
+                .attr("width", size.width)
+                .attr("height", size.height);
+
+
+            // Exit
+            markers.exit().remove();
+
+        } else {
+            canvas.selectAll(".marker.pin").remove();
+            markers = canvas.selectAll(".marker.point").data(potholes);
+            // Update
+            markers
+                .attr("cx", function(d) {
+                    var point = self.project(d.latitude, d.longitude);
+                    return point.x;
+                })
+                .attr("cy", function(d) {
+                    var point = self.project(d.latitude, d.longitude);
+                    return point.y;
+                });
+
+            // Enter
+            markers.enter()
+                .append("circle")
+                .classed("marker", true)
+                .classed("point", true)
+                .attr("cx", function(d) {
+                    var point = self.project(d.latitude, d.longitude);
+                    return point.x;
+                })
+                .attr("cy", function(d) {
+                    var point = self.project(d.latitude, d.longitude);
+                    return point.y;
+                })
+                .attr("r", 5);
+
+            // Exit
+            markers.exit().remove();
+        }
+
+    };
 
     var init = function () {
         self.getView().addClass("potholes-layer-view-controller");
 
-        _markersViewController = new MarkersViewController();
 
         notificationCenter.subscribe(self, self.potholesUpdated, Notifications.potholes.LAYER_UPDATED);
         notificationCenter.subscribe(self, self.potholesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.potholesUpdated, Notifications.mapController.ZOOM_CHANGED);
 
         model.getPotholesModel().startUpdates();
     }();

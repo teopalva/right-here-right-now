@@ -23,108 +23,11 @@ function UserPathLayerViewController() {
      * This methods handles POINT_ADDED_TO_PATH, PATH_CLEANED notifications
      */
     this.pathChanged = function() {
-        
-        var path = model.getAreaOfInterestModel().getPath();
-        var canvas = self.getView().getSvg();
+        draw();
+    };
 
-
-        // Draw boundary
-        var boundaries = model.getAreaOfInterestModel().getAreaOfInterest();
-
-        if(boundaries != null) {
-            var boundPath = d3.geo.path();
-            boundPath.projection(self.d3projection);
-
-            self.getView().getSvg().selectAll("path")
-                .data(boundaries.features)
-                .attr("d", boundPath)
-                .enter().append("path")
-                .attr("d", boundPath)
-                .style("fill", model.getColorModel().areaOfInterestFillColor())
-                .style("stroke", model.getColorModel().areaOfInterestStrokeColor())
-                .style("stroke-width", 0.3);
-
-        } else {
-            self.getView().getSvg().selectAll("path").remove();
-        }
-
-        // Draw points
-        var markers = canvas.selectAll(".ui-map-marker-view-controller").data(path);
-
-        // Update
-
-        // Enter
-        markers.enter().append(function (d, i) {
-            var marker = new UIMapMarkerViewController();
-            var point = self.project(d.latitude, d.longitude);
-            marker.getView().setFramePosition(point.x, point.y);
-            self.addWithoutAppendingView(marker);
-            return marker.getView().getSvg().node();
-        });
-        /*
-        markers.enter().appendViewController(self, function(d, i) {
-            return marker;
-        })*/
-
-        // Exit
-        
-
-        /*
-        var points = canvas.selectAll(".points").data(path);
-
-        points
-            .attr("cx", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.x;
-            })
-            .attr("cy", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.y;
-            })
-            .attr("r", 1)
-            .style("fill",function(d, i) {
-                if(i == 0) {
-                    return model.getColorModel().pathStartPointColor();
-                } else if(i == (path.length -1)) {
-                    return model.getColorModel().pathEndPointColor();
-                } else {
-                    return model.getColorModel().pathWaypointColor();
-                }
-            })
-            .style("stroke","white")
-            .style("stroke-width","0.2px");
-
-        // Enter
-        points.enter().append("circle")
-            .classed("points", true)
-            .attr("cx", function(d,i) {
-                //_lastUpdate[i] = d ;
-                var point = self.project(d.latitude, d.longitude);
-                return point.x;
-            })
-            .attr("cy", function(d) {
-                var point = self.project(d.latitude, d.longitude);
-                return point.y;
-            })
-            .attr("r", 1)
-            .style("fill",function(d, i) {
-                if(i == 0) {
-                    return model.getColorModel().pathStartPointColor();
-                } else if(i == (path.length -1)) {
-                    return model.getColorModel().pathEndPointColor();
-                } else {
-                    return model.getColorModel().pathWaypointColor();
-                }
-            })
-            .style("stroke","white")
-            .style("stroke-width","0.2px");
-
-        // Exit
-        points.exit().remove();
-    */
-
-        // Draw directions
-        //drawDirections();
+    this.zoomChanged = function() {
+        draw();
     };
 
     var drag;
@@ -134,7 +37,6 @@ function UserPathLayerViewController() {
      */
     var super_viewDidAppear = this.viewDidAppear;
     this.viewDidAppear = function() {
-
         self.getView().getSvg().on( "mousedown",function() {
             _clickFlag = true;
         });
@@ -159,18 +61,6 @@ function UserPathLayerViewController() {
 
         self.getView().getSvg()
             .style("pointer-events", "visiblePainted");
-            /*
-            .on("dragend", function() {
-                console.log("drag end");
-                var coordinates = [0, 0];
-                coordinates = d3.mouse(this);
-                var x = coordinates[0];
-                var y = coordinates[1];
-
-                var coord = self.unproject(x, y);
-
-                model.getAreaOfInterestModel().addPoint(coord.lat, coord.lng);
-            });*/
 
         // Call super
         super_viewDidAppear.call(self);
@@ -178,24 +68,87 @@ function UserPathLayerViewController() {
 
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
-    var drawDirections = function() {
-        var directions = model.getAreaOfInterestModel().getDirections();
+    var draw = function() {
+        drawBounds();
+        drawPathPoints();
+    };
 
-        if(directions != null) {
+    // Draw path points
+    var drawPathPoints = function() {
+        var canvas = self.getView().getSvg();
+        var path = model.getAreaOfInterestModel().getPath();
+
+        var points = canvas.selectAll(".path-points").data(path);
+
+        points
+            .attr("cx", function(d) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.x;
+            })
+            .attr("cy", function(d) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.y;
+            })
+            .style("fill",function(d, i) {
+                if(i == 0) {
+                    return model.getVisualizationModel().pathStartPointColor();
+                } else if(i == (path.length -1)) {
+                    return model.getVisualizationModel().pathEndPointColor();
+                } else {
+                    return model.getVisualizationModel().pathWaypointColor();
+                }
+            });
+
+        // Enter
+        points.enter().append("circle")
+            .classed("path-points", true)
+            .attr("cx", function(d,i) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.x;
+            })
+            .attr("cy", function(d) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.y;
+            })
+            .attr("r", 10)
+            .style("fill",function(d, i) {
+                if(i == 0) {
+                    return model.getVisualizationModel().pathStartPointColor();
+                } else if(i == (path.length -1)) {
+                    return model.getVisualizationModel().pathEndPointColor();
+                } else {
+                    return model.getVisualizationModel().pathWaypointColor();
+                }
+            })
+            .style("stroke","white")
+            .style("stroke-width","1px");
+
+        // Exit
+        points.exit().remove();
+    };
+
+    // Draw bounds of the region of interest
+    var drawBounds = function() {
+        var canvas = self.getView().getSvg();
+
+        // Draw boundary
+        var boundaries = model.getAreaOfInterestModel().getAreaOfInterest();
+
+        if(boundaries != null) {
             var boundPath = d3.geo.path();
             boundPath.projection(self.d3projection);
 
-            self.getView().getSvg().selectAll(".route")
-                .data(directions.features)
+            self.getView().getSvg().selectAll("path")
+                .data(boundaries.features)
                 .attr("d", boundPath)
-                .enter().append("path").classed("route", true)
+                .enter().append("path")
                 .attr("d", boundPath)
-                .style("fill", "white")
-                .style("stroke", "black")
+                .style("fill", model.getVisualizationModel().areaOfInterestFillColor())
+                .style("stroke", model.getVisualizationModel().areaOfInterestStrokeColor())
                 .style("stroke-width", 0.3);
 
         } else {
-            self.getView().getSvg().selectAll(".route").remove();
+            self.getView().getSvg().selectAll("path").remove();
         }
     };
 
@@ -203,10 +156,9 @@ function UserPathLayerViewController() {
         self.getView().addClass("user-path-layer-view-controller");
 
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
-        notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_CLEANED);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.zoomChanged, Notifications.mapController.ZOOM_CHANGED);
         self.pathChanged();
-
     } ();
 }
 

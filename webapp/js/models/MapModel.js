@@ -57,8 +57,18 @@ function MapModel() {
         return _map.project(new L.LatLng(lat, long), _defaultZoomForProjecting);
     };
 
+    this.projectAtCurrentZoom = function (lat, long) {
+        var currentZoom = _map.getZoom();
+        return _map.project(new L.LatLng(lat, long), currentZoom);
+    };
+
     this.unprojectAtDefaultZoom = function (x, y) {
         return _map.unproject(new L.point(x, y), _defaultZoomForProjecting);
+    };
+
+    this.unprojectAtCurrentZoom = function (x, y) {
+        var currentZoom = _map.getZoom();
+        return _map.unproject(new L.point(x, y), currentZoom);
     };
 
 
@@ -69,6 +79,8 @@ function MapModel() {
         //return _map.getZoomLevel();
         return _map.getZoom();
     };
+
+
 
     /**
      *

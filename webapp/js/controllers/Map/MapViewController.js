@@ -16,7 +16,7 @@ function MapViewController(htmlContainer) {
 
     var _defaultZoom = 13;
 
-    var _selectedAreaLayer = null;
+    var _mapContainer;
 
     var _mapID = {
         aerial: 'macs91.k25dm9i2',
@@ -27,6 +27,7 @@ function MapViewController(htmlContainer) {
 
     // Make out Map-layer object, this is what contains the actual map itself
     var _mapTilesLayer;
+    var _tileLayers;
 
 
     // Layers factory
@@ -34,30 +35,10 @@ function MapViewController(htmlContainer) {
     // svg elements
     var _svgLayerGroup;
 
+
+
+
     /////////////////////////// PUBLIC METHODS ///////////////////////////
-
-
-    /**
-     * Handler for "VISUALIZATION_TYPE_CHANGED" notification.
-     * Namely when the visualization type context changed, update map layers.
-     */
-    /*
-    this.visualizationTypeChanged = function() {
-        var visualizationType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
-        var layersViewControllers = _layersControllersFactory.getLayersControllers(visualizationType);
-
-        // Remove all previous layers from the map
-        cleanMap();
-
-        // For each new layer controller class, instantiate the controller with a new layer group, and add that group
-        // to the map
-        layersViewControllers.forEach(function(Controller) {
-            //var layerGroup = L.layerGroup();
-            //_mapContainer.addLayer(layerGroup);
-            //_layersControllers.push(new Controller(self, layerGroup));
-            self.add(new Controller(self));
-        });
-    };*/
 
     /**
      * Handles LAYERS_STATUS_CHANGED notification
@@ -146,11 +127,15 @@ function MapViewController(htmlContainer) {
         var height = bottomRight.y - topLeft.y;
 
         //project at a fixed zoom level
-        var viewBoxTopLeft = model.getMapModel().projectAtDefaultZoom(topLeftCoord.lat, topLeftCoord.lng);
-        var viewBoxBottomRight = model.getMapModel().projectAtDefaultZoom(bottomRightCoord.lat, bottomRightCoord.lng);
+        //var viewBoxTopLeft = model.getMapModel().projectAtDefaultZoom(topLeftCoord.lat, topLeftCoord.lng);
+        //var viewBoxBottomRight = model.getMapModel().projectAtDefaultZoom(bottomRightCoord.lat, bottomRightCoord.lng);
+        var viewBoxTopLeft = model.getMapModel().projectAtCurrentZoom(topLeftCoord.lat, topLeftCoord.lng);
+        var viewBoxBottomRight = model.getMapModel().projectAtCurrentZoom(bottomRightCoord.lat, bottomRightCoord.lng);
         var viewBoxWidth = viewBoxBottomRight.x - viewBoxTopLeft.x;
         var viewBoxHeight = viewBoxBottomRight.y - viewBoxTopLeft.y;
 
+        console.log("vbw= " + viewBoxWidth);
+        console.log("vbh= " + viewBoxHeight);
 
         self.getView().setFrame(0, 0, width, height);
         self.getView().setViewBox(0, 0, viewBoxWidth, viewBoxHeight);
@@ -169,80 +154,9 @@ function MapViewController(htmlContainer) {
         _svgLayerGroup.attr("opacity", 0);
     };
 
-    /*
-     
-    this.highlightAreaOfInterest = function () {
 
-        console.log("highligth");
-        //if (_selectedAreaLayer !== null) {
-        //this.map.addLayer(_selectedAreaLayer);
-        //_selectedAreaLayer.bringToFront();
-        //} else
-
-        var feature = model.getAreaOfInterestModel().getSelectedFeature();
-
-        function onEachFeature(feature, layer) {
-            console.log(layer);
-
-
-            // A function to reset the colors when a neighborhood is not longer 'hovered'
-            function resetHighlight(e) {
-                var layer = e.target;
-                layer.setStyle({
-                    weight: 1,
-                    opacity: 1,
-                    color: '#09F',
-                    fillOpacity: 0.7,
-                    fillColor: '#FEB24C'
-                });
-            }
-            // Set hover colors
-            function highlightFeature(e) {
-                var layer = e.target;
-                layer.setStyle({
-                    weight: 2,
-                    opacity: 1,
-                    color: '#09F',
-                    fillOpacity: 0.7,
-                    fillColor: '#1abc9c'
-                });
-            }
-
-             layer.on({
-                //mouseover: highlightFeature,
-                //mouseout: resetHighlight,
-                click: none
-            });
-        }
-
-
-        _selectedAreaLayer = L.geoJson(feature, {
-            onEachFeature: onEachFeature,
-            weight: 1,
-            opacity: 1,
-            color: '#09F',
-            fillOpacity: 0.7,
-            fillColor: 'grey'
-        }).addTo(_mapContainer);
-
-        _selectedAreaLayer.bringToBack();
-
-
-    };*/
-
-    this.hideAreaOfInterest = function () {
-        if (_selectedAreaLayer !== null)
-            _mapContainer.removeLayer(_selectedAreaLayer);
-    };
 
     /////////////////////////// PRIVATE METHODS ///////////////////////////
-
-    var cleanMap = function () {
-        // Remove all children
-        while (self.getChildren().length > 0) {
-            self.remove(self.getChildren()[0]);
-        }
-    };
 
 
     var init = function () {
@@ -299,10 +213,7 @@ function MapViewController(htmlContainer) {
         // call first map reset
         self.onMapReset();
 
-        /*
-        self.getNotificationCenter()
-            .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
-        self.visualizationTypeChanged();*/
+
         self.updateMap();
         notificationCenter.subscribe(self, self.updateMap, Notifications.mapLayers.LAYERS_STATUS_CHANGED);
 
