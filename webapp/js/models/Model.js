@@ -44,7 +44,7 @@ function Model() {
     // Holds cta buses and stops information
     var _ctaModel;
 
-    // Holds crimes information
+    // Holds violentCrimes information
     var _crimesModel;
 
 

@@ -48,7 +48,7 @@ function UILayersBarViewController() {
         {
             title: "Crimes",
             button: new UIButtonViewController(),
-            layers: [Layers.CRIMES]
+            layers: [Layers.VIOLENT_CRIMES]
         }
     ];
 
@@ -153,7 +153,7 @@ function UILayersBarViewController() {
         _crimeButton.setTitle("Crime");
         _crimeButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
         _crimeButton.onClick(function (d) {
-            invertSelection(_crimeButton, "crimes");
+            invertSelection(_crimeButton, "violentCrimes");
         });
         self.add(_crimeButton);*/
 
@@ -210,7 +210,7 @@ function UILayersBarViewController() {
         _crimeButton = new UIButtonViewController;
         _buttons.push({
             button: _crimeButton,
-            layerName: "crimes"
+            layerName: "violentCrimes"
         });*/
 
         //notificationCenter.subscribe(self, self.deselectAll, Notifications.buttons.NEW_TRIP_CLICKED);

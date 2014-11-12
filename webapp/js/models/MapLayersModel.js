@@ -99,5 +99,5 @@ var Layers = {
     CTA_STOPS: "CtaLayerViewController",
     CTA_BUSES: "CtaStopsLayerViewController",
     AREA_OF_INTEREST: "AreaOfInterestViewController",
-    CRIMES: "CrimesLayerViewController"
+    VIOLENT_CRIMES: "ViolentCrimesLayerViewController"
 };

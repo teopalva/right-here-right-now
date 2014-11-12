@@ -1,5 +1,5 @@
 /**
- * Model for crimes data.
+ * Model for violentCrimes data.
  * @constructor
  */
 function CrimesModel() {
@@ -15,43 +15,59 @@ function CrimesModel() {
 
     //////////////////////// PUBLIC METHODS ////////////////////////
     /**
-     * Returns the potholes objects in the form:
-     *      - creation_date : date (when the pothole has been found)
+     * Returns the violentCrimes objects in the form:
+     *      - id : number
+     *      - creation_date : date (when the crime has been found)
+     *      - category : CrimeCategory
+     *      - primary_type : sting
+     *      - description : string
      *      - latitude : number
      *      - longitude : number
+     * @param category Ex: CrimeCategory.PROPERTY
      * @returns {Array}
      */
-    this.getCrimes = function(){
+    this.getCrimes = function(category){
+        if(category) {
+            var filteredCrimes = [];
+            for (i = 0; i < _crimes.length; i++)
+                if (_crimes[i].category == category) {
+                    filteredCrimes.push(_crimes[i]);
+                }
+            return filteredCrimes;
+        }
+        // else
         return _crimes;
     };
 
     /**
-     * Remove the old crimes
+     * Remove the old violentCrimes
      */
     this.clearCrimes = function(){
         _crimes = [];
     };
 
     /**
-     *  Update the crimes information
+     *  Update the violentCrimes information
      */
     this.updateCrimes = function() {
-        // remove the old crimes
+        // remove the old violentCrimes
         self.clearCrimes();
 
         // retrieve new data
         var link = "https://data.cityofchicago.org/resource/ijzp-q8t2.json";
         var days = 30;
-        var limit = 1000;
+        var limit = 50000;
         var elapsed = Date.now() - days * 86400000;
         var date = new Date(elapsed);
 
-        var query = "?$select=primary_type,description,date,latitude,longitude,id" +
+        var query = "?$select=primary_type,description,date,latitude,longitude,id,arrest" +
             "&$limit=" + limit +
             "&$order=date%20DESC" +
             "&$where=date>=%27" + date.toISOString() + "%27" +
             "%20and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
+
+        /*
         var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
         if(areaOfInterest) {
             var coordinates = d3.geo.bounds(areaOfInterest);
@@ -63,17 +79,20 @@ function CrimesModel() {
 
             query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
         }
+        */
 
 
         d3.json(link + query, function(json){
-            console.log(json);
             json.forEach(function(crime){
                 // Add only if we know both latitude and longitude
                 if(crime.latitude && crime.longitude) {
+                    //console.log(crime);
+                    crime.category = categorize(crime.primary_type);
                     _crimes.push(crime);
                 }
             });
-            notificationCenter.dispatch(Notifications.crimes.LAYER_UPDATED);
+            console.log("Crimes file downloaded");
+            notificationCenter.dispatch(Notifications.violentCrimes.LAYER_UPDATED);
         });
 
     };
@@ -82,21 +101,69 @@ function CrimesModel() {
      * Starts the timer that updates the model at a given interval
      */
     this.startUpdates = function() {
-        self.updateCrimes();
-        _updateTimer = setInterval(self.updateCrimes, _intervalMillis);
-    };
-
-    /**
-     * Stops the timer that updates the model.
-     */
-    this.stopUpdates = function() {
-        clearInterval(_updateTimer);
-        self.clearCrimes();
+        notificationCenter.dispatch(Notifications.violentCrimes.LAYER_UPDATED);
     };
 
 
     //////////////////////// PRIVATE METHODS ////////////////////////
-    var init = function() {
+    var categorize = function(primary_type){
+        switch (primary_type){
+            case "ARSON"                                :
+            case "BURGLARY"                             :
+            case "CRIMINAL DAMAGE"                      :
+            case "CRIMINAL TRESPASS"                    :
+            case "MOTOR VEHICLE THEFT"                  :
+            case "ROBBERY"                              :
+            case "THEFT"                                : return CrimeCategory.PROPERTY;
 
+            case "ASSAULT"                              :
+            case "BATTERY"                              :
+            case "CRIM SEXUAL ASSAULT"                  :
+            case "DOMESTIC VIOLENCE"                    :
+            case "HOMICIDE"                             :
+            case "INTERFERENCE WITH PUBLIC OFFICER"     :
+            case "INTERFERE WITH PUBLIC OFFICER"        :
+            case "INTIMIDATION"                         :
+            case "KIDNAPPING"                           :
+            case "OFFENSE INVOLVING CHILDREN"           :
+            case "OFFENSES INVOLVING CHILDREN"          :
+            case "OTHER OFFENSE"                        :
+            case "SEX OFFENSE"                          : return CrimeCategory.VIOLENT;
+
+            case "CONCEALED CARRY LICENSE VIOLATION"    :
+            case "DECEPTIVE PRACTICE"                   :
+            case "GAMBLING"                             :
+            case "LIQUOR LAW VIOLATION"                 :
+            case "NARCOTICS"                            :
+            case "NON - CRIMINAL"                       :
+            case "NON-CRIMINAL"                         :
+            case "NON-CRIMINAL (SUBJECT SPECIFIED)"     :
+            case "OBSCENITY"                            :
+            case "OTHER NARCOTIC VIOLATION"             :
+            case "PROSTITUTION"                         :
+            case "PUBLIC INDECENCY"                     :
+            case "PUBLIC PEACE VIOLATION"               :
+            case "RITUALISM"                            :
+            case "STALKING"                             :
+            case "WEAPONS VIOLATION"                    : return CrimeCategory.QUALITY_OF_LIFE;
+
+            // should never get here
+            default                                     : return CrimeCategory._error;
+        }
+    };
+
+    var init = function() {
+        self.updateCrimes();
     } ();
 }
+
+/**
+ * Categories of crime
+ * @type {{VIOLENT: string, PROPERTY: string, QUALITY_OF_LIFE: string}}
+ */
+var CrimeCategory = {
+    VIOLENT : "violent_crime",
+    PROPERTY : "property_crime",
+    QUALITY_OF_LIFE : "quality_of_life_crime",
+    _error : "unknown"
+};

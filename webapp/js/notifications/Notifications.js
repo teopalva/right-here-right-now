@@ -105,15 +105,11 @@ Notifications.cta = {
 };
 
 /**
- * Notifications about crimes
+ * Notifications about violentCrimes
  * @type {{}}
  */
-Notifications.crimes = {
-    // Dispatched by the layer button
-    LAYER_ADDED : "com.righthererightnow.crimes.layerAdded",
-    LAYER_CLEANED: "com.righthererightnow.crimes.layerCleaned",
-    // Dispatched by the model
-    LAYER_UPDATED: "com.righthererightnow.crimes.layerUpdated"
+Notifications.violentCrimes = {
+    LAYER_UPDATED: "com.righthererightnow.violentCrimes.layerUpdated"
 };
 
 /**

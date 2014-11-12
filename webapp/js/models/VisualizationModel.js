@@ -238,7 +238,7 @@ function VisualizationModel() {
     };
 
 
-    // Violent crimes
+    // Violent violentCrimes
     /**
      * Returns violentCrimes color
      * @returns {string}
@@ -295,7 +295,7 @@ function VisualizationModel() {
     };
 
 
-    // Quality of life crimes
+    // Quality of life violentCrimes
     /**
      * Returns qualityOfLifeCrimes color
      * @returns {string}
