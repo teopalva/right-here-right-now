@@ -25,8 +25,8 @@ function UIModeViewController() {
         var toolViewBox = self.getView().getViewBox();
 
         // NEW TRIP
-        _newTripButton.getView().setFrame(31.5, 65, 253.5, 76);
-        _newTripButton.getView().setViewBox(0, 0, 253.5, 76);
+        _newTripButton.getView().setFrame(31, 17.5, 253.5, 75.5);
+        _newTripButton.getView().setViewBox(0, 0, 253.5, 75.5);
         _newTripButton.setImage("/webapp/assets/icon/newTripButton.svg");
         _newTripButton.setTitle("NEW TRIP");
         _newTripButton.onClick(function () {
@@ -36,16 +36,42 @@ function UIModeViewController() {
         self.add(_newTripButton);
 
         // RECTANGULAR SELECTION
-        _rectModeButton.getView().setFrame(31.5, 169, 113, 113);
-        _rectModeButton.getView().setViewBox(0, 0, 113, 113);
+        _rectModeButton.getView().setFrame(31, 108.5, 112, 113);
+        _rectModeButton.getView().setViewBox(0, 0, 112, 113);
         _rectModeButton.setImage("/webapp/assets/icon/rectMode_deselected.svg");
         self.add(_rectModeButton);
 
         // CUSTOM PATH
-        _pathModeButton.getView().setFrame(172.5, 169, 113, 113);
-        _pathModeButton.getView().setViewBox(0, 0, 113, 113);
+        _pathModeButton.getView().setFrame(172, 108.5, 112, 113);
+        _pathModeButton.getView().setViewBox(0, 0, 112, 113);
         _pathModeButton.setImage("/webapp/assets/icon/pathMode_deselected.svg");
         self.add(_pathModeButton);
+        
+        // RECOMMENDER
+        
+        // Walk
+        _walkButton.getView().setFrame(40, 256.5, 22, 38.5);
+        _walkButton.getView().setViewBox(0, 0, 22, 38.5);
+        _walkButton.setImage("/webapp/assets/icon/transport/walking.svg");
+        self.add(_walkButton);
+
+        // Bike
+        _bikeButton.getView().setFrame(93, 256.5, 41, 38.5);
+        _bikeButton.getView().setViewBox(0, 0, 41, 38.5);
+        _bikeButton.setImage("/webapp/assets/icon/transport/bike.svg");
+        self.add(_bikeButton);
+        
+        // Car
+        _carButton.getView().setFrame(164, 256.5, 50, 42.5);
+        _carButton.getView().setViewBox(0, 0, 50, 42.5);
+        _carButton.setImage("/webapp/assets/icon/transport/car.svg");
+        self.add(_carButton);
+        
+        // Bus
+        _busButton.getView().setFrame(239, 256.5, 37.5, 38.5);
+        _busButton.getView().setViewBox(0, 0, 37.5, 38.5);
+        _busButton.setImage("/webapp/assets/icon/transport/bus.svg");
+        self.add(_busButton);
 
         // Call super
         super_viewDidAppear.call(self);
