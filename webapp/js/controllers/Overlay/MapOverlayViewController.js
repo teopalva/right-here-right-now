@@ -19,11 +19,14 @@ function MapOverlayViewController() {
     var _tripInfoViewController;
     var _tripInfoViewSize = {width: 316.5, height: 160};
     
-    var _modeViewController;
-    var _modeViewSize = {width: 316.5, height: 348};
+    var _notificationCenterViewController;
+    var _notificationCenterViewSize = {width: 316.5, height: 336};
     
-    var _mapControlViewController;
-    var _mapControlViewSize = {width: 316.5, height: 145};
+    var _modeViewController;
+    var _modeViewSize = {width: 316.5, height: 328.5};
+    
+    //var _mapControlViewController;
+    //var _mapControlViewSize = {width: 316.5, height: 145};
     
     var _layersBarViewController;
     var _layersBarViewSize = {width: 300, height: 974};
@@ -39,17 +42,21 @@ function MapOverlayViewController() {
         _dayViewController.getView().setViewBox(0, 0, _dayViewSize.width, _dayViewSize.height);
         self.add(_dayViewController);
         
-        _tripInfoViewController.getView().setFrame(_padding.left, 308.5, _tripInfoViewSize.width, _tripInfoViewSize.height);
+        /*_tripInfoViewController.getView().setFrame(_padding.left, 308.5, _tripInfoViewSize.width, _tripInfoViewSize.height);
         _tripInfoViewController.getView().setViewBox(0, 0, _tripInfoViewSize.width, _tripInfoViewSize.height);
-        self.add(_tripInfoViewController);
+        self.add(_tripInfoViewController);*/
         
-        _modeViewController.getView().setFrame(_padding.left, 481, _modeViewSize.width, _modeViewSize.height);
+        _notificationCenterViewController.getView().setFrame(_padding.left, 308.5, _notificationCenterViewSize.width, _notificationCenterViewSize.height);
+        _notificationCenterViewController.getView().setViewBox(0, 0, _notificationCenterViewSize.width, _notificationCenterViewSize.height);
+        self.add(_notificationCenterViewController);
+        
+        _modeViewController.getView().setFrame(_padding.left, 657, _modeViewSize.width, _modeViewSize.height);
         _modeViewController.getView().setViewBox(0, 0, _modeViewSize.width, _modeViewSize.height);
         self.add(_modeViewController);
         
-        _mapControlViewController.getView().setFrame(_padding.left, 841.5, _mapControlViewSize.width, _mapControlViewSize.height);
+       /* _mapControlViewController.getView().setFrame(_padding.left, 841.5, _mapControlViewSize.width, _mapControlViewSize.height);
         _mapControlViewController.getView().setViewBox(0, 0, _mapControlViewSize.width, _mapControlViewSize.height);
-        self.add(_mapControlViewController);
+        self.add(_mapControlViewController);*/
         
         _layersBarViewController.getView().setFrame(341.5, 12.5, _layersBarViewSize.width, _layersBarViewSize.height);
         _layersBarViewController.getView().setViewBox(0, 0, _layersBarViewSize.width, _layersBarViewSize.height);
@@ -74,6 +81,7 @@ function MapOverlayViewController() {
         _modeViewController = new UIModeViewController();
         _mapControlViewController = new UIMapControlViewController();
         _layersBarViewController = new UILayersBarViewController();
+        _notificationCenterViewController = new UINotificationCenterViewController();
 
     } ();
 }

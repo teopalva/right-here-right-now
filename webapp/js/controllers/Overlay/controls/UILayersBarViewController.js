@@ -19,8 +19,6 @@ function UILayersBarViewController() {
     };
     var _verticalPadding = 65;
 
-    //var _buttons = [];
-
     var _bindings = [
         {
             title: "Potholes",
@@ -53,13 +51,6 @@ function UILayersBarViewController() {
             layers: [Layers.CRIMES]
         }
     ];
-
-
-
-
-
-
-
 
     /////////////////////  PUBLIC METHODS /////////////////////
 
