@@ -23,6 +23,8 @@ function NewsFeedModel() {
         }
 
         _newsList.splice(i, 0, news);
+
+        notificationCenter.dispatch(Notifications.newsfeed.NEWS_POSTED);
     };
 
     /**

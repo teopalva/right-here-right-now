@@ -32,6 +32,10 @@ Notifications.areaOfInterest = {
     PATH_UPDATED : "com.divvy.areaOfInterest.pathUpdated"
 };
 
+Notifications.newsfeed = {
+    NEWS_POSTED : "com.divvy.newsfeed.newsPosted"
+};
+
 /**
  * Notifications about the potholes
  * @type {{}}
