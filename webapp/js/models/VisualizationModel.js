@@ -57,6 +57,41 @@ function VisualizationModel() {
         return 15;
     };
 
+    /**
+     * Return map marker radius
+     * @returns {number}
+     */
+    this.markerRadius = function() {
+        return 5;
+    };
+
+    /**
+     * Returns potholes color
+     * @returns {string}
+     */
+    this.potholesMarkerColor = function() {
+        return "rgba(252,78,42, 1.0)";
+    };
+
+    /**
+     * Returns potholes icon path
+     * @returns {string}
+     */
+    this.potholesMarkerIconPath = function() {
+        return "assets/icon/markers/pothole.svg";
+    };
+
+    /**
+     * Returns potholes marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.potholesMarkerIconSize = function() {
+        return {
+            width: 70,
+            height: 70
+        }
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {
 
