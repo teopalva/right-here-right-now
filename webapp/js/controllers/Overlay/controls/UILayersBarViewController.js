@@ -14,10 +14,12 @@ function UILayersBarViewController() {
     var _p = {
         x: 20,
         y: 20,
-        w: 280,
-        h: 55
+        w: 300,
+        h: 50
     };
-    var _verticalPadding = 60;
+    
+    var _margin = 4;
+    var _verticalPadding = _p.h + _margin;
 
     var _bindings = [
 
@@ -25,7 +27,7 @@ function UILayersBarViewController() {
             title: "Trasport",
             label: new UILabelViewController(),
             elements: [{
-                    title: "CTA",
+                    title: "CTA bus",
                     button: new UIButtonViewController(),
                     layers: [Layers.CTA_STOPS, Layers.CTA_BUSES]
             },
@@ -126,7 +128,7 @@ function UILayersBarViewController() {
             label.setTextSize(30);
             label.setTextColor("white");
             label.setTextAlignment("left");
-            label.getView().setFrame(_p.x, _p.y + _verticalPadding * (tot), _p.w, _p.h);
+            label.getView().setFrame(_p.x, _p.y + _verticalPadding * (tot) + _margin, _p.w, _p.h);
             label.getView().setViewBox(0, 0, _p.w, _p.h);
 
             category.elements.forEach(function (layer, j) {
@@ -153,70 +155,6 @@ function UILayersBarViewController() {
         });
 
         self.layerStatusChanged();
-        // Button 1
-        /*
-        _potholesButton.getView().setFrame(_p.x, _p.y, _p.w, _p.h);
-        _potholesButton.getView().setViewBox(0, 0, _p.w, _p.h);
-        _potholesButton.setTitle("Potholes");
-        _potholesButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
-        _potholesButton.onClick(function (d) {
-            invertSelection(_potholesButton, "potholes");
-        });
-        self.add(_potholesButton);
-
-        // Button 2
-        _abandonedButton.getView().setFrame(_p.x, _p.y + _verticalPadding * 1, _p.w, _p.h);
-        _abandonedButton.getView().setViewBox(0, 0, _p.w, _p.h);
-        _abandonedButton.setTitle("Abandoned Vehicles");
-        _abandonedButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
-        //_abandonedButton.setImage("/webapp/assets/icon/layers_icons/CTA.png");
-        _abandonedButton.onClick(function (d) {
-            invertSelection(_abandonedButton, "vehicles");
-        });
-        self.add(_abandonedButton);
-
-        // Button 3
-        _lightsButton.getView().setFrame(_p.x, _p.y + _verticalPadding * 2, _p.w, _p.h);
-        _lightsButton.getView().setViewBox(0, 0, _p.w, _p.h);
-        _lightsButton.setTitle("Street Lights Out");
-        _lightsButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
-        //_lightsButton.setImage("/webapp/assets/icon/layers_icons/CTA.png");
-        _lightsButton.onClick(function (d) {
-            invertSelection(_lightsButton, "lights");
-        });
-        self.add(_lightsButton);
-
-        // Button 4
-        _divvyButton.getView().setFrame(_p.x, _p.y + _verticalPadding * 3, _p.w, _p.h);
-        _divvyButton.getView().setViewBox(0, 0, _p.w, _p.h);
-        _divvyButton.setTitle("Divvy Bikes");
-        _divvyButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
-        //_divvyButton.setImage("/webapp/assets/icon/layers_icons/CTA.png");
-        _divvyButton.onClick(function (d) {
-            invertSelection(_divvyButton, "divvyBikes");
-        });
-        self.add(_divvyButton);
-
-        // Button 5
-        _CTAButton.getView().setFrame(_p.x, _p.y + _verticalPadding * 4, _p.w, _p.h);
-        _CTAButton.getView().setViewBox(0, 0, _p.w, _p.h);
-        _CTAButton.setTitle("CTA");
-        _CTAButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
-        _CTAButton.setImage("/webapp/assets/icon/layers_icons/CTA.png");
-        _CTAButton.onClick(function (d) {
-            invertSelection(_CTAButton, "cta");
-        });
-        self.add(_CTAButton);
-
-        // Button 6
-        _crimeButton.getView().setFrame(_p.x, _p.y + _verticalPadding * 5, _p.w, _p.h);
-        _crimeButton.getView().setViewBox(0, 0, _p.w, _p.h);
-        _crimeButton.setTitle("Crime");
-        _crimeButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
-        _crimeButton.onClick(function (d) {
-            invertSelection(_crimeButton, "violentCrimes");
-        });
-        self.add(_crimeButton);*/
 
         // Call super
         super_viewDidAppear.call(self);
@@ -240,39 +178,6 @@ function UILayersBarViewController() {
         self.getView().addClass("ui-layers-bar-view-controller");
 
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
-
-        // Setup UI
-        /*
-        _potholesButton = new UIButtonViewController;
-        _buttons.push({
-            button: _potholesButton,
-            layerName: "potholes"
-        });
-        _abandonedButton = new UIButtonViewController;
-        _buttons.push({
-            button: _abandonedButton,
-            layerName: "vehicles"
-        });
-        _lightsButton = new UIButtonViewController;
-        _buttons.push({
-            button: _lightsButton,
-            layerName: "lights"
-        });
-        _divvyButton = new UIButtonViewController;
-        _buttons.push({
-            button: _divvyButton,
-            layerName: "divvyBikes"
-        });
-        _CTAButton = new UIButtonViewController;
-        _buttons.push({
-            button: _CTAButton,
-            layerName: "cta"
-        });
-        _crimeButton = new UIButtonViewController;
-        _buttons.push({
-            button: _crimeButton,
-            layerName: "violentCrimes"
-        });*/
 
         //notificationCenter.subscribe(self, self.deselectAll, Notifications.buttons.NEW_TRIP_CLICKED);
         notificationCenter.subscribe(self, self.layerStatusChanged, Notifications.mapLayers.LAYERS_STATUS_CHANGED);

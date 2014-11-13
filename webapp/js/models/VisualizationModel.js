@@ -327,17 +327,18 @@ function VisualizationModel() {
      * Dictionary of layers colors
      */
     this.layersColors = {
-        "CTA": "rgba(252,78,42, 1.0)",
-        "Divvy Bikes": "rgba(252,78,42, 1.0)",
-        "Potholes": "rgba(252,78,42, 1.0)",
-        "Abandoned Vehicles": "rgba(252,78,42, 1.0)",
-        "Streets Lights Out": "rgba(252,78,42, 1.0)",
+        "CTA bus": "rgba(28,91,166, 1.0)",
+        "CTA train": "rgba(53,126,186, 1.0)",
+        "Divvy Bikes": "rgba(90,158,204, 1.0)",
+        "Potholes": "rgba(248,53,33, 1.0)",
+        "Abandoned Vehicles": "rgba(250,121,46, 1.0)",
+        "Streets Lights Out": "rgba(252,163,60, 1.0)",
         "Violent Crimes": "rgba(106,81,163, 1.0)",
         "Property Crimes": "rgba(128,125,186, 1.0)",
         "Quality-of-life Crimes": "rgba(188,189,220, 1.0)",
-        "Restaurants": "black",
-        "Bars": "black",
-        "Stores": "black",
+        "Restaurants": "rgba(31,123,53, 1.0)",
+        "Bars": "rgba(55,159,75, 1.0)",
+        "Stores": "rgba(100,187,99, 1.0)",
     };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
