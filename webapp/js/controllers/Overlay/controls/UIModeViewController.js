@@ -27,7 +27,7 @@ function UIModeViewController() {
         // NEW TRIP
         _newTripButton.getView().setFrame(31, 17.5, 253.5, 75.5);
         _newTripButton.getView().setViewBox(0, 0, 253.5, 75.5);
-        _newTripButton.setImage("/webapp/assets/icon/newTripButton.svg");
+        _newTripButton.setImage("assets/icon/newTripButton.svg");
         _newTripButton.setTitle("NEW TRIP");
         _newTripButton.onClick(function () {
             console.log("clicked");
@@ -39,12 +39,18 @@ function UIModeViewController() {
         _rectModeButton.getView().setFrame(31, 108.5, 112, 113);
         _rectModeButton.getView().setViewBox(0, 0, 112, 113);
         _rectModeButton.setImage("/webapp/assets/icon/rectMode_deselected.svg");
+        _rectModeButton.onClick(function() {
+            model.getAreaOfInterestModel().setAreaOfInterestType(AreaOfInterestType.RECTANGLE);
+        });
         self.add(_rectModeButton);
 
         // CUSTOM PATH
         _pathModeButton.getView().setFrame(172, 108.5, 112, 113);
         _pathModeButton.getView().setViewBox(0, 0, 112, 113);
         _pathModeButton.setImage("/webapp/assets/icon/pathMode_deselected.svg");
+        _pathModeButton.onClick(function() {
+            model.getAreaOfInterestModel().setAreaOfInterestType(AreaOfInterestType.PATH);
+        });
         self.add(_pathModeButton);
         
         // RECOMMENDER

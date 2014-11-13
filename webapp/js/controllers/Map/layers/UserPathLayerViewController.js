@@ -11,19 +11,23 @@ function UserPathLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
-    // To draw the icons on the map
-    var _markersVC = [];
-
 
     // Mouse event
     var _clickFlag = false;
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
     /**
-     * This methods handles POINT_ADDED_TO_PATH, PATH_CLEANED notifications
+     * This methods handles PATH_UPDATED notification
      */
     this.pathChanged = function() {
-        draw();
+        drawBounds();
+    };
+
+    /**
+     * This methods handles POINT_ADDED_TO_PATH notification
+     */
+    this.pointsUpdated = function() {
+        drawCornerPoints();
     };
 
     this.zoomChanged = function() {
@@ -69,8 +73,47 @@ function UserPathLayerViewController() {
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var draw = function() {
+        drawCornerPoints();
         drawBounds();
-        drawPathPoints();
+    };
+
+    var drawCornerPoints = function() {
+        var canvas = self.getView().getSvg();
+        var path = model.getAreaOfInterestModel().getPath();
+
+        var points = canvas.selectAll(".path-points").data(path);
+
+        points
+            .attr("cx", function(d) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.x;
+            })
+            .attr("cy", function(d) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.y;
+            })
+            .style("fill", model.getVisualizationModel().selectionCornerFillColor())
+            .style("stroke", model.getVisualizationModel().selectionCornerStrokeColor())
+            .style("stroke-width", model.getVisualizationModel().selectionCornerStrokeWidth());
+
+        // Enter
+        points.enter().insert("circle", ":first-child")
+            .classed("path-points", true)
+            .attr("cx", function(d) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.x;
+            })
+            .attr("cy", function(d) {
+                var point = self.project(d.latitude, d.longitude);
+                return point.y;
+            })
+            .attr("r", 10)
+            .style("fill", model.getVisualizationModel().selectionCornerFillColor())
+            .style("stroke", model.getVisualizationModel().selectionCornerStrokeColor())
+            .style("stroke-width", model.getVisualizationModel().selectionCornerStrokeWidth());
+
+        // Exit
+        points.exit().remove();
     };
 
     // Draw path points
@@ -102,7 +145,7 @@ function UserPathLayerViewController() {
         // Enter
         points.enter().append("circle")
             .classed("path-points", true)
-            .attr("cx", function(d,i) {
+            .attr("cx", function(d) {
                 var point = self.project(d.latitude, d.longitude);
                 return point.x;
             })
@@ -131,6 +174,8 @@ function UserPathLayerViewController() {
     var drawBounds = function() {
         var canvas = self.getView().getSvg();
 
+        console.log("path updated");
+
         // Draw boundary
         var boundaries = model.getAreaOfInterestModel().getAreaOfInterest();
 
@@ -145,7 +190,7 @@ function UserPathLayerViewController() {
                 .attr("d", boundPath)
                 .style("fill", model.getVisualizationModel().areaOfInterestFillColor())
                 .style("stroke", model.getVisualizationModel().areaOfInterestStrokeColor())
-                .style("stroke-width", 0.3);
+                .style("stroke-width", model.getVisualizationModel().areaOfInterestStrokeWidth());
 
         } else {
             self.getView().getSvg().selectAll("path").remove();
@@ -155,7 +200,8 @@ function UserPathLayerViewController() {
     var init = function() {
         self.getView().addClass("user-path-layer-view-controller");
 
-        notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
+        notificationCenter.subscribe(self, self.pointsUpdated, Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
+        notificationCenter.subscribe(self, self.pointsUpdated, Notifications.areaOfInterest.POINTS_UPDATED);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.zoomChanged, Notifications.mapController.ZOOM_CHANGED);
         self.pathChanged();

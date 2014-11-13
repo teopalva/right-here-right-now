@@ -9,8 +9,9 @@ function AreaOfInterestModel() {
     ///////////////////////// PRIVATE ATTRIBUTES /////////////////////////
     var self = this;
 
-    var _path = [];
+    var _points = [];
 
+    var _areaOfInterestType = AreaOfInterestType.RECTANGLE;
 
     // Feature collection of the user selected area
     var _featureCollection = null;
@@ -22,21 +23,55 @@ function AreaOfInterestModel() {
      * @param longitude
      */
     this.addPoint = function (latitude, longitude) {
-        _path.push({
+        var newPoint = {
             latitude: latitude,
             longitude: longitude
-        });
-        updateFeatureCollection();
-        notificationCenter.dispatch(Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
+        };
+
+        switch(_areaOfInterestType) {
+            case AreaOfInterestType.RECTANGLE:
+                if(_points.length > 1) {
+                    var closestIndex = closestPoint(latitude, longitude);
+                    _points.splice(closestIndex, 1, newPoint);
+                } else {
+                    _points.push(newPoint);
+                }
+
+                //notificationCenter.dispatch(Notifications.areaOfInterest.POINT_ADDED_TO_PATH);
+                notificationCenter.dispatch(Notifications.areaOfInterest.POINTS_UPDATED);
+
+                if(_points.length > 1) {
+                    _featureCollection = computeFeatureCollectionBoundsWithCoordinates(_points);
+                    notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
+                }
+                break;
+            case AreaOfInterestType.PATH:
+                _points.push(newPoint);
+                _featureCollection = computeSuggestedPath(_points);
+                notificationCenter.dispatch(Notifications.areaOfInterest.POINTS_UPDATED);
+                notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
+                break;
+        }
+    };
+
+    this.movePoint = function(index, latitude, longitude) {
+
+    };
+
+
+    this.removeLastPoint = function() {
+
     };
 
     /**
      * Remove all the points from the path
      */
     this.clearPath = function () {
-        _path = [];
-        updateFeatureCollection();
+        _points = [];
+        _featureCollection = null;
+        //updateFeatureCollection();
         notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.dispatch(Notifications.areaOfInterest.POINTS_UPDATED);
     };
 
     /**
@@ -44,8 +79,27 @@ function AreaOfInterestModel() {
      * @returns {Array}
      */
     this.getPath = function () {
-        return _path;
+        return _points;
     };
+
+
+    /**
+     * Set the type of area of interest
+     * @param type @see AreaOfInterest enum
+     */
+    this.setAreaOfInterestType = function(type) {
+        console.log("set area of interest to " + type);
+        _areaOfInterestType = type;
+    };
+
+    /**
+     * Return area of interest type
+     * @returns {string}
+     */
+    this.getAreaOfInterestType = function() {
+        return _areaOfInterestType;
+    };
+
 
     /**
      *  Returns boolean stating if given point is inside given polygon
@@ -96,13 +150,14 @@ function AreaOfInterestModel() {
      * @return {FeatureCollection}|null
      */
     this.getAreaOfInterest = function () {
-        var areaOfInterest = null;
+        /*var areaOfInterest = null;
 
         if (_featureCollection != null) {
             areaOfInterest = computeFeatureCollectionBoundRectangle(_featureCollection);
         }
 
-        return areaOfInterest;
+        return areaOfInterest;*/
+        return _featureCollection;
     };
 
     /**
@@ -120,20 +175,20 @@ function AreaOfInterestModel() {
     ///////////////////////// PRIVATE METHODS /////////////////////////
     // Updates feature collection of the user selected area
     var updateFeatureCollection = function () {
-        if (_path.length > 1) {
+        if (_points.length > 1) {
             var directionsService = new google.maps.DirectionsService();
 
             var tmpWaypoints = [];
-            for(var i = 1; i < (_path.length -1); i++) {
+            for(var i = 1; i < (_points.length -1); i++) {
                 tmpWaypoints.push({
-                    location: new google.maps.LatLng(_path[i].latitude, _path[i].longitude),
+                    location: new google.maps.LatLng(_points[i].latitude, _points[i].longitude),
                     stopover:false
                 });
             }
 
             var request = {
-                origin: new google.maps.LatLng(_path[0].latitude, _path[0].longitude),
-                destination: new google.maps.LatLng(_path[_path.length - 1].latitude, _path[_path.length - 1].longitude),
+                origin: new google.maps.LatLng(_points[0].latitude, _points[0].longitude),
+                destination: new google.maps.LatLng(_points[_points.length - 1].latitude, _points[_points.length - 1].longitude),
                 waypoints: tmpWaypoints,
                 travelMode: google.maps.TravelMode.WALKING
             };
@@ -144,7 +199,7 @@ function AreaOfInterestModel() {
 
                     // Compute coordinates
                     var coordinates = [];
-                    response["routes"][0]["overview_path"].forEach(function (point) {
+                    response["routes"][0]["overview_points"].forEach(function (point) {
                         coordinates.push([point["B"], point["k"]]);
                     });
 
@@ -158,7 +213,23 @@ function AreaOfInterestModel() {
         }
     };
 
+    // Compute index of the closest point to given latitude and longitude
+    var closestPoint = function(latitude, longitude) {
+        return 0;
+    };
 
+
+    // Compute feature collection bound for coordinates
+    var computeFeatureCollectionBoundsWithCoordinates = function(coordinates) {
+        var coordinatesArray = [
+            [coordinates[0].longitude, coordinates[0].latitude],
+            [coordinates[1].longitude, coordinates[1].latitude]
+        ];
+        var polygon = computeFeatureCollectionPolygonWithCoordinates(coordinatesArray);
+        return computeFeatureCollectionBoundRectangle(polygon);
+    };
+
+    // Compute a feature collection with given coordinates
     var computeFeatureCollectionPolygonWithCoordinates = function (coordinates) {
         var featureCollection = {};
         featureCollection["type"] = "FeatureCollection";
@@ -214,13 +285,33 @@ function AreaOfInterestModel() {
         return computeFeatureCollectionPolygonWithCoordinates([bottomLeft, topLeft, topRight, bottomRight, bottomLeft]);
     };
 
+    var computeSuggestedPath = function(points) {
+        var circle = d3.geo.circle();
+        var circleFeature = circle.origin([points[0].longitude, points[0].latitude]).angle(0.01)();
+
+        return featureCollectionForGeometry(circleFeature);
+    };
+
+    var featureCollectionForGeometry = function(geometry) {
+        return {
+            type: "FeatureCollection",
+            features: [
+                {
+                    type: "Feature",
+                    geometry: geometry
+                }
+            ]
+        };
+    };
+
     var init = function () {
     }();
 
 }
 
 var AreaOfInterestType = {
-
+    RECTANGLE : "rectangle",
+    PATH : "path"
 };
 
 

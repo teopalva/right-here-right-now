@@ -28,6 +28,7 @@ Notifications.mapContainerController = {
  */
 Notifications.areaOfInterest = {
     POINT_ADDED_TO_PATH : "com.divvy.areaOfInterest.pointAddedToPath",
+    POINTS_UPDATED : "com.divvy.areaOfInterest.pointsUpdated",
     PATH_CLEANED : "com.divvy.areaOfInterest.pathCleaned",
     PATH_UPDATED : "com.divvy.areaOfInterest.pathUpdated"
 };
