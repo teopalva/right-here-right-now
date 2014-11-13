@@ -60,15 +60,15 @@ function UILayersBarViewController() {
             elements: [{
                 title: "Violent Crimes",
                 button: new UIButtonViewController(),
-                layers: [Layers.CRIMES]
+                layers: [Layers.VIOLENT_CRIMES]
             }, {
                 title: "Property Crimes",
                 button: new UIButtonViewController(),
-                layers: [Layers.CRIMES]
+                layers: [Layers.PROPERTY_CRIMES]
             }, {
                 title: "Quality-of-life Crimes",
                 button: new UIButtonViewController(),
-                layers: [Layers.CRIMES]
+                layers: [Layers.QUALITY_OF_LIFE_CRIMES]
             }]
         },
 
@@ -103,7 +103,7 @@ function UILayersBarViewController() {
                 var color;
                 var allActive = model.getMapLayersModel().areAllLayersActive(layer.layers);
 
-                color = allActive ? model.getThemeModel().selectedButtonColor() : model.getThemeModel().deselectedButtonColor();
+                color = allActive ? model.getThemeModel().selectedButtonColor(layer.title) : model.getThemeModel().deselectedButtonColor();
 
                 layer.button.getView().setBackgroundColor(color);
             });
@@ -114,7 +114,7 @@ function UILayersBarViewController() {
      * @override
      */
     var super_viewDidAppear = this.viewDidAppear;
-    
+
     this.viewDidAppear = function () {
         var toolViewBox = self.getView().getViewBox();
 
@@ -123,6 +123,7 @@ function UILayersBarViewController() {
         _bindings.forEach(function (category, i) {
             var label = category.label;
             label.setText(category.title);
+            label.setTextSize(30);
             label.setTextColor("white");
             label.setTextAlignment("left");
             label.getView().setFrame(_p.x, _p.y + _verticalPadding * (tot), _p.w, _p.h);
@@ -136,13 +137,13 @@ function UILayersBarViewController() {
                 layer.button.getView().setViewBox(0, 0, _p.w, _p.h);
 
                 layer.button.onClick(function (layers) {
-                if (model.getMapLayersModel().areAllLayersActive(layers)) {
-                    model.getMapLayersModel().disableLayers(layers);
-                } else {
-                    model.getMapLayersModel().enableLayers(layers);
-                }
-            }, layer.layers);
-                
+                    if (model.getMapLayersModel().areAllLayersActive(layers)) {
+                        model.getMapLayersModel().disableLayers(layers);
+                    } else {
+                        model.getMapLayersModel().enableLayers(layers);
+                    }
+                }, layer.layers);
+
                 self.add(layer.button);
             });
 

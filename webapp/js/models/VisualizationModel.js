@@ -13,7 +13,7 @@ function VisualizationModel() {
      * Returns path start point color
      * * @returns {string}
      */
-    this.pathStartPointColor = function() {
+    this.pathStartPointColor = function () {
         return "rgba(65,171,93, 1.0)";
     };
 
@@ -21,7 +21,7 @@ function VisualizationModel() {
      * Returns path way-point color
      * * @returns {string}
      */
-    this.pathWaypointColor = function() {
+    this.pathWaypointColor = function () {
         return "rgba(107,174,214, 1.0)";
     };
 
@@ -29,7 +29,7 @@ function VisualizationModel() {
      * Returns path end point color
      * * @returns {string}
      */
-    this.pathEndPointColor = function() {
+    this.pathEndPointColor = function () {
         return "rgba(215,48,31, 1.0)";
     };
 
@@ -37,7 +37,7 @@ function VisualizationModel() {
      * Returns area of interest fill color
      * * @returns {string}
      */
-    this.areaOfInterestFillColor = function() {
+    this.areaOfInterestFillColor = function () {
         return "rgba(246,246,246, 0.5)";
     };
 
@@ -45,7 +45,7 @@ function VisualizationModel() {
      * Returns area of interest stroke color
      * * @returns {string}
      */
-    this.areaOfInterestStrokeColor = function() {
+    this.areaOfInterestStrokeColor = function () {
         return "rgba(246,246,246, 1.0)";
     };
 
@@ -53,7 +53,7 @@ function VisualizationModel() {
      * Returns the level of zoom at which markers can be shown with more details
      * @returns {number}
      */
-    this.detailedMarkerZoomLevel = function() {
+    this.detailedMarkerZoomLevel = function () {
         return 15;
     };
 
@@ -61,7 +61,7 @@ function VisualizationModel() {
      * Return map marker radius
      * @returns {number}
      */
-    this.markerRadius = function() {
+    this.markerRadius = function () {
         return 5;
     };
 
@@ -70,7 +70,7 @@ function VisualizationModel() {
      * Returns CTA color
      * @returns {string}
      */
-    this.CTAMarkerColor = function() {
+    this.CTAMarkerColor = function () {
         return "rgba(252,78,42, 1.0)";
     };
 
@@ -78,7 +78,7 @@ function VisualizationModel() {
      * Returns CTA icon path
      * @returns {string}
      */
-    this.CTAMarkerIconPath = function() {
+    this.CTAMarkerIconPath = function () {
         return "assets/icon/markers/pothole.svg";
     };
 
@@ -86,7 +86,7 @@ function VisualizationModel() {
      * Returns CTA marker size
      * @returns {{width: number, height: number}}
      */
-    this.CTAMarkerIconSize = function() {
+    this.CTAMarkerIconSize = function () {
         return {
             width: 70,
             height: 70
@@ -98,7 +98,7 @@ function VisualizationModel() {
      * Returns divvy color
      * @returns {string}
      */
-    this.divvyMarkerColor = function() {
+    this.divvyMarkerColor = function () {
         return "rgba(252,78,42, 1.0)";
     };
 
@@ -106,7 +106,7 @@ function VisualizationModel() {
      * Returns divvy icon path
      * @returns {string}
      */
-    this.divvyMarkerIconPath = function() {
+    this.divvyMarkerIconPath = function () {
         return "assets/icon/markers/pothole.svg";
     };
 
@@ -114,7 +114,7 @@ function VisualizationModel() {
      * Returns divvy marker size
      * @returns {{width: number, height: number}}
      */
-    this.divvyMarkerIconSize = function() {
+    this.divvyMarkerIconSize = function () {
         return {
             width: 70,
             height: 70
@@ -127,7 +127,7 @@ function VisualizationModel() {
      * Returns subways color
      * @returns {string}
      */
-    this.subwaysMarkerColor = function() {
+    this.subwaysMarkerColor = function () {
         return "rgba(252,78,42, 1.0)";
     };
 
@@ -135,7 +135,7 @@ function VisualizationModel() {
      * Returns subways icon path
      * @returns {string}
      */
-    this.subwaysMarkerIconPath = function() {
+    this.subwaysMarkerIconPath = function () {
         return "assets/icon/markers/pothole.svg";
     };
 
@@ -143,7 +143,7 @@ function VisualizationModel() {
      * Returns subways marker size
      * @returns {{width: number, height: number}}
      */
-    this.subwaysMarkerIconSize = function() {
+    this.subwaysMarkerIconSize = function () {
         return {
             width: 70,
             height: 70
@@ -156,7 +156,7 @@ function VisualizationModel() {
      * Returns potholes color
      * @returns {string}
      */
-    this.potholesMarkerColor = function() {
+    this.potholesMarkerColor = function () {
         return "rgba(252,78,42, 1.0)";
     };
 
@@ -164,7 +164,7 @@ function VisualizationModel() {
      * Returns potholes icon path
      * @returns {string}
      */
-    this.potholesMarkerIconPath = function() {
+    this.potholesMarkerIconPath = function () {
         return "assets/icon/markers/pothole.svg";
     };
 
@@ -172,7 +172,7 @@ function VisualizationModel() {
      * Returns potholes marker size
      * @returns {{width: number, height: number}}
      */
-    this.potholesMarkerIconSize = function() {
+    this.potholesMarkerIconSize = function () {
         return {
             width: 70,
             height: 70
@@ -185,7 +185,7 @@ function VisualizationModel() {
      * Returns abandonedVehicles color
      * @returns {string}
      */
-    this.abandonedVehiclesMarkerColor = function() {
+    this.abandonedVehiclesMarkerColor = function () {
         return "rgba(252,78,42, 1.0)";
     };
 
@@ -193,7 +193,7 @@ function VisualizationModel() {
      * Returns abandonedVehicles icon path
      * @returns {string}
      */
-    this.abandonedVehiclesMarkerIconPath = function() {
+    this.abandonedVehiclesMarkerIconPath = function () {
         return "assets/icon/markers/pothole.svg";
     };
 
@@ -201,7 +201,7 @@ function VisualizationModel() {
      * Returns abandonedVehicles marker size
      * @returns {{width: number, height: number}}
      */
-    this.abandonedVehiclesMarkerIconSize = function() {
+    this.abandonedVehiclesMarkerIconSize = function () {
         return {
             width: 70,
             height: 70
@@ -214,7 +214,7 @@ function VisualizationModel() {
      * Returns streetLights color
      * @returns {string}
      */
-    this.streetLightsMarkerColor = function() {
+    this.streetLightsMarkerColor = function () {
         return "rgba(252,78,42, 1.0)";
     };
 
@@ -222,7 +222,7 @@ function VisualizationModel() {
      * Returns streetLights icon path
      * @returns {string}
      */
-    this.streetLightsMarkerIconPath = function() {
+    this.streetLightsMarkerIconPath = function () {
         return "assets/icon/markers/pothole.svg";
     };
 
@@ -230,7 +230,7 @@ function VisualizationModel() {
      * Returns streetLights marker size
      * @returns {{width: number, height: number}}
      */
-    this.streetLightsMarkerIconSize = function() {
+    this.streetLightsMarkerIconSize = function () {
         return {
             width: 70,
             height: 70
@@ -243,7 +243,7 @@ function VisualizationModel() {
      * Returns violentCrimes color
      * @returns {string}
      */
-    this.violentCrimesMarkerColor = function() {
+    this.violentCrimesMarkerColor = function () {
         return "rgba(106,81,163, 1.0)";
     };
 
@@ -251,7 +251,7 @@ function VisualizationModel() {
      * Returns violentCrimes icon path
      * @returns {string}
      */
-    this.violentCrimesMarkerIconPath = function() {
+    this.violentCrimesMarkerIconPath = function () {
         return "assets/icon/markers/pothole.svg";
     };
 
@@ -259,7 +259,7 @@ function VisualizationModel() {
      * Returns violentCrimes marker size
      * @returns {{width: number, height: number}}
      */
-    this.violentCrimesMarkerIconSize = function() {
+    this.violentCrimesMarkerIconSize = function () {
         return {
             width: 70,
             height: 70
@@ -271,7 +271,7 @@ function VisualizationModel() {
      * Returns propertyCrimes color
      * @returns {string}
      */
-    this.propertyCrimesMarkerColor = function() {
+    this.propertyCrimesMarkerColor = function () {
         return "rgba(128,125,186, 1.0)";
     };
 
@@ -279,7 +279,7 @@ function VisualizationModel() {
      * Returns propertyCrimes icon path
      * @returns {string}
      */
-    this.propertyCrimesMarkerIconPath = function() {
+    this.propertyCrimesMarkerIconPath = function () {
         return "assets/icon/markers/pothole.svg";
     };
 
@@ -287,7 +287,7 @@ function VisualizationModel() {
      * Returns propertyCrimes marker size
      * @returns {{width: number, height: number}}
      */
-    this.propertyCrimesMarkerIconSize = function() {
+    this.propertyCrimesMarkerIconSize = function () {
         return {
             width: 70,
             height: 70
@@ -300,7 +300,7 @@ function VisualizationModel() {
      * Returns qualityOfLifeCrimes color
      * @returns {string}
      */
-    this.qualityOfLifeCrimesMarkerColor = function() {
+    this.qualityOfLifeCrimesMarkerColor = function () {
         return "rgba(188,189,220, 1.0)";
     };
 
@@ -308,7 +308,7 @@ function VisualizationModel() {
      * Returns qualityOfLifeCrimes icon path
      * @returns {string}
      */
-    this.qualityOfLifeCrimesMarkerIconPath = function() {
+    this.qualityOfLifeCrimesMarkerIconPath = function () {
         return "assets/icon/markers/pothole.svg";
     };
 
@@ -316,17 +316,32 @@ function VisualizationModel() {
      * Returns qualityOfLifeCrimes marker size
      * @returns {{width: number, height: number}}
      */
-    this.qualityOfLifeCrimesMarkerIconSize = function() {
+    this.qualityOfLifeCrimesMarkerIconSize = function () {
         return {
             width: 70,
             height: 70
         }
     };
 
-
+    /**
+     * Dictionary of layers colors
+     */
+    this.layersColors = {
+        "CTA": "rgba(252,78,42, 1.0)",
+        "Divvy Bikes": "rgba(252,78,42, 1.0)",
+        "Potholes": "rgba(252,78,42, 1.0)",
+        "Abandoned Vehicles": "rgba(252,78,42, 1.0)",
+        "Streets Lights Out": "rgba(252,78,42, 1.0)",
+        "Violent Crimes": "rgba(106,81,163, 1.0)",
+        "Property Crimes": "rgba(128,125,186, 1.0)",
+        "Quality-of-life Crimes": "rgba(188,189,220, 1.0)",
+        "Restaurants": "black",
+        "Bars": "black",
+        "Stores": "black",
+    };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
-    var init = function() {
+    var init = function () {
 
-    } ();
+    }();
 }

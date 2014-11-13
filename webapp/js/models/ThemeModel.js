@@ -13,7 +13,7 @@ function ThemeModel() {
      * Returns tool background color
      * * @returns {string}
      */
-    this.toolBackgroundColor = function() {
+    this.toolBackgroundColor = function () {
         return "rgba(41, 36, 33, 1.0)";
     };
 
@@ -21,23 +21,25 @@ function ThemeModel() {
      * Default text color
      * @returns {string}
      */
-    this.defaultToolTextColor = function() {
+    this.defaultToolTextColor = function () {
         return "rgba(246, 246, 246, 1.0)";
     };
-    
-    this.selectedButtonColor = function() {
-        return "rgba(35, 84, 204, 1.0)";
+
+    this.selectedButtonColor = function (layerName) {
+        //return "rgba(35, 84, 204, 1.0)";
+        return model.getVisualizationModel().layersColors[layerName];
     };
-    
-    this.deselectedButtonColor = function() {
-        return "rgba(45, 108, 214, 0.3)";
+
+    this.deselectedButtonColor = function () {
+        //return "rgba(45, 108, 214, 0.3)";
+        return "rgba(92, 87, 84, 1)";
     };
 
     /**
      *
      * @returns {string}
      */
-    this.bigTextSize = function() {
+    this.bigTextSize = function () {
         return "24px";
     };
 
@@ -45,7 +47,7 @@ function ThemeModel() {
      *
      * @returns {string}
      */
-    this.mediumTextSize = function() {
+    this.mediumTextSize = function () {
         return "19px";
     };
 
@@ -53,12 +55,12 @@ function ThemeModel() {
      *
      * @returns {string}
      */
-    this.smallTextSize = function() {
+    this.smallTextSize = function () {
         return "16px";
     };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
-    var init = function() {
+    var init = function () {
 
-    } ();
+    }();
 }
