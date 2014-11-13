@@ -34,6 +34,38 @@ function VisualizationModel() {
     };
 
     /**
+     *
+     * @returns {number}
+     */
+    this.selectionPointRadius = function() {
+        return 15;
+    };
+
+    /**
+     *
+     * @returns {string}
+     */
+    this.selectionCornerFillColor = function() {
+        return "rgba(41,36,33, 1.0)";
+    };
+
+    /**
+     *
+     * @returns {string}
+     */
+    this.selectionCornerStrokeColor = function() {
+        return "rgba(0,0,0, 1.0)";
+    };
+
+    /**
+     *
+     * @returns {number}
+     */
+    this.selectionCornerStrokeWidth = function() {
+        return 3;
+    };
+
+    /**
      * Returns area of interest fill color
      * * @returns {string}
      */
@@ -45,8 +77,16 @@ function VisualizationModel() {
      * Returns area of interest stroke color
      * * @returns {string}
      */
-    this.areaOfInterestStrokeColor = function () {
-        return "rgba(246,246,246, 1.0)";
+    this.areaOfInterestStrokeColor = function() {
+        return "rgba(41,36,33, 0.6)";
+    };
+
+    /**
+     *
+     * @returns {number}
+     */
+    this.areaOfInterestStrokeWidth = function() {
+        return 8;
     };
 
     /**
