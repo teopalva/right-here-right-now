@@ -107,19 +107,19 @@ function VisualizationModel() {
 
     // CTA
     /**
-     * Returns CTA color
+     * Returns CTA bus color
      * @returns {string}
      */
     this.CTAMarkerColor = function () {
-        return "rgba(252,78,42, 1.0)";
+        return this.layersColors["CTA bus"];
     };
 
     /**
-     * Returns CTA icon path
+     * Returns CTA bus icon path
      * @returns {string}
      */
     this.CTAMarkerIconPath = function () {
-        return "assets/icon/markers/pothole.svg";
+        return "assets/icon/markers/cta_bus.svg";
     };
 
     /**
@@ -133,13 +133,41 @@ function VisualizationModel() {
         }
     };
 
+    // CTA
+    /**
+     * Returns CTA color
+     * @returns {string}
+     */
+    this.CTABusStationColor = function () {
+        return this.layersColors["CTA bus"];
+    };
+
+    /**
+     * Returns CTA icon path
+     * @returns {string}
+     */
+    this.CTABusStationIconPath = function () {
+        return "assets/icon/markers/bus_stop.svg";
+    };
+
+    /**
+     * Returns CTA marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.CTABusStationIconSize = function () {
+        return {
+            width: 70,
+            height: 70
+        }
+    };
+    
     // DIVVY
     /**
      * Returns divvy color
      * @returns {string}
      */
     this.divvyMarkerColor = function () {
-        return "rgba(252,78,42, 1.0)";
+        return this.layersColors["Divvy Bikes"];
     };
 
     /**
@@ -147,7 +175,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.divvyMarkerIconPath = function () {
-        return "assets/icon/markers/pothole.svg";
+        return "assets/icon/markers/divvy.svg";
     };
 
     /**
@@ -164,19 +192,19 @@ function VisualizationModel() {
 
     // Subways
     /**
-     * Returns subways color
+     * Returns subway station color
      * @returns {string}
      */
     this.subwaysMarkerColor = function () {
-        return "rgba(252,78,42, 1.0)";
+        return this.layersColors["CTA train"];
     };
 
     /**
-     * Returns subways icon path
+     * Returns subway station icon path
      * @returns {string}
      */
     this.subwaysMarkerIconPath = function () {
-        return "assets/icon/markers/pothole.svg";
+        return "assets/icon/markers/train_stop.svg";
     };
 
     /**
@@ -197,7 +225,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.potholesMarkerColor = function () {
-        return "rgba(252,78,42, 1.0)";
+        return this.layersColors["Potholes"];
     };
 
     /**
@@ -205,7 +233,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.potholesMarkerIconPath = function () {
-        return "assets/icon/markers/pothole.svg";
+        return "assets/icon/markers/potholes.svg";
     };
 
     /**
@@ -226,7 +254,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.abandonedVehiclesMarkerColor = function () {
-        return "rgba(252,78,42, 1.0)";
+        return this.layersColors["Abandoned Vehicles"];
     };
 
     /**
@@ -234,7 +262,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.abandonedVehiclesMarkerIconPath = function () {
-        return "assets/icon/markers/pothole.svg";
+        return "assets/icon/markers/vehicles.svg";
     };
 
     /**
@@ -255,7 +283,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.streetLightsMarkerColor = function () {
-        return "rgba(252,78,42, 1.0)";
+        return this.layersColors["Streets Lights Out"];
     };
 
     /**
@@ -263,7 +291,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.streetLightsMarkerIconPath = function () {
-        return "assets/icon/markers/pothole.svg";
+        return "assets/icon/markers/light.svg";
     };
 
     /**
@@ -284,7 +312,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.violentCrimesMarkerColor = function () {
-        return "rgba(106,81,163, 1.0)";
+        return this.layersColors["Violent Crimes"];
     };
 
     /**
@@ -292,7 +320,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.violentCrimesMarkerIconPath = function () {
-        return "assets/icon/markers/pothole.svg";
+        return "assets/icon/markers/crime_violent.svg";
     };
 
     /**
@@ -312,7 +340,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.propertyCrimesMarkerColor = function () {
-        return "rgba(128,125,186, 1.0)";
+        return this.layersColors["Property Crimes"];
     };
 
     /**
@@ -320,7 +348,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.propertyCrimesMarkerIconPath = function () {
-        return "assets/icon/markers/pothole.svg";
+        return "assets/icon/markers/crime_property.svg";
     };
 
     /**
@@ -341,7 +369,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.qualityOfLifeCrimesMarkerColor = function () {
-        return "rgba(188,189,220, 1.0)";
+        return this.layersColors["Quality-of-life Crimes"];
     };
 
     /**
@@ -349,7 +377,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.qualityOfLifeCrimesMarkerIconPath = function () {
-        return "assets/icon/markers/pothole.svg";
+        return "assets/icon/markers/crime_quality-of-life.svg";
     };
 
     /**
