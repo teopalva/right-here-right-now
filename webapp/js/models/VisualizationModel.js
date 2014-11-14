@@ -70,7 +70,7 @@ function VisualizationModel() {
      * * @returns {string}
      */
     this.areaOfInterestFillColor = function () {
-        return "rgba(246,246,246, 0.5)";
+        return "rgba(246,246,246, 0.3)";
     };
 
     /**

@@ -47,11 +47,39 @@ function AreaOfInterestModel() {
                 break;
             case AreaOfInterestType.PATH:
                 _points.push(newPoint);
-                _featureCollection = computeSuggestedPath(_points);
-                notificationCenter.dispatch(Notifications.areaOfInterest.POINTS_UPDATED);
-                notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
+                requestPath(_points, function(overviewPath) {
+                    console.log(overviewPath);
+
+
+                    _featureCollection = featureCollectionBuffer(overviewPath);
+                    notificationCenter.dispatch(Notifications.areaOfInterest.POINTS_UPDATED);
+                    notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
+                });
                 break;
         }
+    };
+
+
+    var featureCollectionBuffer = function(overviewPath) {
+        var overviewPathGeo = [];
+        for(var i = 0; i < overviewPath.length; i++) {
+            overviewPathGeo.push(
+                [overviewPath[i].lng(), overviewPath[i].lat()]
+            );
+        }
+
+        var distance = 60/11100.12, // Roughly 600m
+            geoInput = {
+                type: "LineString",
+                coordinates: overviewPathGeo
+            };
+
+        var geoReader = new jsts.io.GeoJSONReader(),
+            geoWriter = new jsts.io.GeoJSONWriter();
+        var geometry = geoReader.read(geoInput).buffer(distance);
+        var polygon = geoWriter.write(geometry);
+
+        return featureCollectionForGeometry(polygon);
     };
 
     this.movePoint = function(index, latitude, longitude) {
@@ -199,7 +227,7 @@ function AreaOfInterestModel() {
 
                     // Compute coordinates
                     var coordinates = [];
-                    response["routes"][0]["overview_points"].forEach(function (point) {
+                    response["routes"][0]["overview_path"].forEach(function (point) {
                         coordinates.push([point["B"], point["k"]]);
                     });
 
@@ -285,14 +313,74 @@ function AreaOfInterestModel() {
         return computeFeatureCollectionPolygonWithCoordinates([bottomLeft, topLeft, topRight, bottomRight, bottomLeft]);
     };
 
-    var computeSuggestedPath = function(points) {
-        var circle = d3.geo.circle();
-        var circleFeature = circle.origin([points[0].longitude, points[0].latitude]).angle(0.01)();
+    // Compute path with radius
+    var computePath = function(points) {
 
-        return featureCollectionForGeometry(circleFeature);
+        var circle = d3.geo.circle();
+        var circlesFeature = [];
+
+        points.forEach(function(point) {
+            var feature = circle.origin([point.longitude, point.latitude]).angle(0.002)();
+            //feature = topologyForPolygons(feature);
+            //feature = topojson.feature(feature, feature.objects.customPath);
+            circlesFeature.push(feature);//feature.features[0].geometry);
+        });
+
+        var topology = topologyForPolygons(circlesFeature);
+        var objects = [];
+
+        for(var key in topology.objects) {
+            objects.push(topology.objects[key]);
+        }
+
+        var geojson = topojson.merge(topology, objects);
+
+        return featureCollectionForGeometry(geojson.features[0].geometry);
+    };
+
+    var requestPath = function(points, callback) {
+        var directionsService = new google.maps.DirectionsService();
+
+        var tmpWaypoints = [];
+        for(var i = 1; i < (points.length -1); i++) {
+            tmpWaypoints.push({
+                location: new google.maps.LatLng(points[i].latitude, points[i].longitude),
+                stopover:false
+            });
+        }
+
+        var request = {
+            origin: new google.maps.LatLng(points[0].latitude, points[0].longitude),
+            destination: new google.maps.LatLng(_points[points.length - 1].latitude, points[_points.length - 1].longitude),
+            waypoints: tmpWaypoints,
+            travelMode: google.maps.TravelMode.WALKING
+        };
+        // Route the directions and pass the response to a
+        // function to create markers for each step.
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+
+                // Compute coordinates
+                var coordinates = [];
+                response["routes"][0]["overview_path"].forEach(function (point) {
+                    coordinates.push([point["B"], point["k"]]);
+                });
+
+                // TODO:
+                god = response;
+                console.log("got response");
+
+                callback(response["routes"][0]["overview_path"]);
+                //_featureCollection = computeFeatureCollectionPolygonWithCoordinates(coordinates);
+
+                //notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
+            }
+        });
     };
 
     var featureCollectionForGeometry = function(geometry) {
+        var features = [];
+
         return {
             type: "FeatureCollection",
             features: [
@@ -302,6 +390,32 @@ function AreaOfInterestModel() {
                 }
             ]
         };
+    };
+
+    var topologyForPolygons = function(polygons) {
+        //var arc = polygons.coordinates[0];
+        var arcs = [];
+        var geometries = [];
+        var objects = {};
+
+        polygons.forEach(function(polygon, i) {
+            arcs.push(polygon.coordinates[0]);
+            objects["obj" + i] = {
+                "type": "GeometryCollection",
+                "geometries": [
+                    {
+                        "type": "Polygon",
+                        "arcs": [[i]]
+                    }
+                ]
+            };
+        });
+
+        return {
+            "type": "Topology",
+            "objects": objects,
+            "arcs": arcs
+        }
     };
 
     var init = function () {
