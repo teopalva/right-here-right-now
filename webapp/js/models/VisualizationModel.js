@@ -105,6 +105,22 @@ function VisualizationModel() {
         return 5;
     };
 
+    /**
+     * Return marker (circle) stroke color
+     * @returns {string}
+     */
+    this.markerStrokeColor = function(){
+        return "white";
+    }
+
+    /**
+     * Return marker (circle) stroke width
+     * @returns {string}
+     */
+    this.markerStrokeWidth = function(){
+        return "0.5";
+    }
+
     // CTA
     /**
      * Returns CTA bus color

@@ -111,7 +111,9 @@ function QualityOfLifeCrimesLayerViewController() {
                     var point = self.project(d.latitude, d.longitude);
                     return point.y;
                 })
-                .attr("r", model.getVisualizationModel().markerRadius());
+                .attr("r", model.getVisualizationModel().markerRadius())
+                .attr("stroke",model.getVisualizationModel().markerStrokeColor())
+                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth());
 
             // Exit
             markers.exit().remove();
