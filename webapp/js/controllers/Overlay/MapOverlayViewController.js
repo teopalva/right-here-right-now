@@ -25,11 +25,19 @@ function MapOverlayViewController() {
     var _modeViewController;
     var _modeViewSize = {width: 316.5, height: 328.5};
     
-    //var _mapControlViewController;
+    var _mapControlViewController;
     //var _mapControlViewSize = {width: 316.5, height: 145};
     
     var _layersBarViewController;
     var _layersBarViewSize = {width: 340, height: 974};
+
+    var _chartsAreaViewController;
+    var _chartsAreaFrame = {
+        x: (3750 - 1500) -12.5,
+        y: 12.5,
+        width: 1500,
+        height: 975
+    };
 
     /////////////////////////////// PUBLIC METHODS ///////////////////////////////
     /**
@@ -62,6 +70,10 @@ function MapOverlayViewController() {
         _layersBarViewController.getView().setViewBox(0, 0, _layersBarViewSize.width, _layersBarViewSize.height);
         self.add(_layersBarViewController);
 
+        _chartsAreaViewController.getView().setFrame(_chartsAreaFrame.x, _chartsAreaFrame.y, _chartsAreaFrame.width, _chartsAreaFrame.height);
+        _chartsAreaViewController.getView().setViewBox(0, 0, _chartsAreaFrame.width, _chartsAreaFrame.height);
+        self.add(_chartsAreaViewController);
+
         addBehaviours();
 
         // Call super
@@ -82,7 +94,7 @@ function MapOverlayViewController() {
         _mapControlViewController = new UIMapControlViewController();
         _layersBarViewController = new UILayersBarViewController();
         _notificationCenterViewController = new UINotificationCenterViewController();
-
+        _chartsAreaViewController = new UIChartsAreaViewController();
     } ();
 }
 
