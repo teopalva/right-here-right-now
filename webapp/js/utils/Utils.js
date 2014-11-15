@@ -39,3 +39,29 @@ String.prototype.hashCode = function() {
     }
     return Math.abs(hash);
 };
+
+/**
+ * Return a time in AM / PM format
+ * @param date
+ * @returns {string}
+ */
+function formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+}
+
+/**
+ * Capitalize string
+ * @returns {string}
+ */
+String.prototype.capitalize = function() {
+
+    var str = this.toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}

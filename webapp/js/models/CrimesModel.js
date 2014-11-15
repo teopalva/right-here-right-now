@@ -23,6 +23,7 @@ function CrimesModel() {
      *      - description : string
      *      - latitude : number
      *      - longitude : number
+     *      - location : string
      * @param category Ex: CrimeCategory.PROPERTY
      * @returns {Array}
      */
@@ -60,7 +61,7 @@ function CrimesModel() {
         var elapsed = Date.now() - days * 86400000;
         var date = new Date(elapsed);
 
-        var query = "?$select=primary_type,description,date,latitude,longitude,id,arrest" +
+        var query = "?$select=primary_type,description,date,latitude,longitude,id,arrest,location_description,block,case_number" +
             "&$limit=" + limit +
             "&$order=date%20DESC" +
             "&$where=date>=%27" + date.toISOString() + "%27" +
@@ -85,9 +86,14 @@ function CrimesModel() {
         d3.json(link + query, function(json){
             json.forEach(function(crime){
                 // Add only if we know both latitude and longitude
-                if(crime.latitude && crime.longitude) {
-                    //console.log(crime);
+                if(crime.latitude && crime.longitude && crime.location_description) {
                     crime.category = categorize(crime.primary_type);
+
+                    crime.block = parseBlock(crime.block);
+                    crime.date = parseDate(crime.date);
+                    crime.description = crime.description.capitalize();
+                    crime.primary_type =  crime.primary_type.capitalize();
+                    crime.location_description = crime.location_description.capitalize();
                     _crimes.push(crime);
                 }
             });
@@ -152,6 +158,15 @@ function CrimesModel() {
             // should never get here
             default                                     : return CrimeCategory._error;
         }
+    };
+
+    var parseBlock = function(block){
+      return block.substring(6);
+    };
+
+    var parseDate = function(date) {
+        var parsedDate = new Date(date.replace("T"," "));
+        return parsedDate.toDateString() + " - " + formatAMPM(parsedDate);
     };
 
     var init = function() {

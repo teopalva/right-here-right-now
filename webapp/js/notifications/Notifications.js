@@ -142,3 +142,11 @@ Notifications.qualityOfLifeCrimes = {
 Notifications.buttons = {
     NEW_TRIP_CLICKED : "com.righthererightnow.buttons.newTripClicked"
 };
+
+/**
+ * Popups
+ * @type {{}}
+ */
+Notifications.popups = {
+    POPUPS_CHANGED : "com.righthererightnow.popups.popupsChanged"
+}
