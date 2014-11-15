@@ -15,7 +15,6 @@ function CtaBusVehiclesLayerViewController() {
 
     // To draw the icons on the map
     var _markersViewController;
-    var _vehiclesColor = "teal";
 
     //////////////////////// PUBLIC METHODS ////////////////////////
     //this.timeChanged = function() {
@@ -45,7 +44,7 @@ function CtaBusVehiclesLayerViewController() {
         self.vehiclesChanged();
     };
 
-    this.zoomChanged = function() {
+    this.zoomUpdated = function() {
         draw();
     };
 
@@ -169,7 +168,7 @@ function CtaBusVehiclesLayerViewController() {
         // Subscribe to notifications
         notificationCenter.subscribe(self, self.vehiclesChanged, Notifications.cta.VEHICLES);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.pathChanged, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.zoomUpdated, Notifications.mapController.ZOOM_CHANGED);
 
 
     } ();

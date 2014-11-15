@@ -98,6 +98,7 @@ var Layers = {
     DIVVY_BIKES: "DivvyBikesLayerViewController",
     CTA_STOPS: "CtaLayerViewController",
     CTA_BUSES: "CtaStopsLayerViewController",
+    CTA_TRAINS: "CtaTrainLayerViewController",
     AREA_OF_INTEREST: "AreaOfInterestViewController",
     VIOLENT_CRIMES: "ViolentCrimesLayerViewController",
     PROPERTY_CRIMES: "PropertyCrimesLayerViewController",

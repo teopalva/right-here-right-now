@@ -47,6 +47,9 @@ function Model() {
     // Holds cta buses and stops information
     var _ctaModel;
 
+    // Holds cta trains and stops information
+    var _ctaTrainModel;
+
     // Holds violentCrimes information
     var _crimesModel;
 
@@ -140,7 +143,15 @@ function Model() {
      */
     this.getCtaModel = function() {
         return _ctaModel;
-    }
+    };
+
+    /**
+     * Returns the cta train model
+     * @returns {CtaTrainModel|*}
+     */
+    this.getCtaTrainModel = function() {
+        return _ctaTrainModel;
+    };
 
     /**
      * Returns map layers model
@@ -194,6 +205,9 @@ function Model() {
 
         // Cta
         _ctaModel = new CtaModel();
+
+        // Cta Train
+        _ctaTrainModel = new CtaTrainModel();
 
         // Crimes
         _crimesModel = new CrimesModel();

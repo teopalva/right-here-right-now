@@ -136,7 +136,7 @@ function VisualizationModel() {
         return "0.5";
     }
 
-    // CTA
+    // CTA Bus
     /**
      * Returns CTA bus color
      * @returns {string}
@@ -164,13 +164,13 @@ function VisualizationModel() {
         }
     };
 
-    // CTA
+    // CTA Bus Stations
     /**
      * Returns CTA color
      * @returns {string}
      */
     this.CTABusStationColor = function () {
-        return this.layersColors["CTA bus"];
+        return this.layersColors["CTA stops"];
     };
 
     /**
@@ -187,8 +187,36 @@ function VisualizationModel() {
      */
     this.CTABusStationIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 40,
+            height: 40
+        }
+    };
+
+    // CTA Train Stations
+    /**
+     * Returns CTA color
+     * @returns {string}
+     */
+    this.CTATrainStationColor = function () {
+        return this.layersColors["CTA train"];
+    };
+
+    /**
+     * Returns CTA icon path
+     * @returns {string}
+     */
+    this.CTATrainStationIconPath = function () {
+        return "assets/icon/markers/train_stop.svg";
+    };
+
+    /**
+     * Returns CTA marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.CTATrainStationIconSize = function () {
+        return {
+            width: 40,
+            height: 40
         }
     };
     
@@ -427,6 +455,7 @@ function VisualizationModel() {
      */
     this.layersColors = {
         "CTA bus": "rgba(28,91,166, 1.0)",
+        "CTA stops": "teal",
         "CTA train": "rgba(53,126,186, 1.0)",
         "Divvy Bikes": "rgba(90,158,204, 1.0)",
         "Potholes": "rgba(248,53,33, 1.0)",
@@ -437,7 +466,7 @@ function VisualizationModel() {
         "Quality-of-life Crimes": "rgba(188,189,220, 1.0)",
         "Restaurants": "rgba(31,123,53, 1.0)",
         "Bars": "rgba(55,159,75, 1.0)",
-        "Stores": "rgba(100,187,99, 1.0)",
+        "Stores": "rgba(100,187,99, 1.0)"
     };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////

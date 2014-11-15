@@ -1,10 +1,10 @@
 /***
- * @class CtaBusStopsLayerViewController
- * @description Layer of CTA buses stops.
+ * @class CtaTrainLayerViewController
+ * @description Layer of CTA trains.
  *
  * @constructor
  */
-function CtaBusStopsLayerViewController() {
+function CtaTrainLayerViewController() {
     MapLayerController.call(this);
 
     //////////////////////// PRIVATE ATTRIBUTES ////////////////////////
@@ -12,7 +12,6 @@ function CtaBusStopsLayerViewController() {
 
     // To draw the icons on the map
     var _markersViewController;
-    var _stopsColor = "#f67a43";
 
     //////////////////////// PUBLIC METHODS ////////////////////////
 
@@ -27,10 +26,11 @@ function CtaBusStopsLayerViewController() {
      *
      */
     this.pathChanged = function() {
-        model.getCtaModel().stopUpdates();
-        model.getCtaModel().retrieveData();
-
-        self.stopsChanged();
+        //model.getCtaTrainModel().stopUpdates();
+        //model.getCtaTrainModel().retrieveStations();
+        //
+        //self.stopsChanged();
+        draw();
     };
 
     this.zoomUpdated = function() {
@@ -42,20 +42,20 @@ function CtaBusStopsLayerViewController() {
      */
     var super_dispose = this.dispose;
     this.dispose = function() {
-        console.log("CTA Stops Dispose");
+        console.log("CTA Train Dispose");
 
         // Call super dispose
         super_dispose.call(self);
 
         // Do cleaning stuff here
-        model.getCtaModel().stopUpdates();
+        model.getCtaTrainModel().stopUpdates();
         notificationCenter.unsuscribeFromAll(self);
     };
 
     //////////////////////// PRIVATE METHODS ////////////////////////
     var draw = function() {
-        var stops = model.getCtaModel().getStops();
-        console.log("Stops");
+        var stops = model.getCtaTrainModel().getStations();
+        console.log("Stations");
         console.log(stops);
 
 
@@ -66,8 +66,8 @@ function CtaBusStopsLayerViewController() {
 
 
         var size = {
-            width: model.getVisualizationModel().CTABusStationIconSize().width,
-            height: model.getVisualizationModel().CTABusStationIconSize().height
+            width: model.getVisualizationModel().CTATrainStationIconSize().width,
+            height: model.getVisualizationModel().CTATrainStationIconSize().height
         };
         var markers;
 
@@ -94,7 +94,7 @@ function CtaBusStopsLayerViewController() {
                 .append("image")
                 .classed("marker", true)
                 .classed("pin", true)
-                .attr("xlink:href", model.getVisualizationModel().CTABusStationIconPath())
+                .attr("xlink:href", model.getVisualizationModel().CTATrainStationIconPath())
                 .attr("x", function(d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x - (size.width / 2);
@@ -129,7 +129,7 @@ function CtaBusStopsLayerViewController() {
                 .append("circle")
                 .classed("marker", true)
                 .classed("point", true)
-                .style("fill", model.getVisualizationModel().CTABusStationColor())
+                .style("fill", model.getVisualizationModel().CTATrainStationColor())
                 .attr("cx", function(d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x;
@@ -148,20 +148,20 @@ function CtaBusStopsLayerViewController() {
 
     };
     var init = function() {
-        self.getView().addClass("cta-stops-layer-view-controller");
+        self.getView().addClass("cta-train-layer-view-controller");
 
         _markersViewController = new MarkersViewController();
 
         // Subscribe to notifications
-        notificationCenter.subscribe(self, self.stopsChanged, Notifications.cta.STOPS);
+        notificationCenter.subscribe(self, self.stopsChanged, Notifications.cta.TRAIN_STATIONS);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.zoomUpdated, Notifications.mapController.ZOOM_CHANGED);
 
         // Start all the queries
-        model.getCtaModel().retrieveData();
+        model.getCtaTrainModel().retrieveStations();
 
     } ();
 
 }
 
-Utils.extend(CtaBusStopsLayerViewController, MapLayerController);
+Utils.extend(CtaTrainLayerViewController, MapLayerController);

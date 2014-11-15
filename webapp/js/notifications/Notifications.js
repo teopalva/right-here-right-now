@@ -107,7 +107,8 @@ Notifications.cta = {
     LAYER_UPDATED: "com.righthererightnow.cta.layerUpdated",
     TIME : "com.righthererightnow.cta.time",
     VEHICLES: "com.righthererightnow.cta.vechicles",
-    STOPS: "com.righthererightnow.cta.stops"
+    STOPS: "com.righthererightnow.cta.stops",
+    TRAIN_STATIONS: "com.righthererihgtnow.cta.trainStations"
 };
 
 /**
@@ -139,5 +140,5 @@ Notifications.qualityOfLifeCrimes = {
  * @type {{}}
  */
 Notifications.buttons = {
-    NEW_TRIP_CLICKED : "com.righthererightnow.buttons.newTripClicked",
+    NEW_TRIP_CLICKED : "com.righthererightnow.buttons.newTripClicked"
 };

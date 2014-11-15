@@ -29,7 +29,7 @@ function UILayersBarViewController() {
             elements: [{
                     title: "CTA bus",
                     button: new UIButtonViewController(),
-                    layers: [Layers.CTA_STOPS, Layers.CTA_BUSES]
+                    layers: [Layers.CTA_STOPS, Layers.CTA_BUSES, Layers.CTA_TRAINS]
             },
                 {
                     title: "Divvy Bikes",
