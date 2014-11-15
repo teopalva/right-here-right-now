@@ -3,6 +3,10 @@
  * @description Implements an abstraction of an underline svg element, with methods to manipulate dimensions
  * and styles.
  *
+ * @protocol
+ * - frameDidChange()
+ * - viewBoxDidChange()
+ *
  * @constructor
  */
 function UIView() {
@@ -12,7 +16,27 @@ function UIView() {
     var _svg;
     var _eventsLayer;
 
+
+    var _delegate = null;
+
+
     //////////////////////// PUBLIC METHODS ////////////////////////
+    /**
+     * Set the UIView delegate
+     * @param delegate
+     */
+    this.setDelegate = function(delegate) {
+        _delegate = delegate;
+    };
+
+    /**
+     * Returns the UIVIew delegate
+     * @returns {*}
+     */
+    this.getDelegate = function() {
+        return _delegate;
+    };
+
     /**
      * Append the current view to the given d3Element (parent view)
      * @param d3Element
@@ -195,6 +219,10 @@ function UIView() {
      */
     this.setViewBox = function (x, y, width, height) {
         _svg.attr("viewBox", x + " " + y + " " + width + " " + height);
+
+        if(_delegate != null) {
+            _delegate.viewBoxDidChange();
+        }
     };
 
     /**
@@ -209,6 +237,10 @@ function UIView() {
         _svg.attr("y", y);
         _svg.attr("width", width);
         _svg.attr("height", height);
+
+        if(_delegate != null) {
+            _delegate.frameDidChange();
+        }
     };
 
     /**
@@ -219,6 +251,10 @@ function UIView() {
     this.setFramePosition = function (x, y) {
         _svg.attr("x", x);
         _svg.attr("y", y);
+
+        if(_delegate != null) {
+            _delegate.frameDidChange();
+        }
     };
 
     /**
@@ -229,6 +265,10 @@ function UIView() {
     this.setFrameSize = function (width, height) {
         _svg.attr("width", width);
         _svg.attr("height", height);
+
+        if(_delegate != null) {
+            _delegate.frameDidChange();
+        }
     };
 
     /**

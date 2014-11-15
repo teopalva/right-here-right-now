@@ -47,7 +47,7 @@ function MapViewController(htmlContainer) {
         // Current layers
         var currentLayers = self.getChildren();
 
-        // Draw layers
+        // Get layers
         var layersControllers = _layersControllersFactory.getMapLayers();
 
         // Remove inactive layers
