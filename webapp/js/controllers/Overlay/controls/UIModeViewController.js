@@ -15,6 +15,8 @@ function UIModeViewController() {
     var _rectModeButton;
     var _pathModeButton;
 
+    var _selectColor = model.getThemeModel().deselectedButtonColor;
+    var _deselectColor = model.getThemeModel().toolBackgroundColor;
 
     /////////////////////  PUBLIC METHODS /////////////////////
     /**
@@ -27,10 +29,11 @@ function UIModeViewController() {
         // NEW TRIP
         _newTripButton.getView().setFrame(31, 17.5, 253.5, 75.5);
         _newTripButton.getView().setViewBox(0, 0, 253.5, 75.5);
-        _newTripButton.setImage("assets/icon/newTripButton.svg");
+        //_newTripButton.setImage("assets/icon/newTripButton.svg");
         _newTripButton.setTitle("NEW TRIP");
+        _newTripButton.getView().setStroke("white", "1pt");
         _newTripButton.onClick(function () {
-            console.log("clicked");
+            _newTripButton.getView().highlight(_selectColor, 1000);
             model.getAreaOfInterestModel().clearPath();
         });
         self.add(_newTripButton);
@@ -38,23 +41,25 @@ function UIModeViewController() {
         // RECTANGULAR SELECTION
         _rectModeButton.getView().setFrame(31, 108.5, 112, 113);
         _rectModeButton.getView().setViewBox(0, 0, 112, 113);
-        _rectModeButton.setImage("assets/icon/rectMode_deselected.svg");
-        _rectModeButton.onClick(function() {
+        _rectModeButton.setImage("assets/icon/rectMode_selected.svg");
+        _rectModeButton.onClick(function () {
             model.getAreaOfInterestModel().setAreaOfInterestType(AreaOfInterestType.RECTANGLE);
+            updateModeIcon();
         });
         self.add(_rectModeButton);
 
         // CUSTOM PATH
-        _pathModeButton.getView().setFrame(172, 108.5, 112, 113);
+        _pathModeButton.getView().setFrame(175, 108.5, 112, 113);
         _pathModeButton.getView().setViewBox(0, 0, 112, 113);
         _pathModeButton.setImage("assets/icon/pathMode_deselected.svg");
-        _pathModeButton.onClick(function() {
+        _pathModeButton.onClick(function () {
             model.getAreaOfInterestModel().setAreaOfInterestType(AreaOfInterestType.PATH);
+            updateModeIcon();
         });
         self.add(_pathModeButton);
-        
+
         // RECOMMENDER
-        
+
         // Walk
         _walkButton.getView().setFrame(40, 256.5, 22, 38.5);
         _walkButton.getView().setViewBox(0, 0, 22, 38.5);
@@ -66,13 +71,13 @@ function UIModeViewController() {
         _bikeButton.getView().setViewBox(0, 0, 41, 38.5);
         _bikeButton.setImage("assets/icon/transport/bike.svg");
         self.add(_bikeButton);
-        
+
         // Car
         _carButton.getView().setFrame(164, 256.5, 50, 42.5);
         _carButton.getView().setViewBox(0, 0, 50, 42.5);
         _carButton.setImage("assets/icon/transport/car.svg");
         self.add(_carButton);
-        
+
         // Bus
         _busButton.getView().setFrame(239, 256.5, 37.5, 38.5);
         _busButton.getView().setViewBox(0, 0, 37.5, 38.5);
@@ -97,6 +102,20 @@ function UIModeViewController() {
         _pathModeButton = new UIButtonViewController;
 
     }();
+
+    var updateModeIcon = function () {
+        if (model.getAreaOfInterestModel().getAreaOfInterestType() === AreaOfInterestType.RECTANGLE) {
+            _rectModeButton.setImage("assets/icon/rectMode_selected.svg");
+            _pathModeButton.setImage("assets/icon/pathMode_deselected.svg");
+        } else {
+            _rectModeButton.setImage("assets/icon/rectMode_deselected.svg");
+            _pathModeButton.setImage("assets/icon/pathMode_selected.svg");
+        }
+    };
+
+    var highlightNewTripButton = function () {
+        //_newTripRect.style("fill", _selectColor).transition().delay(1000).style("fill", _deselectColor);
+    };
 }
 
 Utils.extend(UIModeViewController, UIViewController);

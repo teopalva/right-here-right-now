@@ -17,7 +17,7 @@ function UILayersBarViewController() {
         w: 300,
         h: 50
     };
-    
+
     var _margin = 4;
     var _verticalPadding = _p.h + _margin;
 
@@ -29,7 +29,12 @@ function UILayersBarViewController() {
             elements: [{
                     title: "CTA bus",
                     button: new UIButtonViewController(),
-                    layers: [Layers.CTA_STOPS, Layers.CTA_BUSES, Layers.CTA_TRAINS]
+                    layers: [Layers.CTA_STOPS, Layers.CTA_BUSES]
+            },
+                {
+                    title: "CTA train",
+                    button: new UIButtonViewController(),
+                    layers: [Layers.CTA_TRAINS]
             },
                 {
                     title: "Divvy Bikes",

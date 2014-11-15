@@ -12,24 +12,22 @@ function UIView() {
     var _svg;
     var _eventsLayer;
 
-
-
-
-
     //////////////////////// PUBLIC METHODS ////////////////////////
     /**
      * Append the current view to the given d3Element (parent view)
      * @param d3Element
      */
-    this.appendTo = function(d3Element) {
-        $(d3Element.node()).append(function(){return _svg.node()});
+    this.appendTo = function (d3Element) {
+        $(d3Element.node()).append(function () {
+            return _svg.node()
+        });
     };
 
     /**
      * Add a subview to the currentView
      * @param subview (UIView)
      */
-    this.add = function(subview) {
+    this.add = function (subview) {
         _svg.node().appendChild(subview.getSvg().node());
     };
 
@@ -37,7 +35,7 @@ function UIView() {
      * Remove subview
      * @param subview
      */
-    this.remove = function(subview) {
+    this.remove = function (subview) {
         try {
             _svg.node().removeChild(subview.getSvg().node());
         } catch (error) {
@@ -49,7 +47,7 @@ function UIView() {
      * Return the underline svg d3 selection
      * @returns {svg}
      */
-    this.getSvg = function() {
+    this.getSvg = function () {
         return _svg;
     };
 
@@ -57,7 +55,7 @@ function UIView() {
      * Set the preserveAspectRatio attribute of the svg
      * @param options {String}
      */
-    this.setAspectRatioOptions = function(options) {
+    this.setAspectRatioOptions = function (options) {
         _svg.attr("preserveAspectRatio", options);
     };
 
@@ -65,7 +63,7 @@ function UIView() {
      * Add a CSS class to the view
      * @param className
      */
-    this.addClass = function(className) {
+    this.addClass = function (className) {
         _svg.classed(className, true);
     };
 
@@ -74,7 +72,7 @@ function UIView() {
      * @param className
      * @returns {boolean}
      */
-    this.hasClass = function(className) {
+    this.hasClass = function (className) {
         return _svg.classed(className);
     };
 
@@ -82,7 +80,7 @@ function UIView() {
      * Remove a CSS class from the view
      * @param className
      */
-    this.removeClass = function(className) {
+    this.removeClass = function (className) {
         _svg.classed(className, false);
     };
 
@@ -90,7 +88,7 @@ function UIView() {
      * Return a viewBox object
      * @returns {{x: number, y: number, width: number, height: number}}
      */
-    this.getViewBox = function() {
+    this.getViewBox = function () {
         return {
             x: self.getViewBoxX(),
             y: self.getViewBoxY(),
@@ -103,7 +101,7 @@ function UIView() {
      * Returns viewBox x position
      * @returns {number}
      */
-    this.getViewBoxX = function() {
+    this.getViewBoxX = function () {
         var viewBox = _svg.attr("viewBox");
         return viewBox != null ? viewBox.split(/\s+|,/)[0] : null;
     };
@@ -112,7 +110,7 @@ function UIView() {
      * Returns viewBox y position
      * @returns {number}
      */
-    this.getViewBoxY = function() {
+    this.getViewBoxY = function () {
         var viewBox = _svg.attr("viewBox");
         return viewBox != null ? viewBox.split(/\s+|,/)[1] : null;
     };
@@ -121,7 +119,7 @@ function UIView() {
      * Return viewBox height
      * @returns {number}
      */
-    this.getViewBoxHeight = function() {
+    this.getViewBoxHeight = function () {
         var viewBox = _svg.attr("viewBox");
         return viewBox != null ? viewBox.split(/\s+|,/)[3] : null;
     };
@@ -130,7 +128,7 @@ function UIView() {
      * Return viewBox width
      * @returns {number}
      */
-    this.getViewBoxWidth = function() {
+    this.getViewBoxWidth = function () {
         var viewBox = _svg.attr("viewBox");
         return viewBox != null ? viewBox.split(/\s+|,/)[2] : null;
     };
@@ -139,7 +137,7 @@ function UIView() {
      * Return a frame object
      * @returns {{x: number, y: number, width: number, height: number}}
      */
-    this.getFrame = function() {
+    this.getFrame = function () {
         return {
             x: self.getFrameX(),
             y: self.getFrameY(),
@@ -152,7 +150,7 @@ function UIView() {
      * Return the x frame position (position of the svg within its parent)
      * @returns {number}
      */
-    this.getFrameX = function() {
+    this.getFrameX = function () {
         var x = _svg.attr("x");
         x = x != null ? x : 0;
         return x;
@@ -162,7 +160,7 @@ function UIView() {
      * Return the x frame position (position of the svg within its parent)
      * @returns {number}
      */
-    this.getFrameY = function() {
+    this.getFrameY = function () {
         var y = _svg.attr("y");
         y = y != null ? y : 0;
         return y;
@@ -172,7 +170,7 @@ function UIView() {
      * Return frame width (which is the svg element width)
      * @returns {number}
      */
-    this.getFrameWidth = function() {
+    this.getFrameWidth = function () {
         var width = _svg.attr("width");
         width = width != null ? width : 0;
         return width;
@@ -182,7 +180,7 @@ function UIView() {
      * Return frame height (which is the svg element height)
      * @returns {number}
      */
-    this.getFrameHeight = function() {
+    this.getFrameHeight = function () {
         var height = _svg.attr("height");
         height = height != null ? height : 0;
         return height;
@@ -195,7 +193,7 @@ function UIView() {
      * @param width
      * @param height
      */
-    this.setViewBox = function(x, y, width, height) {
+    this.setViewBox = function (x, y, width, height) {
         _svg.attr("viewBox", x + " " + y + " " + width + " " + height);
     };
 
@@ -206,7 +204,7 @@ function UIView() {
      * @param width
      * @param height
      */
-    this.setFrame = function(x, y, width, height) {
+    this.setFrame = function (x, y, width, height) {
         _svg.attr("x", x);
         _svg.attr("y", y);
         _svg.attr("width", width);
@@ -218,7 +216,7 @@ function UIView() {
      * @param x
      * @param y
      */
-    this.setFramePosition = function(x, y) {
+    this.setFramePosition = function (x, y) {
         _svg.attr("x", x);
         _svg.attr("y", y);
     };
@@ -228,7 +226,7 @@ function UIView() {
      * @param width
      * @param height
      */
-    this.setFrameSize = function(width, height) {
+    this.setFrameSize = function (width, height) {
         _svg.attr("width", width);
         _svg.attr("height", height);
     };
@@ -236,8 +234,8 @@ function UIView() {
     /**
      *
      */
-    this.bringToFront = function() {
-        self.getSvg().each(function(){
+    this.bringToFront = function () {
+        self.getSvg().each(function () {
             this.parentNode.appendChild(this);
         });
     };
@@ -245,14 +243,14 @@ function UIView() {
     /**
      *
      */
-    this.hide = function() {
+    this.hide = function () {
         self.getSvg().style("opacity", 0);
     };
 
     /**
      *
      */
-    this.show = function() {
+    this.show = function () {
         self.getSvg().style("opacity", 1);
     };
 
@@ -262,7 +260,7 @@ function UIView() {
      * Shorthand to set a call back function to the view click event
      * @param callBack
      */
-    this.onClick = function(callBack) {
+    this.onClick = function (callBack) {
         this.on("click", callBack);
     };
 
@@ -272,10 +270,11 @@ function UIView() {
      * @param callBack
      * @param params
      */
-    this.on = function(event, callBack, /**params=0*/params) {
-        _eventsLayer.on(event, function(){
+    this.on = function (event, callBack, /**params=0*/ params) {
+        _eventsLayer.on(event, function () {
             d3.event.stopPropagation();
-            callBack(params);});
+            callBack(params);
+        });
         _svg.style("pointer-events", "visiblePainted");
     };
 
@@ -283,15 +282,27 @@ function UIView() {
      * Set the UIView background color
      * @param color
      */
-    this.setBackgroundColor = function(color) {
+    this.setBackgroundColor = function (color) {
         _eventsLayer.style("fill", color);
     };
 
+    this.highlight = function (color, duration) {
+        var old;
+        if (_eventsLayer.style("fill")) {
+            old = _eventsLayer.style("fill");
+            _eventsLayer.style("fill", color).transition().delay(duration).style("fill", old);
+        } else return;
+    };
+
+    this.setStroke = function (color, size) {
+        _eventsLayer.style("stroke", color);
+        _eventsLayer.style("stroke-width", size);
+    };
 
 
     //////////////////////// PRIVATE METHODS ////////////////////////
-    var init = function() {
-        _svg= d3.select(document.createElementNS('http://www.w3.org/2000/svg', 'svg'));
+    var init = function () {
+        _svg = d3.select(document.createElementNS('http://www.w3.org/2000/svg', 'svg'));
         _svg.classed("ui-view", true);
         _svg.style("pointer-events", "none");
 
@@ -310,5 +321,5 @@ function UIView() {
             .attr("height", "100%");
 
         self.setAspectRatioOptions("xMinYMin meet");
-    } ();
+    }();
 }

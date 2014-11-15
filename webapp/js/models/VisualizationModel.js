@@ -37,7 +37,7 @@ function VisualizationModel() {
      *
      * @returns {number}
      */
-    this.selectionPointRadius = function() {
+    this.selectionPointRadius = function () {
         return 15;
     };
 
@@ -45,7 +45,7 @@ function VisualizationModel() {
      *
      * @returns {string}
      */
-    this.selectionCornerFillColor = function() {
+    this.selectionCornerFillColor = function () {
         return "rgba(41,36,33, 1.0)";
     };
 
@@ -53,7 +53,7 @@ function VisualizationModel() {
      *
      * @returns {string}
      */
-    this.selectionCornerStrokeColor = function() {
+    this.selectionCornerStrokeColor = function () {
         return "rgba(0,0,0, 1.0)";
     };
 
@@ -61,7 +61,7 @@ function VisualizationModel() {
      *
      * @returns {number}
      */
-    this.selectionCornerStrokeWidth = function() {
+    this.selectionCornerStrokeWidth = function () {
         return 3;
     };
 
@@ -77,7 +77,7 @@ function VisualizationModel() {
      * Returns area of interest stroke color
      * * @returns {string}
      */
-    this.areaOfInterestStrokeColor = function() {
+    this.areaOfInterestStrokeColor = function () {
         return "rgba(41,36,33, 0.6)";
     };
 
@@ -85,14 +85,14 @@ function VisualizationModel() {
      *
      * @returns {number}
      */
-    this.areaOfInterestStrokeWidth = function() {
+    this.areaOfInterestStrokeWidth = function () {
         return 8;
     };
 
     /**
      *
      */
-    this.directionsStrokeWidth = function() {
+    this.directionsStrokeWidth = function () {
         return 6;
     };
 
@@ -100,7 +100,7 @@ function VisualizationModel() {
      *
      * @returns {string}
      */
-    this.directionsStrokeColor = function() {
+    this.directionsStrokeColor = function () {
         return "rgba(52, 73, 94, 0.8)";
     };
 
@@ -124,7 +124,7 @@ function VisualizationModel() {
      * Return marker (circle) stroke color
      * @returns {string}
      */
-    this.markerStrokeColor = function(){
+    this.markerStrokeColor = function () {
         return "white";
     }
 
@@ -132,7 +132,7 @@ function VisualizationModel() {
      * Return marker (circle) stroke width
      * @returns {string}
      */
-    this.markerStrokeWidth = function(){
+    this.markerStrokeWidth = function () {
         return "0.5";
     }
 
@@ -219,7 +219,7 @@ function VisualizationModel() {
             height: 40
         }
     };
-    
+
     // DIVVY
     /**
      * Returns divvy color
@@ -458,12 +458,12 @@ function VisualizationModel() {
         "CTA stops": "teal",
         "CTA train": "rgba(53,126,186, 1.0)",
         "Divvy Bikes": "rgba(90,158,204, 1.0)",
-        "Potholes": "rgba(248,53,33, 1.0)",
-        "Abandoned Vehicles": "rgba(250,121,46, 1.0)",
-        "Streets Lights Out": "rgba(252,163,60, 1.0)",
-        "Violent Crimes": "rgba(106,81,163, 1.0)",
-        "Property Crimes": "rgba(128,125,186, 1.0)",
-        "Quality-of-life Crimes": "rgba(188,189,220, 1.0)",
+        "Potholes": "rgba(106,81,163, 1.0)",
+        "Abandoned Vehicles": "rgba(128,125,186, 1.0)",
+        "Streets Lights Out": "rgba(188,189,220, 1.0)",
+        "Violent Crimes": "rgba(248,53,33, 1.0)",
+        "Property Crimes": "rgba(250,121,46, 1.0)",
+        "Quality-of-life Crimes": "rgba(252,163,60, 1.0)",
         "Restaurants": "rgba(31,123,53, 1.0)",
         "Bars": "rgba(55,159,75, 1.0)",
         "Stores": "rgba(100,187,99, 1.0)"
