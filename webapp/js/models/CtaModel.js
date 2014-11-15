@@ -350,7 +350,7 @@ function CtaModel() {
     };
 
     /**
-     * Temporary implementation
+     * Check if a point is in the selected area of interest
      * @param geoElement
      * @returns {boolean}
      */
@@ -363,10 +363,7 @@ function CtaModel() {
             var coordinates = [longitude, latitude];
 
             var area = model.getAreaOfInterestModel().getAreaOfInterest();
-            /*if (!area) {
-             console.log("Empty area of interest!");
-             return;
-             }*/
+
             var multipolygon = area.features[0].geometry;
             var _multipolygon = [];
             _multipolygon.push(multipolygon.coordinates);

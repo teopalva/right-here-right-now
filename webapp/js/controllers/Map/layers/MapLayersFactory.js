@@ -34,10 +34,10 @@ function MapLayersFactory() {
                     layers.push(DivvyBikesLayerViewController);
                     break;
                 case Layers.CTA_STOPS:
-                    layers.push(CtaStopsLayerViewController);
+                    layers.push(CtaBusStopsLayerViewController);
                     break;
                 case Layers.CTA_BUSES:
-                    layers.push(CtaLayerViewController);
+                    layers.push(CtaBusVehiclesLayerViewController);
                     break;
                 case Layers.VIOLENT_CRIMES:
                     layers.push(ViolentCrimesLayerViewController);
