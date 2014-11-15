@@ -91,6 +91,7 @@ function CrimesModel() {
 
                     crime.block = parseBlock(crime.block);
                     crime.date = parseDate(crime.date);
+                    crime.arrest = parseArrest(crime.arrest);
                     crime.description = crime.description.capitalize();
                     crime.primary_type =  crime.primary_type.capitalize();
                     crime.location_description = crime.location_description.capitalize();
@@ -167,6 +168,12 @@ function CrimesModel() {
     var parseDate = function(date) {
         var parsedDate = new Date(date.replace("T"," "));
         return parsedDate.toDateString() + " - " + formatAMPM(parsedDate);
+    };
+
+    var parseArrest = function(arrest){
+        if(arrest)
+            return "yes";
+        return "no";
     };
 
     var init = function() {

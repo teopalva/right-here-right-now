@@ -25,13 +25,13 @@ function PopupFactory() {
     var setupCrimePopup = function (popup,dictionary) {
         // Setup popup
         var _crimeFrameSize = {
-            width: 250,
-            height: 150
+            width: 300,
+            height: 180
         };
 
         var labelsSize = {
-            width: 230,
-            height: 20
+            width: _crimeFrameSize.width - 20,
+            height: 30
         };
 
         var padding = {
@@ -70,25 +70,33 @@ function PopupFactory() {
         popup.add(typeLabel);
 
         var descriptionLabel = new UILabelViewController();
-        descriptionLabel.getView().setFrame(padding.left,padding.top * 8 ,labelsSize.width,labelsSize.height);
-        descriptionLabel.setText("Description: " + dictionary.description);
+        descriptionLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
+        descriptionLabel.setText(dictionary.description);
         descriptionLabel.setTextAlignment(TextAlignment.LEFT);
         descriptionLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         popup.add(descriptionLabel);
 
         var locationDescriptionLabel = new UILabelViewController();
-        locationDescriptionLabel.getView().setFrame(padding.left,padding.top * 9 + padding.between,labelsSize.width,labelsSize.height);
+        locationDescriptionLabel.getView().setFrame(padding.left,padding.top * 10,labelsSize.width,labelsSize.height);
         locationDescriptionLabel.setText("Location: "+dictionary.location_description);
         locationDescriptionLabel.setTextAlignment(TextAlignment.LEFT);
         locationDescriptionLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         popup.add(locationDescriptionLabel);
 
         var caseNumberLabel = new UILabelViewController();
-        caseNumberLabel.getView().setFrame(padding.left,padding.top * 10 + padding.between * 2,labelsSize.width,labelsSize.height);
+        caseNumberLabel.getView().setFrame(padding.left,padding.top * 11 + padding.between,labelsSize.width,labelsSize.height);
         caseNumberLabel.setText("Case Number: "+dictionary.case_number);
         caseNumberLabel.setTextAlignment(TextAlignment.LEFT);
         caseNumberLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         popup.add(caseNumberLabel);
+
+
+        var arrestLabel = new UILabelViewController();
+        arrestLabel.getView().setFrame(padding.left,padding.top * 12 + padding.between * 2,labelsSize.width,labelsSize.height);
+        arrestLabel.setText("Arrested: "+dictionary.arrest);
+        arrestLabel.setTextAlignment(TextAlignment.LEFT);
+        arrestLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(arrestLabel);
 
     };
 
