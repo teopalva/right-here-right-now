@@ -281,6 +281,8 @@ function AreaOfInterestModel() {
                     coordinates.push([point["B"], point["k"]]);
                 });
 
+                // TODO
+                god = response;
 
                 callback(response["routes"][0]["overview_path"]);
             }
