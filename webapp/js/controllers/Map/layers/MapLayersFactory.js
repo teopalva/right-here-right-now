@@ -17,6 +17,8 @@ function MapLayersFactory() {
         activeLayers.forEach(function(layer) {
             switch(layer) {
                 case Layers.USER_PATH:
+                    layers.push(AreaOfInterestLayerViewController);
+                    layers.push(DirectionsLayerViewController);
                     layers.push(UserPathLayerViewController);
                     break;
                 case Layers.POTHOLES:

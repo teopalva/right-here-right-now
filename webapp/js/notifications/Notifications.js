@@ -30,7 +30,8 @@ Notifications.areaOfInterest = {
     POINT_ADDED_TO_PATH : "com.divvy.areaOfInterest.pointAddedToPath",
     POINTS_UPDATED : "com.divvy.areaOfInterest.pointsUpdated",
     PATH_CLEANED : "com.divvy.areaOfInterest.pathCleaned",
-    PATH_UPDATED : "com.divvy.areaOfInterest.pathUpdated"
+    PATH_UPDATED : "com.divvy.areaOfInterest.pathUpdated",
+    DIRECTIONS_UPDATED : "com.divvy.areaOfInterest.directionsUpdated"
 };
 
 Notifications.newsfeed = {

@@ -90,6 +90,21 @@ function VisualizationModel() {
     };
 
     /**
+     *
+     */
+    this.directionsStrokeWidth = function() {
+        return 6;
+    };
+
+    /**
+     *
+     * @returns {string}
+     */
+    this.directionsStrokeColor = function() {
+        return "rgba(52, 73, 94, 0.8)";
+    };
+
+    /**
      * Returns the level of zoom at which markers can be shown with more details
      * @returns {number}
      */

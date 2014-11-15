@@ -16,6 +16,8 @@ function AreaOfInterestModel() {
     // Feature collection of the user selected area
     var _featureCollection = null;
 
+    var _directions = null;
+
     ///////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      * Adds a point to the current path
@@ -48,8 +50,16 @@ function AreaOfInterestModel() {
             case AreaOfInterestType.PATH:
                 _points.push(newPoint);
                 requestPath(_points, function(overviewPath) {
-                    console.log(overviewPath);
 
+                    var directions = [];
+                    overviewPath.forEach(function(pair) {
+                        directions.push({
+                            latitude: pair["k"],
+                            longitude: pair["B"]
+                        });
+                    });
+
+                    setDirections(directions);
 
                     _featureCollection = featureCollectionBuffer(overviewPath);
                     notificationCenter.dispatch(Notifications.areaOfInterest.POINTS_UPDATED);
@@ -60,44 +70,13 @@ function AreaOfInterestModel() {
     };
 
 
-    var featureCollectionBuffer = function(overviewPath) {
-        var overviewPathGeo = [];
-        for(var i = 0; i < overviewPath.length; i++) {
-            overviewPathGeo.push(
-                [overviewPath[i].lng(), overviewPath[i].lat()]
-            );
-        }
-
-        var distance = 60/11100.12, // Roughly 600m
-            geoInput = {
-                type: "LineString",
-                coordinates: overviewPathGeo
-            };
-
-        var geoReader = new jsts.io.GeoJSONReader(),
-            geoWriter = new jsts.io.GeoJSONWriter();
-        var geometry = geoReader.read(geoInput).buffer(distance);
-        var polygon = geoWriter.write(geometry);
-
-        return featureCollectionForGeometry(polygon);
-    };
-
-    this.movePoint = function(index, latitude, longitude) {
-
-    };
-
-
-    this.removeLastPoint = function() {
-
-    };
-
     /**
      * Remove all the points from the path
      */
     this.clearPath = function () {
         _points = [];
         _featureCollection = null;
-        //updateFeatureCollection();
+        setDirections([]);
         notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.dispatch(Notifications.areaOfInterest.POINTS_UPDATED);
     };
@@ -116,7 +95,9 @@ function AreaOfInterestModel() {
      * @param type @see AreaOfInterest enum
      */
     this.setAreaOfInterestType = function(type) {
-        console.log("set area of interest to " + type);
+        if(_areaOfInterestType != type) {
+            self.clearPath();
+        }
         _areaOfInterestType = type;
     };
 
@@ -178,13 +159,6 @@ function AreaOfInterestModel() {
      * @return {FeatureCollection}|null
      */
     this.getAreaOfInterest = function () {
-        /*var areaOfInterest = null;
-
-        if (_featureCollection != null) {
-            areaOfInterest = computeFeatureCollectionBoundRectangle(_featureCollection);
-        }
-
-        return areaOfInterest;*/
         return _featureCollection;
     };
 
@@ -193,7 +167,7 @@ function AreaOfInterestModel() {
      * way-points
      */
     this.getDirections = function() {
-        return _featureCollection;
+        return _directions;
     };
 
 
@@ -201,44 +175,9 @@ function AreaOfInterestModel() {
 
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
-    // Updates feature collection of the user selected area
-    var updateFeatureCollection = function () {
-        if (_points.length > 1) {
-            var directionsService = new google.maps.DirectionsService();
-
-            var tmpWaypoints = [];
-            for(var i = 1; i < (_points.length -1); i++) {
-                tmpWaypoints.push({
-                    location: new google.maps.LatLng(_points[i].latitude, _points[i].longitude),
-                    stopover:false
-                });
-            }
-
-            var request = {
-                origin: new google.maps.LatLng(_points[0].latitude, _points[0].longitude),
-                destination: new google.maps.LatLng(_points[_points.length - 1].latitude, _points[_points.length - 1].longitude),
-                waypoints: tmpWaypoints,
-                travelMode: google.maps.TravelMode.WALKING
-            };
-            // Route the directions and pass the response to a
-            // function to create markers for each step.
-            directionsService.route(request, function (response, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-
-                    // Compute coordinates
-                    var coordinates = [];
-                    response["routes"][0]["overview_path"].forEach(function (point) {
-                        coordinates.push([point["B"], point["k"]]);
-                    });
-
-                    _featureCollection = computeFeatureCollectionPolygonWithCoordinates(coordinates);
-
-                    notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
-                }
-            });
-        } else {
-            _featureCollection = null;
-        }
+    var setDirections = function(directions) {
+        _directions = directions;
+        notificationCenter.dispatch(Notifications.areaOfInterest.DIRECTIONS_UPDATED);
     };
 
     // Compute index of the closest point to given latitude and longitude
@@ -313,31 +252,7 @@ function AreaOfInterestModel() {
         return computeFeatureCollectionPolygonWithCoordinates([bottomLeft, topLeft, topRight, bottomRight, bottomLeft]);
     };
 
-    // Compute path with radius
-    var computePath = function(points) {
-
-        var circle = d3.geo.circle();
-        var circlesFeature = [];
-
-        points.forEach(function(point) {
-            var feature = circle.origin([point.longitude, point.latitude]).angle(0.002)();
-            //feature = topologyForPolygons(feature);
-            //feature = topojson.feature(feature, feature.objects.customPath);
-            circlesFeature.push(feature);//feature.features[0].geometry);
-        });
-
-        var topology = topologyForPolygons(circlesFeature);
-        var objects = [];
-
-        for(var key in topology.objects) {
-            objects.push(topology.objects[key]);
-        }
-
-        var geojson = topojson.merge(topology, objects);
-
-        return featureCollectionForGeometry(geojson.features[0].geometry);
-    };
-
+    // Google API
     var requestPath = function(points, callback) {
         var directionsService = new google.maps.DirectionsService();
 
@@ -366,14 +281,8 @@ function AreaOfInterestModel() {
                     coordinates.push([point["B"], point["k"]]);
                 });
 
-                // TODO:
-                god = response;
-                console.log("got response");
 
                 callback(response["routes"][0]["overview_path"]);
-                //_featureCollection = computeFeatureCollectionPolygonWithCoordinates(coordinates);
-
-                //notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
             }
         });
     };
@@ -416,6 +325,28 @@ function AreaOfInterestModel() {
             "objects": objects,
             "arcs": arcs
         }
+    };
+
+    var featureCollectionBuffer = function(overviewPath) {
+        var overviewPathGeo = [];
+        for(var i = 0; i < overviewPath.length; i++) {
+            overviewPathGeo.push(
+                [overviewPath[i].lng(), overviewPath[i].lat()]
+            );
+        }
+
+        var distance = 60/11100.12, // Roughly 600m
+            geoInput = {
+                type: "LineString",
+                coordinates: overviewPathGeo
+            };
+
+        var geoReader = new jsts.io.GeoJSONReader(),
+            geoWriter = new jsts.io.GeoJSONWriter();
+        var geometry = geoReader.read(geoInput).buffer(distance);
+        var polygon = geoWriter.write(geometry);
+
+        return featureCollectionForGeometry(polygon);
     };
 
     var init = function () {
