@@ -220,7 +220,7 @@ function UIView() {
     this.setViewBox = function (x, y, width, height) {
         _svg.attr("viewBox", x + " " + y + " " + width + " " + height);
 
-        if(_delegate != null && _delegate.viewBoxDidChange === "function") {
+        if(_delegate != null && typeof _delegate.viewBoxDidChange == "function") {
             _delegate.viewBoxDidChange();
         }
     };
@@ -238,7 +238,7 @@ function UIView() {
         _svg.attr("width", width);
         _svg.attr("height", height);
 
-        if(_delegate != null && _delegate.frameDidChange === "function") {
+        if(_delegate != null && typeof _delegate.frameDidChange == "function") {
             _delegate.frameDidChange();
         }
     };
@@ -252,7 +252,7 @@ function UIView() {
         _svg.attr("x", x);
         _svg.attr("y", y);
 
-        if(_delegate != null && _delegate.frameDidChange === "function") {
+        if(_delegate != null && typeof _delegate.frameDidChange == "function") {
             _delegate.frameDidChange();
         }
     };
@@ -266,7 +266,7 @@ function UIView() {
         _svg.attr("width", width);
         _svg.attr("height", height);
 
-        if(_delegate != null && _delegate.frameDidChange === "function") {
+        if(_delegate != null && typeof _delegate.frameDidChange == "function") {
             _delegate.frameDidChange();
         }
     };
@@ -326,6 +326,15 @@ function UIView() {
         _eventsLayer.style("fill", color);
     };
 
+    /**
+     * Set the UIView corner radius
+     * @param radius
+     */
+    this.setCornerRadius = function(radius) {
+      _eventsLayer
+          .attr("rx",radius)
+          .attr("ry",radius);
+    };
     this.highlight = function (color, duration) {
         var old;
         if (_eventsLayer.style("fill")) {
