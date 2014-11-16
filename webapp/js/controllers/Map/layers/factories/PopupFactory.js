@@ -454,7 +454,7 @@ function PopupFactory() {
 
         var nameLabel = new UILabelViewController();
         nameLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
-        nameLabel.setText("Name: " + dictionary.dba_name);
+        nameLabel.setText("Restaurant: " + dictionary.dba_name);
         nameLabel.setTextAlignment(TextAlignment.LEFT);
         nameLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         popup.add(nameLabel);
