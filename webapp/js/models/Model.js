@@ -53,6 +53,9 @@ function Model() {
     // Holds violentCrimes information
     var _crimesModel;
 
+    // Holds popup information
+    var _popupModel;
+
 
 
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
@@ -165,6 +168,14 @@ function Model() {
         return _crimesModel;
     };
 
+    /**
+     * Returns popup model
+     * @returns {PopupModel}
+     */
+    this.getPopupModel = function() {
+        return _popupModel;
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {
         // Map
@@ -211,6 +222,9 @@ function Model() {
 
         // Crimes
         _crimesModel = new CrimesModel();
+
+        // Popups
+        _popupModel = new PopupModel();
 
     } ();
 }

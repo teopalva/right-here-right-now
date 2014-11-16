@@ -84,6 +84,7 @@ function MapLayersModel() {
         });
 
         self.enableLayers([Layers.USER_PATH]);
+        self.enableLayers([Layers.POPUPS]);
     } ();
 }
 
@@ -99,8 +100,9 @@ var Layers = {
     CTA_STOPS: "CtaLayerViewController",
     CTA_BUSES: "CtaStopsLayerViewController",
     CTA_TRAINS: "CtaTrainLayerViewController",
-    AREA_OF_INTEREST: "AreaOfInterestViewController",
     VIOLENT_CRIMES: "ViolentCrimesLayerViewController",
     PROPERTY_CRIMES: "PropertyCrimesLayerViewController",
-    QUALITY_OF_LIFE_CRIMES: "QualityOfLifeCrimesLayerViewController"
+    QUALITY_OF_LIFE_CRIMES: "QualityOfLifeCrimesLayerViewController",
+    AREA_OF_INTEREST: "AreaOfInterestViewController",
+    POPUPS: "PopupLayerViewController"
 };
