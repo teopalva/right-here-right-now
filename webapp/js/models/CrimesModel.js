@@ -109,7 +109,7 @@ function CrimesModel() {
      * @param primaryType
      * @returns {*}
      */
-    this.getNumberOfCrimeInChicago = function(primaryType) {
+    this.getNumberOfCrimesInChicago = function(primaryType) {
         var filtered = getCrimes(primaryType);
         return filtered.length;
     };
