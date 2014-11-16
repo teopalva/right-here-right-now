@@ -41,6 +41,17 @@ function LightsModel() {
         _lights = [];
     };
 
+    this.getLightsDensityWithinArea = function() {
+        var filtered = model.getAreaOfInterestModel().filterObjects(_lights);
+        return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
+    };
+
+    this.getLightsDensityInChicago = function() {
+        var chicagoArea = 234;
+        var filtered = model.getAreaOfInterestModel().filterObjects(_lights);
+        return filtered.length / chicagoArea;
+    };
+
     /**
      *  Update the lights information
      */
