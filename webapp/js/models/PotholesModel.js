@@ -39,6 +39,24 @@ function PotholesModel() {
     };
 
     /**
+     *
+     * @returns {number}
+     */
+    this.getPotholesDensityWithinArea = function() {
+      var filtered = model.getAreaOfInterestModel().filterObjects(_potholes);
+      return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
+    };
+
+    /**
+     *
+     * @returns {number}
+     */
+    this.getPotholesDensityInChicago = function() {
+        var chicagoArea = 234;
+        return _potholes.length / chicagoArea;
+    };
+
+    /**
      *  Update the potholes information
      */
     this.updatePotholes = function() {
