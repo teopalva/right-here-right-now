@@ -307,6 +307,35 @@ function VisualizationModel() {
     };
 
 
+    // RESTAURANTS
+    /**
+     * Returns divvy color
+     * @returns {string}
+     */
+    this.restaurantsMarkerColor = function () {
+        return this.layersColors["Restaurants"];
+    };
+
+    /**
+     * Returns divvy icon path
+     * @returns {string}
+     */
+    this.restaurantsMarkerIconPath = function () {
+        return "assets/icon/markers/divvy.svg";
+    };
+
+    /**
+     * Returns divvy marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.restaurantsMarkerIconSize = function () {
+        return {
+            width: 70,
+            height: 70
+        }
+    };
+
+
     // Abandoned Vehicles
     /**
      * Returns abandonedVehicles color

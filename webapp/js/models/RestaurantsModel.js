@@ -36,22 +36,27 @@ function RestaurantsModel() {
         self.clearRestaurants();
 
         var link = "http://data.cityofchicago.org/resource/4ijn-s7e5.json";
-        var query = "?$select=inspection_id,dba_name,license_%20as%20license,facility_type,risk,address,inspection_date,inspection_type,results,latitude,longitude" +
+        var query = "?$select=inspection_id%20as%20id,dba_name,license_%20as%20license,facility_type,risk,address,inspection_date,inspection_type,results,latitude,longitude" +
             "&$limit=50000" +
             "&$order=inspection_date%20DESC" +
-            "&$where=results=%27Fail%27and%20facility_type=%27Restaurant%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+            "&$where=results=%27Fail%27and%20facility_type=%27Restaurant%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL%20and%20risk%20IS%20NOT%20NULL";
 
         d3.json(link + query, function(json){
             json.forEach(function(restaurant){
                if( ! contains(_restaurants,restaurant)) {
                     restaurant.inspection_date = parseDate(restaurant.inspection_date);
+                    restaurant.risk = parseRisk(restaurant.risk);
                     _restaurants.push(restaurant);
                }
             });
-            notificationCenter.dispatch(Notifications.restaurants.LAYER_UPDATED);
+            self.startUpdates();
             console.log("Restaurants file downloaded: " + _restaurants.length + " restaurants");
         });
 
+    };
+
+    this.startUpdates = function(){
+        notificationCenter.dispatch(Notifications.restaurants.LAYER_UPDATED);
     };
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
@@ -59,6 +64,11 @@ function RestaurantsModel() {
     var parseDate = function(date) {
         var parsedDate = new Date(date.replace("T"," "));
         return parsedDate.toDateString();
+    };
+
+    var parseRisk = function(risk){
+        var parsed = risk.substring(risk.lastIndexOf("(")+1,risk.lastIndexOf(")"));
+        return parsed;
     };
 
     var contains = function(array,object){

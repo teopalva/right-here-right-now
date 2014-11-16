@@ -23,12 +23,14 @@ function PopupFactory() {
                 setupLightsPopup(popup,dictionary);
                 break;
             case PopupsType.DIVVY_BIKES:
-                setupDivvyBikesPopup(popup,dictionary);
+                setupRestaurantsPopup(popup,dictionary);
                 break;
             case PopupsType.VEHICLES:
                 setupVehiclesPopup(popup,dictionary);
                 break;
-
+            case PopupsType.RESTAURANTS:
+                setupRestaurantsPopup(popup,dictionary);
+                break;
         }
 
         return popup;
@@ -396,7 +398,93 @@ function PopupFactory() {
         popup.add(plateLabel);
 
     };
+
+    /**
+     * Setup restaurants popup
+     * @param popup
+     * @param dictionary
+     */
+    var  setupRestaurantsPopup = function(popup,dictionary) {
+        // Setup popup
+        var _restaurantsFrameSize = {
+            width: 300,
+            height: 180
+        };
+
+        var labelsSize = {
+            width: _restaurantsFrameSize.width - 20,
+            height: 30
+        }
+
+        var padding = {
+            top : 10,
+            left : 10,
+            between : 4
+        };
+
+        var position = model.getMapModel().projectAtCurrentZoom(dictionary.position.latitude, dictionary.position.longitude);
+        popup.getView().setFrame(
+            position.x - (_restaurantsFrameSize.width / 2),
+            position.y - _restaurantsFrameSize.height,
+            _restaurantsFrameSize.width,
+            _restaurantsFrameSize.height
+        );
+        popup.getView().setViewBox(0, 0, _restaurantsFrameSize.width, _restaurantsFrameSize.height);
+
+        var dateLabel = new UILabelViewController();
+        dateLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
+        dateLabel.setText(dictionary.inspection_date);
+        dateLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(dateLabel);
+
+        var streetLabel = new UILabelViewController();
+        streetLabel.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
+        streetLabel.setText(dictionary.address);
+        streetLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(streetLabel);
+
+        var riskLabel = new UILabelViewController();
+        riskLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
+        riskLabel.setText("Seriousness: "+dictionary.risk);
+        riskLabel.setTextAlignment(TextAlignment.LEFT);
+        riskLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        riskLabel.setTextSize(model.getThemeModel().bigTextSize());
+        popup.add(riskLabel);
+
+
+        var nameLabel = new UILabelViewController();
+        nameLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
+        nameLabel.setText("Name: " + dictionary.dba_name);
+        nameLabel.setTextAlignment(TextAlignment.LEFT);
+        nameLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(nameLabel);
+
+
+        var inspectionTypeLabel = new UILabelViewController();
+        inspectionTypeLabel.getView().setFrame(padding.left,padding.top * 10,labelsSize.width,labelsSize.height);
+        inspectionTypeLabel.setText("Inspection type: "+ dictionary.inspection_type);
+        inspectionTypeLabel.setTextAlignment(TextAlignment.LEFT);
+        inspectionTypeLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(inspectionTypeLabel);
+
     
+        var resultLabel = new UILabelViewController();
+        resultLabel.getView().setFrame(padding.left,padding.top * 11 + padding.between,labelsSize.width,labelsSize.height);
+        resultLabel.setText("Result: "+dictionary.results);
+        resultLabel.setTextAlignment(TextAlignment.LEFT);
+        resultLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(resultLabel);
+
+        var licenseLabel = new UILabelViewController();
+        licenseLabel.getView().setFrame(padding.left,padding.top * 12 + padding.between * 2,labelsSize.width,labelsSize.height);
+        licenseLabel.setText("Restaurant license: "+dictionary.license);
+        licenseLabel.setTextAlignment(TextAlignment.LEFT);
+        licenseLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(licenseLabel);
+    
+    };
+
+
     var init = function() {
 
     } ();
