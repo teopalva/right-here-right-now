@@ -22,6 +22,9 @@ function PopupFactory() {
             case PopupsType.LIGHTS:
                 setupLightsPopup(popup,dictionary);
                 break;
+            case PopupsType.DIVVY_BIKES:
+                setupDivvyBikesPopup(popup,dictionary);
+                break;
         }
 
         return popup;
@@ -232,6 +235,82 @@ function PopupFactory() {
         popup.add(descriptionLabel);
     };
 
+    /**
+     * Setup divvy popup
+     * @param popup
+     * @param dictionary
+     */
+    var  setupDivvyBikesPopup = function(popup,dictionary) {
+        // Setup popup
+        var _divvyBikeFrameSize = {
+            width: 300,
+            height: 150
+        };
+
+        var labelsSize = {
+            width: _divvyBikeFrameSize.width - 20,
+            height: 30
+        }
+
+        var padding = {
+            top : 10,
+            left : 10,
+            between : 4
+        };
+
+        var position = model.getMapModel().projectAtCurrentZoom(dictionary.position.latitude, dictionary.position.longitude);
+        popup.getView().setFrame(
+            position.x - (_divvyBikeFrameSize.width / 2),
+            position.y - _divvyBikeFrameSize.height,
+            _divvyBikeFrameSize.width,
+            _divvyBikeFrameSize.height
+        );
+        popup.getView().setViewBox(0, 0, _divvyBikeFrameSize.width, _divvyBikeFrameSize.height);
+
+        var dateLabel = new UILabelViewController();
+        dateLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
+        dateLabel.setText(dictionary.last_update);
+        dateLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(dateLabel);
+
+        var streetLabel = new UILabelViewController();
+        streetLabel.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
+        streetLabel.setText(dictionary.stationName);
+        streetLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(streetLabel);
+
+        var stationNameLabel = new UILabelViewController();
+        stationNameLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
+        stationNameLabel.setText("STATION " + dictionary.id);
+        stationNameLabel.setTextAlignment(TextAlignment.LEFT);
+        stationNameLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        stationNameLabel.setTextSize(model.getThemeModel().bigTextSize());
+        popup.add(stationNameLabel);
+
+        var statusLabel = new UILabelViewController();
+        statusLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
+        statusLabel.setText("Status: " + dictionary.statusValue);
+        statusLabel.setTextAlignment(TextAlignment.LEFT);
+        statusLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(statusLabel);
+
+        var docksLabel = new UILabelViewController();
+        docksLabel.getView().setFrame(padding.left,padding.top * 10,labelsSize.width,labelsSize.height);
+        docksLabel.setText("Free docks: "+dictionary.availableDocks+" out of "+ dictionary.totalDocks);
+        docksLabel.setTextAlignment(TextAlignment.LEFT);
+        docksLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(docksLabel);
+
+
+        var availableBikesLabel = new UILabelViewController();
+        availableBikesLabel.getView().setFrame(padding.left,padding.top * 11 + padding.between,labelsSize.width,labelsSize.height);
+        availableBikesLabel.setText("Available bikes: "+dictionary.availableBikes);
+        availableBikesLabel.setTextAlignment(TextAlignment.LEFT);
+        availableBikesLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(availableBikesLabel);
+
+    };
+    
     var init = function() {
 
     } ();

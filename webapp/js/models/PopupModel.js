@@ -38,5 +38,6 @@ function PopupModel() {
 var PopupsType = {
     CRIME : "crimes",
     POTHOLES : "potholes",
-    LIGHTS : "lights"
+    LIGHTS : "lights",
+    DIVVY_BIKES : "divvy_bikes"
 };

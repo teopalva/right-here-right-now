@@ -9,6 +9,8 @@ function DivvyBikesModel() {
     // Description at the getDivvyBikes Method
     var _divvyBikes = [];
 
+    var _lastUpdate;
+
     // Update timer
     var _updateTimer;
     var _intervalMillis = 10000; // 10 seconds
@@ -39,6 +41,13 @@ function DivvyBikesModel() {
     };
 
     /**
+     * Return last update of the data
+     * @returns {*}
+     */
+    this.getLastUpdate = function () {
+        return _lastUpdate.toDateString() + "- " + formatAMPM(_lastUpdate);
+    }
+    /**
      *  Update the divvyBikes information
      */
     this.updateDivvyBikes = function () {
@@ -54,6 +63,7 @@ function DivvyBikesModel() {
                 _divvyBikes.push(divvyBike);
             });
             console.log("Divvy bikes JSON last update at " + parsedJson.executionTime);
+            _lastUpdate = new Date(parsedJson.executionTime);
             notificationCenter.dispatch(Notifications.divvyBikes.LAYER_UPDATED);
 
             // TODO test newsfeed
