@@ -143,18 +143,10 @@ function DivvyBikesLayerViewController() {
 
     };
 
-    /*     *      - availableBikes : integer
-     *      - availableDocks : integer
-     *      - id : integer
-     *      - latitude : float
-     *      - longitude : float
-     *      - location : string
-     *      - stationName : string
-     *      - statusValue : string*/
 
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
-            type: PopupsType.DIVVY_BIKES,
+            type: PopupsType.VEHICLES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude

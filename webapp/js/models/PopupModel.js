@@ -39,5 +39,6 @@ var PopupsType = {
     CRIME : "crimes",
     POTHOLES : "potholes",
     LIGHTS : "lights",
-    DIVVY_BIKES : "divvy_bikes"
+    DIVVY_BIKES : "divvy_bikes",
+    VEHICLES : "vehicles"
 };

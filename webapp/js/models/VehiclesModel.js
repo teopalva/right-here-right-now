@@ -50,7 +50,7 @@ function VehiclesModel() {
         self.clearVehicles();
 
         var link = "http://data.cityofchicago.org/resource/3c9v-pnva.json";
-        var query = "?$select=service_request_number%20as%20id,creation_date,vehicle_color,vehicle_make_model,latitude,longitude" +
+        var query = "?$select=service_request_number%20as%20id,creation_date,vehicle_color,vehicle_make_model,street_address,most_recent_action,license_plate,latitude,longitude" +
                     "&$order=creation_date%20DESC"+
                     "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
@@ -71,6 +71,7 @@ function VehiclesModel() {
 
         d3.json(link + query, function(json){
             json.forEach(function(vehicle){
+                vehicle.creation_date = parseDate(vehicle.creation_date);
                 _vechicles.push(vehicle);
             });
             notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);
@@ -97,6 +98,11 @@ function VehiclesModel() {
 
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
+    var parseDate = function(date) {
+        var parsedDate = new Date(date.replace("T"," "));
+        return parsedDate.toDateString() + " - " + formatAMPM(parsedDate);
+    };
+
     var init = function() {
 
     } ();

@@ -25,6 +25,10 @@ function PopupFactory() {
             case PopupsType.DIVVY_BIKES:
                 setupDivvyBikesPopup(popup,dictionary);
                 break;
+            case PopupsType.VEHICLES:
+                setupVehiclesPopup(popup,dictionary);
+                break;
+
         }
 
         return popup;
@@ -308,6 +312,88 @@ function PopupFactory() {
         availableBikesLabel.setTextAlignment(TextAlignment.LEFT);
         availableBikesLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         popup.add(availableBikesLabel);
+
+    };
+
+    /**
+     * Setup abandoned vehicles popup
+     * @param popup
+     * @param dictionary
+     */
+    var setupVehiclesPopup = function(popup, dictionary) {
+        // Setup popup
+        var _vehiclesFrameSize = {
+            width: 300,
+            height: 180
+        };
+
+        var labelsSize = {
+            width: _vehiclesFrameSize.width - 20,
+            height: 30
+        }
+
+        var padding = {
+            top : 10,
+            left : 10,
+            between : 4
+        };
+
+        var position = model.getMapModel().projectAtCurrentZoom(dictionary.position.latitude, dictionary.position.longitude);
+        popup.getView().setFrame(
+            position.x - (_vehiclesFrameSize.width / 2),
+            position.y - _vehiclesFrameSize.height,
+            _vehiclesFrameSize.width,
+            _vehiclesFrameSize.height
+        );
+        popup.getView().setViewBox(0, 0, _vehiclesFrameSize.width, _vehiclesFrameSize.height);
+
+        var dateLabel = new UILabelViewController();
+        dateLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
+        dateLabel.setText(dictionary.creation_date);
+        dateLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(dateLabel);
+
+        var streetLabel = new UILabelViewController();
+        streetLabel.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
+        streetLabel.setText(dictionary.street_address);
+        streetLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(streetLabel);
+
+        var vehicleMakeModelLabel = new UILabelViewController();
+        vehicleMakeModelLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
+        vehicleMakeModelLabel.setText(dictionary.vehicle_make_model);
+        vehicleMakeModelLabel.setTextAlignment(TextAlignment.LEFT);
+        vehicleMakeModelLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        vehicleMakeModelLabel.setTextSize(model.getThemeModel().bigTextSize());
+        popup.add(vehicleMakeModelLabel);
+
+        var idLabel = new UILabelViewController();
+        idLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
+        idLabel.setText("Service Request: " + dictionary.id);
+        idLabel.setTextAlignment(TextAlignment.LEFT);
+        idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(idLabel);
+
+        var statusLabel = new UILabelViewController();
+        statusLabel.getView().setFrame(padding.left,padding.top * 10,labelsSize.width,labelsSize.height);
+        statusLabel.setText("Status: "+dictionary.most_recent_action);
+        statusLabel.setTextAlignment(TextAlignment.LEFT);
+        statusLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(statusLabel);
+
+        var colorLabel = new UILabelViewController();
+        colorLabel.getView().setFrame(padding.left,padding.top * 11 + padding.between,labelsSize.width,labelsSize.height);
+        colorLabel.setText("Color: " + dictionary.vehicle_color);
+        colorLabel.setTextAlignment(TextAlignment.LEFT);
+        colorLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(colorLabel);
+
+        var plateLabel = new UILabelViewController();
+        plateLabel.getView().setFrame(padding.left,padding.top * 12 + padding.between *2,labelsSize.width,labelsSize.height);
+        plateLabel.setText("Plate: " + dictionary.license_plate);
+        plateLabel.setTextAlignment(TextAlignment.LEFT);
+        plateLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(plateLabel);
 
     };
     
