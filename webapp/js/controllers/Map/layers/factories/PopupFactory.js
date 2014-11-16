@@ -445,7 +445,7 @@ function PopupFactory() {
 
         var riskLabel = new UILabelViewController();
         riskLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
-        riskLabel.setText("Seriousness: "+dictionary.risk);
+        riskLabel.setText(dictionary.risk+ " Risk");
         riskLabel.setTextAlignment(TextAlignment.LEFT);
         riskLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         riskLabel.setTextSize(model.getThemeModel().bigTextSize());
