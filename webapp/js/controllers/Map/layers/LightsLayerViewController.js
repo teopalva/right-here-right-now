@@ -87,7 +87,12 @@ function LightsLayerViewController() {
                     return point.y - size.height;
                 })
                 .attr("width", size.width)
-                .attr("height", size.height);
+                .attr("height", size.height)
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d) {
+                    addToPopup(d);
+                });;
 
 
             // Exit
@@ -123,12 +128,31 @@ function LightsLayerViewController() {
                 })
                 .attr("r", model.getVisualizationModel().markerRadius())
                 .attr("stroke",model.getVisualizationModel().markerStrokeColor())
-                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth());
+                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth())
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d) {
+                    addToPopup(d);
+                });;
 
             // Exit
             markers.exit().remove();
         }
 
+    };
+
+    var addToPopup = function(d){
+        model.getPopupModel().addPopup({
+            type: PopupsType.LIGHTS,
+            position: {
+                latitude: d.latitude,
+                longitude: d.longitude
+            },
+            creation_date: d.creation_date,
+            street_address: d.street_address,
+            id : d.id,
+            number_out : d.number_out
+        });
     };
 
     var init = function () {

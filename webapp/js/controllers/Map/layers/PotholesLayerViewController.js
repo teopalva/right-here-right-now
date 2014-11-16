@@ -133,7 +133,7 @@ function PotholesLayerViewController() {
                 .style("cursor", "pointer")
                 .on("click", function(d) {
                     addToPopup(d);
-                });;
+                });
 
             // Exit
             markers.exit().remove();
