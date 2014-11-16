@@ -49,7 +49,7 @@ function LightsModel() {
         self.clearLights();
 
         var link = "http://data.cityofchicago.org/resource/zuxi-7xem.json";
-        var query = "?$select=service_request_number%20as%20id,creation_date,latitude,longitude" +
+        var query = "?$select=service_request_number%20as%20id,creation_date,street_address,latitude,longitude" +
                     "&$order=creation_date%20DESC" +
                     "&$limit=1000" +
                     "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
@@ -71,6 +71,7 @@ function LightsModel() {
 
         d3.json(link + query, function(json){
             json.forEach(function(light){
+                light.creation_date = parseDate(light.creation_date);
                 light.number_out = "3 or more";
                 _lights.push(light);
             });
@@ -78,6 +79,7 @@ function LightsModel() {
             var link2 = "http://data.cityofchicago.org/resource/3aav-uy2v.json";
             d3.json(link2 + query, function(json){
                 json.forEach(function(light){
+                    light.creation_date = parseDate(light.creation_date);
                     light.number_out = "1 or 2";
                     _lights.push(light);
                 });
@@ -105,6 +107,11 @@ function LightsModel() {
 
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
+    var parseDate = function(date) {
+        var parsedDate = new Date(date.replace("T"," "));
+        return parsedDate.toDateString() + " - " + formatAMPM(parsedDate);
+    };
+
     var init = function() {
 
     } ();

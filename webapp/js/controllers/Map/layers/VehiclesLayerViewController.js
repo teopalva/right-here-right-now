@@ -87,7 +87,12 @@ function VehiclesLayerViewController() {
                     return point.y - size.height;
                 })
                 .attr("width", size.width)
-                .attr("height", size.height);
+                .attr("height", size.height)
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d) {
+                    addToPopup(d);
+                });;
 
 
             // Exit
@@ -123,13 +128,36 @@ function VehiclesLayerViewController() {
                 })
                 .attr("r", model.getVisualizationModel().markerRadius())
                 .attr("stroke",model.getVisualizationModel().markerStrokeColor())
-                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth());
+                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth())
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d) {
+                    addToPopup(d);
+                });;
 
             // Exit
             markers.exit().remove();
         }
 
     };
+
+    var addToPopup = function(d){
+        model.getPopupModel().addPopup({
+            type: PopupsType.VEHICLES,
+            position: {
+                latitude: d.latitude,
+                longitude: d.longitude
+            },
+            vehicle_color: d.vehicle_color,
+            vehicle_make_model: d.vehicle_make_model,
+            street_address: d.street_address,
+            creation_date: d.creation_date,
+            license_plate: d.license_plate,
+            most_recent_action: d.most_recent_action,
+            id : d.id
+        });
+    };
+
 
     var init = function () {
         self.getView().addClass("vehicles-layer-view-controller");

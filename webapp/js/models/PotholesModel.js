@@ -46,7 +46,7 @@ function PotholesModel() {
         self.clearPotholes();
 
         var link = "http://data.cityofchicago.org/resource/7as2-ds3y.json";
-        var query = "?$select=service_request_number%20as%20id,creation_date,latitude,longitude" +
+        var query = "?$select=service_request_number%20as%20id,creation_date,street_address,latitude,longitude" +
                     "&$limit=10000" +
                     "&$order=creation_date%20DESC" +
                     "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
@@ -67,7 +67,8 @@ function PotholesModel() {
 
         d3.json(link + query, function(json){
            json.forEach(function(pothole){
-                _potholes.push(pothole);
+               pothole.creation_date = parseDate(pothole.creation_date);
+               _potholes.push(pothole);
            });
             notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
         });
@@ -93,6 +94,11 @@ function PotholesModel() {
 
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
+
+    var parseDate = function(date) {
+        var parsedDate = new Date(date.replace("T"," "));
+        return parsedDate.toDateString() + " - " + formatAMPM(parsedDate);
+    };
 
     var init = function() {
 

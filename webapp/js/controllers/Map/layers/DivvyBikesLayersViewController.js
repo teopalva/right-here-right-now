@@ -87,7 +87,13 @@ function DivvyBikesLayerViewController() {
                     return point.y - size.height;
                 })
                 .attr("width", size.width)
-                .attr("height", size.height);
+                .attr("height", size.height)
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d) {
+                    addToPopup(d);
+                });
+            ;
 
 
             // Exit
@@ -123,12 +129,37 @@ function DivvyBikesLayerViewController() {
                 })
                 .attr("r", model.getVisualizationModel().markerRadius())
                 .attr("stroke",model.getVisualizationModel().markerStrokeColor())
-                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth());
+                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth())
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d) {
+                    addToPopup(d);
+                });
+            ;
 
             // Exit
             markers.exit().remove();
         }
 
+    };
+
+
+    var addToPopup = function(d){
+        model.getPopupModel().addPopup({
+            type: PopupsType.VEHICLES,
+            position: {
+                latitude: d.latitude,
+                longitude: d.longitude
+            },
+            last_update: model.getDivvyBikesModel().getLastUpdate(),
+            location: d.location,
+            id : d.id,
+            availableDocks: d.availableDocks,
+            availableBikes: d.availableBikes,
+            stationName: d.stationName,
+            statusValue: d.statusValue,
+            totalDocks: d.totalDocks
+        });
     };
 
     var init = function () {
