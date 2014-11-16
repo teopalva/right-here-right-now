@@ -105,7 +105,6 @@ function LightsModel() {
     };
 
 
-
     ///////////////////////// PRIVATE METHODS /////////////////////////
     var parseDate = function(date) {
         var parsedDate = new Date(date.replace("T"," "));
