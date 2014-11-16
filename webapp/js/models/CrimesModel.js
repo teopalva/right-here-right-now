@@ -62,7 +62,7 @@ function CrimesModel() {
 
     /**
      *
-     * @param category
+     * @param primaryType
      * @returns {*}
      */
     this.getCrimeDensityWithinAreaOfPrimaryType = function(primaryType) {
@@ -72,7 +72,7 @@ function CrimesModel() {
 
     /**
      *
-     * @param category
+     * @param primaryType
      */
     this.getChicagoCrimeDensityOfPrimaryType  = function(primaryType) {
         var chicagoSquaredMiles = 234;

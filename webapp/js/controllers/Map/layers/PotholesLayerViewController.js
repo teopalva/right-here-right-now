@@ -131,6 +131,26 @@ function PotholesLayerViewController() {
 
     };
 
+    var addToPopup = function(d){
+        model.getPopupModel().addPopup({
+            type: PopupsType.POTHOLES,
+            position: {
+                latitude: d.latitude,
+                longitude: d.longitude
+            },
+            date: d.date,
+            category: d.category,
+            arrest: d.arrest,
+            primaryType: d["primary_type"],
+            id: d.id,
+            description: d.description,
+            location_description: d.location_description,
+            block: d.block,
+            case_number: d.case_number
+        });
+    };
+
+
     var init = function () {
         self.getView().addClass("potholes-layer-view-controller");
 
