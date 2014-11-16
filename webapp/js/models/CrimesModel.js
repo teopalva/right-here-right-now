@@ -94,6 +94,27 @@ function CrimesModel() {
     };
 
     /**
+     *
+     * @param primaryType
+     * @returns {Number}
+     */
+    this.getNumberOfCrimesWithinArea = function(primaryType){
+        var crimes = getCrimes(primaryType);
+        var filtered = model.getAreaOfInterestModel().filterObjects(crimes);
+        return filtered.length;
+    };
+
+    /**
+     *
+     * @param primaryType
+     * @returns {*}
+     */
+    this.getNumberOfCrimeInChicago = function(primaryType) {
+        var filtered = getCrimes(primaryType);
+        return filtered.length;
+    };
+
+    /**
      * Remove the old violentCrimes
      */
     this.clearCrimes = function(){
