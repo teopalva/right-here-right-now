@@ -151,6 +151,7 @@ function UINewsFeedViewController() {
                 // TODO interaction news-map
             });
             self.add(_newsIconButton);
+            _pageElements.push(_newsIconButton);
 
             // Description
             _descriptionLabel = new UILabelViewController();
