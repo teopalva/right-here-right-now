@@ -87,7 +87,12 @@ function PotholesLayerViewController() {
                     return point.y - size.height;
                 })
                 .attr("width", size.width)
-                .attr("height", size.height);
+                .attr("height", size.height)
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d) {
+                    addToPopup(d);
+                });;
 
 
             // Exit
@@ -123,7 +128,12 @@ function PotholesLayerViewController() {
                 })
                 .attr("r", model.getVisualizationModel().markerRadius())
                 .attr("stroke",model.getVisualizationModel().markerStrokeColor())
-                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth());
+                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth())
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d) {
+                    addToPopup(d);
+                });;
 
             // Exit
             markers.exit().remove();
@@ -138,15 +148,9 @@ function PotholesLayerViewController() {
                 latitude: d.latitude,
                 longitude: d.longitude
             },
-            date: d.date,
-            category: d.category,
-            arrest: d.arrest,
-            primaryType: d["primary_type"],
-            id: d.id,
-            description: d.description,
-            location_description: d.location_description,
-            block: d.block,
-            case_number: d.case_number
+            creation_date: d.creation_date,
+            street_address: d.street_address,
+            id : d.id
         });
     };
 

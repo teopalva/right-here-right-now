@@ -16,12 +16,20 @@ function PopupFactory() {
             case PopupsType.CRIME:
                 setupCrimePopup(popup,dictionary);
                 break;
+            case PopupsType.POTHOLES:
+                setupPotholesPopup(popup,dictionary);
+                break;
         }
 
         return popup;
     };
 
     /////////////////////////////// PRIVATE METHODS ///////////////////////////////
+    /**
+     * Setup crimes
+     * @param popup
+     * @param dictionary
+     */
     var setupCrimePopup = function (popup,dictionary) {
         // Setup popup
         var _crimeFrameSize = {
@@ -98,6 +106,67 @@ function PopupFactory() {
         arrestLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         popup.add(arrestLabel);
 
+    };
+
+    /**
+     * Setup potholes
+     * @param popup
+     * @param dictionary
+     */
+    var setupPotholesPopup = function(popup,dictionary) {
+
+        // Setup popup
+        var _potholesFrameSize = {
+            width: 300,
+            height: 120
+        };
+
+        var labelsSize = {
+            width: _potholesFrameSize.width - 20,
+            height: 30
+        }
+
+        var padding = {
+            top : 10,
+            left : 10,
+            between : 4
+        };
+
+        var position = model.getMapModel().projectAtCurrentZoom(dictionary.position.latitude, dictionary.position.longitude);
+        popup.getView().setFrame(
+            position.x - (_potholesFrameSize.width / 2),
+            position.y - _potholesFrameSize.height,
+            _potholesFrameSize.width,
+            _potholesFrameSize.height
+        );
+        popup.getView().setViewBox(0, 0, _potholesFrameSize.width, _potholesFrameSize.height);
+
+        var dateLabel = new UILabelViewController();
+        dateLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
+        dateLabel.setText(dictionary.creation_date);
+        dateLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(dateLabel);
+
+        var streetLabel = new UILabelViewController();
+        streetLabel.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
+        streetLabel.setText(dictionary.street_address);
+        streetLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(streetLabel);
+
+        var typeLabel = new UILabelViewController();
+        typeLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
+        typeLabel.setText("STREET POTHOLE");
+        typeLabel.setTextAlignment(TextAlignment.LEFT);
+        typeLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        typeLabel.setTextSize(model.getThemeModel().bigTextSize());
+        popup.add(typeLabel);
+
+        var descriptionLabel = new UILabelViewController();
+        descriptionLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
+        descriptionLabel.setText("Service Request Number: " + dictionary.id);
+        descriptionLabel.setTextAlignment(TextAlignment.LEFT);
+        descriptionLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(descriptionLabel);
     };
 
     var init = function() {
