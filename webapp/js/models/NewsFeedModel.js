@@ -16,9 +16,10 @@ function NewsFeedModel() {
      *
      * @param news = a News object
      */
-    this.postNews = function(news) {
+    this.postNews = function (news) {
         var i = 0;
-        while(i < _newsList.length && _newsList[i].getTimestamp() > news.getTimestamp()) {
+
+        while (i < _newsList.length && (_newsList[i].getTimestamp() < news.getTimestamp() || +_newsList[i].getTimestamp().getTime() === +news.getTimestamp().getTime())) {
             i++;
         }
 
@@ -31,12 +32,12 @@ function NewsFeedModel() {
      * Return the list of News objects
      * @returns {Array}
      */
-    this.getNewsfeed = function() {
+    this.getNewsfeed = function () {
         return _newsList;
     };
 
     ////////////////////////// PRIVATE METHODS ///////////////////////////
-    var init = function() {
+    var init = function () {
 
-    } ();
+    }();
 }
