@@ -75,7 +75,7 @@ function UINewsFeedViewController() {
             if (_indexPage >= 3) {
                 _indexPage -= 3;
                 self.drawNews();
-                console.log("previous page");
+                //console.log("previous page");
             }
         });
         self.add(_upButton);
@@ -88,7 +88,7 @@ function UINewsFeedViewController() {
             if (model.getNewsFeedModel().getNewsfeed().length - 1 > _indexPage + 2) {
                 _indexPage += 3;
                 self.drawNews();
-                console.log("next page");
+                //console.log("next page");
             }
         });
         self.add(_downButton);
@@ -110,7 +110,7 @@ function UINewsFeedViewController() {
         _pageElements = [];
 
         _feed = model.getNewsFeedModel().getNewsfeed();
-        console.log(_feed);
+        //console.log(_feed);
         //var i = Math.max(_indexPage, _feed.length-1);
         var p = 0;
         for (i = _indexPage; i !== _indexPage + 3 && i < _feed.length; i++) {
@@ -173,18 +173,18 @@ function UINewsFeedViewController() {
         var news4 = new News("News4", "sono news4", "path4", new Date());
         var news5 = new News("News5", "sono news5", "path5", new Date());
         var news6 = new News("News6", "sono news6", "path5", new Date());
-        var news7 = new News("News7", "sono news7", "path5", new Date());
+        //var news7 = new News("News7", "sono news7", "path5", new Date());
         model.getNewsFeedModel().postNews(news1);
         model.getNewsFeedModel().postNews(news2);
         model.getNewsFeedModel().postNews(news3);
         model.getNewsFeedModel().postNews(news4);
         model.getNewsFeedModel().postNews(news5);
         model.getNewsFeedModel().postNews(news6);
-        model.getNewsFeedModel().postNews(news7);
+        //model.getNewsFeedModel().postNews(news7);
 
         // Show first page of news
         var feed = model.getNewsFeedModel().getNewsfeed();
-        _indexPage = feed.length - 4;
+        _indexPage = feed.length - 3;
         self.drawNews();
 
         notificationCenter.subscribe(self, self.drawNews, Notifications.newsfeed.NEWS_POSTED);
