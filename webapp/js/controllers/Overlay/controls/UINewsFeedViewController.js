@@ -11,17 +11,16 @@ function UINewsFeedViewController() {
     /////////////////////  PRIVATE ATTRIBUTES /////////////////////
     var self = this;
 
-    var _titleLabel;
-    var _upButton;
-    var _downButton;
-    var _playButton;
-    var _separator;
+    //var _titleLabel;
+    //var _upButton;
+    //var _downButton;
+    //var _playButton;
+    //var _separator;
 
     /**
      * Index of the top of the current page
      */
     var _indexPage;
-    var _feed;
 
     var _pDesc = {
         x: 92.5,
@@ -127,13 +126,9 @@ function UINewsFeedViewController() {
     this.drawNews = function () {
 
         // Retrieve real-time feed
-        _feed = model.getNewsFeedModel().getNewsfeed();
+        var _feed = model.getNewsFeedModel().getNewsfeed();
 
-        // Always show last page
-        if (_mode === _modes.PLAY)
-            _indexPage = _feed.length - 3;
-
-        // Clean newasfeed area
+        // Clean newsfeed area
         _pageElements.forEach(function (e) {
             //console.log(e);
             self.remove(e);
@@ -189,8 +184,17 @@ function UINewsFeedViewController() {
             p++;
 
         }
+
     };
 
+    this.seeLastPage = function () {
+        if (_mode === _modes.PLAY) {
+            // Retrieve real-time feed
+            var _feed = model.getNewsFeedModel().getNewsfeed();
+            _indexPage = _feed.length - 3;
+        }
+        self.drawNews();
+    };
 
     /////////////////////  PRIVATE METHODS /////////////////////
 
@@ -225,11 +229,10 @@ function UINewsFeedViewController() {
         //model.getNewsFeedModel().postNews(news7);
 
         // Show first page of news
-        var feed = model.getNewsFeedModel().getNewsfeed();
-        _indexPage = feed.length - 3;
+        self.seeLastPage();
         self.drawNews();
 
-        notificationCenter.subscribe(self, self.drawNews, Notifications.newsfeed.NEWS_POSTED);
+        notificationCenter.subscribe(self, self.seeLastPage, Notifications.newsfeed.NEWS_POSTED);
 
     }();
 }
