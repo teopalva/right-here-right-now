@@ -113,9 +113,6 @@ function UIModeViewController() {
         }
     };
 
-    var highlightNewTripButton = function () {
-        //_newTripRect.style("fill", _selectColor).transition().delay(1000).style("fill", _deselectColor);
-    };
 }
 
 Utils.extend(UIModeViewController, UIViewController);

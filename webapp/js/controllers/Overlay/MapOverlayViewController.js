@@ -19,8 +19,8 @@ function MapOverlayViewController() {
     var _tripInfoViewController;
     var _tripInfoViewSize = {width: 316.5, height: 160};
     
-    var _notificationCenterViewController;
-    var _notificationCenterViewSize = {width: 316.5, height: 336};
+    var _newsFeedViewController;
+    var _newsFeedViewSize = {width: 316.5, height: 336};
     
     var _modeViewController;
     var _modeViewSize = {width: 316.5, height: 328.5};
@@ -54,9 +54,9 @@ function MapOverlayViewController() {
         _tripInfoViewController.getView().setViewBox(0, 0, _tripInfoViewSize.width, _tripInfoViewSize.height);
         self.add(_tripInfoViewController);*/
         
-        _notificationCenterViewController.getView().setFrame(_padding.left, 308.5, _notificationCenterViewSize.width, _notificationCenterViewSize.height);
-        _notificationCenterViewController.getView().setViewBox(0, 0, _notificationCenterViewSize.width, _notificationCenterViewSize.height);
-        self.add(_notificationCenterViewController);
+        _newsFeedViewController.getView().setFrame(_padding.left, 308.5, _newsFeedViewSize.width, _newsFeedViewSize.height);
+        _newsFeedViewController.getView().setViewBox(0, 0, _newsFeedViewSize.width, _newsFeedViewSize.height);
+        self.add(_newsFeedViewController);
         
         _modeViewController.getView().setFrame(_padding.left, 657, _modeViewSize.width, _modeViewSize.height);
         _modeViewController.getView().setViewBox(0, 0, _modeViewSize.width, _modeViewSize.height);
@@ -93,7 +93,7 @@ function MapOverlayViewController() {
         _modeViewController = new UIModeViewController();
         _mapControlViewController = new UIMapControlViewController();
         _layersBarViewController = new UILayersBarViewController();
-        _notificationCenterViewController = new UINotificationCenterViewController();
+        _newsFeedViewController = new UINewsFeedViewController();
         _chartsAreaViewController = new UIChartsAreaViewController();
     } ();
 }

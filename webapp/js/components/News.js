@@ -8,21 +8,18 @@ function News(title, description, imagePath, timestamp) {
     ///////////////////////// PRIVATE ATTRIBUTES /////////////////////////
     var self = this;
 
+    this.title = title;
     var _title = title || "";
     var _description = description || "";
     var _imagePath = imagePath || "";
     var _timestamp = timestamp || new Date();
-
-
-
-
 
     /////////////////////////// PUBLIC METHODS ///////////////////////////
     /**
      * Returns news title
      * @returns {string}
      */
-    this.getTitle = function() {
+    this.getTitle = function () {
         return _title;
     };
 
@@ -30,7 +27,8 @@ function News(title, description, imagePath, timestamp) {
      * Set title of the news
      * @param title {string}
      */
-    this.setTitle = function(title) {
+    this.setTitle = function (title) {
+        self.title = title;
         _title = title;
     };
 
@@ -38,7 +36,7 @@ function News(title, description, imagePath, timestamp) {
      * Returns news description
      * @returns {string}
      */
-    this.getDescription = function() {
+    this.getDescription = function () {
         return _description;
     };
 
@@ -46,7 +44,7 @@ function News(title, description, imagePath, timestamp) {
      * Set news description
      * @param description {string}
      */
-    this.setDescription = function(description) {
+    this.setDescription = function (description) {
         _description = description;
     };
 
@@ -54,7 +52,7 @@ function News(title, description, imagePath, timestamp) {
      * Returns news image icon path
      * @returns {string}
      */
-    this.getImagePath = function() {
+    this.getImagePath = function () {
         return _imagePath;
     };
 
@@ -62,7 +60,7 @@ function News(title, description, imagePath, timestamp) {
      * Set image string path for the news icon
      * @param imagePath {string}
      */
-    this.setImagePath = function(imagePath) {
+    this.setImagePath = function (imagePath) {
         _imagePath = imagePath;
     };
 
@@ -70,7 +68,7 @@ function News(title, description, imagePath, timestamp) {
      * Returns news timestamp
      * @returns {Date}
      */
-    this.getTimestamp = function() {
+    this.getTimestamp = function () {
         return _timestamp;
     };
 
@@ -78,12 +76,12 @@ function News(title, description, imagePath, timestamp) {
      * Set the timestamp of the news
      * @param timestamp {Date}
      */
-    this.setTimestamp = function(timestamp) {
+    this.setTimestamp = function (timestamp) {
         _timestamp = timestamp;
     };
 
     ////////////////////////// PRIVATE METHODS ///////////////////////////
-    var init = function() {
+    var init = function () {
 
-    } ();
+    }();
 }

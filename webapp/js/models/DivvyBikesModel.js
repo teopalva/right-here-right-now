@@ -27,34 +27,38 @@ function DivvyBikesModel() {
      *
      * @returns {Array}
      */
-    this.getDivvyBikes = function(){
+    this.getDivvyBikes = function () {
         return _divvyBikes;
     };
 
     /**
      * Remove the old divvyBikes
      */
-    this.clearDivvyBikes = function(){
+    this.clearDivvyBikes = function () {
         _divvyBikes = [];
     };
 
     /**
      *  Update the divvyBikes information
      */
-    this.updateDivvyBikes = function() {
+    this.updateDivvyBikes = function () {
         // remove the old divvyBikes
         self.clearDivvyBikes();
 
         var link = "http://www.divvybikes.com/stations/json/";
         var proxy = "https://script.google.com/a/macros/mcpher.com/s/AKfycbzGgpLEWS0rKSBqXG5PcvJ7Fpe02fvGqiCqq54SVQmBJSpy_6s/exec";
-        d3.json(proxy + "?url=" + link,function(json){
+        d3.json(proxy + "?url=" + link, function (json) {
             // I need to parse the Json since the proxy send me back an ugly string
             var parsedJson = JSON.parse(json.results);
-            parsedJson.stationBeanList.forEach(function(divvyBike){
+            parsedJson.stationBeanList.forEach(function (divvyBike) {
                 _divvyBikes.push(divvyBike);
             });
             console.log("Divvy bikes JSON last update at " + parsedJson.executionTime);
             notificationCenter.dispatch(Notifications.divvyBikes.LAYER_UPDATED);
+
+            // TODO test newsfeed
+            var news = new News("Divvy" + new Date(), "updated divvy", "path", new Date());
+            model.getNewsFeedModel().postNews(news);
         });
 
     };
@@ -62,7 +66,7 @@ function DivvyBikesModel() {
     /**
      * Starts the timer that updates the model at a given interval
      */
-    this.startUpdates = function() {
+    this.startUpdates = function () {
         self.updateDivvyBikes();
         _updateTimer = setInterval(self.updateDivvyBikes, _intervalMillis);
     };
@@ -70,7 +74,7 @@ function DivvyBikesModel() {
     /**
      * Stops the timer that updates the model.
      */
-    this.stopUpdates = function() {
+    this.stopUpdates = function () {
         clearInterval(_updateTimer);
         self.clearDivvyBikes();
     };
@@ -78,7 +82,7 @@ function DivvyBikesModel() {
 
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
-    var init = function() {
+    var init = function () {
 
-    } ();
+    }();
 }

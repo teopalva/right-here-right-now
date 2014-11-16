@@ -165,17 +165,6 @@ function UILayersBarViewController() {
         super_viewDidAppear.call(self);
     };
 
-    /*
-     *  Deselect all buttons and clean all layers
-     */
-    /*
-    this.deselectAll = function () {
-        for (var b in _buttons) {
-            _buttons[b].button.deselect();
-            _buttons[b].button.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
-            notificationCenter.dispatch(Notifications[_buttons[b].layerName].LAYER_CLEANED);
-        }
-    };*/
 
     /////////////////////  PRIVATE METHODS /////////////////////
 
@@ -187,19 +176,6 @@ function UILayersBarViewController() {
         //notificationCenter.subscribe(self, self.deselectAll, Notifications.buttons.NEW_TRIP_CLICKED);
         notificationCenter.subscribe(self, self.layerStatusChanged, Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     }();
-
-    /*
-    var invertSelection = function (button, layerName) {
-        if (button.isSelected()) {
-            button.deselect();
-            button.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor());
-            notificationCenter.dispatch(Notifications[layerName].LAYER_CLEANED);
-        } else {
-            button.select();
-            button.getView().setBackgroundColor(model.getThemeModel().selectedButtonColor());
-            notificationCenter.dispatch(Notifications[layerName].LAYER_ADDED);
-        }
-    };*/
 
 }
 
