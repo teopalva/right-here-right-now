@@ -41,6 +41,46 @@ function CrimesModel() {
     };
 
     /**
+     *
+     * @param category
+     * @returns {*}
+     */
+    this.getCrimeDensityWithinAreaOfCategory = function(category) {
+        var count = self.getCrimes(category).length;
+        return count / model.getAreaOfInterestModel().getSquaredMiles();
+    };
+
+    /**
+     *
+     * @param category
+     */
+    this.getChicagoCrimeDensityOfCategory = function(category) {
+        var chicagoSquaredMiles = 234;
+        var count = self.getCrimes(category).length;
+        return count / chicagoSquaredMiles;
+    };
+
+    /**
+     *
+     * @param category
+     * @returns {*}
+     */
+    this.getCrimeDensityWithinAreaOfPrimaryType = function(primaryType) {
+        var count = getCrimes(primaryType).length;
+        return count / model.getAreaOfInterestModel().getSquaredMiles();
+    };
+
+    /**
+     *
+     * @param category
+     */
+    this.getChicagoCrimeDensityOfPrimaryType  = function(primaryType) {
+        var chicagoSquaredMiles = 234;
+        var count = getCrimes(primaryType).length;
+        return count / chicagoSquaredMiles;
+    };
+
+    /**
      * Remove the old violentCrimes
      */
     this.clearCrimes = function(){
@@ -69,18 +109,18 @@ function CrimesModel() {
 
 
         /*
-        var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
-        if(areaOfInterest) {
-            var coordinates = d3.geo.bounds(areaOfInterest);
+         var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
+         if(areaOfInterest) {
+         var coordinates = d3.geo.bounds(areaOfInterest);
 
-            //  0: long
-            //  1: lat
-            var bottomLeft = coordinates[0];
-            var topRight = coordinates[1];
+         //  0: long
+         //  1: lat
+         var bottomLeft = coordinates[0];
+         var topRight = coordinates[1];
 
-            query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
-        }
-        */
+         query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
+         }
+         */
 
 
         d3.json(link + query, function(json){
@@ -117,44 +157,44 @@ function CrimesModel() {
     //////////////////////// PRIVATE METHODS ////////////////////////
     var categorize = function(primary_type){
         switch (primary_type){
-            case "ARSON"                                :
-            case "BURGLARY"                             :
-            case "CRIMINAL DAMAGE"                      :
-            case "CRIMINAL TRESPASS"                    :
-            case "MOTOR VEHICLE THEFT"                  :
-            case "ROBBERY"                              :
-            case "THEFT"                                : return CrimeCategory.PROPERTY;
+            case CrimePrimaryType.ARSON                                :
+            case CrimePrimaryType.BURGLARY                             :
+            case CrimePrimaryType.CRIMINAL_DAMAGE                      :
+            case CrimePrimaryType.CRIMINAL_TRESPASS                    :
+            case CrimePrimaryType.MOTOR_VEHICLE_THEFT                  :
+            case CrimePrimaryType.ROBBERY                              :
+            case CrimePrimaryType.THEFT                                : return CrimeCategory.PROPERTY;
 
-            case "ASSAULT"                              :
-            case "BATTERY"                              :
-            case "CRIM SEXUAL ASSAULT"                  :
-            case "DOMESTIC VIOLENCE"                    :
-            case "HOMICIDE"                             :
-            case "INTERFERENCE WITH PUBLIC OFFICER"     :
-            case "INTERFERE WITH PUBLIC OFFICER"        :
-            case "INTIMIDATION"                         :
-            case "KIDNAPPING"                           :
-            case "OFFENSE INVOLVING CHILDREN"           :
-            case "OFFENSES INVOLVING CHILDREN"          :
-            case "OTHER OFFENSE"                        :
-            case "SEX OFFENSE"                          : return CrimeCategory.VIOLENT;
+            case CrimePrimaryType.ASSAULT                              :
+            case CrimePrimaryType.BATTERY                              :
+            case CrimePrimaryType.SEX_ASSAULT                          :
+            case CrimePrimaryType.DOMESTIC_VIOLENCE                    :
+            case CrimePrimaryType.HOMICIDE                             :
+            case CrimePrimaryType.INTERFERENCE_WITH_PUBBLIC_OFFICER    :
+            case CrimePrimaryType.INTERFERENCE_WITH_PUBBLIC_OFFICER1   :
+            case CrimePrimaryType.INTIMIDATION                         :
+            case CrimePrimaryType.KIDNAPPING                           :
+            case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN           :
+            case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN           :
+            case CrimePrimaryType.OTHER_OFFENSE                        :
+            case CrimePrimaryType.SEX_OFFENSE                          : return CrimeCategory.VIOLENT;
 
-            case "CONCEALED CARRY LICENSE VIOLATION"    :
-            case "DECEPTIVE PRACTICE"                   :
-            case "GAMBLING"                             :
-            case "LIQUOR LAW VIOLATION"                 :
-            case "NARCOTICS"                            :
-            case "NON - CRIMINAL"                       :
-            case "NON-CRIMINAL"                         :
-            case "NON-CRIMINAL (SUBJECT SPECIFIED)"     :
-            case "OBSCENITY"                            :
-            case "OTHER NARCOTIC VIOLATION"             :
-            case "PROSTITUTION"                         :
-            case "PUBLIC INDECENCY"                     :
-            case "PUBLIC PEACE VIOLATION"               :
-            case "RITUALISM"                            :
-            case "STALKING"                             :
-            case "WEAPONS VIOLATION"                    : return CrimeCategory.QUALITY_OF_LIFE;
+            case CrimePrimaryType.CONCEALED_LICENCE                    :
+            case CrimePrimaryType.DECEPTIVE_PRACTICE                   :
+            case CrimePrimaryType.GAMBLING                             :
+            case CrimePrimaryType.LIQUOR_VIOLATION                     :
+            case CrimePrimaryType.NARCOTICS                            :
+            case CrimePrimaryType.NON_CRIMINAL                       :
+            case CrimePrimaryType.NON_CRIMINAL1                         :
+            case CrimePrimaryType.NON_CRIMINAL2   :
+            case CrimePrimaryType.OBSCENITY                            :
+            case CrimePrimaryType.OTHER_NARCOTIC                        :
+            case CrimePrimaryType.PROSTITUTION                         :
+            case CrimePrimaryType.PUBLIC_INDECENCY                    :
+            case CrimePrimaryType.PUBLIC_PEACE_VIOLATION               :
+            case CrimePrimaryType.RITUALISM                            :
+            case CrimePrimaryType.STALKING                             :
+            case CrimePrimaryType.WEAPONS_VIOLATION                    : return CrimeCategory.QUALITY_OF_LIFE;
 
             // should never get here
             default                                     : return CrimeCategory._error;
@@ -162,7 +202,7 @@ function CrimesModel() {
     };
 
     var parseBlock = function(block){
-      return block.substring(6);
+        return block.substring(6);
     };
 
     var parseDate = function(date) {
@@ -174,6 +214,19 @@ function CrimesModel() {
         if(arrest)
             return "yes";
         return "no";
+    };
+
+    var getCrimes = function(primaryType){
+        if(category) {
+            var filteredCrimes = [];
+            for (i = 0; i < _crimes.length; i++)
+                if (_crimes[i].primary_type == primaryType) {
+                    filteredCrimes.push(_crimes[i]);
+                }
+            return filteredCrimes;
+        }
+        // else
+        return _crimes;
     };
 
     var init = function() {
@@ -190,4 +243,45 @@ var CrimeCategory = {
     PROPERTY : "property_crime",
     QUALITY_OF_LIFE : "quality_of_life_crime",
     _error : "unknown"
+};
+
+var CrimePrimaryType = {
+
+    ARSON : "ARSON",
+    BURGLARY : "BURGLARY",
+    CRIMINAL_DAMAGE : "CRIMINAL DAMAGE",
+    CRIMINAL_TRESPASS : "CRIMINAL TRESPASS",
+    MOTOR_VEHICLE_THEFT : "MOTOR VEHICLE THEFT",
+    ROBBERY : "ROBBERY",
+    THEFT : "THEFT",
+    ASSAULT : "ASSAULT",
+    BATTERY : "BATTERY",
+    SEX_ASSAULT : "CRIM SEXUAL ASSAULT",
+    DOMESTIC_VIOLENCE : "DOMESTIC VIOLENCE",
+    HOMICIDE : "HOMICIDE",
+    INTERFERENCE_WITH_PUBBLIC_OFFICER : "INTERFERENCE WITH PUBLIC OFFICER",
+    INTERFERENCE_WITH_PUBBLIC_OFFICER1 : "INTERFERE WITH PUBLIC OFFICER",
+    INTIMIDATION : "INTIMIDATION",
+    KIDNAPPING : "KIDNAPPING",
+    OFFENSE_INVOLVING_CHILDREN : "OFFENSE INVOLVING CHILDREN",
+    OFFENSE_INVOLVING_CHILDREN1 :"OFFENSES INVOLVING CHILDREN",
+    OTHER_OFFENSE : "OTHER OFFENSE",
+    SEX_OFFENSE : "SEX OFFENSE",
+    CONCEALED_LICENCE : "CONCEALED CARRY LICENSE VIOLATION",
+    DECEPTIVE_PRACTICE : "DECEPTIVE PRACTICE",
+    GAMBLING : "GAMBLING",
+    LIQUOR_VIOLATION : "LIQUOR LAW VIOLATION",
+    NARCOTICS : "NARCOTICS",
+    NON_CRIMINAL : "NON - CRIMINAL",
+    NON_CRIMINAL1 : "NON-CRIMINAL",
+    NON_CRIMINAL2 : "NON-CRIMINAL (SUBJECT SPECIFIED)",
+    OBSCENITY : "OBSCENITY",
+    OTHER_NARCOTIC : "OTHER NARCOTIC VIOLATION",
+    PROSTITUTION :  "PROSTITUTION",
+    PUBLIC_INDECENCY :"PUBLIC INDECENCY",
+    PUBLIC_PEACE_VIOLATION : "PUBLIC PEACE VIOLATION",
+    RITUALISM : "RITUALISM",
+    STALKING : "STALKING",
+    WEAPONS_VIOLATION : "WEAPONS VIOLATION"
+
 };
