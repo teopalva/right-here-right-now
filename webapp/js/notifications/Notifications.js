@@ -150,3 +150,11 @@ Notifications.buttons = {
 Notifications.popups = {
     POPUPS_CHANGED : "com.righthererightnow.popups.popupsChanged"
 }
+
+/**
+ *
+ * @type {{}}
+ */
+Notifications.restaurants = {
+    LAYER_UPDATED: "com.righthererightnow.restaurants.layerUpdated"
+}

@@ -262,8 +262,6 @@ function PopupFactory() {
             between : 4
         };
 
-        console.log(dictionary);
-
         var position = model.getMapModel().projectAtCurrentZoom(dictionary.position.latitude, dictionary.position.longitude);
         popup.getView().setFrame(
             position.x - (_divvyBikeFrameSize.width / 2),

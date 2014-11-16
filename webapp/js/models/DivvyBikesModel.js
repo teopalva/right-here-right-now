@@ -8,12 +8,14 @@ function DivvyBikesModel() {
 
     // Description at the getDivvyBikes Method
     var _divvyBikes = [];
+    // Previous state of the divvy bikes
+    var _oldDivvyBikes = [];
 
     var _lastUpdate;
 
     // Update timer
     var _updateTimer;
-    var _intervalMillis = 10000; // 10 seconds
+    var _intervalMillis = 20000; // 20 seconds
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
@@ -51,7 +53,8 @@ function DivvyBikesModel() {
      *  Update the divvyBikes information
      */
     this.updateDivvyBikes = function () {
-        // remove the old divvyBikes
+
+        _oldDivvyBikes = _divvyBikes;
         self.clearDivvyBikes();
 
         var link = "http://www.divvybikes.com/stations/json/";
@@ -66,9 +69,13 @@ function DivvyBikesModel() {
             _lastUpdate = new Date(parsedJson.executionTime);
             notificationCenter.dispatch(Notifications.divvyBikes.LAYER_UPDATED);
 
-            // TODO test newsfeed
-            var news = new News("Divvy" + new Date(), "updated divvy", "path", new Date());
-            model.getNewsFeedModel().postNews(news);
+            // News feed
+            for(i in _divvyBikes)
+                if(_oldDivvyBikes.length > 0)
+                    if(hasChanged(_divvyBikes[i],_oldDivvyBikes)) {
+                        var news = new News("Divvy" + new Date(), _divvyBikes[i].id + " updated", "assets/icon/markers/divvy.svg", new Date());
+                        model.getNewsFeedModel().postNews(news);
+                    }
         });
 
     };
@@ -92,6 +99,40 @@ function DivvyBikesModel() {
 
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
+    /**
+     * Checks if obj has changed
+     * @param obj
+     * @param arr
+     * @returns {boolean}
+     */
+    var hasChanged = function (obj , arr){
+        for (i in arr){
+            if(isIt(arr[i], obj) && ! isEqual(arr[i], obj)) {
+                return true;
+            }}
+        return false;
+    };
+
+    /**
+     * Checks if two objects are the same looking at their ID
+     * @param obj1
+     * @param obj2
+     * @returns {boolean}
+     */
+    var isIt = function (obj1 , obj2){
+        return obj1.id == obj2.id;
+    };
+
+    /**
+     * Checks if two object are exactly the same
+     * @param obj1
+     * @param obj2
+     * @returns {boolean}
+     */
+    var isEqual = function( obj1 , obj2 ){
+        return JSON.stringify(obj1) == JSON.stringify(obj2);
+    };
+
     var init = function () {
 
     }();

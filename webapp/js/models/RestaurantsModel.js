@@ -8,10 +8,6 @@ function RestaurantsModel() {
 
     var _restaurants = [];
 
-    // Update timer
-    var _updateTimer;
-    var _intervalMillis = 60000; // 1 minute
-
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
     /**
@@ -43,36 +39,20 @@ function RestaurantsModel() {
         var query = "?$select=inspection_id,dba_name,license_%20as%20license,facility_type,risk,address,inspection_date,inspection_type,results,latitude,longitude" +
             "&$limit=50000" +
             "&$order=inspection_date%20DESC" +
-            "&$where=results=%27Fail%27and%20facility_type=%27Restaurant%27and%20risk=%27Risk%201%20(High)%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+            "&$where=results=%27Fail%27and%20facility_type=%27Restaurant%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
         d3.json(link + query, function(json){
             json.forEach(function(restaurant){
-                restaurant.inspection_date = parseDate(restaurant.inspection_date);
-                _restaurants.push(restaurant);
+               if( ! contains(_restaurants,restaurant)) {
+                    restaurant.inspection_date = parseDate(restaurant.inspection_date);
+                    _restaurants.push(restaurant);
+               }
             });
-            //notificationCenter.dispatch(Notifications.restaurants.LAYER_UPDATED);
-            console.log(_restaurants.length);
+            notificationCenter.dispatch(Notifications.restaurants.LAYER_UPDATED);
+            console.log("Restaurants file downloaded: " + _restaurants.length + " restaurants");
         });
 
     };
-
-    /**
-     * Starts the timer that updates the model at a given interval
-     */
-    this.startUpdates = function() {
-        self.updateRestaurants();
-        _updateTimer = setInterval(self.updateRestaurants, _intervalMillis);
-    };
-
-    /**
-     * Stops the timer that updates the model.
-     */
-    this.stopUpdates = function() {
-        clearInterval(_updateTimer);
-        self.clearRestaurants();
-    };
-
-
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
 
@@ -81,7 +61,14 @@ function RestaurantsModel() {
         return parsedDate.toDateString();
     };
 
-    var init = function() {
+    var contains = function(array,object){
+        for (i = 0; i < array.length ; i++)
+            if (object.license == array[i].license)
+                return true;
+        return false;
+    };
 
+    var init = function() {
+        self.updateRestaurants();
     } ();
 }

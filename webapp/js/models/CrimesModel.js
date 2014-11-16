@@ -172,7 +172,7 @@ function CrimesModel() {
                     _crimes.push(crime);
                 }
             });
-            console.log("Crimes file downloaded");
+            console.log("Crimes file downloaded: "+_crimes.length+" crimes");
             _dataAvailable = true;
             self.startUpdates();
         });
