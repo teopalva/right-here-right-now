@@ -450,6 +450,19 @@ function VisualizationModel() {
         }
     };
 
+
+    this.violentCrimesDeselectedColor = function() {
+        return "rgba(248,53,33, 0.3)";
+    };
+
+    this.propertyCrimesDeselectedColor = function() {
+        return "rgba(250,121,46, 0.3)";
+    };
+
+    this.qualityOfLifeCrimesDeselectedColor = function() {
+        return "rgba(252,163,60, 0.3";
+    };
+
     /**
      * Dictionary of layers colors
      */

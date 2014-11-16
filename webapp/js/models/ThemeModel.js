@@ -39,6 +39,21 @@ function ThemeModel() {
      *
      * @returns {string}
      */
+    this.hugeTextSize = function() {
+        return "70px";
+    };
+
+    /**
+     *
+     */
+    this.largeTextSize = function() {
+        return "50px";
+    };
+
+    /**
+     *
+     * @returns {string}
+     */
     this.bigTextSize = function () {
         return "24px";
     };
@@ -57,6 +72,23 @@ function ThemeModel() {
      */
     this.smallTextSize = function () {
         return "16px";
+    };
+
+    // Charts
+    this.chartsMenuButtonBackgroundColor = function() {
+        return "rgba(246, 246, 246, 0)";
+    };
+
+    this.chartsMenuButtonSelectedBackgroundColor = function() {
+        return "rgba(246, 246, 246, 1)";
+    };
+
+    this.chartsMenuButtonTextColor = function() {
+        return "rgba(187, 187, 187, 1)";
+    };
+
+    this.chartsMenuButtonSelectedTextColor = function() {
+        return "rgba(41, 36, 33, 1)";
     };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////

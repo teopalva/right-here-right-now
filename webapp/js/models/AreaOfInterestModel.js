@@ -170,7 +170,10 @@ function AreaOfInterestModel() {
         return _directions;
     };
 
-
+    // TODO: convert steradians to squared miles
+    this.getSquaredMiles = function() {
+        return d3.geo.area(_featureCollection) * 15668767.5070028;
+    };
 
 
 
@@ -281,17 +284,12 @@ function AreaOfInterestModel() {
                     coordinates.push([point["B"], point["k"]]);
                 });
 
-                // TODO
-                god = response;
-
                 callback(response["routes"][0]["overview_path"]);
             }
         });
     };
 
     var featureCollectionForGeometry = function(geometry) {
-        var features = [];
-
         return {
             type: "FeatureCollection",
             features: [
@@ -303,31 +301,6 @@ function AreaOfInterestModel() {
         };
     };
 
-    var topologyForPolygons = function(polygons) {
-        //var arc = polygons.coordinates[0];
-        var arcs = [];
-        var geometries = [];
-        var objects = {};
-
-        polygons.forEach(function(polygon, i) {
-            arcs.push(polygon.coordinates[0]);
-            objects["obj" + i] = {
-                "type": "GeometryCollection",
-                "geometries": [
-                    {
-                        "type": "Polygon",
-                        "arcs": [[i]]
-                    }
-                ]
-            };
-        });
-
-        return {
-            "type": "Topology",
-            "objects": objects,
-            "arcs": arcs
-        }
-    };
 
     var featureCollectionBuffer = function(overviewPath) {
         var overviewPathGeo = [];

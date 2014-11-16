@@ -9,6 +9,9 @@ function CrimesModel() {
     // Crimes
     var _crimes = [];
 
+    // Keep if data is available
+    var _dataAvailable = false;
+
     // Update timer
     var _updateTimer = null;
     var _intervalMillis = 10000;
@@ -41,20 +44,29 @@ function CrimesModel() {
     };
 
     /**
+     * Return true if data is available
+     * @returns {boolean}
+     */
+    this.isDataAvailable = function() {
+        return _dataAvailable;
+    };
+
+    /**
      *
      * @param category
      * @returns {*}
      */
-    this.getCrimeDensityWithinAreaOfCategory = function(category) {
-        var count = self.getCrimes(category).length;
-        return count / model.getAreaOfInterestModel().getSquaredMiles();
+    this.getCrimeDensityWithinAreaOfMacroCategory = function(category) {
+        var crimes = self.getCrimes(category);
+        var filtered = model.getAreaOfInterestModel().filterObjects(crimes);
+        return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
     };
 
     /**
      *
      * @param category
      */
-    this.getChicagoCrimeDensityOfCategory = function(category) {
+    this.getChicagoCrimeDensityOfMacroCategory = function(category) {
         var chicagoSquaredMiles = 234;
         var count = self.getCrimes(category).length;
         return count / chicagoSquaredMiles;
@@ -66,8 +78,9 @@ function CrimesModel() {
      * @returns {*}
      */
     this.getCrimeDensityWithinAreaOfPrimaryType = function(primaryType) {
-        var count = getCrimes(primaryType).length;
-        return count / model.getAreaOfInterestModel().getSquaredMiles();
+        var crimes = getCrimes(primaryType);
+        var filtered = model.getAreaOfInterestModel().filterObjects(crimes);
+        return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
     };
 
     /**
@@ -133,12 +146,13 @@ function CrimesModel() {
                     crime.date = parseDate(crime.date);
                     crime.arrest = parseArrest(crime.arrest);
                     crime.description = crime.description.capitalize();
-                    crime.primary_type =  crime.primary_type.capitalize();
+                    //crime.primary_type =  crime.primary_type.capitalize();
                     crime.location_description = crime.location_description.capitalize();
                     _crimes.push(crime);
                 }
             });
             console.log("Crimes file downloaded");
+            _dataAvailable = true;
             self.startUpdates();
         });
 
@@ -151,6 +165,14 @@ function CrimesModel() {
         notificationCenter.dispatch(Notifications.violentCrimes.LAYER_UPDATED);
         notificationCenter.dispatch(Notifications.propertyCrimes.LAYER_UPDATED);
         notificationCenter.dispatch(Notifications.qualityOfLifeCrimes.LAYER_UPDATED);
+    };
+
+    /**
+     * Returns the macro category for a given primary category
+     * @param primaryCategory
+     */
+    this.getMacroCategory = function(primaryCategory) {
+        return categorize(primaryCategory);
     };
 
 
@@ -175,7 +197,7 @@ function CrimesModel() {
             case CrimePrimaryType.INTIMIDATION                         :
             case CrimePrimaryType.KIDNAPPING                           :
             case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN           :
-            case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN           :
+            case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN1           :
             case CrimePrimaryType.OTHER_OFFENSE                        :
             case CrimePrimaryType.SEX_OFFENSE                          : return CrimeCategory.VIOLENT;
 
@@ -217,16 +239,12 @@ function CrimesModel() {
     };
 
     var getCrimes = function(primaryType){
-        if(category) {
-            var filteredCrimes = [];
-            for (i = 0; i < _crimes.length; i++)
-                if (_crimes[i].primary_type == primaryType) {
-                    filteredCrimes.push(_crimes[i]);
-                }
-            return filteredCrimes;
-        }
-        // else
-        return _crimes;
+        var filteredCrimes = [];
+        for (i = 0; i < _crimes.length; i++)
+            if (_crimes[i].primary_type == primaryType) {
+                filteredCrimes.push(_crimes[i]);
+            }
+        return filteredCrimes;
     };
 
     var init = function() {
