@@ -56,6 +56,8 @@ function Model() {
     // Holds popup information
     var _popupModel;
 
+    // Holds restaurant
+    var _restaurantsModel;
 
 
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
@@ -176,6 +178,10 @@ function Model() {
         return _popupModel;
     };
 
+    this.getRestaurantsModel = function() {
+        return _restaurantsModel;
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function() {
         // Map
@@ -198,6 +204,9 @@ function Model() {
 
         // Divvy bikes Model
         _divvyBikesModel = new DivvyBikesModel();
+
+        //Rest Model
+        _restaurantsModel = new RestaurantsModel();
 
         // Colors
         _visualizationModel = new VisualizationModel();

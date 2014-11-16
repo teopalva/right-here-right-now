@@ -146,7 +146,7 @@ function DivvyBikesLayerViewController() {
 
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
-            type: PopupsType.VEHICLES,
+            type: PopupsType.DIVVY_BIKES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude
