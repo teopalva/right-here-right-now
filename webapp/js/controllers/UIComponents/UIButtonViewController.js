@@ -54,6 +54,22 @@ function UIButtonViewController() {
     };
 
     /**
+     * Set title color
+     * @param color
+     */
+    this.setTitleColor = function(color) {
+        _title.style("fill", color);
+    };
+
+    /**
+     * Set UILabel font size
+     * @param fontSize
+     */
+    this.setTitleSize = function(fontSize) {
+        _title.style("font-size", fontSize);
+    };
+
+    /**
      *
      * @returns {*}
      */
