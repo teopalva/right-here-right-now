@@ -14,6 +14,7 @@ function UINewsFeedViewController() {
     var _titleLabel;
     var _upButton;
     var _downButton;
+    var _playButton;
     var _separator;
 
     /**
@@ -38,7 +39,9 @@ function UINewsFeedViewController() {
 
     var _pIcon = {
         x: 19.5,
-        y: 74
+        y: 74,
+        w: 45,
+        h: 37
     };
 
     var _pSep = {
@@ -50,6 +53,12 @@ function UINewsFeedViewController() {
 
     var _vPadding = 75;
     var _pageElements = [];
+
+    var _mode;
+    var _modes = {
+        PLAY: 0,
+        PAUSE: 1
+    };
 
     /////////////////////  PUBLIC METHODS /////////////////////
     /**
@@ -68,7 +77,7 @@ function UINewsFeedViewController() {
         self.add(_titleLabel);
 
         // Arrow up
-        _upButton.getView().setFrame(128, 291, 24, 24);
+        _upButton.getView().setFrame(107.5, 290, 24, 24);
         _upButton.getView().setViewBox(0, 0, 24, 24);
         _upButton.setImage("assets/icon/arrow_up.svg");
         _upButton.onClick(function () {
@@ -81,7 +90,7 @@ function UINewsFeedViewController() {
         self.add(_upButton);
 
         // Arrow down
-        _downButton.getView().setFrame(165, 291, 24, 24);
+        _downButton.getView().setFrame(131.5, 290, 24, 24);
         _downButton.getView().setViewBox(0, 0, 24, 24);
         _downButton.setImage("assets/icon/arrow_down.svg");
         _downButton.onClick(function () {
@@ -93,6 +102,21 @@ function UINewsFeedViewController() {
         });
         self.add(_downButton);
 
+        // Play button
+        _playButton.getView().setFrame(174.5, 290, 24, 24);
+        _playButton.getView().setViewBox(0, 0, 24, 24);
+        _playButton.setImage("assets/icon/pause.svg");
+        _playButton.onClick(function () {
+            if (_mode === _modes.PLAY) {
+                _playButton.setImage("assets/icon/play.svg");
+                _mode = _modes.PAUSE;
+            } else {
+                _playButton.setImage("assets/icon/pause.svg");
+                _mode = _modes.PLAY;
+            }
+        });
+        self.add(_playButton);
+
         // Call super
         super_viewDidAppear.call(self);
     };
@@ -102,6 +126,13 @@ function UINewsFeedViewController() {
      */
     this.drawNews = function () {
 
+        // Retrieve real-time feed
+        _feed = model.getNewsFeedModel().getNewsfeed();
+
+        // Always show last page
+        if (_mode === _modes.PLAY)
+            _indexPage = _feed.length - 3;
+
         // Clean newasfeed area
         _pageElements.forEach(function (e) {
             //console.log(e);
@@ -109,7 +140,6 @@ function UINewsFeedViewController() {
         });
         _pageElements = [];
 
-        _feed = model.getNewsFeedModel().getNewsfeed();
         //console.log(_feed);
         //var i = Math.max(_indexPage, _feed.length-1);
         var p = 0;
@@ -118,6 +148,14 @@ function UINewsFeedViewController() {
             var news_ = _feed[i];
 
             // Icon
+            _newsIconButton = new UIButtonViewController();
+            _newsIconButton.getView().setFrame(_pIcon.x, _pIcon.y + _vPadding * p, _pIcon.w, _pIcon.h);
+            _newsIconButton.getView().setViewBox(0, 0, _pIcon.w, _pIcon.h);
+            _newsIconButton.setImage(news_.getImagePath());
+            _newsIconButton.onClick(function () {
+                // TODO interaction news-map
+            });
+            self.add(_newsIconButton);
 
             // Description
             _descriptionLabel = new UILabelViewController();
@@ -165,14 +203,18 @@ function UINewsFeedViewController() {
         _titleLabel = new UILabelViewController;
         _upButton = new UIButtonViewController;
         _downButton = new UIButtonViewController;
+        _playButton = new UIButtonViewController;
+
+        // Set mode
+        _mode = _modes.PLAY;
 
         // Fake news
-        var news1 = new News("News1", "sono news1", "path1", new Date());
-        var news2 = new News("News2", "sono news2", "path2", new Date());
-        var news3 = new News("News3", "sono news3", "path3", new Date());
-        var news4 = new News("News4", "sono news4", "path4", new Date());
-        var news5 = new News("News5", "sono news5", "path5", new Date());
-        var news6 = new News("News6", "sono news6", "path5", new Date());
+        var news1 = new News("News1", "sono news1", "assets/icon/markers/crime_violent.svg", new Date());
+        var news2 = new News("News2", "sono news2", "assets/icon/markers/crime_violent.svg", new Date());
+        var news3 = new News("News3", "sono news3", "assets/icon/markers/crime_violent.svg", new Date());
+        var news4 = new News("News4", "sono news4", "assets/icon/markers/crime_violent.svg", new Date());
+        var news5 = new News("News5", "sono news5", "assets/icon/markers/crime_property.svg", new Date());
+        var news6 = new News("News6", "sono news6", "assets/icon/markers/crime_violent.svg", new Date());
         //var news7 = new News("News7", "sono news7", "path5", new Date());
         model.getNewsFeedModel().postNews(news1);
         model.getNewsFeedModel().postNews(news2);
