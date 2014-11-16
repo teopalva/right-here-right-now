@@ -14,7 +14,7 @@ function VehiclesModel() {
      *      - latitude : number
      *      - longitude : number
      */
-    var _vechicles = [];
+    var _vehicles = [];
 
     // Update timer
     var _updateTimer;
@@ -32,15 +32,33 @@ function VehiclesModel() {
      * @returns {Array}
      */
     this.getVehicles = function(){
-        return _vechicles;
+        return _vehicles;
     }
 
     /**
      * Remove the old potholes
      */
     this.clearVehicles = function(){
-        _vechicles = [];
+        _vehicles = [];
     }
+
+    /**
+     *
+     * @returns {number}
+     */
+    this.getVehiclesDensityWithinArea = function() {
+        var filtered = model.getAreaOfInterestModel().filterObjects(_vehicles);
+        return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
+    };
+
+    /**
+     *
+     * @returns {number}
+     */
+    this.getVehiclesDensityInChicago = function(){
+        var chicagoArea = 234;
+        return _vehicles.length / chicagoArea;
+    };
 
     /**
      *  Update the potholes information
@@ -72,7 +90,7 @@ function VehiclesModel() {
         d3.json(link + query, function(json){
             json.forEach(function(vehicle){
                 vehicle.creation_date = parseDate(vehicle.creation_date);
-                _vechicles.push(vehicle);
+                _vehicles.push(vehicle);
             });
             notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);
         });
