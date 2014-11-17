@@ -35,11 +35,17 @@ function RestaurantsModel() {
         // remove the old restaurants
         self.clearRestaurants();
 
+        var days = 30;
+        var elapsed = Date.now() - days * 86400000;
+        var date = new Date(elapsed);
+
         var link = "http://data.cityofchicago.org/resource/4ijn-s7e5.json";
         var query = "?$select=inspection_id%20as%20id,dba_name,license_%20as%20license,facility_type,risk,address,inspection_date,inspection_type,results,latitude,longitude" +
             "&$limit=50000" +
             "&$order=inspection_date%20DESC" +
-            "&$where=results=%27Fail%27and%20facility_type=%27Restaurant%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL%20and%20risk%20IS%20NOT%20NULL";
+            "&$where=results=%27Fail%27and%20facility_type=%27Restaurant%27" +
+            "and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL%20" +
+            "and%20risk%20IS%20NOT%20NULL%20and%20inspection_date>=%27" + date.toISOString() + "%27";
 
         d3.json(link + query, function(json){
             json.forEach(function(restaurant){
