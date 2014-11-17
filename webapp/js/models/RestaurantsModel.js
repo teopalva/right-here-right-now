@@ -35,7 +35,7 @@ function RestaurantsModel() {
         // remove the old restaurants
         self.clearRestaurants();
 
-        var days = 30;
+        var days = 30*3;
         var elapsed = Date.now() - days * 86400000;
         var date = new Date(elapsed);
 
