@@ -56,14 +56,31 @@ function RestaurantsModel() {
                }
             });
             self.startUpdates();
-            console.log("Restaurants file downloaded: " + _restaurants.length + " restaurants");
+            console.log("Restaurants inspections downloaded: " + _restaurants.length + " restaurants");
         });
+
+        var yelp = [];
+
+
+        var yelplink = "php/yelp.php?offset=";
+        var limit = 500;
+        for(var offset = 0; offset < limit; offset += 20) {
+            d3.json(yelplink + offset, function (json) {
+                json.businesses.forEach(function (restaurant) {
+                    //console.log("Restaurant ", restaurant);
+                    yelp.push(restaurant);
+                });
+                if(yelp.length >= limit)
+                    console.log("Restaurants from Yelp downloaded: "+ yelp.length + " restaurants");
+            });
+        }
 
     };
 
     this.startUpdates = function(){
         notificationCenter.dispatch(Notifications.restaurants.LAYER_UPDATED);
     };
+
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
 
@@ -85,6 +102,6 @@ function RestaurantsModel() {
     };
 
     var init = function() {
-        self.updateRestaurants();
+        setTimeout(self.updateRestaurants,500);
     } ();
 }

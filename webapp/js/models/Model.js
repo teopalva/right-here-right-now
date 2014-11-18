@@ -205,9 +205,6 @@ function Model() {
         // Divvy bikes Model
         _divvyBikesModel = new DivvyBikesModel();
 
-        //Rest Model
-        _restaurantsModel = new RestaurantsModel();
-
         // Colors
         _visualizationModel = new VisualizationModel();
 
@@ -234,6 +231,9 @@ function Model() {
 
         // Popups
         _popupModel = new PopupModel();
+
+        //Rest Model
+        _restaurantsModel = new RestaurantsModel();
 
     } ();
 }

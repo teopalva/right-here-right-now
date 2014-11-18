@@ -23,7 +23,7 @@ function PopupFactory() {
                 setupLightsPopup(popup,dictionary);
                 break;
             case PopupsType.DIVVY_BIKES:
-                setupRestaurantsPopup(popup,dictionary);
+                setupDivvyBikesPopup(popup,dictionary);
                 break;
             case PopupsType.VEHICLES:
                 setupVehiclesPopup(popup,dictionary);

@@ -70,10 +70,11 @@ function DivvyBikesModel() {
             notificationCenter.dispatch(Notifications.divvyBikes.LAYER_UPDATED);
 
             // News feed
-            for(i in _divvyBikes)
+            var temp = model.getAreaOfInterestModel().filterObjects(_divvyBikes);
+            for(var i=0 ; i < temp.length ; i++)
                 if(_oldDivvyBikes.length > 0)
-                    if(hasChanged(_divvyBikes[i],_oldDivvyBikes)) {
-                        var news = new News("Divvy" + new Date(), _divvyBikes[i].id + " updated", "assets/icon/markers/divvy.svg", new Date());
+                    if(hasChanged(temp[i],_oldDivvyBikes)) {
+                        var news = new News("Divvy" + new Date(), temp[i].id + " updated", "assets/icon/markers/divvy.svg", new Date());
                         model.getNewsFeedModel().postNews(news);
                     }
         });

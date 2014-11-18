@@ -35,7 +35,6 @@ function RestaurantsLayerViewController() {
         super_dispose.call(self);
 
         // Do cleaning stuff here
-        model.getRestaurantsModel().stopUpdates();
         notificationCenter.unsuscribeFromAll(self);
     };
 
