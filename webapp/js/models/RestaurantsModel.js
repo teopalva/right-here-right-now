@@ -102,6 +102,6 @@ function RestaurantsModel() {
     };
 
     var init = function() {
-        setTimeout(self.updateRestaurants,500);
+        setTimeout(self.updateRestaurants,1000);
     } ();
 }

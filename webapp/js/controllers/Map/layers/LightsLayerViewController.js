@@ -10,20 +10,17 @@ function LightsLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    var _cachedData = [];
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Updates the lights on the screen
-     */
-    this.lightsUpdated = function () {
-        draw();
+    this.drawCachedPoints = function(){
+        draw(_cachedData);
     };
 
-    /**
-     * Handler method for ZOOM_CHANGED notification
-     */
-    this.zoomChanged = function() {
-        draw();
+    this.drawNewPoints = function(){
+        _cachedData = model.getLightsModel().getLights();
+        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
+        draw(_cachedData);
     };
 
     /**
@@ -40,13 +37,9 @@ function LightsLayerViewController() {
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function() {
-        var lights = model.getLightsModel().getLights();
-        lights = model.getAreaOfInterestModel().filterObjects(lights);
+    var draw = function(lights) {
 
         var canvas = self.getView().getSvg();
-
-
 
         var size = {
             width: model.getVisualizationModel().streetLightsMarkerIconSize().width,
@@ -159,9 +152,9 @@ function LightsLayerViewController() {
         self.getView().addClass("lights-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.lightsUpdated, Notifications.lights.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.lightsUpdated, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.lightsUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.lights.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getLightsModel().startUpdates();
     }();

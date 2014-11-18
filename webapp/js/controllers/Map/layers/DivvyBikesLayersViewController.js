@@ -10,21 +10,19 @@ function DivvyBikesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    var _cachedData = [];
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Updates the divvyBikes on the screen
-     */
-    this.divvyBikesUpdated = function () {
-        draw();
+    this.drawCachedPoints = function(){
+        draw(_cachedData);
     };
 
-    /**
-     * Handler method for ZOOM_CHANGED notification
-     */
-    this.zoomChanged = function() {
-        draw();
+    this.drawNewPoints = function(){
+        _cachedData = model.getDivvyBikesModel().getDivvyBikes();
+        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
+        draw(_cachedData);
     };
+
 
     /**
      * @overridden
@@ -40,13 +38,9 @@ function DivvyBikesLayerViewController() {
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function() {
-        var divvyBikes = model.getDivvyBikesModel().getDivvyBikes();
-        divvyBikes = model.getAreaOfInterestModel().filterObjects(divvyBikes);
+    var draw = function(divvyBikes) {
 
         var canvas = self.getView().getSvg();
-
-
 
         var size = {
             width: model.getVisualizationModel().divvyMarkerIconSize().width,
@@ -166,9 +160,9 @@ function DivvyBikesLayerViewController() {
         self.getView().addClass("divvyBikes-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.divvyBikesUpdated, Notifications.divvyBikes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.divvyBikesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.divvyBikesUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.divvyBikes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getDivvyBikesModel().startUpdates();
     }();

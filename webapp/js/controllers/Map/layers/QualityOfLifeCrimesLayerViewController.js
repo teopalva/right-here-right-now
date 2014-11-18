@@ -9,12 +9,18 @@ function QualityOfLifeCrimesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    var _cachedData = [];
+
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Updates the qualityOfLifeCrimes on the screen
-     */
-    this.crimesUpdated = function () {
-        draw();
+
+    this.drawCachedPoints = function(){
+        draw(_cachedData);
+    };
+
+    this.drawNewPoints = function(){
+        _cachedData = model.getCrimesModel().getCrimes(CrimeCategory.QUALITY_OF_LIFE);
+        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
+        draw(_cachedData);
     };
 
 
@@ -31,10 +37,7 @@ function QualityOfLifeCrimesLayerViewController() {
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function() {
-        var crimes = model.getCrimesModel().getCrimes(CrimeCategory.QUALITY_OF_LIFE);
-        crimes = model.getAreaOfInterestModel().filterObjects(crimes);
-
+    var draw = function(crimes) {
         var canvas = self.getView().getSvg();
 
 
@@ -154,9 +157,9 @@ function QualityOfLifeCrimesLayerViewController() {
     var init = function() {
         self.getView().addClass("qualityOfLifeCrimes-layer-view-controller");
 
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.qualityOfLifeCrimes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.qualityOfLifeCrimes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getCrimesModel().startUpdates();
     } ();

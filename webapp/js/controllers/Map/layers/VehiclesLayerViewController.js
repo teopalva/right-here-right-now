@@ -10,20 +10,17 @@ function VehiclesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    var _cachedData = [];
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Updates the vehicles on the screen
-     */
-    this.vehiclesUpdated = function () {
-        draw();
+    this.drawCachedPoints = function(){
+        draw(_cachedData);
     };
 
-    /**
-     * Handler method for ZOOM_CHANGED notification
-     */
-    this.zoomChanged = function() {
-        draw();
+    this.drawNewPoints = function(){
+        _cachedData = model.getVehiclesModel().getVehicles();
+        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
+        draw(_cachedData);
     };
 
     /**
@@ -40,13 +37,9 @@ function VehiclesLayerViewController() {
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function() {
-        var vehicles = model.getVehiclesModel().getVehicles();
-        vehicles = model.getAreaOfInterestModel().filterObjects(vehicles);
+    var draw = function(vehicles) {
 
         var canvas = self.getView().getSvg();
-
-
 
         var size = {
             width: model.getVisualizationModel().abandonedVehiclesMarkerIconSize().width,
@@ -163,9 +156,9 @@ function VehiclesLayerViewController() {
         self.getView().addClass("vehicles-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.vehiclesUpdated, Notifications.vehicles.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.vehiclesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.vehiclesUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.vehicles.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getVehiclesModel().startUpdates();
     }();

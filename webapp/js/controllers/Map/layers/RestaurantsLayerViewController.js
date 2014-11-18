@@ -10,20 +10,17 @@ function RestaurantsLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    var _cachedData = [];
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Updates the restaurants on the screen
-     */
-    this.restaurantsUpdated = function () {
-        draw();
+    this.drawCachedPoints = function(){
+        draw(_cachedData);
     };
 
-    /**
-     * Handler method for ZOOM_CHANGED notification
-     */
-    this.zoomChanged = function() {
-        draw();
+    this.drawNewPoints = function(){
+        _cachedData = model.getRestaurantsModel().getRestaurants();
+        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
+        draw(_cachedData);
     };
 
     /**
@@ -39,13 +36,9 @@ function RestaurantsLayerViewController() {
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function() {
-        var restaurants = model.getRestaurantsModel().getRestaurants();
-        restaurants = model.getAreaOfInterestModel().filterObjects(restaurants);
+    var draw = function(restaurants) {
 
         var canvas = self.getView().getSvg();
-
-
 
         var size = {
             width: model.getVisualizationModel().restaurantsMarkerIconSize().width,
@@ -164,9 +157,9 @@ function RestaurantsLayerViewController() {
         self.getView().addClass("restaurants-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.restaurantsUpdated, Notifications.restaurants.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.restaurantsUpdated, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.restaurantsUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.restaurants.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getRestaurantsModel().startUpdates();
     }();
