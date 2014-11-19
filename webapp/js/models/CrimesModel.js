@@ -208,23 +208,23 @@ function CrimesModel() {
             case CrimePrimaryType.ROBBERY                              :
             case CrimePrimaryType.THEFT                                : return CrimeCategory.PROPERTY;
 
-            case CrimePrimaryType.ASSAULT                              :
             case CrimePrimaryType.BATTERY                              :
             case CrimePrimaryType.SEX_ASSAULT                          :
             case CrimePrimaryType.DOMESTIC_VIOLENCE                    :
             case CrimePrimaryType.HOMICIDE                             :
             case CrimePrimaryType.INTERFERENCE_WITH_PUBBLIC_OFFICER    :
             case CrimePrimaryType.INTERFERENCE_WITH_PUBBLIC_OFFICER1   :
-            case CrimePrimaryType.INTIMIDATION                         :
             case CrimePrimaryType.KIDNAPPING                           :
             case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN           :
             case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN1           :
             case CrimePrimaryType.OTHER_OFFENSE                        :
             case CrimePrimaryType.SEX_OFFENSE                          : return CrimeCategory.VIOLENT;
 
+            case CrimePrimaryType.ASSAULT                              :
             case CrimePrimaryType.CONCEALED_LICENCE                    :
             case CrimePrimaryType.DECEPTIVE_PRACTICE                   :
             case CrimePrimaryType.GAMBLING                             :
+            case CrimePrimaryType.INTIMIDATION                         :
             case CrimePrimaryType.LIQUOR_VIOLATION                     :
             case CrimePrimaryType.NARCOTICS                            :
             case CrimePrimaryType.NON_CRIMINAL                       :

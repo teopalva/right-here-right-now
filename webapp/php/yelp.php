@@ -66,8 +66,21 @@ function search($limit,$offset) {
     $url_params['location'] = $GLOBALS['DEFAULT_LOCATION'];
     $url_params['sort'] = $GLOBALS['SEARCH_SORT'];
 
-    $url_params['limit'] = $limit?: $GLOBALS['SEARCH_LIMIT'];
-    $url_params['offset'] = $offset?: $GLOBALS['SEARCH_OFFSET'];
+    if($limit){
+        $url_params['limit'] = $limit;
+    }
+    else
+    {
+        $url_params['limit'] = $GLOBALS['SEARCH_LIMIT'];
+    }
+
+    if($offset){
+        $url_params['offset'] = $offset;
+    }
+    else
+    {
+        $url_params['offset'] = $GLOBALS['SEARCH_OFFSET'];
+    }
 
     $search_path = $GLOBALS['SEARCH_PATH'] . "?" . http_build_query($url_params);
 
@@ -80,7 +93,21 @@ function search($limit,$offset) {
  * User input is handled here 
  */
 
-$limit = $_GET['limit'] ?: '';
-$offset = $_GET['offset'] ?: '';
+if($_GET['limit']){
+    $limit=$_GET['limit'];
+}
+else
+{
+    $limit = '';
+}
+
+if($_GET['offset']){
+    $offset = $_GET['offset'];
+}
+else
+{
+    $offset = '';
+}
+
 search($limit,$offset);
 ?>

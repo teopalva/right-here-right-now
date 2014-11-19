@@ -7,6 +7,7 @@ function RestaurantsModel() {
     var self = this;
 
     var _restaurants = [];
+    var _yelpRestaurants = [];
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
@@ -59,19 +60,20 @@ function RestaurantsModel() {
             console.log("Restaurants inspections downloaded: " + _restaurants.length + " restaurants");
         });
 
-        var yelp = [];
-
-
-        var yelplink = "php/yelp.php?offset=";
+        var proxy = "https://script.google.com/a/macros/mcpher.com/s/AKfycbzGgpLEWS0rKSBqXG5PcvJ7Fpe02fvGqiCqq54SVQmBJSpy_6s/exec";
+        var yelplink = "http://paolobruzzo.comuf.com/project3/yelp.php?offset=";
         var limit = 500;
         for(var offset = 0; offset < limit; offset += 20) {
-            d3.json(yelplink + offset, function (json) {
-                json.businesses.forEach(function (restaurant) {
-                    //console.log("Restaurant ", restaurant);
-                    yelp.push(restaurant);
+            d3.json(proxy + "?url=" + yelplink + offset, function (json) {
+                // Stupid google proxy returns me an ugly string with extra characters
+                var resultString = json.results.substring(0, json.results.indexOf('<'));
+                var parsedJson = JSON.parse(resultString);
+
+                parsedJson.businesses.forEach(function (restaurant) {
+                    _yelpRestaurants.push(restaurant);
                 });
-                if(yelp.length >= limit)
-                    console.log("Restaurants from Yelp downloaded: "+ yelp.length + " restaurants");
+                if(_yelpRestaurants.length >= limit)
+                    console.log("Restaurants from Yelp downloaded: "+ _yelpRestaurants.length + " restaurants");
             });
         }
 
