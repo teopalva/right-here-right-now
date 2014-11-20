@@ -14,12 +14,23 @@ function LightsModel() {
      *      - number_out : number
      */
     var _lights = [];
+    var _dataAvailable = false;
+
+    var _daysToVisualize = TimeRange.LAST_MONTH;
 
     // Update timer
     var _updateTimer;
     var _intervalMillis = 60000; // 1 minute
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
+
+    /**
+     * Example: setTimeRange(TimeRange.LAST_WEEK);
+     * @param timeRange
+     */
+    this.setTimeRange = function(timeRange){
+        _daysToVisualize = timeRange;
+    };
 
     /**
      * Returns the lights objects in the form:
@@ -39,6 +50,10 @@ function LightsModel() {
      */
     this.clearLights = function(){
         _lights = [];
+    };
+
+    this.isDataAvailable = function(){
+        return _dataAvailable;
     };
 
     /**
@@ -67,10 +82,14 @@ function LightsModel() {
         self.clearLights();
 
         var link = "http://data.cityofchicago.org/resource/zuxi-7xem.json";
+        var days = _daysToVisualize;
+        var elapsed = Date.now() - days * 86400000;
+        var date = new Date(elapsed);
         var query = "?$select=service_request_number%20as%20id,creation_date,street_address,latitude,longitude" +
                     "&$order=creation_date%20DESC" +
                     "&$limit=1000" +
-                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+                    "&$where=status=%27Open%27and%20creation_date>=%27" + date.toISOString() + "%27and%20" +
+                    "latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
         /*
         var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
@@ -102,6 +121,7 @@ function LightsModel() {
                     _lights.push(light);
                 });
                 notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
+                _dataAvailable = true;
             });
         });
     };
@@ -119,7 +139,6 @@ function LightsModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        self.clearLights();
     };
 
 
@@ -130,6 +149,6 @@ function LightsModel() {
     };
 
     var init = function() {
-
+        self.updateLights();
     } ();
 }

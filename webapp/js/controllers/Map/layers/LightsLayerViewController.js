@@ -33,6 +33,7 @@ function LightsLayerViewController() {
 
         // Do cleaning stuff here
         model.getLightsModel().stopUpdates();
+        model.getPopupModel().removeAll(Layers.LIGHTS);
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -137,6 +138,7 @@ function LightsLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.LIGHTS,
+            layer: Layers.LIGHTS,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude

@@ -242,8 +242,13 @@ function UIColumnChartViewController() {
         // Updated axis
         var axis = self.getView().getSvg().selectAll(".x.axis .domain, .y.axis .domain");
         axis.style("stroke", _axisColor);
-
         axis.style("stroke-width", _axisWidth);
+
+        var ticks = self.getView().getSvg().selectAll(".tick");
+        ticks.style("fill", _axisColor);
+
+        var axisLabel = self.getView().getSvg().selectAll(".y-label");
+        axisLabel.style("fill", _axisColor);
     };
 
     // Init

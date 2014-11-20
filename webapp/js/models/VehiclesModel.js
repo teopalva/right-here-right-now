@@ -15,12 +15,23 @@ function VehiclesModel() {
      *      - longitude : number
      */
     var _vehicles = [];
+    var _dataAvailable = false;
+
+    var _daysToVisualize = TimeRange.LAST_MONTH;
 
     // Update timer
     var _updateTimer;
     var _intervalMillis = 60000; // 1 minute
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
+
+    /**
+     * Example: setTimeRange(TimeRange.LAST_WEEK);
+     * @param timeRange
+     */
+    this.setTimeRange = function(timeRange){
+        _daysToVisualize = timeRange;
+    };
 
     /**
      * Returns the vechile objects in the form:
@@ -41,6 +52,10 @@ function VehiclesModel() {
     this.clearVehicles = function(){
         _vehicles = [];
     }
+
+    this.isDataAvailable = function(){
+        return _dataAvailable;
+    };
 
     /**
      *
@@ -68,9 +83,13 @@ function VehiclesModel() {
         self.clearVehicles();
 
         var link = "http://data.cityofchicago.org/resource/3c9v-pnva.json";
+        var days = _daysToVisualize;
+        var elapsed = Date.now() - days * 86400000;
+        var date = new Date(elapsed);
         var query = "?$select=service_request_number%20as%20id,creation_date,vehicle_color,vehicle_make_model,street_address,most_recent_action,license_plate,latitude,longitude" +
                     "&$order=creation_date%20DESC"+
-                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+                    "&$where=status=%27Open%27and%20creation_date>=%27" + date.toISOString() + "%27and%20" +
+                    "latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
         /*
         var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
@@ -93,6 +112,7 @@ function VehiclesModel() {
                 _vehicles.push(vehicle);
             });
             notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);
+            _dataAvailable = true;
         });
 
     };
@@ -110,7 +130,6 @@ function VehiclesModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        self.clearVehicles();
     };
 
 
@@ -122,6 +141,6 @@ function VehiclesModel() {
     };
 
     var init = function() {
-
+        self.updateVehicles();
     } ();
 }

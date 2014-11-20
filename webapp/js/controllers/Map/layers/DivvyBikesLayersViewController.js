@@ -34,6 +34,7 @@ function DivvyBikesLayerViewController() {
 
         // Do cleaning stuff here
         model.getDivvyBikesModel().stopUpdates();
+        model.getPopupModel().removeAll(Layers.DIVVY_BIKES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -141,6 +142,7 @@ function DivvyBikesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.DIVVY_BIKES,
+            layer: Layers.DIVVY_BIKES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude

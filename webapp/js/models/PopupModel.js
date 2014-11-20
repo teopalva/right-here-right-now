@@ -23,6 +23,14 @@ function PopupModel() {
         notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
     };
 
+    this.removeAll = function(layer){
+        for(var i = 0; i < _popups.length ; i++)
+            if(_popups[i].layer == layer) {
+                _popups.splice(i, 1);
+                notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
+            }
+    };
+
     this.getPopups = function() {
         return _popups;
     };

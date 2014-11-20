@@ -301,8 +301,8 @@ function VisualizationModel() {
      */
     this.potholesMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -330,8 +330,8 @@ function VisualizationModel() {
      */
     this.passedRestaurantsMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 40,
+            height: 40
         }
     };
 
@@ -358,8 +358,8 @@ function VisualizationModel() {
      */
     this.failedRestaurantsMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 40,
+            height: 40
         }
     };
 
@@ -387,8 +387,8 @@ function VisualizationModel() {
      */
     this.abandonedVehiclesMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -416,8 +416,8 @@ function VisualizationModel() {
      */
     this.streetLightsMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -445,8 +445,8 @@ function VisualizationModel() {
      */
     this.violentCrimesMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -473,8 +473,8 @@ function VisualizationModel() {
      */
     this.propertyCrimesMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -502,8 +502,8 @@ function VisualizationModel() {
      */
     this.qualityOfLifeCrimesMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 

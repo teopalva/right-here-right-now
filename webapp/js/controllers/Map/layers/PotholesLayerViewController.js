@@ -34,6 +34,7 @@ function PotholesLayerViewController() {
 
         // Do cleaning stuff here
         model.getPotholesModel().stopUpdates();
+        model.getPopupModel().removeAll(Layers.POTHOLES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -138,6 +139,7 @@ function PotholesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.POTHOLES,
+            layer: Layers.POTHOLES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude

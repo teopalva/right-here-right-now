@@ -33,6 +33,7 @@ function PassedRestaurantsLayerViewController() {
 
         // Do cleaning stuff here
         notificationCenter.unsuscribeFromAll(self);
+        model.getPopupModel().removeAll(Layers.PASSED_RESTAURANTS);
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
@@ -136,6 +137,7 @@ function PassedRestaurantsLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.RESTAURANTS,
+            layer: Layers.PASSED_RESTAURANTS,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude

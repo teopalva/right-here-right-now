@@ -13,11 +13,11 @@ function FailedRestaurantsLayerViewController() {
     var _cachedData = [];
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    this.drawCachedPoints = function(){
+    this.drawCachedPoints = function () {
         draw(_cachedData);
     };
 
-    this.drawNewPoints = function(){
+    this.drawNewPoints = function () {
         _cachedData = model.getRestaurantsModel().getRestaurants(InspectionResult.FAILED);
         _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
         draw(_cachedData);
@@ -27,16 +27,17 @@ function FailedRestaurantsLayerViewController() {
      * @overridden
      */
     var super_dispose = this.dispose;
-    this.dispose = function() {
+    this.dispose = function () {
         // Call super dispose
         super_dispose.call(self);
 
         // Do cleaning stuff here
         notificationCenter.unsuscribeFromAll(self);
+        model.getPopupModel().removeAll(Layers.FAILED_RESTAURANTS);
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function(restaurants) {
+    var draw = function (restaurants) {
 
         var canvas = self.getView().getSvg();
 
@@ -47,17 +48,17 @@ function FailedRestaurantsLayerViewController() {
         var markers;
 
         // Draw marker type based on zoom level
-        if(model.getMapModel().getZoomLevel() >= model.getVisualizationModel().detailedMarkerZoomLevel()) {
+        if (model.getMapModel().getZoomLevel() >= model.getVisualizationModel().detailedMarkerZoomLevel()) {
             canvas.selectAll(".marker.point").remove();
             markers = canvas.selectAll(".marker.pin").data(restaurants);
 
             // Update
             markers
-                .attr("x", function(d) {
+                .attr("x", function (d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x - (size.width / 2);
                 })
-                .attr("y", function(d) {
+                .attr("y", function (d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.y - size.height;
                 });
@@ -70,11 +71,11 @@ function FailedRestaurantsLayerViewController() {
                 .classed("marker", true)
                 .classed("pin", true)
                 .attr("xlink:href", model.getVisualizationModel().failedRestaurantsMarkerIconPath())
-                .attr("x", function(d) {
+                .attr("x", function (d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x - (size.width / 2);
                 })
-                .attr("y", function(d) {
+                .attr("y", function (d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.y - size.height;
                 })
@@ -82,9 +83,10 @@ function FailedRestaurantsLayerViewController() {
                 .attr("height", size.height)
                 .style("pointer-events", "visiblePainted")
                 .style("cursor", "pointer")
-                .on("click", function(d) {
+                .on("click", function (d) {
                     addToPopup(d);
-                });;
+                });
+            ;
 
 
             // Exit
@@ -95,11 +97,11 @@ function FailedRestaurantsLayerViewController() {
             markers = canvas.selectAll(".marker.point").data(restaurants);
             // Update
             markers
-                .attr("cx", function(d) {
+                .attr("cx", function (d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x;
                 })
-                .attr("cy", function(d) {
+                .attr("cy", function (d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.y;
                 });
@@ -110,22 +112,23 @@ function FailedRestaurantsLayerViewController() {
                 .classed("marker", true)
                 .classed("point", true)
                 .style("fill", model.getVisualizationModel().failedRestaurantsMarkerColor())
-                .attr("cx", function(d) {
+                .attr("cx", function (d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x;
                 })
-                .attr("cy", function(d) {
+                .attr("cy", function (d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.y;
                 })
                 .attr("r", model.getVisualizationModel().markerRadius())
-                .attr("stroke",model.getVisualizationModel().markerStrokeColor())
-                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth())
+                .attr("stroke", model.getVisualizationModel().markerStrokeColor())
+                .attr("stroke-width", model.getVisualizationModel().markerStrokeWidth())
                 .style("pointer-events", "visiblePainted")
                 .style("cursor", "pointer")
-                .on("click", function(d) {
+                .on("click", function (d) {
                     addToPopup(d);
-                });;
+                });
+            ;
 
             // Exit
             markers.exit().remove();
@@ -133,14 +136,15 @@ function FailedRestaurantsLayerViewController() {
 
     };
 
-    var addToPopup = function(d){
+    var addToPopup = function (d) {
         model.getPopupModel().addPopup({
             type: PopupsType.RESTAURANTS,
+            layer: Layers.FAILED_RESTAURANTS,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude
             },
-            name: d.name.substring(0,20),
+            name: d.name.substring(0, 20),
             address: d.location.display_address[0] + ", " + d.location.display_address[1],
             city: d.location.display_address[2],
             inspection: d.inspectionResult + " on " + d.inspectionDate,

@@ -33,6 +33,7 @@ function VehiclesLayerViewController() {
 
         // Do cleaning stuff here
         model.getVehiclesModel().stopUpdates();
+        model.getPopupModel().removeAll(Layers.VEHICLES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -137,6 +138,7 @@ function VehiclesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.VEHICLES,
+            layer: Layers.VEHICLES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude
