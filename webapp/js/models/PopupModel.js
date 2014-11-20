@@ -41,5 +41,5 @@ var PopupsType = {
     LIGHTS : "lights",
     DIVVY_BIKES : "divvy_bikes",
     VEHICLES : "vehicles",
-    RESTAURANTS : "restaurants"
+    PASSED_RESTAURANTS : "passedRestaurants"
 };

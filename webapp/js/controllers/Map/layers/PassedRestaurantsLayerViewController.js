@@ -1,10 +1,10 @@
 /**
- * @class RestaurantsLayerViewController
+ * @class PassedRestaurantsLayerViewController
  * @description
  *
  * @constructor
  */
-function RestaurantsLayerViewController() {
+function PassedRestaurantsLayerViewController() {
     MapLayerController.call(this);
 
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
@@ -18,7 +18,7 @@ function RestaurantsLayerViewController() {
     };
 
     this.drawNewPoints = function(){
-        _cachedData = model.getRestaurantsModel().getRestaurants();
+        _cachedData = model.getRestaurantsModel().getRestaurants(InspectionResult.PASSED);
         _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
         draw(_cachedData);
     };
@@ -135,29 +135,28 @@ function RestaurantsLayerViewController() {
 
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
-            type: PopupsType.RESTAURANTS,
+            type: PopupsType.PASSED_RESTAURANTS,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude
             },
-            id: d.id,
-            dba_name: d.dba_name,
-            license: d.license,
-            facility_type: d.facility_type,
-            risk: d.risk,
-            address: d.address,
-            inspection_date: d.inspection_date,
-            inspection_type: d.inspection_type,
-            results: d.results
+            name: d.name.substring(0,20),
+            address: d.location.display_address[0] + ", " + d.location.display_address[1],
+            city: d.location.display_address[2],
+            reviews: d.review_count,
+            image: d.image_url,
+            rating: d.rating,
+            phone: d.display_phone,
+            category: d.categories[0][0]
         });
     };
 
 
     var init = function () {
-        self.getView().addClass("restaurants-layer-view-controller");
+        self.getView().addClass("passedRestaurants-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.restaurants.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.passedRestaurants.LAYER_UPDATED);
         notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
@@ -165,4 +164,4 @@ function RestaurantsLayerViewController() {
     }();
 }
 
-Utils.extend(RestaurantsLayerViewController, MapLayerController);
+Utils.extend(PassedRestaurantsLayerViewController, MapLayerController);

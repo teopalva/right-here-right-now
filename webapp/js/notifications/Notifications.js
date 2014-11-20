@@ -155,6 +155,6 @@ Notifications.popups = {
  *
  * @type {{}}
  */
-Notifications.restaurants = {
-    LAYER_UPDATED: "com.righthererightnow.restaurants.layerUpdated"
+Notifications.passedRestaurants = {
+    LAYER_UPDATED: "com.righthererightnow.passedRestaurants.layerUpdated"
 }

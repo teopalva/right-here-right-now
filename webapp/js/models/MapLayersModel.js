@@ -103,7 +103,7 @@ var Layers = {
     VIOLENT_CRIMES: "ViolentCrimesLayerViewController",
     PROPERTY_CRIMES: "PropertyCrimesLayerViewController",
     QUALITY_OF_LIFE_CRIMES: "QualityOfLifeCrimesLayerViewController",
-    RESTAURANTS: "RestaurantsLayerViewController",
+    RESTAURANTS: "PassedRestaurantsLayerViewController",
     AREA_OF_INTEREST: "AreaOfInterestViewController",
     POPUPS: "PopupLayerViewController"
 };

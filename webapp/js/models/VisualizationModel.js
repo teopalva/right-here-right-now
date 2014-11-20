@@ -307,7 +307,7 @@ function VisualizationModel() {
     };
 
 
-    // RESTAURANTS
+    // PASSED_RESTAURANTS
     /**
      * Returns divvy color
      * @returns {string}

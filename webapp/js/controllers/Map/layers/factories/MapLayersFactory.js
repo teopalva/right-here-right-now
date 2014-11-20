@@ -52,7 +52,7 @@ function MapLayersFactory() {
                     layers.push(QualityOfLifeCrimesLayerViewController);
                     break;
                 case Layers.RESTAURANTS:
-                    layers.push(RestaurantsLayerViewController);
+                    layers.push(PassedRestaurantsLayerViewController);
                     break;
                 case Layers.POPUPS:
                     layers.push(PopupLayerViewController);
