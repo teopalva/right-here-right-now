@@ -79,21 +79,21 @@ function UIDayViewController() {
         self.add(_timeLabel);
 
         // Setup weather icon
-        _weatherImage.getView().setFrame(102.5, 105, 113, 113);
-        _weatherImage.getView().setViewBox(0, 0, 113, 113);
+        _weatherImage.getView().setFrame(70, 70, 170, 170);
+        _weatherImage.getView().setViewBox(0, 0, 170, 170);
         self.add(_weatherImage);
 
         // Sunrise label
-        _sunriseLabel.getView().setFrame(8, 208, 144, 35);
-        _sunriseLabel.getView().setViewBox(0, 0, 144, 35);
+        _sunriseLabel.getView().setFrame(8, 208, 150, 35);
+        _sunriseLabel.getView().setViewBox(0, 0, 150, 35);
         _sunriseLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         _sunriseLabel.setTextSize(model.getThemeModel().mediumTextSize());
         _sunriseLabel.setTextAlignment(TextAlignment.LEFT);
         self.add(_sunriseLabel);
 
         // Sunset label
-        _sunsetLabel.getView().setFrame(8, 243, 144, 35);
-        _sunsetLabel.getView().setViewBox(0, 0, 144, 35);
+        _sunsetLabel.getView().setFrame(8, 243, 150, 35);
+        _sunsetLabel.getView().setViewBox(0, 0, 150, 35);
         _sunsetLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         _sunsetLabel.setTextSize(model.getThemeModel().mediumTextSize());
         _sunsetLabel.setTextAlignment(TextAlignment.LEFT);
