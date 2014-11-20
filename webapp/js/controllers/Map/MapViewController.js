@@ -84,7 +84,6 @@ function MapViewController(htmlContainer) {
         // TODO ugly
         currentLayers.forEach(function(layer) {
             if(layer instanceof PopupLayerViewController) {
-                console.log("yep popup");
                 layer.getView().getSvg().node().parentNode.appendChild(layer.getView().getSvg().node());
             }
         });

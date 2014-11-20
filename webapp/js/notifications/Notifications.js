@@ -150,3 +150,19 @@ Notifications.buttons = {
 Notifications.popups = {
     POPUPS_CHANGED : "com.righthererightnow.popups.popupsChanged"
 }
+
+/**
+ *
+ * @type {{}}
+ */
+Notifications.passedRestaurants = {
+    LAYER_UPDATED: "com.righthererightnow.passedRestaurants.layerUpdated"
+}
+
+/**
+ *
+ * @type {{}}
+ */
+Notifications.failedRestaurants = {
+    LAYER_UPDATED: "com.righthererightnow.failedRestaurants.layerUpdated"
+}

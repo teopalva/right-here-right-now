@@ -28,7 +28,9 @@ function PopupFactory() {
             case PopupsType.VEHICLES:
                 setupVehiclesPopup(popup,dictionary);
                 break;
-
+            case PopupsType.RESTAURANTS:
+                setupPassedRestaurantsPopup(popup,dictionary);
+                break;
         }
 
         return popup;
@@ -262,8 +264,6 @@ function PopupFactory() {
             between : 4
         };
 
-        console.log(dictionary);
-
         var position = model.getMapModel().projectAtCurrentZoom(dictionary.position.latitude, dictionary.position.longitude);
         popup.getView().setFrame(
             position.x - (_divvyBikeFrameSize.width / 2),
@@ -398,7 +398,109 @@ function PopupFactory() {
         popup.add(plateLabel);
 
     };
+
+    /**
+     * Setup passedRestaurants popup
+     * @param popup
+     * @param dictionary
+     */
+    var  setupPassedRestaurantsPopup = function(popup,dictionary) {
+        // Setup popup
+        var _restaurantsFrameSize = {
+            width: 300,
+            height: 180
+        };
+
+        var labelsSize = {
+            width: _restaurantsFrameSize.width - 20,
+            height: 30
+        };
+
+        var imageSize = {
+            width: 60,
+            height: 60
+        };
+
+        var padding = {
+            top : 10,
+            left : 10,
+            afterImage : imageSize.width + 20,
+            between : 4
+        };
+
+        var position = model.getMapModel().projectAtCurrentZoom(dictionary.position.latitude, dictionary.position.longitude);
+        popup.getView().setFrame(
+            position.x - (_restaurantsFrameSize.width / 2),
+            position.y - _restaurantsFrameSize.height,
+            _restaurantsFrameSize.width,
+            _restaurantsFrameSize.height
+        );
+        popup.getView().setViewBox(0, 0, _restaurantsFrameSize.width, _restaurantsFrameSize.height);
+
+        var addressLabel1 = new UILabelViewController();
+        addressLabel1.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
+        addressLabel1.setText(dictionary.address);
+        addressLabel1.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(addressLabel1);
+
+        var addressLabel2 = new UILabelViewController();
+        addressLabel2.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
+        addressLabel2.setText(dictionary.city);
+        addressLabel2.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(addressLabel2);
+
+        var nameLabel = new UILabelViewController();
+        nameLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
+        nameLabel.setText(dictionary.name);
+        nameLabel.setTextAlignment(TextAlignment.LEFT);
+        nameLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        nameLabel.setTextSize(model.getThemeModel().bigTextSize());
+        popup.add(nameLabel);
+
+
+        var categoryLabel = new UILabelViewController();
+        categoryLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
+        categoryLabel.setText("Category: "+dictionary.category);
+        categoryLabel.setTextAlignment(TextAlignment.LEFT);
+        categoryLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(categoryLabel);
+
+        var inspectionLabel = new UILabelViewController();
+        inspectionLabel.getView().setFrame(padding.afterImage,padding.top * 9,labelsSize.width,labelsSize.height);
+        inspectionLabel.setText("Inspection: "+ dictionary.inspection);
+        inspectionLabel.setTextAlignment(TextAlignment.LEFT);
+        inspectionLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(inspectionLabel);
+
+        var phoneLabel = new UILabelViewController();
+        phoneLabel.getView().setFrame(padding.afterImage,padding.top * 10 + padding.between,labelsSize.width,labelsSize.height);
+        phoneLabel.setText("Phone: "+ dictionary.phone);
+        phoneLabel.setTextAlignment(TextAlignment.LEFT);
+        phoneLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(phoneLabel);
+
     
+        var ratingLabel = new UILabelViewController();
+        ratingLabel.getView().setFrame(padding.afterImage,padding.top * 11 + padding.between * 2,labelsSize.width,labelsSize.height);
+        ratingLabel.setText("Rating: "+dictionary.rating+" out of 5");
+        ratingLabel.setTextAlignment(TextAlignment.LEFT);
+        ratingLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(ratingLabel);
+
+        var reviewsLabel = new UILabelViewController();
+        reviewsLabel.getView().setFrame(padding.afterImage,padding.top * 12 + padding.between * 3,labelsSize.width,labelsSize.height);
+        reviewsLabel.setText("Reviews: "+dictionary.reviews);
+        reviewsLabel.setTextAlignment(TextAlignment.LEFT);
+        reviewsLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(reviewsLabel);
+
+        var imageLabel = new UIImageViewController();
+        imageLabel.getView().setFrame(padding.left,padding.top * 10, imageSize.width, imageSize.height);
+        imageLabel.setImagePath(dictionary.image);
+        popup.add(imageLabel);
+    };
+
+
     var init = function() {
 
     } ();

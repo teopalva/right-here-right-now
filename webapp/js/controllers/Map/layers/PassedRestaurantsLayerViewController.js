@@ -1,10 +1,10 @@
 /**
- * @class VehiclesLayerViewController
+ * @class PassedRestaurantsLayerViewController
  * @description
  *
  * @constructor
  */
-function VehiclesLayerViewController() {
+function PassedRestaurantsLayerViewController() {
     MapLayerController.call(this);
 
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
@@ -18,7 +18,7 @@ function VehiclesLayerViewController() {
     };
 
     this.drawNewPoints = function(){
-        _cachedData = model.getVehiclesModel().getVehicles();
+        _cachedData = model.getRestaurantsModel().getRestaurants(InspectionResult.PASSED);
         _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
         draw(_cachedData);
     };
@@ -32,25 +32,24 @@ function VehiclesLayerViewController() {
         super_dispose.call(self);
 
         // Do cleaning stuff here
-        model.getVehiclesModel().stopUpdates();
         notificationCenter.unsuscribeFromAll(self);
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function(vehicles) {
+    var draw = function(restaurants) {
 
         var canvas = self.getView().getSvg();
 
         var size = {
-            width: model.getVisualizationModel().abandonedVehiclesMarkerIconSize().width,
-            height: model.getVisualizationModel().abandonedVehiclesMarkerIconSize().height
+            width: model.getVisualizationModel().passedRestaurantsMarkerIconSize().width,
+            height: model.getVisualizationModel().passedRestaurantsMarkerIconSize().height
         };
         var markers;
 
         // Draw marker type based on zoom level
         if(model.getMapModel().getZoomLevel() >= model.getVisualizationModel().detailedMarkerZoomLevel()) {
             canvas.selectAll(".marker.point").remove();
-            markers = canvas.selectAll(".marker.pin").data(vehicles);
+            markers = canvas.selectAll(".marker.pin").data(restaurants);
 
             // Update
             markers
@@ -70,7 +69,7 @@ function VehiclesLayerViewController() {
                 .append("image")
                 .classed("marker", true)
                 .classed("pin", true)
-                .attr("xlink:href", model.getVisualizationModel().abandonedVehiclesMarkerIconPath())
+                .attr("xlink:href", model.getVisualizationModel().passedRestaurantsMarkerIconPath())
                 .attr("x", function(d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x - (size.width / 2);
@@ -93,7 +92,7 @@ function VehiclesLayerViewController() {
 
         } else {
             canvas.selectAll(".marker.pin").remove();
-            markers = canvas.selectAll(".marker.point").data(vehicles);
+            markers = canvas.selectAll(".marker.point").data(restaurants);
             // Update
             markers
                 .attr("cx", function(d) {
@@ -110,7 +109,7 @@ function VehiclesLayerViewController() {
                 .append("circle")
                 .classed("marker", true)
                 .classed("point", true)
-                .style("fill", model.getVisualizationModel().abandonedVehiclesMarkerColor())
+                .style("fill", model.getVisualizationModel().passedRestaurantsMarkerColor())
                 .attr("cx", function(d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x;
@@ -136,32 +135,34 @@ function VehiclesLayerViewController() {
 
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
-            type: PopupsType.VEHICLES,
+            type: PopupsType.RESTAURANTS,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude
             },
-            vehicle_color: d.vehicle_color,
-            vehicle_make_model: d.vehicle_make_model,
-            street_address: d.street_address,
-            creation_date: d.creation_date,
-            license_plate: d.license_plate,
-            most_recent_action: d.most_recent_action,
-            id : d.id
+            name: d.name.substring(0,20),
+            address: d.location.display_address[0] + ", " + d.location.display_address[1],
+            city: d.location.display_address[2],
+            inspection: d.inspectionResult,
+            reviews: d.review_count,
+            image: d.image_url,
+            rating: d.rating,
+            phone: d.display_phone,
+            category: d.categories[0][0]
         });
     };
 
 
     var init = function () {
-        self.getView().addClass("vehicles-layer-view-controller");
+        self.getView().addClass("passedRestaurants-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.vehicles.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.passedRestaurants.LAYER_UPDATED);
         notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
-        model.getVehiclesModel().startUpdates();
+        model.getRestaurantsModel().startUpdates();
     }();
 }
 
-Utils.extend(VehiclesLayerViewController, MapLayerController);
+Utils.extend(PassedRestaurantsLayerViewController, MapLayerController);

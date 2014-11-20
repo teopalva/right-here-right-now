@@ -239,11 +239,15 @@ function Model() {
         // Popups
         _popupModel = new PopupModel();
 
-        //Rest Model
-        _restaurantsModel = new RestaurantsModel();
-        
-        // Recommender model
+<<<<<<< HEAD
+        //
         _recommenderModel = new RecommenderModel();
 
+    }();
+=======
+        //Rest Model
+        _restaurantsModel = new RestaurantsModel();
+
     } ();
+>>>>>>> f27e3f48b9db95c7158f543572dc85a1941ed0ab
 }

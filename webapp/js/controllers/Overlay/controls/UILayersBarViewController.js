@@ -93,9 +93,9 @@ function UILayersBarViewController() {
             title: "Places of Interest",
             label: new UILabelViewController(),
             elements: [{
-                title: "Restaurants",
+                title: "Top Restaurants",
                 button: new UIButtonViewController(),
-                layers: [Layers.CRIMES]
+                layers: [Layers.PASSED_RESTAURANTS, Layers.FAILED_RESTAURANTS]
             }, {
                 title: "Bars",
                 button: new UIButtonViewController(),

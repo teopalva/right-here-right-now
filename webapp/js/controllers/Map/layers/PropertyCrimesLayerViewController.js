@@ -9,12 +9,17 @@ function PropertyCrimesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    var _cachedData = [];
+
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Updates the propertyCrimes on the screen
-     */
-    this.crimesUpdated = function () {
-        draw();
+    this.drawCachedPoints = function(){
+        draw(_cachedData);
+    };
+
+    this.drawNewPoints = function(){
+        _cachedData = model.getCrimesModel().getCrimes(CrimeCategory.PROPERTY);
+        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
+        draw(_cachedData);
     };
 
 
@@ -31,10 +36,7 @@ function PropertyCrimesLayerViewController() {
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function() {
-        var crimes = model.getCrimesModel().getCrimes(CrimeCategory.PROPERTY);
-        crimes = model.getAreaOfInterestModel().filterObjects(crimes);
-
+    var draw = function(crimes) {
         var canvas = self.getView().getSvg();
 
 
@@ -154,9 +156,9 @@ function PropertyCrimesLayerViewController() {
     var init = function() {
         self.getView().addClass("propertyCrimes-layer-view-controller");
 
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.propertyCrimes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.propertyCrimes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getCrimesModel().startUpdates();
     } ();

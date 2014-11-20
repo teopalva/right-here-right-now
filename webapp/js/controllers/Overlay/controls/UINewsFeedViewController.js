@@ -165,7 +165,7 @@ function UINewsFeedViewController() {
 
             // Hour
             _hourLabel = new UILabelViewController();
-            _hourLabel.setText(news_.getTimestamp());
+            _hourLabel.setText(formatAMPM(news_.getTimestamp()));
             _hourLabel.setTextSize(20);
             _hourLabel.setTextColor("white");
             _hourLabel.getView().setFrame(_pHour.x, _pHour.y + _vPadding * p, _pHour.w, _pHour.h);

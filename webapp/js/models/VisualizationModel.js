@@ -243,8 +243,8 @@ function VisualizationModel() {
      */
     this.divvyMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 30,
+            height: 30
         }
     };
 
@@ -300,6 +300,63 @@ function VisualizationModel() {
      * @returns {{width: number, height: number}}
      */
     this.potholesMarkerIconSize = function () {
+        return {
+            width: 70,
+            height: 70
+        }
+    };
+
+
+    // PASSED RESTAURANTS
+    /**
+     * Returns restaurant color
+     * @returns {string}
+     */
+    this.passedRestaurantsMarkerColor = function () {
+        return this.layersColors["Top Restaurants"];
+    };
+
+    /**
+     * Returns restaurant icon path
+     * @returns {string}
+     */
+    this.passedRestaurantsMarkerIconPath = function () {
+        return "assets/icon/markers/divvy.svg";
+    };
+
+    /**
+     * Returns restaurant  marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.passedRestaurantsMarkerIconSize = function () {
+        return {
+            width: 70,
+            height: 70
+        }
+    };
+
+    // FAILED RESTAURANTS
+    /**
+     * Returns restaurant color
+     * @returns {string}
+     */
+    this.failedRestaurantsMarkerColor = function () {
+        return this.layersColors["Failed Restaurants"];
+    };
+
+    /**
+     * Returns restaurant  icon path
+     * @returns {string}
+     */
+    this.failedRestaurantsMarkerIconPath = function () {
+        return "assets/icon/markers/divvy.svg";
+    };
+
+    /**
+     * Returns restaurant marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.failedRestaurantsMarkerIconSize = function () {
         return {
             width: 70,
             height: 70
@@ -477,7 +534,10 @@ function VisualizationModel() {
         "Violent Crimes": "rgba(248,53,33, 1.0)",
         "Property Crimes": "rgba(250,121,46, 1.0)",
         "Quality-of-life Crimes": "rgba(252,163,60, 1.0)",
-        "Restaurants": "rgba(31,123,53, 1.0)",
+        "Top Restaurants": "rgba(31,123,53, 1.0)",
+
+        //TODO: change this, is equal to Violent Crimes
+        "Failed Restaurants": "rgba(248,53,33, 1.0)",
         "Bars": "rgba(55,159,75, 1.0)",
         "Stores": "rgba(100,187,99, 1.0)"
     };
