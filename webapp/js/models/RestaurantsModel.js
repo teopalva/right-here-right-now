@@ -67,7 +67,6 @@ function RestaurantsModel() {
                     _failedRestaurants.push(restaurant);
                 }
             });
-            console.log("PassedRestaurants inspections downloaded: " + _failedRestaurants.length + " passedRestaurants");
             _failedRestaurantsDownloaded = true;
         });
 
@@ -86,10 +85,8 @@ function RestaurantsModel() {
                     restaurant.longitude = restaurant.location.coordinate.longitude;
                     _yelpRestaurants.push(restaurant);
                 });
-                if (_yelpRestaurants.length >= limit) {
-                    console.log("PassedRestaurants from Yelp downloaded: " + _yelpRestaurants.length + " passedRestaurants");
+                if (_yelpRestaurants.length >= limit)
                     _yelpDownloaded = true;
-                }
             });
         }
 
@@ -122,7 +119,7 @@ function RestaurantsModel() {
 
     var checkDownload = function () {
         if (_yelpDownloaded && _failedRestaurantsDownloaded) {
-            console.log("Downloads done");
+            console.log("Restaurants downloaded: " + _yelpRestaurants.length + " from Yelp, "+_failedRestaurants.length+" from Failed Inspections");
             findFoodInspectionFailures(_failedRestaurants, _yelpRestaurants);
             self.startUpdates();
             clearInterval(_checkTimer);
@@ -150,7 +147,6 @@ function RestaurantsModel() {
                 yelpRest.inspectionDate = failedRestaurants[i].inspection_date;
                 yelpRest.inspectionType = failedRestaurants[i].inspection_type;
                 yelpRest.risk = failedRestaurants[i].risk;
-                console.log(failedRestaurants[i].dba_name, " -> ", yelpRest);
                 return true;
             }
         }
