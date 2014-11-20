@@ -60,6 +60,12 @@ function UIModeViewController() {
 
         // RECOMMENDER
 
+        // Box
+        _recommenderButton.getView().setFrame(31, 237, 253.5, 75.5);
+        _recommenderButton.getView().setViewBox(0, 0, 253.5, 75.5);
+        _recommenderButton.getView().setStroke("white", "1pt");
+        self.add(_recommenderButton);
+
         // Walk
         _walkButton.getView().setFrame(40, 256.5, 22, 38.5);
         _walkButton.getView().setViewBox(0, 0, 22, 38.5);
@@ -100,6 +106,7 @@ function UIModeViewController() {
         _newTripButton = new UIButtonViewController;
         _rectModeButton = new UIButtonViewController;
         _pathModeButton = new UIButtonViewController;
+        _recommenderButton = new UIButtonViewController;
 
     }();
 

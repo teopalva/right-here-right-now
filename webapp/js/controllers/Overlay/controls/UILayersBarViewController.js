@@ -21,6 +21,16 @@ function UILayersBarViewController() {
     var _margin = 4;
     var _verticalPadding = _p.h + _margin;
 
+    // Set static title
+    var _title = new UILabelViewController();
+    _title.setText("Layers");
+    _title.setTextSize(35);
+    _title.setTextColor("white");
+    _title.setTextAlignment("center");
+    _title.getView().setFrame(_p.x, _p.y, _p.w, _p.h);
+    _title.getView().setViewBox(0, 0, _p.w, _p.h);
+    self.add(_title);
+
     var _bindings = [
 
         {
@@ -125,7 +135,7 @@ function UILayersBarViewController() {
     this.viewDidAppear = function () {
         var toolViewBox = self.getView().getViewBox();
 
-        var tot = 0;
+        var tot = 1;
 
         _bindings.forEach(function (category, i) {
             var label = category.label;

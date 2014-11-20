@@ -59,62 +59,65 @@ function Model() {
     // Holds restaurant
     var _restaurantsModel;
 
+    // Holds the recommendation system
+    var _recommenderModel;
+
 
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      *
      * @returns {*}
      */
-    this.getMapModel = function() {
+    this.getMapModel = function () {
         return _mapModel;
     };
 
     /**
      * Returns the model that keeps information about the boundary within which data has to be visualized
      */
-    this.getAreaOfInterestModel = function() {
+    this.getAreaOfInterestModel = function () {
         return _areaOfInterestModel;
     };
 
     /**
      * Returns news feed model that contains information about recent data updates
      */
-    this.getNewsFeedModel = function() {
+    this.getNewsFeedModel = function () {
         return _newsFeedModel;
     };
 
     /**
      * Returns the model that keeps information about the potholes
      */
-    this.getPotholesModel = function(){
+    this.getPotholesModel = function () {
         return _potholesModel;
     };
 
     /**
      * Returns the model that keeps information about the vehicles
      */
-    this.getVehiclesModel = function(){
+    this.getVehiclesModel = function () {
         return _vehiclesModel;
     };
 
     /**
      * Returns the model that keeps information about the lights
      */
-    this.getLightsModel = function(){
+    this.getLightsModel = function () {
         return _lightsModel;
     };
 
     /**
      * Returns the model that keeps information about the divvy bikes
      */
-    this.getDivvyBikesModel = function(){
+    this.getDivvyBikesModel = function () {
         return _divvyBikesModel;
     };
 
     /**
      * Returns the Visualization model
      */
-    this.getVisualizationModel = function() {
+    this.getVisualizationModel = function () {
         return _visualizationModel;
     };
 
@@ -122,7 +125,7 @@ function Model() {
      * Returns theme model
      * @returns {*}
      */
-    this.getThemeModel = function() {
+    this.getThemeModel = function () {
         return _themeModel;
     };
 
@@ -130,7 +133,7 @@ function Model() {
      * Returns the time model
      * @returns {*}
      */
-    this.getTimeModel = function() {
+    this.getTimeModel = function () {
         return _timeModel;
     };
 
@@ -138,7 +141,7 @@ function Model() {
      * Returns the weather model
      * @returns {*}
      */
-    this.getWeatherModel = function() {
+    this.getWeatherModel = function () {
         return _weatherModel;
     };
 
@@ -146,7 +149,7 @@ function Model() {
      * Returns the cta model
      * @returns {*}
      */
-    this.getCtaModel = function() {
+    this.getCtaModel = function () {
         return _ctaModel;
     };
 
@@ -154,7 +157,7 @@ function Model() {
      * Returns the cta train model
      * @returns {CtaTrainModel|*}
      */
-    this.getCtaTrainModel = function() {
+    this.getCtaTrainModel = function () {
         return _ctaTrainModel;
     };
 
@@ -162,11 +165,11 @@ function Model() {
      * Returns map layers model
      * @returns {*}
      */
-    this.getMapLayersModel = function() {
+    this.getMapLayersModel = function () {
         return _mapLayersModel;
     };
 
-    this.getCrimesModel = function() {
+    this.getCrimesModel = function () {
         return _crimesModel;
     };
 
@@ -174,16 +177,20 @@ function Model() {
      * Returns popup model
      * @returns {PopupModel}
      */
-    this.getPopupModel = function() {
+    this.getPopupModel = function () {
         return _popupModel;
     };
 
-    this.getRestaurantsModel = function() {
+    this.getRestaurantsModel = function () {
         return _restaurantsModel;
     };
 
+    this.getRecommenderModel = function () {
+        return _recommenderModel;
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
-    var init = function() {
+    var init = function () {
         // Map
         _mapModel = new MapModel();
 
@@ -218,10 +225,10 @@ function Model() {
         _timeModel = new TimeModel();
 
         // Weather
-        _weatherModel = new  WeatherModel();
+        _weatherModel = new WeatherModel();
 
         // Map layers
-        _mapLayersModel = new  MapLayersModel();
+        _mapLayersModel = new MapLayersModel();
 
         // Cta
         _ctaModel = new CtaModel();
@@ -235,5 +242,8 @@ function Model() {
         // Popups
         _popupModel = new PopupModel();
 
-    } ();
+        //
+        _recommenderModel = new RecommenderModel();
+
+    }();
 }
