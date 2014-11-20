@@ -31,6 +31,8 @@ function UIStreetIssuesChartsViewController() {
         if(model.getCrimesModel().isDataAvailable()) {
             draw();
         }*/
+
+        model.getPotholes()
         _potholesColumnChart.setData(
             ["Chicago", "Selection"],
             [30, 20],
