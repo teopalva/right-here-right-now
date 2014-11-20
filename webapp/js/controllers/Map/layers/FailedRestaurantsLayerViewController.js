@@ -111,7 +111,6 @@ function FailedRestaurantsLayerViewController() {
                 .classed("point", true)
                 .style("fill", model.getVisualizationModel().failedRestaurantsMarkerColor())
                 .attr("cx", function(d) {
-                    console.log("ENTER");
                     var point = self.project(d.latitude, d.longitude);
                     return point.x;
                 })
