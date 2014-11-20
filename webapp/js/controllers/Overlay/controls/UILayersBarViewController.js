@@ -95,15 +95,11 @@ function UILayersBarViewController() {
             elements: [{
                 title: "Top Restaurants",
                 button: new UIButtonViewController(),
-                layers: [Layers.PASSED_RESTAURANTS, Layers.FAILED_RESTAURANTS]
+                layers: [Layers.PASSED_RESTAURANTS]
             }, {
-                title: "Bars",
+                title: "Failed Restaurants",
                 button: new UIButtonViewController(),
-                layers: [Layers.CRIMES]
-            }, {
-                title: "Stores",
-                button: new UIButtonViewController(),
-                layers: [Layers.CRIMES]
+                layers: [Layers.FAILED_RESTAURANTS]
             }]
         }
     ];

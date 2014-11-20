@@ -321,7 +321,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.passedRestaurantsMarkerIconPath = function () {
-        return "assets/icon/markers/divvy.svg";
+        return "assets/icon/markers/restaurant_top.svg";
     };
 
     /**
@@ -349,7 +349,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.failedRestaurantsMarkerIconPath = function () {
-        return "assets/icon/markers/divvy.svg";
+        return "assets/icon/markers/restaurant_failed.svg";
     };
 
     /**
@@ -535,11 +535,8 @@ function VisualizationModel() {
         "Property Crimes": "rgba(250,121,46, 1.0)",
         "Quality-of-life Crimes": "rgba(252,163,60, 1.0)",
         "Top Restaurants": "rgba(31,123,53, 1.0)",
-
-        //TODO: change this, is equal to Violent Crimes
-        "Failed Restaurants": "rgba(248,53,33, 1.0)",
-        "Bars": "rgba(55,159,75, 1.0)",
-        "Stores": "rgba(100,187,99, 1.0)"
+        "Failed Restaurants": "rgba(107,196,105, 1.0)",
+       
     };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
