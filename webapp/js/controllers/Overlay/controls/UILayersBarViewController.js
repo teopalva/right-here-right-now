@@ -148,7 +148,7 @@ function UILayersBarViewController() {
                 layer.button.setTitle(layer.title);
                 layer.button.getView().setFrame(_p.x, _p.y + _verticalPadding * (tot), _p.w, _p.h);
                 layer.button.getView().setViewBox(0, 0, _p.w, _p.h);
-
+                layer.button.getView().setCornerRadius(8);
                 layer.button.onClick(function (layers) {
                     if (model.getMapLayersModel().areAllLayersActive(layers)) {
                         model.getMapLayersModel().disableLayers(layers);

@@ -41,7 +41,8 @@ function RecommenderModel() {
         switch (_selectedTransport) {
         case _transports.WALK:
 
-            layers.push(Layers.VEHICLES, _crimeLayers);
+            layers.push(Layers.VEHICLES);
+            layers = layers.concat(_crimeLayers);
             if (!isDay()) {
                 layers.push(Layers.LIGHTS);
             }
@@ -49,7 +50,8 @@ function RecommenderModel() {
 
         case _transports.BIKE:
 
-            layers.push(Layers.DIVVY_BIKES, Layers.POTHOLES, Layers.VEHICLES, _crimeLayers);
+            layers.push(Layers.DIVVY_BIKES, Layers.POTHOLES, Layers.VEHICLES);
+            layers = layers.concat(_crimeLayers);
             if (!isDay()) {
                 layers.push(Layers.LIGHTS);
             }
@@ -71,6 +73,10 @@ function RecommenderModel() {
         }
 
         return layers;
+    };
+
+    this.setSelectedTransport = function (transport) {
+        _selectedTransport = transport;
     };
 
     ///////////////////////// PRIVATE METHODS /////////////////////////

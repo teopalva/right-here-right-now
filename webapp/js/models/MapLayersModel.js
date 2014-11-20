@@ -16,11 +16,11 @@ function MapLayersModel() {
      * Returns active layers
      * @returns {Array}
      */
-    this.getActiveLayers = function() {
+    this.getActiveLayers = function () {
         var activeLayers = [];
 
-        d3.keys(_layerStatus).forEach(function(value) {
-            if(_layerStatus[value] == true) {
+        d3.keys(_layerStatus).forEach(function (value) {
+            if (_layerStatus[value] == true) {
                 activeLayers.push(value);
             }
         });
@@ -32,8 +32,8 @@ function MapLayersModel() {
      * Enables the layers for which the layerKey is passed in the layerKeyArray
      * @param layerArray contains layer enum keys of the layers that have to be enabled
      */
-    this.enableLayers = function(layerArray) {
-        layerArray.forEach(function(value) {
+    this.enableLayers = function (layerArray) {
+        layerArray.forEach(function (value) {
             _layerStatus[value] = true;
         });
 
@@ -44,11 +44,18 @@ function MapLayersModel() {
      * Disables the layers for which the layerKey is passed in the layerKeyArray
      * @param layerArray contains layer enum keys of the layers that have to be disabled
      */
-    this.disableLayers = function(layerArray) {
-        layerArray.forEach(function(value) {
+    this.disableLayers = function (layerArray) {
+        layerArray.forEach(function (value) {
             _layerStatus[value] = false;
         });
+        notificationCenter.dispatch(Notifications.mapLayers.LAYERS_STATUS_CHANGED);
+    };
 
+    this.disableAllLayers = function () {
+        for (key in Layers) {
+            _layerStatus[Layers[key]] = false;
+        };
+        //console.log(_layerStatus);
         notificationCenter.dispatch(Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     };
 
@@ -57,7 +64,7 @@ function MapLayersModel() {
      * @param layer a layer enum constant @see Layers enum
      * @returns boolean
      */
-    this.isLayerActive = function(layer) {
+    this.isLayerActive = function (layer) {
         return _layerStatus[layer];
     };
 
@@ -66,11 +73,11 @@ function MapLayersModel() {
      * @param layersArray an array of layer enum constant @see Layers enum
      * @returns boolean
      */
-    this.areAllLayersActive = function(layersArray) {
+    this.areAllLayersActive = function (layersArray) {
         var allActive = true;
 
         // If all layers are active..
-        layersArray.forEach(function(layer) {
+        layersArray.forEach(function (layer) {
             allActive = allActive && self.isLayerActive(layer);
         });
 
@@ -78,14 +85,14 @@ function MapLayersModel() {
     };
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
-    var init = function() {
-        d3.values(Layers).forEach(function(value) {
+    var init = function () {
+        d3.values(Layers).forEach(function (value) {
             _layerStatus[value] = false;
         });
 
         self.enableLayers([Layers.USER_PATH]);
         self.enableLayers([Layers.POPUPS]);
-    } ();
+    }();
 }
 
 /**

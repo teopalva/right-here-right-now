@@ -81,12 +81,12 @@ function MapViewController(htmlContainer) {
             }
         });
 
-        // TODO ugly
+        /*// TODO ugly
         currentLayers.forEach(function(layer) {
             if(layer instanceof PopupLayerViewController) {
                 layer.getView().getSvg().node().parentNode.appendChild(layer.getView().getSvg().node());
             }
-        });
+        });*/
     };
 
 

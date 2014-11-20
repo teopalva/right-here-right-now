@@ -33,7 +33,7 @@ function UIModeViewController() {
         _newTripButton.setTitle("NEW TRIP");
         _newTripButton.getView().setStroke("white", "1pt");
         _newTripButton.onClick(function () {
-            _newTripButton.getView().highlight(_selectColor, 1000);
+            _newTripButton.getView().highlight(_selectColor, 600);
             model.getAreaOfInterestModel().clearPath();
         });
         self.add(_newTripButton);
@@ -67,27 +67,43 @@ function UIModeViewController() {
         self.add(_recommenderButton);
 
         // Walk
-        _walkButton.getView().setFrame(40, 256.5, 22, 38.5);
-        _walkButton.getView().setViewBox(0, 0, 22, 38.5);
-        _walkButton.setImage("assets/icon/transport/walking.svg");
+        _walkButton.getView().setFrame(34, 240, 63, 75.5);
+        _walkButton.getView().setViewBox(0, 0, 63, 75.5);
+        _walkButton.setImage("assets/icon/transport/walk.svg");
+        _walkButton.onClick(function () {
+            model.getRecommenderModel().setSelectedTransport(model.getRecommenderModel().getTransports().WALK);
+            updateLayers();
+        });
         self.add(_walkButton);
 
         // Bike
-        _bikeButton.getView().setFrame(93, 256.5, 41, 38.5);
-        _bikeButton.getView().setViewBox(0, 0, 41, 38.5);
-        _bikeButton.setImage("assets/icon/transport/bike.svg");
+        _bikeButton.getView().setFrame(97, 240, 63, 75.5);
+        _bikeButton.getView().setViewBox(0, 0, 63, 75.5);
+        _bikeButton.setImage("assets/icon/transport/bike_.svg");
+        _bikeButton.onClick(function () {
+            model.getRecommenderModel().setSelectedTransport(model.getRecommenderModel().getTransports().BIKE);
+            updateLayers();
+        });
         self.add(_bikeButton);
 
         // Car
-        _carButton.getView().setFrame(164, 256.5, 50, 42.5);
-        _carButton.getView().setViewBox(0, 0, 50, 42.5);
+        _carButton.getView().setFrame(160, 240, 63, 75.5);
+        _carButton.getView().setViewBox(0, 0, 63, 75.5);
         _carButton.setImage("assets/icon/transport/car.svg");
+        _carButton.onClick(function () {
+            model.getRecommenderModel().setSelectedTransport(model.getRecommenderModel().getTransports().CAR);
+            updateLayers();
+        });
         self.add(_carButton);
 
         // Bus
-        _busButton.getView().setFrame(239, 256.5, 37.5, 38.5);
-        _busButton.getView().setViewBox(0, 0, 37.5, 38.5);
-        _busButton.setImage("assets/icon/transport/bus.svg");
+        _busButton.getView().setFrame(223, 240, 63, 75.5);
+        _busButton.getView().setViewBox(0, 0, 63, 75.5);
+        _busButton.setImage("assets/icon/transport/bus_.svg");
+        _busButton.onClick(function () {
+            model.getRecommenderModel().setSelectedTransport(model.getRecommenderModel().getTransports().BUS);
+            updateLayers();
+        });
         self.add(_busButton);
 
         // Call super
@@ -119,6 +135,12 @@ function UIModeViewController() {
             _pathModeButton.setImage("assets/icon/pathMode_selected.svg");
         }
     };
+
+    var updateLayers = function () {
+        var layers = model.getRecommenderModel().getRecommendedLayers();
+        model.getMapLayersModel().disableAllLayers();
+        model.getMapLayersModel().enableLayers(layers);
+    }
 
 }
 
