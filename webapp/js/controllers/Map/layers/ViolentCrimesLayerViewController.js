@@ -32,6 +32,7 @@ function ViolentCrimesLayerViewController() {
         super_dispose.call(self);
 
         // Do cleaning stuff here
+        model.getPopupModel().removeAll(Layers.VIOLENT_CRIMES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -137,6 +138,7 @@ function ViolentCrimesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.CRIME,
+            layer: Layers.VIOLENT_CRIMES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude

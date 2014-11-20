@@ -33,6 +33,7 @@ function QualityOfLifeCrimesLayerViewController() {
         super_dispose.call(self);
 
         // Do cleaning stuff here
+        model.getPopupModel().removeAll(Layers.QUALITY_OF_LIFE_CRIMES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -137,6 +138,7 @@ function QualityOfLifeCrimesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.CRIME,
+            layer: Layers.QUALITY_OF_LIFE_CRIMES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude

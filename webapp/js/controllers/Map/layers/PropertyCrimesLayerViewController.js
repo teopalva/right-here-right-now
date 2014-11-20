@@ -32,6 +32,7 @@ function PropertyCrimesLayerViewController() {
         super_dispose.call(self);
 
         // Do cleaning stuff here
+        model.getPopupModel().removeAll(Layers.PROPERTY_CRIMES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -136,6 +137,7 @@ function PropertyCrimesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.CRIME,
+            layer: Layers.PROPERTY_CRIMES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude
