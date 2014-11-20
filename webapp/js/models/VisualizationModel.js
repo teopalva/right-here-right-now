@@ -313,7 +313,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.passedRestaurantsMarkerColor = function () {
-        return this.layersColors["PassedRestaurants"];
+        return this.layersColors["Top Restaurants"];
     };
 
     /**
@@ -341,7 +341,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.failedRestaurantsMarkerColor = function () {
-        return this.layersColors["FailedRestaurants"];
+        return this.layersColors["Failed Restaurants"];
     };
 
     /**
@@ -534,10 +534,10 @@ function VisualizationModel() {
         "Violent Crimes": "rgba(248,53,33, 1.0)",
         "Property Crimes": "rgba(250,121,46, 1.0)",
         "Quality-of-life Crimes": "rgba(252,163,60, 1.0)",
-        "PassedRestaurants": "rgba(31,123,53, 1.0)",
+        "Top Restaurants": "rgba(31,123,53, 1.0)",
 
         //TODO: change this, is equal to Violent Crimes
-        "FailedRestaurants": "rgba(248,53,33, 1.0)",
+        "Failed Restaurants": "rgba(248,53,33, 1.0)",
         "Bars": "rgba(55,159,75, 1.0)",
         "Stores": "rgba(100,187,99, 1.0)"
     };
