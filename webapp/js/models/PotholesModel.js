@@ -13,6 +13,7 @@ function PotholesModel() {
      *      - longitude : number
      */
     var _potholes = [];
+    var _dataAvailable = false;
 
     // Update timer
     var _updateTimer;
@@ -56,6 +57,10 @@ function PotholesModel() {
         return _potholes.length / chicagoArea;
     };
 
+    this.isDataAvailable = function(){
+      return _dataAvailable;
+    };
+
     /**
      *  Update the potholes information
      */
@@ -89,6 +94,7 @@ function PotholesModel() {
                _potholes.push(pothole);
            });
             notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
+            _dataAvailable = true;
         });
 
     };

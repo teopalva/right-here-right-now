@@ -15,6 +15,7 @@ function VehiclesModel() {
      *      - longitude : number
      */
     var _vehicles = [];
+    var _dataAvailable = false;
 
     // Update timer
     var _updateTimer;
@@ -41,6 +42,10 @@ function VehiclesModel() {
     this.clearVehicles = function(){
         _vehicles = [];
     }
+
+    this.isDataAvailable = function(){
+        return _dataAvailable;
+    };
 
     /**
      *
@@ -93,6 +98,7 @@ function VehiclesModel() {
                 _vehicles.push(vehicle);
             });
             notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);
+            _dataAvailable = true;
         });
 
     };

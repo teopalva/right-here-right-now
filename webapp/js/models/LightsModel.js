@@ -14,6 +14,7 @@ function LightsModel() {
      *      - number_out : number
      */
     var _lights = [];
+    var _dataAvailable = false;
 
     // Update timer
     var _updateTimer;
@@ -39,6 +40,10 @@ function LightsModel() {
      */
     this.clearLights = function(){
         _lights = [];
+    };
+
+    this.isDataAvailable = function(){
+        return _dataAvailable;
     };
 
     /**
@@ -102,6 +107,7 @@ function LightsModel() {
                     _lights.push(light);
                 });
                 notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
+                _dataAvailable = true;
             });
         });
     };
