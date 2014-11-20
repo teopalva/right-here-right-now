@@ -243,8 +243,8 @@ function VisualizationModel() {
      */
     this.divvyMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 30,
+            height: 30
         }
     };
 
