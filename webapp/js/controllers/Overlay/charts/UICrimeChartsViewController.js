@@ -17,6 +17,10 @@ function UICrimeChartsViewController() {
     var _selectedAreaAsterPlotVC;
     var _chicagoAsterPlotVC;
 
+    // Legend
+    var _qualityOfLifeLabel;
+    var _propertyLabel;
+    var _violentLabel;
 
     ///////////////////////// PUBLIC METHODS /////////////////////////
     /**
@@ -165,13 +169,67 @@ function UICrimeChartsViewController() {
     };
 
     this.viewBoxDidChange = function() {
+        var canvas = self.getView().getSvg();
         var box = self.getView().getViewBox();
 
         var y = 0;
 
         // Title label
         _titleLabel.getView().setFrame(0, y, box.width, 100);
-        y += 100;
+
+        y += 10;
+        var legendWidth = (box.width / 2);
+        var legendOffset = (box.width / 2);
+        _qualityOfLifeLabel.getView().setFrame(legendOffset, y, legendWidth/3, 100);
+        _propertyLabel.getView().setFrame(legendOffset + legendWidth/3, y, legendWidth/3, 100);
+        _violentLabel.getView().setFrame(legendOffset + (legendWidth/3) *1.9, y, legendWidth/3, 100);
+
+        // Draw circles
+        var r = 25;
+
+        var dot = canvas.select(".quality");
+        var color = model.getVisualizationModel().qualityOfLifeCrimesMarkerColor();
+        if(dot.empty()) {
+            dot = canvas
+                .append("circle")
+                .classed("quality", true)
+                .style("fill", color);
+        }
+        dot
+            .attr("cx", legendOffset + r)
+            .attr("cy", y + r*2)
+            .attr("r", r);
+
+        dot = canvas.select(".property");
+        color = model.getVisualizationModel().propertyCrimesMarkerColor();
+        if(dot.empty()) {
+            dot = canvas
+                .append("circle")
+                .classed("property", true)
+                .style("fill", color);
+        }
+        dot
+            .attr("cx", legendOffset + legendWidth/3 + r *3)
+            .attr("cy", y + r*2)
+            .attr("r", r);
+
+        dot = canvas.select(".violent");
+        color = model.getVisualizationModel().violentCrimesMarkerColor();
+        if(dot.empty()) {
+            dot = canvas
+                .append("circle")
+                .classed("violent", true)
+                .style("fill", color);
+        }
+        dot
+            .attr("cx", legendOffset + (legendWidth/3)*2 + r *3)
+            .attr("cy", y + r*2)
+            .attr("r", r);
+
+
+
+
+        y += 120;
 
 
         // Selection label
@@ -188,6 +246,7 @@ function UICrimeChartsViewController() {
         _chicagoCrimesCountLabel.getView().setFrame(box.width /2, y, box.width/2, 50);
         y += 50;
 
+        var plotSize = 550;
         // Selected plot
         _selectedAreaAsterPlotVC.getView().setFrame(0, y, box.width /2, 500);
         _selectedAreaAsterPlotVC.getView().setViewBox(0, 0, box.width /2, 500);
@@ -239,6 +298,7 @@ function UICrimeChartsViewController() {
         _titleLabel.setText("All Crimes");
         _titleLabel.setTextSize(model.getThemeModel().hugeTextSize());
         _titleLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        _titleLabel.setTextAlignment(TextAlignment.LEFT);
         self.add(_titleLabel);
 
         // Selection label
@@ -278,6 +338,29 @@ function UICrimeChartsViewController() {
         _chicagoAsterPlotVC = new UIAsterPlotViewController();
         _chicagoAsterPlotVC.setDelegate(self);
         self.add(_chicagoAsterPlotVC);
+
+        // Legend
+        _qualityOfLifeLabel = new UILabelViewController();
+        _qualityOfLifeLabel.setText("Quality of life");
+        _qualityOfLifeLabel.setTextSize(model.getThemeModel().biggerTextSize());
+        _qualityOfLifeLabel.setTextColor(model.getThemeModel().secondaryTextColor());
+        _qualityOfLifeLabel.setTextAlignment(TextAlignment.RIGHT);
+        self.add(_qualityOfLifeLabel);
+
+        _propertyLabel = new UILabelViewController();
+        _propertyLabel.setText("Property");
+        _propertyLabel.setTextSize(model.getThemeModel().biggerTextSize());
+        _propertyLabel.setTextColor(model.getThemeModel().secondaryTextColor());
+        _propertyLabel.setTextAlignment(TextAlignment.RIGHT);
+        self.add(_propertyLabel);
+
+        _violentLabel = new UILabelViewController();
+        _violentLabel.setText("Violent");
+        _violentLabel.setTextSize(model.getThemeModel().biggerTextSize());
+        _violentLabel.setTextColor(model.getThemeModel().secondaryTextColor());
+        _violentLabel.setTextAlignment(TextAlignment.RIGHT);
+        self.add(_violentLabel);
+
 
         addBehavior();
 

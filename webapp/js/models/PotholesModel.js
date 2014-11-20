@@ -43,6 +43,14 @@ function PotholesModel() {
     };
 
     /**
+     *
+     * @returns {Array}
+     */
+    this.getPotholesWithinArea = function() {
+        return model.getAreaOfInterestModel().filterObjects(_potholes);
+    };
+
+    /**
      * Remove the old potholes
      */
     this.clearPotholes = function(){
@@ -54,8 +62,13 @@ function PotholesModel() {
      * @returns {number}
      */
     this.getPotholesDensityWithinArea = function() {
-      var filtered = model.getAreaOfInterestModel().filterObjects(_potholes);
-      return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
+        var filtered = model.getAreaOfInterestModel().filterObjects(_potholes);
+
+        if(filtered == null || filtered.length == 0) {
+            return 0;
+        }
+
+        return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
     };
 
     /**
@@ -68,7 +81,7 @@ function PotholesModel() {
     };
 
     this.isDataAvailable = function(){
-      return _dataAvailable;
+        return _dataAvailable;
     };
 
     /**

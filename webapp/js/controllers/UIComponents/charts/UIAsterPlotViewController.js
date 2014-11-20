@@ -58,19 +58,23 @@ function UIAsterPlotViewController() {
 
     this.selectItem = function(index) {
         _selectedIndex = index;
-        draw();
+        if(_data != undefined) {
+            draw();
 
-        if(_delegate != null && typeof _delegate.selectionChanged == "function") {
-            _delegate.selectionChanged(_selectedIndex, _data[index]);
+            if(_delegate != null && typeof _delegate.selectionChanged == "function") {
+                _delegate.selectionChanged(_selectedIndex, _data[index]);
+            }
         }
     };
 
     this.deselectAll = function() {
         _selectedIndex = null;
-        draw();
+        if(_data != undefined) {
+            draw();
 
-        if(_delegate != null && typeof _delegate.selectionChanged == "function") {
-            _delegate.selectionChanged(_selectedIndex, null);
+            if(_delegate != null && typeof _delegate.selectionChanged == "function") {
+                _delegate.selectionChanged(_selectedIndex, null);
+            }
         }
     };
 
@@ -225,6 +229,7 @@ function UIAsterPlotViewController() {
     // Init
     var init = function() {
         self.getView().addClass("ui-aster-plot-view-controller");
+
 
         self.getView().setDelegate(self);
     } ();

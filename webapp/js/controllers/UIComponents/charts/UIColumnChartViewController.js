@@ -25,7 +25,7 @@ function UIColumnChartViewController() {
 
     // UI
     var _chartMargin = {top: 60, right: 100, bottom: 40, left: 100};
-    var _defaultViewBox = {x: 0, y: 0, width: 600, height: 300};
+    var _defaultViewBox = {x: 0, y: 0, width: 500, height: 300};
 
     /////////////////////// PUBLIC ATTRIBUTES ///////////////////////
     /**
@@ -164,8 +164,8 @@ function UIColumnChartViewController() {
                 .classed("y-label",true)
                 .attr("transform", "translate(0, "+ -30 +" )")
                 .attr("y", 6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end");
+                .attr("dy", ".2em")
+                .style("text-anchor", "middle");
         }
 
         yLabel
@@ -245,10 +245,14 @@ function UIColumnChartViewController() {
         axis.style("stroke-width", _axisWidth);
 
         var ticks = self.getView().getSvg().selectAll(".tick");
-        ticks.style("fill", _axisColor);
+        ticks
+            .style("fill", _axisColor)
+            .style("font-size", "30px");
 
         var axisLabel = self.getView().getSvg().selectAll(".y-label");
-        axisLabel.style("fill", _axisColor);
+        axisLabel
+            .style("fill", _axisColor)
+            .style("font-size", "30px");
     };
 
     // Init

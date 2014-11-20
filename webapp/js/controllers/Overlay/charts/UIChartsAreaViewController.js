@@ -137,6 +137,7 @@ function UIChartsAreaViewController() {
     var init = function() {
         self.getView().addClass("ui-charts-area-view-controller");
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
+        self.getView().getSvg().style("pointer-events", "visiblePainted");
 
         self.getView().setDelegate(self);
 

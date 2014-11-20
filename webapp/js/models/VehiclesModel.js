@@ -44,14 +44,22 @@ function VehiclesModel() {
      */
     this.getVehicles = function(){
         return _vehicles;
-    }
+    };
+
+    /**
+     *
+     * @returns {Array}
+     */
+    this.getVehiclesWithinArea = function() {
+        return model.getAreaOfInterestModel().filterObjects(_vehicles);
+    };
 
     /**
      * Remove the old potholes
      */
     this.clearVehicles = function(){
         _vehicles = [];
-    }
+    };
 
     this.isDataAvailable = function(){
         return _dataAvailable;
@@ -63,6 +71,11 @@ function VehiclesModel() {
      */
     this.getVehiclesDensityWithinArea = function() {
         var filtered = model.getAreaOfInterestModel().filterObjects(_vehicles);
+
+        if(filtered == null || filtered.length == 0) {
+            return 0;
+        }
+
         return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
     };
 

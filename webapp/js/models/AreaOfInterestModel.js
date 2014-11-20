@@ -135,7 +135,6 @@ function AreaOfInterestModel() {
         var res = [];
         var area = self.getAreaOfInterest();
         if (area == null) {
-            console.log("Empty area of interest!");
             return [];
         }
         var multipolygon = area.features[0].geometry;

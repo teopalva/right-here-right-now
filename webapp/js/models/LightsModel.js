@@ -46,6 +46,14 @@ function LightsModel() {
     };
 
     /**
+     *
+     * @returns {Array}
+     */
+    this.getLightsWithinArea = function() {
+        return model.getAreaOfInterestModel().filterObjects(_lights);
+    };
+
+    /**
      * Remove the old lights
      */
     this.clearLights = function(){
@@ -62,6 +70,11 @@ function LightsModel() {
      */
     this.getLightsDensityWithinArea = function() {
         var filtered = model.getAreaOfInterestModel().filterObjects(_lights);
+
+        if(filtered == null || filtered.length == 0) {
+            return 0;
+        }
+
         return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
     };
 

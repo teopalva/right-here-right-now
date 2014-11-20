@@ -288,6 +288,16 @@ function VisualizationModel() {
     };
 
     /**
+     *
+     * @param opacity
+     * @returns {string}
+     */
+    this.potholesColor = function(/**opacity=1*/opacity) {
+        opacity = opacity || 1;
+        return "rgba(106,81,163," + opacity + ")";
+    };
+
+    /**
      * Returns potholes icon path
      * @returns {string}
      */
@@ -374,6 +384,16 @@ function VisualizationModel() {
     };
 
     /**
+     *
+     * @param opacity
+     * @returns {string}
+     */
+    this.abandonedVehiclesColor = function(/**opacity=1*/opacity) {
+        opacity = opacity || 1;
+        return "rgba(128,125,186," + opacity + ")";
+    };
+
+    /**
      * Returns abandonedVehicles icon path
      * @returns {string}
      */
@@ -400,6 +420,16 @@ function VisualizationModel() {
      */
     this.streetLightsMarkerColor = function () {
         return this.layersColors["Streets Lights Out"];
+    };
+
+    /**
+     *
+     * @param opacity
+     * @returns {string}
+     */
+    this.streetLightsColor = function(/**opacity=1*/opacity) {
+        opacity = opacity || 1;
+        return "rgba(188,189,220," + opacity + ")";
     };
 
     /**

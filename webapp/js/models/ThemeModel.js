@@ -25,6 +25,14 @@ function ThemeModel() {
         return "rgba(246, 246, 246, 1.0)";
     };
 
+    /**
+     *
+     * @returns {string}
+     */
+    this.secondaryTextColor = function() {
+        return "rgba(187, 187, 187, 1.0)";
+    };
+
     this.selectedButtonColor = function (layerName) {
         //return "rgba(35, 84, 204, 1.0)";
         return model.getVisualizationModel().layersColors[layerName];
@@ -45,9 +53,18 @@ function ThemeModel() {
 
     /**
      *
+     * @returns {string}
      */
     this.largeTextSize = function() {
         return "50px";
+    };
+
+    /**
+     *
+     * @returns {string}
+     */
+    this.biggerTextSize = function() {
+        return "32px";
     };
 
     /**
