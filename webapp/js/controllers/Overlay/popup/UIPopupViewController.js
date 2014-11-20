@@ -26,14 +26,6 @@ function UIPopupViewController(dictionary) {
     };
 
     var _dataSourceImage;
-    var _dataSourceImageBox = {
-        padding: {
-            top: 10,
-            left: 10
-        },
-        width: 40,
-        height: 40
-    };
 
     /////////////////////  PUBLIC METHODS /////////////////////
 
@@ -67,6 +59,10 @@ function UIPopupViewController(dictionary) {
         _dataSourceImage.setImagePath(path);
     };
 
+    this.setDataSourceFrame = function(left,top,width,height){
+        _dataSourceImage.getView().setFrame(left,top,width,height);
+    };
+
     this.frameDidChange = function() {
         updateChildren();
     };
@@ -79,7 +75,6 @@ function UIPopupViewController(dictionary) {
     var updateChildren = function() {
         var box = self.getView().getViewBox();
         _closeButton.getView().setFramePosition(box.width - _closeButtonBox.width - _closeButtonBox.padding.right, _closeButtonBox.padding.top);
-        _dataSourceImage.getView().setFramePosition(_dataSourceImageBox.padding.left , _dataSourceImageBox.padding.top);
     };
 
     var addBehaviors = function() {
@@ -103,7 +98,6 @@ function UIPopupViewController(dictionary) {
         self.add(_closeButton);
 
         _dataSourceImage = new UIImageViewController();
-        _dataSourceImage.getView().setFrameSize(_dataSourceImageBox.width, _dataSourceImageBox.height);
         self.add(_dataSourceImage);
 
         addBehaviors();
