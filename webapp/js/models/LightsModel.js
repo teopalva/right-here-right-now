@@ -119,7 +119,6 @@ function LightsModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        self.clearLights();
     };
 
 
@@ -130,6 +129,6 @@ function LightsModel() {
     };
 
     var init = function() {
-
+        self.updateLights();
     } ();
 }

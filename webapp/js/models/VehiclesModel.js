@@ -110,7 +110,6 @@ function VehiclesModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        self.clearVehicles();
     };
 
 
@@ -122,6 +121,6 @@ function VehiclesModel() {
     };
 
     var init = function() {
-
+        self.updateVehicles();
     } ();
 }

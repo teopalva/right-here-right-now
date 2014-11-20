@@ -106,7 +106,6 @@ function PotholesModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        self.clearPotholes();
     };
 
 
@@ -119,6 +118,6 @@ function PotholesModel() {
     };
 
     var init = function() {
-
+        self.updatePotholes();
     } ();
 }
