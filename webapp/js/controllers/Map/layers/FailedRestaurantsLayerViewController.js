@@ -1,10 +1,10 @@
 /**
- * @class PassedRestaurantsLayerViewController
+ * @class FailedRestaurantsLayerViewController
  * @description
  *
  * @constructor
  */
-function PassedRestaurantsLayerViewController() {
+function FailedRestaurantsLayerViewController() {
     MapLayerController.call(this);
 
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
@@ -18,7 +18,7 @@ function PassedRestaurantsLayerViewController() {
     };
 
     this.drawNewPoints = function(){
-        _cachedData = model.getRestaurantsModel().getRestaurants(InspectionResult.PASSED);
+        _cachedData = model.getRestaurantsModel().getRestaurants(InspectionResult.FAILED);
         _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
         draw(_cachedData);
     };
@@ -41,8 +41,8 @@ function PassedRestaurantsLayerViewController() {
         var canvas = self.getView().getSvg();
 
         var size = {
-            width: model.getVisualizationModel().passedRestaurantsMarkerIconSize().width,
-            height: model.getVisualizationModel().passedRestaurantsMarkerIconSize().height
+            width: model.getVisualizationModel().failedRestaurantsMarkerIconSize().width,
+            height: model.getVisualizationModel().failedRestaurantsMarkerIconSize().height
         };
         var markers;
 
@@ -69,7 +69,7 @@ function PassedRestaurantsLayerViewController() {
                 .append("image")
                 .classed("marker", true)
                 .classed("pin", true)
-                .attr("xlink:href", model.getVisualizationModel().passedRestaurantsMarkerIconPath())
+                .attr("xlink:href", model.getVisualizationModel().failedRestaurantsMarkerIconPath())
                 .attr("x", function(d) {
                     var point = self.project(d.latitude, d.longitude);
                     return point.x - (size.width / 2);
@@ -109,8 +109,9 @@ function PassedRestaurantsLayerViewController() {
                 .append("circle")
                 .classed("marker", true)
                 .classed("point", true)
-                .style("fill", model.getVisualizationModel().passedRestaurantsMarkerColor())
+                .style("fill", model.getVisualizationModel().failedRestaurantsMarkerColor())
                 .attr("cx", function(d) {
+                    console.log("ENTER");
                     var point = self.project(d.latitude, d.longitude);
                     return point.x;
                 })
@@ -143,7 +144,7 @@ function PassedRestaurantsLayerViewController() {
             name: d.name.substring(0,20),
             address: d.location.display_address[0] + ", " + d.location.display_address[1],
             city: d.location.display_address[2],
-            inspection: d.inspectionResult,
+            inspection: d.inspectionResult + " on " + d.inspectionDate,
             reviews: d.review_count,
             image: d.image_url,
             rating: d.rating,
@@ -154,10 +155,10 @@ function PassedRestaurantsLayerViewController() {
 
 
     var init = function () {
-        self.getView().addClass("passedRestaurants-layer-view-controller");
+        self.getView().addClass("failedRestaurants-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.passedRestaurants.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.failedRestaurants.LAYER_UPDATED);
         notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
@@ -165,4 +166,4 @@ function PassedRestaurantsLayerViewController() {
     }();
 }
 
-Utils.extend(PassedRestaurantsLayerViewController, MapLayerController);
+Utils.extend(FailedRestaurantsLayerViewController, MapLayerController);

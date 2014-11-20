@@ -67,7 +67,7 @@ function RestaurantsModel() {
                     _failedRestaurants.push(restaurant);
                 }
             });
-            console.log("Restaurants inspections downloaded: " + _failedRestaurants.length + " passedRestaurants");
+            console.log("PassedRestaurants inspections downloaded: " + _failedRestaurants.length + " passedRestaurants");
             _failedRestaurantsDownloaded = true;
         });
 
@@ -87,7 +87,7 @@ function RestaurantsModel() {
                     _yelpRestaurants.push(restaurant);
                 });
                 if (_yelpRestaurants.length >= limit) {
-                    console.log("Restaurants from Yelp downloaded: " + _yelpRestaurants.length + " passedRestaurants");
+                    console.log("PassedRestaurants from Yelp downloaded: " + _yelpRestaurants.length + " passedRestaurants");
                     _yelpDownloaded = true;
                 }
             });
@@ -97,6 +97,7 @@ function RestaurantsModel() {
 
     this.startUpdates = function () {
         notificationCenter.dispatch(Notifications.passedRestaurants.LAYER_UPDATED);
+        notificationCenter.dispatch(Notifications.failedRestaurants.LAYER_UPDATED);
     };
 
 
