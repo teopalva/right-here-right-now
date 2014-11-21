@@ -57,6 +57,7 @@ function MapLayersModel() {
         };
         _layerStatus[Layers.USER_PATH] = true;
         _layerStatus[Layers.POPUPS] = true;
+        _layerStatus[Layers.PLACES_OF_INTEREST] = true;
         notificationCenter.dispatch(Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     };
 
