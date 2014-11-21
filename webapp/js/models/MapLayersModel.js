@@ -57,6 +57,7 @@ function MapLayersModel() {
         };
         _layerStatus[Layers.USER_PATH] = true;
         _layerStatus[Layers.POPUPS] = true;
+        _layerStatus[Layers.PLACES_OF_INTEREST] = true;
         notificationCenter.dispatch(Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     };
 
@@ -108,6 +109,7 @@ var Layers = {
     DIVVY_BIKES: "DivvyBikesLayerViewController",
     CTA_STOPS: "CtaLayerViewController",
     CTA_BUSES: "CtaStopsLayerViewController",
+    CTA_BUS_ROUTES: "CtaBusRoutesLayerViewController",
     CTA_TRAINS: "CtaTrainLayerViewController",
     VIOLENT_CRIMES: "ViolentCrimesLayerViewController",
     PROPERTY_CRIMES: "PropertyCrimesLayerViewController",

@@ -34,12 +34,12 @@ function UILayersBarViewController() {
     var _bindings = [
 
         {
-            title: "Trasport",
+            title: "Transport",
             label: new UILabelViewController(),
             elements: [{
                     title: "CTA bus",
                     button: new UIButtonViewController(),
-                    layers: [Layers.CTA_STOPS, Layers.CTA_BUSES]
+                    layers: [Layers.CTA_STOPS, Layers.CTA_BUSES, Layers.CTA_BUS_ROUTES]
             },
                 {
                     title: "CTA train",

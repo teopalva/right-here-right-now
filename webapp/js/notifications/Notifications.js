@@ -108,6 +108,7 @@ Notifications.cta = {
     TIME : "com.righthererightnow.cta.time",
     VEHICLES: "com.righthererightnow.cta.vechicles",
     STOPS: "com.righthererightnow.cta.stops",
+    ROUTES_PATHS: "com.righthererightnow.cta.routesPaths",
     TRAIN_STATIONS: "com.righthererihgtnow.cta.trainStations"
 };
 
