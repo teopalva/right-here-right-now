@@ -50,7 +50,7 @@ function UITimeIntervalViewController() {
 
     /////////////////////  PRIVATE METHODS /////////////////////
         var filterLayers = function(timeRange){
-            var activeLayers = model.getMapLayersModel().getActiveLayersToFilter();
+            var activeLayers = model.getMapLayersModel().getActiveLayers();
             for(i in activeLayers){
                 switch(activeLayers[i]){
                     case Layers.POTHOLES:
