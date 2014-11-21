@@ -55,9 +55,8 @@ function MapLayersModel() {
         for (key in Layers) {
             _layerStatus[Layers[key]] = false;
         };
-        self.enableLayers([Layers.USER_PATH]);
-        self.enableLayers([Layers.POPUPS]);
-        //console.log(_layerStatus);
+        _layerStatus[Layers.USER_PATH] = true;
+        _layerStatus[Layers.POPUPS] = true;
         notificationCenter.dispatch(Notifications.mapLayers.LAYERS_STATUS_CHANGED);
     };
 

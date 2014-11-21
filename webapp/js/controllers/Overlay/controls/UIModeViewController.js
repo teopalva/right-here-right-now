@@ -14,6 +14,7 @@ function UIModeViewController() {
     var _newTripButton;
     var _rectModeButton;
     var _pathModeButton;
+    var _transportButtons = [];
 
     var _selectColor = model.getThemeModel().deselectedButtonColor;
     var _deselectColor = model.getThemeModel().toolBackgroundColor;
@@ -35,6 +36,7 @@ function UIModeViewController() {
         _newTripButton.onClick(function () {
             _newTripButton.getView().highlight(_selectColor, 600);
             model.getAreaOfInterestModel().clearPath();
+            deselectAllTransportButtons();
         });
         self.add(_newTripButton);
 
@@ -67,44 +69,52 @@ function UIModeViewController() {
         self.add(_recommenderButton);
 
         // Walk
-        _walkButton.getView().setFrame(34, 240, 63, 75.5);
+        _walkButton.getView().setFrame(34, 237, 63, 75.5);
         _walkButton.getView().setViewBox(0, 0, 63, 75.5);
         _walkButton.setImage("assets/icon/transport/walk.svg");
         _walkButton.onClick(function () {
             model.getRecommenderModel().setSelectedTransport(model.getRecommenderModel().getTransports().WALK);
             updateLayers();
+            selectTransportButton(_walkButton);
         });
         self.add(_walkButton);
+        _transportButtons.push(_walkButton);
 
         // Bike
-        _bikeButton.getView().setFrame(97, 240, 63, 75.5);
+        _bikeButton.getView().setFrame(97, 237, 63, 75.5);
         _bikeButton.getView().setViewBox(0, 0, 63, 75.5);
         _bikeButton.setImage("assets/icon/transport/bike_.svg");
         _bikeButton.onClick(function () {
             model.getRecommenderModel().setSelectedTransport(model.getRecommenderModel().getTransports().BIKE);
             updateLayers();
+            selectTransportButton(_bikeButton);
         });
         self.add(_bikeButton);
+        _transportButtons.push(_bikeButton);
 
         // Car
-        _carButton.getView().setFrame(160, 240, 63, 75.5);
+        _carButton.getView().setFrame(160, 237, 63, 75.5);
         _carButton.getView().setViewBox(0, 0, 63, 75.5);
         _carButton.setImage("assets/icon/transport/car.svg");
         _carButton.onClick(function () {
             model.getRecommenderModel().setSelectedTransport(model.getRecommenderModel().getTransports().CAR);
             updateLayers();
+            selectTransportButton(_carButton);
         });
         self.add(_carButton);
+        _transportButtons.push(_carButton);
 
         // Bus
-        _busButton.getView().setFrame(223, 240, 63, 75.5);
+        _busButton.getView().setFrame(223, 237, 63, 75.5);
         _busButton.getView().setViewBox(0, 0, 63, 75.5);
         _busButton.setImage("assets/icon/transport/bus_.svg");
         _busButton.onClick(function () {
             model.getRecommenderModel().setSelectedTransport(model.getRecommenderModel().getTransports().BUS);
             updateLayers();
+            selectTransportButton(_busButton);
         });
         self.add(_busButton);
+        _transportButtons.push(_busButton);
 
         // Call super
         super_viewDidAppear.call(self);
@@ -138,10 +148,22 @@ function UIModeViewController() {
 
     var updateLayers = function () {
         var layers = model.getRecommenderModel().getRecommendedLayers();
-        console.log(layers);
         model.getMapLayersModel().disableAllLayers();
         model.getMapLayersModel().enableLayers(layers);
-    }
+    };
+
+    var selectTransportButton = function (sel) {
+        deselectAllTransportButtons();
+        sel.select();
+        sel.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor);
+    };
+
+    var deselectAllTransportButtons = function () {
+        for (b in _transportButtons) {
+            _transportButtons[b].deselect();
+            _transportButtons[b].getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor);
+        }
+    };
 
 }
 

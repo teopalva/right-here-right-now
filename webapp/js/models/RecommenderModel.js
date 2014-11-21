@@ -79,6 +79,11 @@ function RecommenderModel() {
         _selectedTransport = transport;
     };
 
+    this.getSelectedTransport = function () {
+        return _selectedTransport;
+    };
+
+
     ///////////////////////// PRIVATE METHODS /////////////////////////
 
     var init = function () {
