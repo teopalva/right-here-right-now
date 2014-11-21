@@ -29,7 +29,7 @@ function UIMapTypeViewController() {
 
         _mapButton.getView().setFrame(5, 5, 80, 95);
         _mapButton.getView().setViewBox(0, 0, 80, 95);
-        _mapButton.setImage("/webapp/assets/icon/satellite.png");
+        _mapButton.setImage("assets/icon/satellite.png");
         _mapButton.onClick(changeMap);
         self.add(_mapButton);
 
@@ -54,7 +54,7 @@ function UIMapTypeViewController() {
         _map = _map === _mapTypes.STREET ? _mapTypes.SATELLITE : _mapTypes.STREET;
         model.getMapModel().changeLayer(_map);
         // change button
-        var path = _map === _mapTypes.STREET ? "/webapp/assets/icon/satellite.png" : "/webapp/assets/icon/street.png"
+        var path = _map === _mapTypes.STREET ? "assets/icon/satellite.png" : "assets/icon/street.png"
         _mapButton.setImage(path);
     }
 }
