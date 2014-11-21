@@ -27,7 +27,8 @@ function VehiclesModel() {
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
 
-    this.filterByDate = function(timeRange){
+    this.filterByDate = function(){
+        var timeRange = timeToDisplay;
         if(timeRange == TimeRange.LAST_MONTH)
             _vehicles = _cachedData;
         else{
@@ -137,7 +138,7 @@ function VehiclesModel() {
                 _vehicles.push(vehicle);
             });
             _cachedData = _vehicles;
-            notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);
+            self.filterByDate();
             _dataAvailable = true;
         });
 

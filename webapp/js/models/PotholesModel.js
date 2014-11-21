@@ -35,7 +35,8 @@ function PotholesModel() {
         return _potholes;
     };
 
-    this.filterByDate = function(timeRange){
+    this.filterByDate = function(){
+        var timeRange = timeToDisplay;
         if(timeRange == TimeRange.LAST_MONTH)
             _potholes = _cachedData;
         else{
@@ -131,7 +132,7 @@ function PotholesModel() {
                _potholes.push(pothole);
            });
             _cachedData = _potholes;
-            notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
+            self.filterByDate();
             _dataAvailable = true;
         });
 
@@ -170,3 +171,5 @@ var TimeRange = {
     LAST_TWO_WEEKS : 14,
     LAST_MONTH : 30
 }
+
+var timeToDisplay = TimeRange.LAST_MONTH;

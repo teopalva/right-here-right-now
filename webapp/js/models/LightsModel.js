@@ -23,7 +23,8 @@ function LightsModel() {
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
-    this.filterByDate = function(timeRange){
+    this.filterByDate = function(){
+        var timeRange = timeToDisplay;
         if(timeRange == TimeRange.LAST_MONTH)
             _lights = _cachedData;
         else{
@@ -142,7 +143,7 @@ function LightsModel() {
                     _lights.push(light);
                 });
                 _cachedData = _lights;
-                notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
+                self.filterByDate();
                 _dataAvailable = true;
             });
         });

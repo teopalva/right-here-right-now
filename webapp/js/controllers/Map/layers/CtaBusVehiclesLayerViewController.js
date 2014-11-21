@@ -227,7 +227,7 @@ function CtaBusVehiclesLayerViewController() {
      */
     var startAnimation = function () {
         if (_updateTimer === null) {
-            //_updateTimer = setInterval(frameUpdate, 1000 / _fps);
+            _updateTimer = setInterval(frameUpdate, 1000 / _fps);
         }
     };
 
@@ -259,7 +259,8 @@ function CtaBusVehiclesLayerViewController() {
             }
             else {
                 // If vehicles are changed
-                if (parseFloat(_vehicles[id].longitude) !== parseFloat(newVehicles[i].longitude)) {
+                if (parseFloat(_vehicles[id].longitude) !== parseFloat(newVehicles[i].longitude) ||
+                    parseFloat(_vehicles[id].latitude) !== parseFloat(newVehicles[i].latitude)) {
 
                     // Update values
                     _vehicles[id].oldLatitude   = parseFloat(_vehicles[id].latitude);
@@ -357,8 +358,8 @@ function CtaBusVehiclesLayerViewController() {
                 //_vehicles[i].longitude = parseFloat(_vehicles[i].longitude) + parseFloat(_vehicles[i].meanSpeed)/_fps * Math.sin(alpha);
                 //_vehicles[i].latitude = parseFloat(_vehicles[i].latitude) + parseFloat(_vehicles[i].meanSpeed)/_fps * Math.cos(alpha);
 
-                _vehicles[i].deltaLng += parseFloat(_vehicles[i].meanSpeed) / _fps * Math.sin(toRadians(alpha));
-                _vehicles[i].deltaLat += parseFloat(_vehicles[i].meanSpeed) / _fps * Math.cos(toRadians(alpha));
+                _vehicles[i].deltaLng += (parseFloat(_vehicles[i].meanSpeed) / _fps) * Math.sin(toRadians(alpha));
+                _vehicles[i].deltaLat += (parseFloat(_vehicles[i].meanSpeed) / _fps) * Math.cos(toRadians(alpha));
 
             }
         }
@@ -421,24 +422,65 @@ function CtaBusVehiclesLayerViewController() {
         var deltaX = pointB.longitude - pointA.longitude;
         var deltaY = pointB.latitude - pointA.latitude;
 
-        return Math.atan2(deltaX, deltaY) * 180 / Math.PI;
+        return (Math.atan2(deltaX, deltaY) * 180) / Math.PI;
     };
 
     /***
      * Get distance of a point from a segment
      */
+    //var getDistanceFromPointAndSegment = function(point, segment) {
+    //    var pointA = segment.start;
+    //    var pointB = segment.end;
+    //
+    //    var vertexes = [point, pointA, pointB];
+    //
+    //    var area = gaussArea(vertexes);
+    //
+    //
+    //    var segmentLength = getDistanceBetweenTwoPoints(pointA, pointB);
+    //
+    //    return (2 * area) / segmentLength;
+    //};
+
     var getDistanceFromPointAndSegment = function(point, segment) {
         var pointA = segment.start;
         var pointB = segment.end;
+        return dotLineLength(point.longitude, point.latitude, pointA.longitude, pointA.latitude, pointB.longitude, pointB.latitude, true);
+    };
 
-        var vertexes = [point, pointA, pointB];
-
-        var area = gaussArea(vertexes);
-
-
-        var segmentLength = getDistanceBetweenTwoPoints(pointA, pointB);
-
-        return 2 * area / segmentLength;
+    /**
+     * See: http://jsfromhell.com/math/dot-line-length
+     *
+     * Distance from a point to a line or segment.
+     *
+     * @param {number} x point's x coord
+     * @param {number} y point's y coord
+     * @param {number} x0 x coord of the line's A point
+     * @param {number} y0 y coord of the line's A point
+     * @param {number} x1 x coord of the line's B point
+     * @param {number} y1 y coord of the line's B point
+     * @param {boolean} overLine specifies if the distance should respect the limits
+     * of the segment (overLine = true) or if it should consider the segment as an
+     * infinite line (overLine = false), if false returns the distance from the point to
+     * the line, otherwise the distance from the point to the segment.
+     */
+    var dotLineLength = function(x, y, x0, y0, x1, y1, o) {
+        function lineLength(x, y, x0, y0){
+            return Math.sqrt((x -= x0) * x + (y -= y0) * y);
+        }
+        if(o && !(o = function(x, y, x0, y0, x1, y1){
+                if(!(x1 - x0)) return {x: x0, y: y};
+                else if(!(y1 - y0)) return {x: x, y: y0};
+                var left, tg = -1 / ((y1 - y0) / (x1 - x0));
+                return {x: left = (x1 * (x * tg - y + y0) + x0 * (x * - tg + y - y1)) / (tg * (x1 - x0) + y0 - y1), y: tg * left - tg * x + y};
+            }(x, y, x0, y0, x1, y1), o.x >= Math.min(x0, x1) && o.x <= Math.max(x0, x1) && o.y >= Math.min(y0, y1) && o.y <= Math.max(y0, y1))){
+            var l1 = lineLength(x, y, x0, y0), l2 = lineLength(x, y, x1, y1);
+            return l1 > l2 ? l2 : l1;
+        }
+        else {
+            var a = y0 - y1, b = x1 - x0, c = x0 * y1 - y0 * x1;
+            return Math.abs(a * x + b * y + c) / Math.sqrt(a * a + b * b);
+        }
     };
 
     var gaussArea = function(vertexes) {
@@ -508,7 +550,7 @@ function CtaBusVehiclesLayerViewController() {
             var distance = getDistanceFromPointAndSegment(position, segment);
 
             // Get the min
-            if (distance < nearestSegment.distance || nearestSegment.distance === null) {
+            if (nearestSegment.distance === null || distance < nearestSegment.distance) {
                 nearestSegment.distance = distance;
                 nearestSegment.startPoint = segmentStart;
                 nearestSegment.endPoint = segmentEnd;

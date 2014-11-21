@@ -180,7 +180,7 @@ function CtaModel() {
         console.log(_updateTimer);
         if(_updateTimer === null) {
             self.updateVehicles();
-            //_updateTimer = setInterval(self.updateVehicles, _intervalMillis);
+            _updateTimer = setInterval(self.updateVehicles, _intervalMillis);
         }
     };
 
