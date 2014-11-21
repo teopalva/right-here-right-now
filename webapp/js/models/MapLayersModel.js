@@ -54,7 +54,8 @@ function MapLayersModel() {
     this.disableAllLayers = function () {
         for (key in Layers) {
             _layerStatus[Layers[key]] = false;
-        };
+        }
+        ;
         _layerStatus[Layers.USER_PATH] = true;
         _layerStatus[Layers.POPUPS] = true;
         _layerStatus[Layers.PLACES_OF_INTEREST] = true;

@@ -11,7 +11,7 @@ function PlacesOfInterestModel() {
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
     this.getPlacesOfInterest = function(){
-      return _placesOfInterest;
+        return _placesOfInterest;
     };
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
@@ -23,11 +23,12 @@ function PlacesOfInterestModel() {
     };
 
     var init = function() {
-       loadPlaces();
+        loadPlaces();
     } ();
 }
 
 var PlaceOfInterest = {
     UIC : {name: "UIC", latitude: 41.871828, longitude: -87.647034},
-    MUSEUM_CAMPUS : {name: "Museum Campus", latitude:  41.861142, longitude: -87.614350}
+    MUSEUM_CAMPUS : {name: "Museum Campus", latitude:  41.861142, longitude: -87.614350},
+    LINCOLN_PARK : {name: "Lincoln Park", latitude: 41.922863, longitude: -87.636485}
 };
