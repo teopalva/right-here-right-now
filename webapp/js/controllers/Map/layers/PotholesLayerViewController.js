@@ -62,7 +62,7 @@ function PotholesLayerViewController() {
                 })
                 .attr("y", function(d) {
                     var point = self.project(d.latitude, d.longitude);
-                    return point.y - size.height;
+                    return point.y - (size.height /2);
                 });
 
 

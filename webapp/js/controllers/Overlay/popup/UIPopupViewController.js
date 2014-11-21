@@ -29,7 +29,7 @@ function UIPopupViewController(dictionary) {
 
     var _triangle;
     var _triangleSize = {
-        width: 22,
+        width: 31,
         height: 22
     };
 
