@@ -39,6 +39,9 @@ function MapLayersFactory() {
                 case Layers.CTA_BUSES:
                     layers.push(CtaBusVehiclesLayerViewController);
                     break;
+                case Layers.CTA_BUS_ROUTES:
+                    layers.push(CtaBusRoutesLayerViewController);
+                    break;
                 case Layers.CTA_TRAINS:
                     layers.push(CtaTrainLayerViewController);
                     break;

@@ -109,6 +109,20 @@ function AreaOfInterestModel() {
         return _areaOfInterestType;
     };
 
+    this.isInsideAreaOfInterest = function(latitude, longitude) {
+        if (model.getAreaOfInterestModel().getAreaOfInterest()) {
+            var coordinates = [longitude, latitude];
+
+            var area = self.getAreaOfInterest();
+
+            var multipolygon = area.features[0].geometry;
+            var _multipolygon = [];
+            _multipolygon.push(multipolygon.coordinates);
+
+            return self.isPointInArea(coordinates, _multipolygon)
+        }
+        return false;
+    };
 
     /**
      *  Returns boolean stating if given point is inside given polygon
@@ -176,19 +190,19 @@ function AreaOfInterestModel() {
 
 
 
-    ///////////////////////// PRIVATE METHODS /////////////////////////
+///////////////////////// PRIVATE METHODS /////////////////////////
     var setDirections = function(directions) {
         _directions = directions;
         notificationCenter.dispatch(Notifications.areaOfInterest.DIRECTIONS_UPDATED);
     };
 
-    // Compute index of the closest point to given latitude and longitude
+// Compute index of the closest point to given latitude and longitude
     var closestPoint = function(latitude, longitude) {
         return 0;
     };
 
 
-    // Compute feature collection bound for coordinates
+// Compute feature collection bound for coordinates
     var computeFeatureCollectionBoundsWithCoordinates = function(coordinates) {
         var coordinatesArray = [
             [coordinates[0].longitude, coordinates[0].latitude],
@@ -198,7 +212,7 @@ function AreaOfInterestModel() {
         return computeFeatureCollectionBoundRectangle(polygon);
     };
 
-    // Compute a feature collection with given coordinates
+// Compute a feature collection with given coordinates
     var computeFeatureCollectionPolygonWithCoordinates = function (coordinates) {
         var featureCollection = {};
         featureCollection["type"] = "FeatureCollection";
@@ -254,7 +268,7 @@ function AreaOfInterestModel() {
         return computeFeatureCollectionPolygonWithCoordinates([bottomLeft, topLeft, topRight, bottomRight, bottomLeft]);
     };
 
-    // Google API
+// Google API
     var requestPath = function(points, callback) {
         var directionsService = new google.maps.DirectionsService();
 

@@ -159,8 +159,8 @@ function VisualizationModel() {
      */
     this.CTAMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -187,8 +187,8 @@ function VisualizationModel() {
      */
     this.CTABusStationIconSize = function () {
         return {
-            width: 40,
-            height: 40
+            width: 20,
+            height: 20
         }
     };
 
@@ -215,8 +215,8 @@ function VisualizationModel() {
      */
     this.CTATrainStationIconSize = function () {
         return {
-            width: 40,
-            height: 40
+            width: 20,
+            height: 20
         }
     };
 

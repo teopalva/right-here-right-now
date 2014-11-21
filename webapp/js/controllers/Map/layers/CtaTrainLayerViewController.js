@@ -48,7 +48,7 @@ function CtaTrainLayerViewController() {
         super_dispose.call(self);
 
         // Do cleaning stuff here
-        model.getCtaTrainModel().stopUpdates();
+        //model.getCtaTrainModel().stopUpdates();
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -149,8 +149,6 @@ function CtaTrainLayerViewController() {
     };
     var init = function() {
         self.getView().addClass("cta-train-layer-view-controller");
-
-        _markersViewController = new MarkersViewController();
 
         // Subscribe to notifications
         notificationCenter.subscribe(self, self.stopsChanged, Notifications.cta.TRAIN_STATIONS);
