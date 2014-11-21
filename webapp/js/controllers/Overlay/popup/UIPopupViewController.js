@@ -25,6 +25,8 @@ function UIPopupViewController(dictionary) {
         height: 20
     };
 
+    var _dataSourceImage;
+
     /////////////////////  PUBLIC METHODS /////////////////////
 
     /**
@@ -51,6 +53,14 @@ function UIPopupViewController(dictionary) {
 
     this.getDictionary = function() {
         return _idDict;
+    };
+
+    this.setDataSourceImage = function(path){
+        _dataSourceImage.setImagePath(path);
+    };
+
+    this.setDataSourceFrame = function(left,top,width,height){
+        _dataSourceImage.getView().setFrame(left,top,width,height);
     };
 
     this.frameDidChange = function() {
@@ -86,6 +96,9 @@ function UIPopupViewController(dictionary) {
         _closeButton.setImage("assets/icon/closePopup.svg");
         _closeButton.getView().setFrameSize(_closeButtonBox.width, _closeButtonBox.height);
         self.add(_closeButton);
+
+        _dataSourceImage = new UIImageViewController();
+        self.add(_dataSourceImage);
 
         addBehaviors();
     }();

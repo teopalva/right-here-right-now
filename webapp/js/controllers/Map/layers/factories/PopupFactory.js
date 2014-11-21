@@ -14,21 +14,33 @@ function PopupFactory() {
 
         switch(dictionary.type) {
             case PopupsType.CRIME:
+                popup.setDataSourceFrame(10,10,40,40);
+                popup.setDataSourceImage("assets/icon/data_sources/311.svg");
                 setupCrimePopup(popup,dictionary);
                 break;
             case PopupsType.POTHOLES:
+                popup.setDataSourceFrame(10,10,40,40);
+                popup.setDataSourceImage("assets/icon/data_sources/311.svg");
                 setupPotholesPopup(popup,dictionary);
                 break;
             case PopupsType.LIGHTS:
+                popup.setDataSourceFrame(10,10,40,40);
+                popup.setDataSourceImage("assets/icon/data_sources/311.svg");
                 setupLightsPopup(popup,dictionary);
                 break;
             case PopupsType.DIVVY_BIKES:
+                popup.setDataSourceFrame(10,5,50,50);
+                popup.setDataSourceImage("assets/icon/data_sources/divvy.svg");
                 setupDivvyBikesPopup(popup,dictionary);
                 break;
             case PopupsType.VEHICLES:
+                popup.setDataSourceFrame(10,10,40,40);
+                popup.setDataSourceImage("assets/icon/data_sources/311.svg");
                 setupVehiclesPopup(popup,dictionary);
                 break;
             case PopupsType.RESTAURANTS:
+                popup.setDataSourceFrame(10,5,50,50);
+                popup.setDataSourceImage("assets/icon/data_sources/yelp.svg");
                 setupPassedRestaurantsPopup(popup,dictionary);
                 break;
         }
