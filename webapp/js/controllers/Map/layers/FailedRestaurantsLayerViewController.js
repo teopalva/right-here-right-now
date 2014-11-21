@@ -145,14 +145,14 @@ function FailedRestaurantsLayerViewController() {
                 longitude: d.longitude
             },
             name: d.name.substring(0, 20),
-            address: d.location.display_address[0] + ", " + d.location.display_address[1],
-            city: d.location.display_address[2],
+            address: d.location.display_address[0],
+            city: d.location.display_address[1] +", " + d.location.display_address[2],
             inspection: d.inspectionResult + " on " + d.inspectionDate,
             reviews: d.review_count,
             image: d.image_url,
             rating: d.rating,
             phone: d.display_phone,
-            category: d.categories[0][0]
+            category: d.categories
         });
     };
 

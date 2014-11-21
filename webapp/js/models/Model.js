@@ -62,6 +62,8 @@ function Model() {
     // Holds the recommendation system
     var _recommenderModel;
 
+    // Holds places of interest
+    var _placesOfInterestModel;
 
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
@@ -189,6 +191,10 @@ function Model() {
         return _recommenderModel;
     };
 
+    this.getPlacesOfInterestModel = function(){
+      return _placesOfInterestModel;
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function () {
         // Map
@@ -244,6 +250,9 @@ function Model() {
         
         // Recommender model
         _recommenderModel = new RecommenderModel();
+
+        //Places of interest
+        _placesOfInterestModel = new PlacesOfInterestModel();
 
     } ();
 }

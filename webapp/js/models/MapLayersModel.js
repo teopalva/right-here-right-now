@@ -93,6 +93,7 @@ function MapLayersModel() {
 
         self.enableLayers([Layers.USER_PATH]);
         self.enableLayers([Layers.POPUPS]);
+        self.enableLayers([Layers.PLACES_OF_INTEREST]);
     }();
 }
 
@@ -113,6 +114,7 @@ var Layers = {
     QUALITY_OF_LIFE_CRIMES: "QualityOfLifeCrimesLayerViewController",
     PASSED_RESTAURANTS: "PassedRestaurantsLayerViewController",
     FAILED_RESTAURANTS: "FailedRestaurantsLayerViewController",
+    PLACES_OF_INTEREST: "PlacesOfInterestLayerViewController",
     AREA_OF_INTEREST: "AreaOfInterestViewController",
     POPUPS: "PopupLayerViewController"
 };

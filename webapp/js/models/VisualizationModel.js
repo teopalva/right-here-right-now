@@ -374,6 +374,27 @@ function VisualizationModel() {
     };
 
 
+    // PLACES OF INTEREST
+    /**
+     * Returns restaurant  icon path
+     * @returns {string}
+     */
+    this.placesOfInterestMarkerIconPath = function () {
+        return "assets/icon/markers/restaurant_failed.svg";
+    };
+
+    /**
+     * Returns restaurant marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.placesOfInterestMarkerIconSize = function () {
+        return {
+            width: 40,
+            height: 40
+        }
+    };
+
+
     // Abandoned Vehicles
     /**
      * Returns abandonedVehicles color
