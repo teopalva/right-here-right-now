@@ -14,9 +14,8 @@ function LightsModel() {
      *      - number_out : number
      */
     var _lights = [];
+    var _cachedData = [];
     var _dataAvailable = false;
-
-    var _daysToVisualize = TimeRange.LAST_MONTH;
 
     // Update timer
     var _updateTimer;
@@ -24,12 +23,22 @@ function LightsModel() {
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
-    /**
-     * Example: setTimeRange(TimeRange.LAST_WEEK);
-     * @param timeRange
-     */
-    this.setTimeRange = function(timeRange){
-        _daysToVisualize = timeRange;
+    this.filterByDate = function(){
+        var timeRange = timeToDisplay;
+        if(timeRange == TimeRange.LAST_MONTH)
+            _lights = _cachedData;
+        else{
+            _lights = [];
+            var elapsed = Date.now() - timeRange * 86400000;
+            var limitDate = new Date(elapsed);
+            for(i in _cachedData) {
+                var stringDate = _cachedData[i].creation_date;
+                var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
+                if(d - limitDate >= 0)
+                    _lights.push(_cachedData[i]);
+            }
+        }
+        notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
     };
 
     /**
@@ -95,7 +104,7 @@ function LightsModel() {
         self.clearLights();
 
         var link = "http://data.cityofchicago.org/resource/zuxi-7xem.json";
-        var days = _daysToVisualize;
+        var days = TimeRange.LAST_MONTH;
         var elapsed = Date.now() - days * 86400000;
         var date = new Date(elapsed);
         var query = "?$select=service_request_number%20as%20id,creation_date,street_address,latitude,longitude" +
@@ -133,7 +142,8 @@ function LightsModel() {
                     light.number_out = "1 or 2";
                     _lights.push(light);
                 });
-                notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
+                _cachedData = _lights;
+                self.filterByDate();
                 _dataAvailable = true;
             });
         });

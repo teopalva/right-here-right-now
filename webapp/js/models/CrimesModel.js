@@ -11,12 +11,33 @@ function CrimesModel() {
 
     // Keep if data is available
     var _dataAvailable = false;
+    var _cachedData = [];
 
     // Update timer
     var _updateTimer = null;
     var _intervalMillis = 10000;
 
     //////////////////////// PUBLIC METHODS ////////////////////////
+
+
+    this.filterByDate = function(){
+        var timeRange = timeToDisplay;
+        if(timeRange == TimeRange.LAST_MONTH)
+            _crimes = _cachedData;
+        else{
+            _crimes = [];
+            var elapsed = Date.now() - timeRange * 86400000;
+            var limitDate = new Date(elapsed);
+            for(i in _cachedData) {
+                var stringDate = _cachedData[i].date;
+                var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
+                if(d - limitDate >= 0)
+                    _crimes.push(_cachedData[i]);
+            }
+        }
+        self.startUpdates();
+    };
+    
     /**
      * Returns the violentCrimes objects in the form:
      *      - id : number
@@ -130,7 +151,7 @@ function CrimesModel() {
 
         // retrieve new data
         var link = "https://data.cityofchicago.org/resource/ijzp-q8t2.json";
-        var days = 30;
+        var days = TimeRange.LAST_MONTH;
         var limit = 50000;
         var elapsed = Date.now() - days * 86400000;
         var date = new Date(elapsed);
@@ -173,8 +194,9 @@ function CrimesModel() {
                 }
             });
             console.log("Crimes file downloaded: "+_crimes.length+" crimes");
+            _cachedData = _crimes;
             _dataAvailable = true;
-            self.startUpdates();
+            self.filterByDate();
         });
 
     };

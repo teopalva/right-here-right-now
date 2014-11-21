@@ -12,6 +12,7 @@ function PotholesModel() {
      *      - latitude : number
      *      - longitude : number
      */
+    var _cachedData = [];
     var _potholes = [];
     var _dataAvailable = false;
 
@@ -24,14 +25,6 @@ function PotholesModel() {
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
     /**
-     * Example: setTimeRange(TimeRange.LAST_WEEK);
-     * @param timeRange
-     */
-    this.setTimeRange = function(timeRange){
-        _daysToVisualize = timeRange;
-    };
-
-    /**
      * Returns the potholes objects in the form:
      *      - creation_date : date (when the pothole has been found)
      *      - latitude : number
@@ -40,6 +33,24 @@ function PotholesModel() {
      */
     this.getPotholes = function(){
         return _potholes;
+    };
+
+    this.filterByDate = function(){
+        var timeRange = timeToDisplay;
+        if(timeRange == TimeRange.LAST_MONTH)
+            _potholes = _cachedData;
+        else{
+            _potholes = [];
+            var elapsed = Date.now() - timeRange * 86400000;
+            var limitDate = new Date(elapsed);
+            for(i in _cachedData) {
+                var stringDate = _cachedData[i].creation_date;
+                var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
+                if(d - limitDate >= 0)
+                    _potholes.push(_cachedData[i]);
+            }
+        }
+        notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
     };
 
     /**
@@ -92,7 +103,7 @@ function PotholesModel() {
         self.clearPotholes();
 
         var link = "http://data.cityofchicago.org/resource/7as2-ds3y.json";
-        var days = _daysToVisualize;
+        var days = TimeRange.LAST_MONTH;
         var elapsed = Date.now() - days * 86400000;
         var date = new Date(elapsed);
         var query = "?$select=service_request_number%20as%20id,creation_date,street_address,latitude,longitude" +
@@ -120,7 +131,8 @@ function PotholesModel() {
                pothole.creation_date = parseDate(pothole.creation_date);
                _potholes.push(pothole);
            });
-            notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
+            _cachedData = _potholes;
+            self.filterByDate();
             _dataAvailable = true;
         });
 
@@ -156,6 +168,8 @@ function PotholesModel() {
 }
 
 var TimeRange = {
-    LAST_WEEK : 7,
+    LAST_TWO_WEEKS : 14,
     LAST_MONTH : 30
 }
+
+var timeToDisplay = TimeRange.LAST_MONTH;

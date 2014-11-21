@@ -11,11 +11,11 @@ function UINewsFeedViewController() {
     /////////////////////  PRIVATE ATTRIBUTES /////////////////////
     var self = this;
 
-    //var _titleLabel;
-    //var _upButton;
-    //var _downButton;
-    //var _playButton;
-    //var _separator;
+    var _titleLabel;
+    var _upButton;
+    var _downButton;
+    var _playButton;
+    var _separator;
 
     /**
      * Index of the top of the current page
