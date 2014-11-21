@@ -137,7 +137,6 @@ function FailedRestaurantsLayerViewController() {
     };
 
     var addToPopup = function (d) {
-        console.log(d);
         model.getPopupModel().addPopup({
             type: PopupsType.RESTAURANTS,
             layer: Layers.FAILED_RESTAURANTS,
