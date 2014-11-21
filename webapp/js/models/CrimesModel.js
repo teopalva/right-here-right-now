@@ -200,6 +200,25 @@ function CrimesModel() {
     //////////////////////// PRIVATE METHODS ////////////////////////
     var categorize = function(primary_type){
         switch (primary_type){
+            case CrimePrimaryType.ASSAULT                              :
+            case CrimePrimaryType.CONCEALED_LICENCE                    :
+            case CrimePrimaryType.DECEPTIVE_PRACTICE                   :
+            case CrimePrimaryType.GAMBLING                             :
+            case CrimePrimaryType.INTIMIDATION                         :
+            case CrimePrimaryType.LIQUOR_VIOLATION                     :
+            case CrimePrimaryType.NARCOTICS                            :
+            case CrimePrimaryType.NON_CRIMINAL                         :
+            case CrimePrimaryType.NON_CRIMINAL1                        :
+            case CrimePrimaryType.NON_CRIMINAL2                        :
+            case CrimePrimaryType.OBSCENITY                            :
+            case CrimePrimaryType.OTHER_NARCOTIC                       :
+            case CrimePrimaryType.PROSTITUTION                         :
+            case CrimePrimaryType.PUBLIC_INDECENCY                     :
+            case CrimePrimaryType.PUBLIC_PEACE_VIOLATION               :
+            case CrimePrimaryType.RITUALISM                            :
+            case CrimePrimaryType.STALKING                             :
+            case CrimePrimaryType.WEAPONS_VIOLATION                    : return CrimeCategory.QUALITY_OF_LIFE;
+
             case CrimePrimaryType.ARSON                                :
             case CrimePrimaryType.BURGLARY                             :
             case CrimePrimaryType.CRIMINAL_DAMAGE                      :
@@ -216,28 +235,9 @@ function CrimesModel() {
             case CrimePrimaryType.INTERFERENCE_WITH_PUBBLIC_OFFICER1   :
             case CrimePrimaryType.KIDNAPPING                           :
             case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN           :
-            case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN1           :
+            case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN1          :
             case CrimePrimaryType.OTHER_OFFENSE                        :
             case CrimePrimaryType.SEX_OFFENSE                          : return CrimeCategory.VIOLENT;
-
-            case CrimePrimaryType.ASSAULT                              :
-            case CrimePrimaryType.CONCEALED_LICENCE                    :
-            case CrimePrimaryType.DECEPTIVE_PRACTICE                   :
-            case CrimePrimaryType.GAMBLING                             :
-            case CrimePrimaryType.INTIMIDATION                         :
-            case CrimePrimaryType.LIQUOR_VIOLATION                     :
-            case CrimePrimaryType.NARCOTICS                            :
-            case CrimePrimaryType.NON_CRIMINAL                       :
-            case CrimePrimaryType.NON_CRIMINAL1                         :
-            case CrimePrimaryType.NON_CRIMINAL2   :
-            case CrimePrimaryType.OBSCENITY                            :
-            case CrimePrimaryType.OTHER_NARCOTIC                        :
-            case CrimePrimaryType.PROSTITUTION                         :
-            case CrimePrimaryType.PUBLIC_INDECENCY                    :
-            case CrimePrimaryType.PUBLIC_PEACE_VIOLATION               :
-            case CrimePrimaryType.RITUALISM                            :
-            case CrimePrimaryType.STALKING                             :
-            case CrimePrimaryType.WEAPONS_VIOLATION                    : return CrimeCategory.QUALITY_OF_LIFE;
 
             // should never get here
             default                                     : return CrimeCategory._error;
@@ -286,6 +286,25 @@ var CrimeCategory = {
 
 var CrimePrimaryType = {
 
+    ASSAULT : "ASSAULT",
+    CONCEALED_LICENCE : "CONCEALED CARRY LICENSE VIOLATION",
+    DECEPTIVE_PRACTICE : "DECEPTIVE PRACTICE",
+    GAMBLING : "GAMBLING",
+    INTIMIDATION : "INTIMIDATION",
+    LIQUOR_VIOLATION : "LIQUOR LAW VIOLATION",
+    NARCOTICS : "NARCOTICS",
+    NON_CRIMINAL : "NON - CRIMINAL",
+    NON_CRIMINAL1 : "NON-CRIMINAL",
+    NON_CRIMINAL2 : "NON-CRIMINAL (SUBJECT SPECIFIED)",
+    OBSCENITY : "OBSCENITY",
+    OTHER_NARCOTIC : "OTHER NARCOTIC VIOLATION",
+    PROSTITUTION :  "PROSTITUTION",
+    PUBLIC_INDECENCY :"PUBLIC INDECENCY",
+    PUBLIC_PEACE_VIOLATION : "PUBLIC PEACE VIOLATION",
+    RITUALISM : "RITUALISM",
+    STALKING : "STALKING",
+    WEAPONS_VIOLATION : "WEAPONS VIOLATION",
+
     ARSON : "ARSON",
     BURGLARY : "BURGLARY",
     CRIMINAL_DAMAGE : "CRIMINAL DAMAGE",
@@ -304,24 +323,5 @@ var CrimePrimaryType = {
     OFFENSE_INVOLVING_CHILDREN : "OFFENSE INVOLVING CHILDREN",
     OFFENSE_INVOLVING_CHILDREN1 :"OFFENSES INVOLVING CHILDREN",
     OTHER_OFFENSE : "OTHER OFFENSE",
-    SEX_OFFENSE : "SEX OFFENSE",
-
-    ASSAULT : "ASSAULT",
-    CONCEALED_LICENCE : "CONCEALED CARRY LICENSE VIOLATION",
-    DECEPTIVE_PRACTICE : "DECEPTIVE PRACTICE",
-    GAMBLING : "GAMBLING",
-    INTIMIDATION : "INTIMIDATION",
-    LIQUOR_VIOLATION : "LIQUOR LAW VIOLATION",
-    NARCOTICS : "NARCOTICS",
-    NON_CRIMINAL : "NON - CRIMINAL",
-    NON_CRIMINAL1 : "NON-CRIMINAL",
-    NON_CRIMINAL2 : "NON-CRIMINAL (SUBJECT SPECIFIED)",
-    OBSCENITY : "OBSCENITY",
-    OTHER_NARCOTIC : "OTHER NARCOTIC VIOLATION",
-    PROSTITUTION :  "PROSTITUTION",
-    PUBLIC_INDECENCY :"PUBLIC INDECENCY",
-    PUBLIC_PEACE_VIOLATION : "PUBLIC PEACE VIOLATION",
-    RITUALISM : "RITUALISM",
-    STALKING : "STALKING",
-    WEAPONS_VIOLATION : "WEAPONS VIOLATION"
+    SEX_OFFENSE : "SEX OFFENSE"
 };
