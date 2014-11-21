@@ -60,7 +60,7 @@ function PassedRestaurantsLayerViewController() {
                 })
                 .attr("y", function(d) {
                     var point = self.project(d.latitude, d.longitude);
-                    return point.y - size.height;
+                    return point.y - (size.height /2);
                 });
 
 
@@ -77,7 +77,7 @@ function PassedRestaurantsLayerViewController() {
                 })
                 .attr("y", function(d) {
                     var point = self.project(d.latitude, d.longitude);
-                    return point.y - size.height;
+                    return point.y - (size.height /2);
                 })
                 .attr("width", size.width)
                 .attr("height", size.height)

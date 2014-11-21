@@ -41,7 +41,7 @@ function PopupFactory() {
             case PopupsType.RESTAURANTS:
                 popup.setDataSourceFrame(10,5,50,50);
                 popup.setDataSourceImage("assets/icon/data_sources/yelp.svg");
-                setupPassedRestaurantsPopup(popup,dictionary);
+                setupRestaurantsPopup(popup,dictionary);
                 break;
             case PopupsType.BUS_STOPS:
                 popup.setDataSourceFrame(10,5,50,50);
@@ -80,7 +80,7 @@ function PopupFactory() {
         // Setup popup
         var _crimeFrameSize = {
             width: 300,
-            height: 180
+            height: 300 / InterstellarAspectRatio
         };
 
         var labelsSize = {
@@ -164,7 +164,7 @@ function PopupFactory() {
         // Setup popup
         var _potholesFrameSize = {
             width: 300,
-            height: 120
+            height: 300 / InterstellarAspectRatio
         };
 
         var labelsSize = {
@@ -200,7 +200,7 @@ function PopupFactory() {
         popup.add(streetLabel);
 
         var typeLabel = new UILabelViewController();
-        typeLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
+        typeLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
         typeLabel.setText("STREET POTHOLE");
         typeLabel.setTextAlignment(TextAlignment.LEFT);
         typeLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
@@ -208,7 +208,7 @@ function PopupFactory() {
         popup.add(typeLabel);
 
         var descriptionLabel = new UILabelViewController();
-        descriptionLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
+        descriptionLabel.getView().setFrame(padding.left,padding.top * 9 ,labelsSize.width,labelsSize.height);
         descriptionLabel.setText("Service Request Number: " + dictionary.id);
         descriptionLabel.setTextAlignment(TextAlignment.LEFT);
         descriptionLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
@@ -224,7 +224,7 @@ function PopupFactory() {
         // Setup popup
         var _lightsFrameSize = {
             width: 300,
-            height: 120
+            height: 300 / InterstellarAspectRatio
         };
 
         var labelsSize = {
@@ -260,7 +260,7 @@ function PopupFactory() {
         popup.add(streetLabel);
 
         var typeLabel = new UILabelViewController();
-        typeLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
+        typeLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
         typeLabel.setText("LIGHTS OUT : "+ dictionary.number_out);
         typeLabel.setTextAlignment(TextAlignment.LEFT);
         typeLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
@@ -268,7 +268,7 @@ function PopupFactory() {
         popup.add(typeLabel);
 
         var descriptionLabel = new UILabelViewController();
-        descriptionLabel.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
+        descriptionLabel.getView().setFrame(padding.left,padding.top * 9 ,labelsSize.width,labelsSize.height);
         descriptionLabel.setText("Service Request Number: " + dictionary.id);
         descriptionLabel.setTextAlignment(TextAlignment.LEFT);
         descriptionLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
@@ -284,7 +284,7 @@ function PopupFactory() {
         // Setup popup
         var _divvyBikeFrameSize = {
             width: 300,
-            height: 150
+            height: 300 / InterstellarAspectRatio
         };
 
         var labelsSize = {
@@ -360,7 +360,7 @@ function PopupFactory() {
         // Setup popup
         var _vehiclesFrameSize = {
             width: 300,
-            height: 180
+            height: 300 / InterstellarAspectRatio
         };
 
         var labelsSize = {
@@ -438,11 +438,11 @@ function PopupFactory() {
      * @param popup
      * @param dictionary
      */
-    var  setupPassedRestaurantsPopup = function(popup,dictionary) {
+    var  setupRestaurantsPopup = function(popup,dictionary) {
         // Setup popup
         var _restaurantsFrameSize = {
             width: 300,
-            height: 180
+            height: 300 / InterstellarAspectRatio
         };
 
         var labelsSize = {
