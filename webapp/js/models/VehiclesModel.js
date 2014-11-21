@@ -15,6 +15,7 @@ function VehiclesModel() {
      *      - longitude : number
      */
     var _vehicles = [];
+    var _cachedData = [];
     var _dataAvailable = false;
 
     var _daysToVisualize = TimeRange.LAST_MONTH;
@@ -25,13 +26,24 @@ function VehiclesModel() {
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
-    /**
-     * Example: setTimeRange(TimeRange.LAST_WEEK);
-     * @param timeRange
-     */
-    this.setTimeRange = function(timeRange){
-        _daysToVisualize = timeRange;
+
+    this.filterByDate = function(timeRange){
+        if(timeRange == TimeRange.LAST_MONTH)
+            _vehicles = _cachedData;
+        else{
+            _vehicles = [];
+            var elapsed = Date.now() - timeRange * 86400000;
+            var limitDate = new Date(elapsed);
+            for(i in _cachedData) {
+                var stringDate = _cachedData[i].creation_date;
+                var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
+                if(d - limitDate >= 0)
+                    _vehicles.push(_cachedData[i]);
+            }
+        }
+        notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);
     };
+
 
     /**
      * Returns the vechile objects in the form:
@@ -124,6 +136,7 @@ function VehiclesModel() {
                 vehicle.creation_date = parseDate(vehicle.creation_date);
                 _vehicles.push(vehicle);
             });
+            _cachedData = _vehicles;
             notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);
             _dataAvailable = true;
         });

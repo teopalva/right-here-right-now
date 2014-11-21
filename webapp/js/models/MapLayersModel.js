@@ -29,6 +29,29 @@ function MapLayersModel() {
     };
 
     /**
+     * Returns active layers that can be filtered by date
+     * @returns {Array}
+     */
+    this.getActiveLayersToFilter = function () {
+        var activeLayers = [];
+
+        d3.keys(_layerStatus).forEach(function (value) {
+            if (_layerStatus[value] == true && (
+                value == Layers.POTHOLES ||
+                value == Layers.LIGHTS ||
+                value == Layers.VEHICLES ||
+                value == Layers.VIOLENT_CRIMES ||
+                value == Layers.PROPERTY_CRIMES ||
+                value == Layers.QUALITY_OF_LIFE_CRIMES
+                )) {
+                activeLayers.push(value);
+            }
+        });
+
+        return activeLayers;
+    };
+
+    /**
      * Enables the layers for which the layerKey is passed in the layerKeyArray
      * @param layerArray contains layer enum keys of the layers that have to be enabled
      */
@@ -54,7 +77,8 @@ function MapLayersModel() {
     this.disableAllLayers = function () {
         for (key in Layers) {
             _layerStatus[Layers[key]] = false;
-        };
+        }
+        ;
         _layerStatus[Layers.USER_PATH] = true;
         _layerStatus[Layers.POPUPS] = true;
         _layerStatus[Layers.PLACES_OF_INTEREST] = true;
