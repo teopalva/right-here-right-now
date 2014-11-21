@@ -32,7 +32,9 @@ function UITimeIntervalViewController() {
         _weekButton.getView().setViewBox(0, 0, 141.5, 32);
         _weekButton.setTitle("LAST 2 WEEKS");
         _weekButton.setTitleSize(model.getThemeModel().mediumTextSize);
-        _weekButton.onClick(function(){filterLayers(TimeRange.LAST_TWO_WEEKS);});
+        _weekButton.onClick(function () {
+            filterLayers(TimeRange.LAST_TWO_WEEKS);
+        });
         self.add(_weekButton);
 
         // month button
@@ -40,7 +42,9 @@ function UITimeIntervalViewController() {
         _monthButton.getView().setViewBox(0, 0, 141.5, 32);
         _monthButton.setTitle("LAST MONTH");
         _monthButton.setTitleSize(model.getThemeModel().mediumTextSize);
-        _monthButton.onClick(function(){filterLayers(TimeRange.LAST_MONTH);});
+        _monthButton.onClick(function () {
+            filterLayers(TimeRange.LAST_MONTH);
+        });
         self.add(_monthButton);
 
         // Call super
@@ -49,27 +53,13 @@ function UITimeIntervalViewController() {
 
 
     /////////////////////  PRIVATE METHODS /////////////////////
-        var filterLayers = function(timeRange){
-            var activeLayers = model.getMapLayersModel().getActiveLayers();
-            for(i in activeLayers){
-                switch(activeLayers[i]){
-                    case Layers.POTHOLES:
-                        model.getPotholesModel().filterByDate(timeRange);
-                       break;
-                    case Layers.LIGHTS:
-                        model.getLightsModel().filterByDate(timeRange);
-                        break;
-                    case Layers.VEHICLES:
-                        model.getVehiclesModel().filterByDate(timeRange);
-                        break;
-                    case Layers.VIOLENT_CRIMES:
-                    case Layers.PROPERTY_CRIMES:
-                    case Layers.QUALITY_OF_LIFE_CRIMES:
-                        model.getCrimesModel().filterByDate(timeRange);
-                        break;
-                }
-            }
-        };
+    var filterLayers = function (timeRange) {
+        timeToDisplay = timeRange;
+        model.getPotholesModel().filterByDate();
+        model.getLightsModel().filterByDate();
+        model.getVehiclesModel().filterByDate();
+        model.getCrimesModel().filterByDate();
+    };
 
     var init = function () {
         self.getView().addClass("ui-time-interval-view-controller");

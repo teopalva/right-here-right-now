@@ -20,7 +20,8 @@ function CrimesModel() {
     //////////////////////// PUBLIC METHODS ////////////////////////
 
 
-    this.filterByDate = function(timeRange){
+    this.filterByDate = function(){
+        var timeRange = timeToDisplay;
         if(timeRange == TimeRange.LAST_MONTH)
             _crimes = _cachedData;
         else{
@@ -195,7 +196,7 @@ function CrimesModel() {
             console.log("Crimes file downloaded: "+_crimes.length+" crimes");
             _cachedData = _crimes;
             _dataAvailable = true;
-            self.startUpdates();
+            self.filterByDate();
         });
 
     };
