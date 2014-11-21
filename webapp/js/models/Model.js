@@ -65,6 +65,9 @@ function Model() {
     // Holds places of interest
     var _placesOfInterestModel;
 
+    // Holds information about twitter
+    var _twitterModel;
+
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      *
@@ -195,6 +198,10 @@ function Model() {
       return _placesOfInterestModel;
     };
 
+    this.getTwitterModel = function() {
+      return _twitterModel;
+    };
+
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function () {
         // Map
@@ -253,6 +260,8 @@ function Model() {
 
         //Places of interest
         _placesOfInterestModel = new PlacesOfInterestModel();
+
+        _twitterModel = new TwitterModel();
 
     } ();
 }
