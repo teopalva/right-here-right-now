@@ -138,6 +138,7 @@ function UIModeViewController() {
 
     var updateLayers = function () {
         var layers = model.getRecommenderModel().getRecommendedLayers();
+        console.log(layers);
         model.getMapLayersModel().disableAllLayers();
         model.getMapLayersModel().enableLayers(layers);
     }
