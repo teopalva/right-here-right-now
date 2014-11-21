@@ -14,7 +14,7 @@ function ThemeModel() {
      * * @returns {string}
      */
     this.toolBackgroundColor = function () {
-        return "rgba(41, 36, 33, 1.0)";
+        return "rgba(41, 36, 33, 0.95)";
     };
 
     /**

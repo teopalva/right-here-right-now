@@ -27,6 +27,12 @@ function UIPopupViewController(dictionary) {
 
     var _dataSourceImage;
 
+    var _triangle;
+    var _triangleSize = {
+        width: 22,
+        height: 22
+    };
+
     /////////////////////  PUBLIC METHODS /////////////////////
 
     /**
@@ -64,11 +70,40 @@ function UIPopupViewController(dictionary) {
     };
 
     this.frameDidChange = function() {
+        var box = self.getView().getViewBox();
+
+        if(box.height == null) {
+            box = self.getView().getFrame();
+        }
+
+        if(box.height != 0) {
+            self.getView().setContentHeight(box.height - _triangleSize.height);
+            _triangle.getView().setFrame(
+                (box.width / 2) - (_triangleSize.width /2),
+                    box.height - _triangleSize.height,
+                _triangleSize.width,
+                _triangleSize.height);
+        }
         updateChildren();
     };
 
     this.viewBoxDidChange = function() {
-      updateChildren();
+        var box = self.getView().getViewBox();
+
+        if(box.height == null) {
+            box = self.getView().getFrame();
+        }
+
+        if(box.height != 0) {
+            self.getView().setContentHeight(box.height - _triangleSize.height);
+            _triangle.getView().setFrame(
+                    (box.width / 2) - (_triangleSize.width /2),
+                    box.height - _triangleSize.height *1.16,
+                _triangleSize.width,
+                _triangleSize.height);
+        }
+
+        updateChildren();
     };
 
     /////////////////////  PRIVATE METHODS /////////////////////
@@ -88,6 +123,13 @@ function UIPopupViewController(dictionary) {
 
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
         self.getView().setCornerRadius(10);
+        //self.getView().setContentHeight("88%");
+
+        _triangle = new UIImageViewController();
+        _triangle.setImagePath("assets/icon/triangle.svg");
+        //_triangle.getView().setFrame("50%", "90%", "12%", "12%");
+        self.add(_triangle);
+
 
         self.getView().setDelegate(self);
 
