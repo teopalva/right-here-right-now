@@ -30,6 +30,9 @@ function MapOverlayViewController() {
     
     var _layersBarViewController;
     var _layersBarViewSize = {width: 340, height: 974};
+    
+    var _timeIntervalViewController;
+    var _timeIntervalViewSize = {width: 142, height: 104.5};
 
     var _chartsAreaViewController;
     var _chartsAreaFrame = {
@@ -73,6 +76,10 @@ function MapOverlayViewController() {
         _chartsAreaViewController.getView().setFrame(_chartsAreaFrame.x, _chartsAreaFrame.y, _chartsAreaFrame.width, _chartsAreaFrame.height);
         _chartsAreaViewController.getView().setViewBox(0, 0, _chartsAreaFrame.width, _chartsAreaFrame.height);
         self.add(_chartsAreaViewController);
+        
+        _timeIntervalViewController.getView().setFrame(1182.5, 882, _timeIntervalViewSize.width, _timeIntervalViewSize.height);
+        _timeIntervalViewController.getView().setViewBox(0, 0, _timeIntervalViewSize.width, _timeIntervalViewSize.height);
+        self.add(_timeIntervalViewController);
 
         addBehaviours();
 
@@ -95,6 +102,8 @@ function MapOverlayViewController() {
         _layersBarViewController = new UILayersBarViewController();
         _newsFeedViewController = new UINewsFeedViewController();
         _chartsAreaViewController = new UIChartsAreaViewController();
+        _timeIntervalViewController = new UITimeIntervalViewController();
+
     } ();
 }
 
