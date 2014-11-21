@@ -16,6 +16,11 @@ function UIModeViewController() {
     var _pathModeButton;
     var _transportButtons = [];
 
+    var _walkButton;
+    var _bikeButton;
+    var _carButton;
+    var _busButton;
+
     var _selectColor = model.getThemeModel().deselectedButtonColor;
     var _deselectColor = model.getThemeModel().toolBackgroundColor;
 
@@ -133,6 +138,10 @@ function UIModeViewController() {
         _rectModeButton = new UIButtonViewController;
         _pathModeButton = new UIButtonViewController;
         _recommenderButton = new UIButtonViewController;
+        _walkButton = new UIButtonViewController;
+        _bikeButton = new UIButtonViewController;
+        _carButton = new UIButtonViewController;
+        _busButton = new UIButtonViewController;
 
     }();
 
