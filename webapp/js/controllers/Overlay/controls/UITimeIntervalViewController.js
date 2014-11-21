@@ -30,7 +30,7 @@ function UITimeIntervalViewController() {
         // week button
         _weekButton.getView().setFrame(0, 35, 141.5, 32);
         _weekButton.getView().setViewBox(0, 0, 141.5, 32);
-        _weekButton.setTitle("LAST WEEK");
+        _weekButton.setTitle("LAST 2 WEEKS");
         _weekButton.setTitleSize(model.getThemeModel().mediumTextSize);
         _weekButton.onClick();
         self.add(_weekButton);
