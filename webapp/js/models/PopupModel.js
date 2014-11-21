@@ -49,7 +49,7 @@ var PopupsType = {
     LIGHTS : "lights",
     DIVVY_BIKES : "divvy_bikes",
     VEHICLES : "vehicles",
-    PLACES_OF_INTEREST : "places_of_interest"
+    PLACES_OF_INTEREST : "places_of_interest",
     RESTAURANTS : "restaurants",
     BUS_STOPS: "bus_stops",
     BUS_VEHICLES: "bus_vehicles",
