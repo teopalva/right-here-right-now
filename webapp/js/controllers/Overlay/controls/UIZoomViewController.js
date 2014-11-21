@@ -25,14 +25,14 @@ function UIZoomViewController() {
         // zoom +
         _zoomPlusButton.getView().setFrame(21, 14.5, 24.6, 24.6);
         _zoomPlusButton.getView().setViewBox(0, 0, 24.6, 24.6);
-        _zoomPlusButton.setImage("/webapp/assets/icon/plus.svg");
+        _zoomPlusButton.setImage("assets/icon/plus.svg");
         _zoomPlusButton.onClick(model.getMapModel().zoomIn);
         self.add(_zoomPlusButton);
 
         // zoom -
         _zoomMinusButton.getView().setFrame(21, 65, 24.6, 24.6);
         _zoomMinusButton.getView().setViewBox(0, 0, 24.6, 24.6);
-        _zoomMinusButton.setImage("/webapp/assets/icon/minus.svg");
+        _zoomMinusButton.setImage("assets/icon/minus.svg");
         _zoomMinusButton.onClick(model.getMapModel().zoomOut);
         self.add(_zoomMinusButton);
 
