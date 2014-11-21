@@ -70,6 +70,11 @@ function RestaurantsModel() {
             _failedRestaurantsDownloaded = true;
         });
 
+
+        /*
+         //========================
+         // GOOGLE PROXY
+         //========================
         var proxy = "https://script.google.com/a/macros/mcpher.com/s/AKfycbzGgpLEWS0rKSBqXG5PcvJ7Fpe02fvGqiCqq54SVQmBJSpy_6s/exec";
         var yelplink = "http://paolobruzzo.comuf.com/project3/yelp.php?offset=";
         var limit = 900;
@@ -83,9 +88,37 @@ function RestaurantsModel() {
                     // Put the coordinates information at the top level like all the other layers
                     restaurant.latitude = restaurant.location.coordinate.latitude;
                     restaurant.longitude = restaurant.location.coordinate.longitude;
+                    restaurant.categories = restaurant.categories[0][0];
                     _yelpRestaurants.push(restaurant);
                 });
                 if (_yelpRestaurants.length >= limit)
+                    _yelpDownloaded = true;
+            });
+        }
+        */
+
+        //========================
+        // YAHOO PROXY
+        //========================
+        var yelplink = "http://paolobruzzo.comuf.com/project3/yelp.php?offset=";
+        var limit = 900;
+        var counter = limit;
+        for (var offset = 0; offset < limit; offset += 20) {
+            var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from json where url="' + yelplink + offset + '"') + '&format=json';
+            d3.json(yql, function (json) {
+                if(json) {
+                    json.query.results.json.businesses.forEach(function (restaurant) {
+                        // Put the coordinates information at the top level like all the other layers
+                        restaurant.latitude = parseFloat(restaurant.location.coordinate.latitude);
+                        restaurant.longitude = parseFloat(restaurant.location.coordinate.longitude);
+                        restaurant.categories = restaurant.categories[0] ? restaurant.categories[0].json[0] : restaurant.categories.json[0];
+                        _yelpRestaurants.push(restaurant);
+                    });
+                }
+                else
+                    //In case one query fails...
+                    counter -= 20;
+                if (_yelpRestaurants.length >= counter)
                     _yelpDownloaded = true;
             });
         }

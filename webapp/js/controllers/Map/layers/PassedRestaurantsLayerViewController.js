@@ -135,6 +135,7 @@ function PassedRestaurantsLayerViewController() {
     };
 
     var addToPopup = function(d){
+        console.log(d);
         model.getPopupModel().addPopup({
             type: PopupsType.RESTAURANTS,
             layer: Layers.PASSED_RESTAURANTS,
@@ -150,7 +151,7 @@ function PassedRestaurantsLayerViewController() {
             image: d.image_url,
             rating: d.rating,
             phone: d.display_phone,
-            category: d.categories[0][0]
+            category: d.categories
         });
     };
 
