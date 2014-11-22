@@ -24,6 +24,9 @@ function UICrimeChartsViewController() {
     var _chicagoLegendLabel;
     var _selectedAreaLegendLabel;
 
+    var _chicagoColor = "rgba(146,197,222,0.7)";
+    var _selectedAreaColor = "rgba(178,24,43,0.7)";
+
     ///////////////////////// PUBLIC METHODS /////////////////////////
     /**
      * @override
@@ -98,10 +101,8 @@ function UICrimeChartsViewController() {
             var density = model.getCrimesModel().getChicagoCrimeDensityOfPrimaryType(primaryType);
             var selectedAreaDensity = model.getCrimesModel().getCrimeDensityWithinAreaOfPrimaryType(primaryType);
 
-            //var colorHighlighted, selectedAreaColor;
+            //var colorHighlighted, _selectedAreaColor;
             //var colorDeselected;
-            var chicagoColor = "rgba(146,197,222,0.7)";
-            var selectedAreaColor = "rgba(178,24,43,0.7)";
 
             switch(macroCategory) {
                 case CrimeCategory.VIOLENT:
@@ -111,13 +112,13 @@ function UICrimeChartsViewController() {
                     selectedArea[0].group.push({
                         label: primaryType,
                         value: selectedAreaDensity,
-                        color: selectedAreaColor
+                        color: _selectedAreaColor
                     });
 
                     chicago[0].group.push({
                         label: primaryType,
                         value: density,
-                        color: chicagoColor
+                        color: _chicagoColor
                     });
                     break;
                 case CrimeCategory.PROPERTY:
@@ -127,13 +128,13 @@ function UICrimeChartsViewController() {
                     selectedArea[1].group.push({
                         label: primaryType,
                         value: selectedAreaDensity,
-                        color: selectedAreaColor
+                        color: _selectedAreaColor
                     });
 
                     chicago[1].group.push({
                         label: primaryType,
                         value: density,
-                        color: chicagoColor
+                        color: _chicagoColor
                     });
                     break;
                 case CrimeCategory.QUALITY_OF_LIFE:
@@ -143,13 +144,13 @@ function UICrimeChartsViewController() {
                     selectedArea[2].group.push({
                         label: primaryType,
                         value: selectedAreaDensity,
-                        color: selectedAreaColor
+                        color: _selectedAreaColor
                     });
 
                     chicago[2].group.push({
                         label: primaryType,
                         value: density,
-                        color: chicagoColor
+                        color: _chicagoColor
                     });
                     break;
             }
@@ -305,12 +306,14 @@ function UICrimeChartsViewController() {
         // Title label
         _titleLabel.getView().setFrame(40, y, box.width, 100);
 
+        var uglyFix = 50;
+
         y += 0;
         var legendWidth = (box.width / 2);
         var legendOffset = (box.width / 2);
         //_qualityOfLifeLabel.getView().setFrame(legendOffset, y, legendWidth/3, 100);
-        _chicagoLegendLabel.getView().setFrame(legendOffset, y, legendWidth/2, 100);
-        _selectedAreaLegendLabel.getView().setFrame(legendOffset + (legendWidth/2), y, legendWidth/2, 100);
+        _chicagoLegendLabel.getView().setFrame(legendOffset - uglyFix, y, legendWidth/2, 100);
+        _selectedAreaLegendLabel.getView().setFrame(legendOffset + (legendWidth/2) -uglyFix, y, legendWidth/2, 100);
 
         // Draw circles
         var r = 25;
@@ -329,29 +332,29 @@ function UICrimeChartsViewController() {
             .attr("cy", y + r*2)
             .attr("r", r);*/
 
-        var dot = canvas.select(".property");
-        var color = model.getVisualizationModel().propertyCrimesMarkerColor();
+        var dot = canvas.select(".chicagoLegend");
+        var color = _chicagoColor;
         if(dot.empty()) {
             dot = canvas
                 .append("circle")
-                .classed("property", true)
+                .classed("chicagoLegend", true)
                 .style("fill", color);
         }
         dot
-            .attr("cx", legendOffset + r *8)
+            .attr("cx", legendOffset + r *8 - uglyFix)
             .attr("cy", y + r*2)
             .attr("r", r);
 
-        dot = canvas.select(".violent");
-        color = model.getVisualizationModel().violentCrimesMarkerColor();
+        dot = canvas.select(".selectedAreaLegend");
+        color = _selectedAreaColor;
         if(dot.empty()) {
             dot = canvas
                 .append("circle")
-                .classed("violent", true)
+                .classed("selectedAreaLegend", true)
                 .style("fill", color);
         }
         dot
-            .attr("cx", legendOffset + (legendWidth/3)*2)
+            .attr("cx", legendOffset + (legendWidth/3)*2 - uglyFix)
             .attr("cy", y + r*2)
             .attr("r", r);
 
