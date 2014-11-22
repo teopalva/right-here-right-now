@@ -240,7 +240,7 @@ function UIGroupedStackBarChart() {
                 .style("pointer-events", "visiblePainted")
                 .style("cursor", "pointer")
                 .on("click", function(d, i) {
-                    updateTooltip(g,d,i,d3.select(this));
+                    updateTooltip(d3.select(this.parentNode),d,i,d3.select(this));
                 })
                 .enter()
                 .append("rect")
@@ -254,7 +254,7 @@ function UIGroupedStackBarChart() {
                 .style("pointer-events", "visiblePainted")
                 .style("cursor", "pointer")
                 .on("click", function(d, i) {
-                    updateTooltip(g,d,i,d3.select(this));
+                    updateTooltip(d3.select(this.parentNode),d,i,d3.select(this));
                 });
 
 
@@ -292,6 +292,8 @@ function UIGroupedStackBarChart() {
                 .attr("transform", "translate(" + parseFloat(column.attr("x")) + ",0)")
                 .append("text")
                 .style("fill", "rgba(246,246,246, 1.0)")
+                .style("text-anchor", "middle")
+                .style()
                 .text(d.label);
         }
     };
