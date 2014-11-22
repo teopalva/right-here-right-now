@@ -19,7 +19,7 @@ $settings = array(
 );
 
 $url = 'https://api.twitter.com/1.1/search/tweets.json';
-$getfield = '?q=breakingnews%20AND%20chicago&lang=en&count=100';
+$getfield = '?q=breakingnews%20AND%20chicago%20-RT&lang=en&count=100';
 $requestMethod = 'GET';
 
 $twitter = new TwitterAPIExchange($settings);

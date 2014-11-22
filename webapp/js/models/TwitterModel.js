@@ -18,16 +18,18 @@ function TwitterModel() {
 
         _oldTweets = _tweets;
         _tweets = [];
-        var tweetslink = "http://0.0.0.0:8888/webapp/php/twitter.php";
-        d3.json(tweetslink, function (json) {
-            json.statuses.forEach(function (tweet) {
+        var proxy = "https://script.google.com/a/macros/mcpher.com/s/AKfycbzGgpLEWS0rKSBqXG5PcvJ7Fpe02fvGqiCqq54SVQmBJSpy_6s/exec";
+        var tweetslink = "http://paolobruzzo.altervista.org/project3/twitter.php";
+        d3.json(proxy + "?url="+ tweetslink, function (json) {
+            var parsedJson = JSON.parse(json.results);
+            parsedJson.statuses.forEach(function (tweet) {
                 if(! contains(_tweets,tweet.text)) {
                     _tweets.push(tweet);
                     //console.log(new Date(tweet.created_at), " -", tweet.retweet_count, ": ", tweet.text);
                     //console.log("Count: ", tweet.retweet_count , "Text: ", tweet.text);
                 }
             });
-            console.log(_tweets.length);
+            //console.log(_tweets.length);
             notifyDifferences(_oldTweets,_tweets);
         });
     };
@@ -43,9 +45,9 @@ function TwitterModel() {
     };
 
     var notifyDifferences = function (oldTweets, tweets) {
-        if(oldTweets.length > 0)
             for (i in tweets)
                 if (!contains(oldTweets, tweets[i].text))
+                    // NOTIFY NEW TWEET
                     console.log("New tweet !: ", tweets[i].text);
     };
 
