@@ -62,6 +62,7 @@ function UINewsFeedViewController() {
     };
 
     var _translation = 83;
+    var _translationModes = 80;
 
     /////////////////////  PUBLIC METHODS /////////////////////
     /**
@@ -99,6 +100,7 @@ function UINewsFeedViewController() {
             if (model.getNewsFeedModel().getNewsfeed().length - 1 > _indexPage + 2) {
                 _indexPage += 3;
                 self.drawNews();
+                //console.log("next page");
             }
         });
         self.add(_downButton);
@@ -119,9 +121,9 @@ function UINewsFeedViewController() {
         self.add(_playButton);
         
         // rss button
-        _rssButton.getView().setFrame(174.5 - _translation, 290, 28, 28);
+        _rssButton.getView().setFrame(144.5 + _translationModes, 290, 28, 28);
         _rssButton.getView().setViewBox(0, 0, 28, 28);
-        _rssButton.setImage("assets/icon/pause.svg");
+        _rssButton.setImage("assets/icon/rss.svg");
         _rssButton.onClick(function () {
             if (_mode === _modes.PLAY) {
                 _rssButton.setImage("assets/icon/play.svg");
@@ -134,9 +136,9 @@ function UINewsFeedViewController() {
         self.add(_rssButton);
         
         // twitter button
-        _twitterButton.getView().setFrame(174.5 - _translation, 290, 28, 28);
+        _twitterButton.getView().setFrame(184.5 + _translationModes, 290, 28, 28);
         _twitterButton.getView().setViewBox(0, 0, 28, 28);
-        _twitterButton.setImage("assets/icon/pause.svg");
+        _twitterButton.setImage("assets/icon/twitter.svg");
         _twitterButton.onClick(function () {
             if (_mode === _modes.PLAY) {
                 _twitterButton.setImage("assets/icon/play.svg");
