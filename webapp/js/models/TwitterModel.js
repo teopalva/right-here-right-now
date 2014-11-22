@@ -25,8 +25,6 @@ function TwitterModel() {
             parsedJson.statuses.forEach(function (tweet) {
                 if(! contains(_tweets,tweet.text)) {
                     _tweets.push(tweet);
-                    //console.log(new Date(tweet.created_at), " -", tweet.retweet_count, ": ", tweet.text);
-                    //console.log("Count: ", tweet.retweet_count , "Text: ", tweet.text);
                 }
             });
             notifyDifferences(_oldTweets,_tweets);
