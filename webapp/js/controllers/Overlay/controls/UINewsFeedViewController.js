@@ -23,6 +23,7 @@ function UINewsFeedViewController() {
      * Index of the top of the current page
      */
     var _indexPage;
+    var _indexPageTwitter;
 
     var _pDesc = {
         x: 85,
@@ -63,6 +64,9 @@ function UINewsFeedViewController() {
 
     var _translation = 83;
     var _translationModes = 80;
+
+    // Type of feed (RSS or TWEETS)
+    var _type = "RSS";
 
     /////////////////////  PUBLIC METHODS /////////////////////
     /**
@@ -118,34 +122,24 @@ function UINewsFeedViewController() {
             }
         });
         self.add(_playButton);
-        
+
         // rss button
         _rssButton.getView().setFrame(144.5 + _translationModes, 290, 28, 28);
         _rssButton.getView().setViewBox(0, 0, 28, 28);
         _rssButton.setImage("assets/icon/rss.svg");
         _rssButton.onClick(function () {
-            if (_mode === _modes.PLAY) {
-                _rssButton.setImage("assets/icon/play.svg");
-                _mode = _modes.PAUSE;
-            } else {
-                _rssButton.setImage("assets/icon/pause.svg");
-                _mode = _modes.PLAY;
-            }
+            _type = "RSS";
+            self.seeLastPage();
         });
         self.add(_rssButton);
-        
+
         // twitter button
         _twitterButton.getView().setFrame(184.5 + _translationModes, 290, 28, 28);
         _twitterButton.getView().setViewBox(0, 0, 28, 28);
         _twitterButton.setImage("assets/icon/twitter.svg");
         _twitterButton.onClick(function () {
-            if (_mode === _modes.PLAY) {
-                _twitterButton.setImage("assets/icon/play.svg");
-                _mode = _modes.PAUSE;
-            } else {
-                _twitterButton.setImage("assets/icon/pause.svg");
-                _mode = _modes.PLAY;
-            }
+            _type = "TWEETS";
+            self.seeLastPage();
         });
         self.add(_twitterButton);
 
@@ -163,12 +157,10 @@ function UINewsFeedViewController() {
 
         // Clean newsfeed area
         _pageElements.forEach(function (e) {
-            //console.log(e);
             self.remove(e);
         });
         _pageElements = [];
 
-        //console.log(_feed);
         //var i = Math.max(_indexPage, _feed.length-1);
         var p = 0;
         for (i = _indexPage; i !== _indexPage + 3 && i < _feed.length; i++) {
@@ -230,13 +222,98 @@ function UINewsFeedViewController() {
 
     };
 
-    this.seeLastPage = function () {
+    //////////////// TWITTER ////////////////////
+
+    /**
+     * Refresh the tweets displayed in the feed
+     */
+    this.drawTweets = function () {
+
+        // Retrieve real-time feed
+        var _feed = model.getNewsFeedModel().getTweets();
+
+        // Clean newsfeed area
+        _pageElements.forEach(function (e) {
+            self.remove(e);
+        });
+        _pageElements = [];
+
+        var p = 0;
+        for (i = _indexPageTwitter; i !== _indexPageTwitter + 3 && i < _feed.length; i++) {
+
+            var news_ = _feed[i];
+
+            // Icon
+            _newsIconButton = new UIButtonViewController();
+            _newsIconButton.getView().setFrame(_pIcon.x, _pIcon.y + _vPadding * p, _pIcon.w, _pIcon.h);
+            _newsIconButton.getView().setViewBox(0, 0, _pIcon.w, _pIcon.h);
+
+            var size = {
+                width: model.getVisualizationModel().divvyMarkerIconSize().width,
+                height: model.getVisualizationModel().divvyMarkerIconSize().height
+            };
+            _newsIconButton.setImage(news_.getImagePath());
+            _newsIconButton.getView().getSvg()
+                .attr("width", _pIcon.w)
+                .attr("height", _pIcon.h)
+            _newsIconButton.onClick(function () {
+                // TODO interaction news-map
+            });
+            self.add(_newsIconButton);
+            _pageElements.push(_newsIconButton);
+
+            // Description
+            _descriptionLabel = new UILabelViewController();
+            _descriptionLabel.setText(news_.getDescription());
+            _descriptionLabel.setTextSize(20);
+            _descriptionLabel.setTextColor("white");
+            _descriptionLabel.setTextAlignment("left");
+            _descriptionLabel.getView().setFrame(_pDesc.x, _pDesc.y + _vPadding * p, _pDesc.w, _pDesc.h);
+            _descriptionLabel.getView().setViewBox(0, 0, _pDesc.w, _pDesc.h);
+            self.add(_descriptionLabel);
+            _pageElements.push(_descriptionLabel);
+
+            // Hour
+            _hourLabel = new UILabelViewController();
+            _hourLabel.setText(formatAMPM(news_.getTimestamp()));
+            _hourLabel.setTextSize(20);
+            _hourLabel.setTextColor("white");
+            _hourLabel.getView().setFrame(_pHour.x, _pHour.y + _vPadding * p, _pHour.w, _pHour.h);
+            _hourLabel.getView().setViewBox(0, 0, _pHour.w, _pHour.h);
+            self.add(_hourLabel);
+            _pageElements.push(_hourLabel);
+
+            // Separator
+            _separator = new UIImageViewController(self);
+            _separator.setImagePath("assets/icon/news_separator.svg");
+            _separator.getView().setFrame(_pSep.x, _pSep.y + _vPadding * p, _pSep.w, _pSep.h);
+            _separator.getView().setViewBox(0, 0, _pSep.w, _pSep.h);
+            self.add(_separator);
+            _pageElements.push(_separator);
+
+            // Update index on position of news
+            p++;
+
+        }
+
+    };
+
+    /////////////////////////////////////////////
+
+    this.seeLastPage = function (type) {
         if (_mode === _modes.PLAY) {
             // Retrieve real-time feed
-            var _feed = model.getNewsFeedModel().getNewsfeed();
-            _indexPage = _feed.length - 3;
+            if (_type === "RSS") {
+                var _feed = model.getNewsFeedModel().getNewsfeed();
+                _indexPage = _feed.length - 3;
+                self.drawNews();
+            } else {
+                var _feedTweets = model.getNewsFeedModel().getTweets();
+                _indexPageTwitter = _feedTweets.length - 3;
+                self.drawTweets();
+            }
+
         }
-        self.drawNews();
     };
 
     /////////////////////  PRIVATE METHODS /////////////////////
@@ -278,6 +355,7 @@ function UINewsFeedViewController() {
         self.drawNews();
 
         notificationCenter.subscribe(self, self.seeLastPage, Notifications.newsfeed.NEWS_POSTED);
+        //notificationCenter.subscribe(self, self.seeLastPageTweets, Notifications.newsfeed.TWEETS_POSTED);
 
     }();
 }
