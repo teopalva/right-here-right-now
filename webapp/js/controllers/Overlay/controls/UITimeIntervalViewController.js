@@ -10,7 +10,7 @@ function UITimeIntervalViewController() {
 
     /////////////////////  PRIVATE ATTRIBUTES /////////////////////
     var self = this;
-    
+
     var _titleLabel;
     var _weekButton;
     var _monthButton;
@@ -36,7 +36,9 @@ function UITimeIntervalViewController() {
         _weekButton.getView().setViewBox(0, 0, 154, 32);
         _weekButton.setTitle("LAST 2 WEEKS");
         _weekButton.setTitleSize(model.getThemeModel().mediumTextSize);
+        _weekButton.deselect();
         _weekButton.onClick(function () {
+            weekSelected();
             filterLayers(TimeRange.LAST_TWO_WEEKS);
         });
         self.add(_weekButton);
@@ -46,7 +48,9 @@ function UITimeIntervalViewController() {
         _monthButton.getView().setViewBox(0, 0, 154, 32);
         _monthButton.setTitle("LAST MONTH");
         _monthButton.setTitleSize(model.getThemeModel().mediumTextSize);
+        _monthButton.deselect();
         _monthButton.onClick(function () {
+            monthSelected();
             filterLayers(TimeRange.LAST_MONTH);
         });
         self.add(_monthButton);
@@ -76,6 +80,33 @@ function UITimeIntervalViewController() {
         _monthButton = new UIButtonViewController;
 
     }();
+
+    var weekSelected = function () {
+        _monthButton.deselect();
+        _monthButton.getView().setBackgroundColor(null);
+        if (_weekButton.isSelected()) {
+            // disable interval
+            _weekButton.deselect();
+            _weekButton.getView().setBackgroundColor(null);
+        } else {
+            _weekButton.select();
+            _weekButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor);
+        }
+    };
+
+    var monthSelected = function () {
+        _weekButton.deselect();
+        _weekButton.getView().setBackgroundColor(null);
+        if (_monthButton.isSelected()) {
+            // disable interval
+            _monthButton.deselect();
+            _monthButton.getView().setBackgroundColor(null);
+        } else {
+            _monthButton.select();
+            _monthButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor);
+        }
+    };
+
 }
 
 Utils.extend(UITimeIntervalViewController, UIViewController);
