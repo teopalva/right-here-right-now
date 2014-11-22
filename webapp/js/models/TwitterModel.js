@@ -6,35 +6,50 @@ function TwitterModel() {
     ///////////////////////// PRIVATE ATTRIBUTES /////////////////////////
     var self = this;
 
+    var _oldTweets = [];
     var _tweets = [];
+
+    var _updateTimer = 10000; // 10 secs
+    var _timer;
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
     this.updateTweets = function () {
 
+        _oldTweets = _tweets;
         _tweets = [];
-        var tweetslink = "http://0.0.0.0:8888/webapp/php/twitter.php";
-        d3.json(tweetslink, function (json) {
-            json.forEach(function (tweet) {
-                if (tweet.geo) {
-                    tweet.latitude = tweet.geo.coordinates[0];
-                    tweet.longitude = tweet.geo.coordinates[1];
+        var proxy = "https://script.google.com/a/macros/mcpher.com/s/AKfycbzGgpLEWS0rKSBqXG5PcvJ7Fpe02fvGqiCqq54SVQmBJSpy_6s/exec";
+        var tweetslink = "http://paolobruzzo.altervista.org/project3/twitter.php";
+        d3.json(proxy + "?url="+ tweetslink, function (json) {
+            var parsedJson = JSON.parse(json.results);
+            parsedJson.statuses.forEach(function (tweet) {
+                if(! contains(_tweets,tweet.text)) {
                     _tweets.push(tweet);
                 }
-                //console.log(tweet);
-                //console.log("Count: ", tweet.retweet_count , "Text: ", tweet.text);
             });
-            var filtered = model.getAreaOfInterestModel().filterObjects(_tweets);
-            console.log("TWEETS DOWNLOADED", _tweets);
-            console.log("TWEETS FILTERED: ", filtered);
-
+            notifyDifferences(_oldTweets,_tweets);
         });
     };
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
 
+    var contains = function(tweets, text){
+        for(i in tweets){
+            if(tweets[i].text.substring(0,tweets[i].text.indexOf("http://")) == text.substring(0,text.indexOf("http://")))
+                return true;
+        }
+        return false;
+    };
+
+    var notifyDifferences = function (oldTweets, tweets) {
+            for (i in tweets)
+                if (!contains(oldTweets, tweets[i].text))
+                    // NOTIFY NEW TWEET
+                    console.log("New tweet !: ", tweets[i].text);
+    };
 
     var init = function () {
         self.updateTweets();
+        _timer = setInterval(self.updateTweets,_updateTimer);
     }();
 }

@@ -15,6 +15,8 @@ function UINewsFeedViewController() {
     var _upButton;
     var _downButton;
     var _playButton;
+    var _rssButton;
+    var _twitterButton;
     var _separator;
 
     /**
@@ -30,9 +32,9 @@ function UINewsFeedViewController() {
     };
 
     var _pHour = {
-        x: 226,
+        x: 222,
         y: 78,
-        w: 80,
+        w: 85,
         h: 53
     };
 
@@ -59,6 +61,9 @@ function UINewsFeedViewController() {
         PAUSE: 1
     };
 
+    var _translation = 83;
+    var _translationModes = 80;
+
     /////////////////////  PUBLIC METHODS /////////////////////
     /**
      * @override
@@ -76,20 +81,19 @@ function UINewsFeedViewController() {
         self.add(_titleLabel);
 
         // Arrow up
-        _upButton.getView().setFrame(107.5, 290, 28, 28);
+        _upButton.getView().setFrame(107.5 - _translation, 290, 28, 28);
         _upButton.getView().setViewBox(0, 0, 28, 28);
         _upButton.setImage("assets/icon/arrow_up.svg");
         _upButton.onClick(function () {
             if (_indexPage >= 3) {
                 _indexPage -= 3;
                 self.drawNews();
-                //console.log("previous page");
             }
         });
         self.add(_upButton);
 
         // Arrow down
-        _downButton.getView().setFrame(131.5, 290, 28, 28);
+        _downButton.getView().setFrame(131.5 - _translation, 290, 28, 28);
         _downButton.getView().setViewBox(0, 0, 28, 28);
         _downButton.setImage("assets/icon/arrow_down.svg");
         _downButton.onClick(function () {
@@ -102,7 +106,7 @@ function UINewsFeedViewController() {
         self.add(_downButton);
 
         // Play button
-        _playButton.getView().setFrame(174.5, 290, 28, 28);
+        _playButton.getView().setFrame(174.5 - _translation, 290, 28, 28);
         _playButton.getView().setViewBox(0, 0, 28, 28);
         _playButton.setImage("assets/icon/pause.svg");
         _playButton.onClick(function () {
@@ -115,6 +119,36 @@ function UINewsFeedViewController() {
             }
         });
         self.add(_playButton);
+        
+        // rss button
+        _rssButton.getView().setFrame(144.5 + _translationModes, 290, 28, 28);
+        _rssButton.getView().setViewBox(0, 0, 28, 28);
+        _rssButton.setImage("assets/icon/rss.svg");
+        _rssButton.onClick(function () {
+            if (_mode === _modes.PLAY) {
+                _rssButton.setImage("assets/icon/play.svg");
+                _mode = _modes.PAUSE;
+            } else {
+                _rssButton.setImage("assets/icon/pause.svg");
+                _mode = _modes.PLAY;
+            }
+        });
+        self.add(_rssButton);
+        
+        // twitter button
+        _twitterButton.getView().setFrame(184.5 + _translationModes, 290, 28, 28);
+        _twitterButton.getView().setViewBox(0, 0, 28, 28);
+        _twitterButton.setImage("assets/icon/twitter.svg");
+        _twitterButton.onClick(function () {
+            if (_mode === _modes.PLAY) {
+                _twitterButton.setImage("assets/icon/play.svg");
+                _mode = _modes.PAUSE;
+            } else {
+                _twitterButton.setImage("assets/icon/pause.svg");
+                _mode = _modes.PLAY;
+            }
+        });
+        self.add(_twitterButton);
 
         // Call super
         super_viewDidAppear.call(self);
@@ -218,6 +252,8 @@ function UINewsFeedViewController() {
         _upButton = new UIButtonViewController;
         _downButton = new UIButtonViewController;
         _playButton = new UIButtonViewController;
+        _rssButton = new UIButtonViewController;
+        _twitterButton = new UIButtonViewController;
 
         // Set mode
         _mode = _modes.PLAY;
