@@ -39,6 +39,9 @@ function MapLayersFactory() {
                 case Layers.CTA_BUSES:
                     layers.push(CtaBusVehiclesLayerViewController);
                     break;
+                case Layers.CTA_BUS_ROUTES:
+                    layers.push(CtaBusRoutesLayerViewController);
+                    break;
                 case Layers.CTA_TRAINS:
                     layers.push(CtaTrainLayerViewController);
                     break;
@@ -50,6 +53,15 @@ function MapLayersFactory() {
                     break;
                 case Layers.QUALITY_OF_LIFE_CRIMES:
                     layers.push(QualityOfLifeCrimesLayerViewController);
+                    break;
+                case Layers.PASSED_RESTAURANTS:
+                    layers.push(PassedRestaurantsLayerViewController);
+                    break;
+                case Layers.FAILED_RESTAURANTS:
+                    layers.push(FailedRestaurantsLayerViewController);
+                    break;
+                case Layers.PLACES_OF_INTEREST:
+                    layers.push(PlacesOfInterestLayerViewController);
                     break;
                 case Layers.POPUPS:
                     layers.push(PopupLayerViewController);

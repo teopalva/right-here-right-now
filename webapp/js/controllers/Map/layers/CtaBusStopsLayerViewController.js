@@ -30,7 +30,7 @@ function CtaBusStopsLayerViewController() {
         model.getCtaModel().stopUpdates();
         model.getCtaModel().retrieveData();
 
-        self.stopsChanged();
+        draw();
     };
 
     this.zoomUpdated = function() {
@@ -104,7 +104,12 @@ function CtaBusStopsLayerViewController() {
                     return point.y - size.height;
                 })
                 .attr("width", size.width)
-                .attr("height", size.height);
+                .attr("height", size.height)
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d) {
+                    addToPopup(d);
+                });;
 
 
             // Exit
@@ -124,6 +129,7 @@ function CtaBusStopsLayerViewController() {
                     return point.y;
                 });
 
+
             // Enter
             markers.enter()
                 .append("circle")
@@ -140,17 +146,29 @@ function CtaBusStopsLayerViewController() {
                 })
                 .attr("r", model.getVisualizationModel().markerRadius())
                 .attr("stroke",model.getVisualizationModel().markerStrokeColor())
-                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth());
+                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth())
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d) {
+                    addToPopup(d);
+                });
 
             // Exit
             markers.exit().remove();
         }
 
     };
+
+
+    var addToPopup = function(d){
+        model.getPopupModel().addPopup({
+            type: PopupsType.BUS_STOPS,
+            info: d
+        });
+    };
+
     var init = function() {
         self.getView().addClass("cta-stops-layer-view-controller");
-
-        _markersViewController = new MarkersViewController();
 
         // Subscribe to notifications
         notificationCenter.subscribe(self, self.stopsChanged, Notifications.cta.STOPS);

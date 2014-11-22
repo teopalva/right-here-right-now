@@ -35,8 +35,8 @@ function UIDayViewController() {
     this.weatherUpdated = function() {
         var conditions = model.getWeatherModel().getCurrentConditions();
         _weatherImage.setImagePath("assets/images/weather/" + weatherIconMapping[conditions].day);
-        _tempLabelF.setText("Temp : " + model.getWeatherModel().getCurrentFahrenheitTemperature() + " F");
-        _tempLabelC.setText("Temp : " + model.getWeatherModel().getCurrentCelsiusTemperature() + " C");
+        _tempLabelF.setText(model.getWeatherModel().getCurrentFahrenheitTemperature() + " F");
+        _tempLabelC.setText(model.getWeatherModel().getCurrentCelsiusTemperature() + " C");
     };
 
     /**
@@ -53,7 +53,7 @@ function UIDayViewController() {
     this.sunUpdated = function(){
         _sunriseLabel.setText("Sunrise : " + model.getTimeModel().getSunriseTime());
         _sunsetLabel.setText("Sunset : " + model.getTimeModel().getSunsetTime());
-    }
+    };
 
     /**
      * @override
@@ -79,23 +79,23 @@ function UIDayViewController() {
         self.add(_timeLabel);
 
         // Setup weather icon
-        _weatherImage.getView().setFrame(102.5, 105, 113, 113);
-        _weatherImage.getView().setViewBox(0, 0, 113, 113);
+        _weatherImage.getView().setFrame(70, 70, 170, 170);
+        _weatherImage.getView().setViewBox(0, 0, 170, 170);
         self.add(_weatherImage);
 
         // Sunrise label
-        _sunriseLabel.getView().setFrame(8, 208, 144, 35);
-        _sunriseLabel.getView().setViewBox(0, 0, 144, 35);
+        _sunriseLabel.getView().setFrame(8, 208, 200, 35);
+        _sunriseLabel.getView().setViewBox(0, 0, 200, 35);
         _sunriseLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        _sunriseLabel.setTextSize(model.getThemeModel().mediumTextSize());
+        _sunriseLabel.setTextSize(model.getThemeModel().bigTextSize());
         _sunriseLabel.setTextAlignment(TextAlignment.LEFT);
         self.add(_sunriseLabel);
 
         // Sunset label
-        _sunsetLabel.getView().setFrame(8, 243, 144, 35);
-        _sunsetLabel.getView().setViewBox(0, 0, 144, 35);
+        _sunsetLabel.getView().setFrame(8, 243, 200, 35);
+        _sunsetLabel.getView().setViewBox(0, 0, 200, 35);
         _sunsetLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        _sunsetLabel.setTextSize(model.getThemeModel().mediumTextSize());
+        _sunsetLabel.setTextSize(model.getThemeModel().bigTextSize());
         _sunsetLabel.setTextAlignment(TextAlignment.LEFT);
         self.add(_sunsetLabel);
 
@@ -103,7 +103,7 @@ function UIDayViewController() {
         _tempLabelF.getView().setFrame(164,208,144,35);
         _tempLabelF.getView().setViewBox(0,0,144,35);
         _tempLabelF.setTextColor(model.getThemeModel().defaultToolTextColor());
-        _tempLabelF.setTextSize(model.getThemeModel().mediumTextSize());
+        _tempLabelF.setTextSize(model.getThemeModel().bigTextSize());
         _tempLabelF.setTextAlignment(TextAlignment.RIGHT);
         self.add(_tempLabelF);
 
@@ -112,7 +112,7 @@ function UIDayViewController() {
         _tempLabelC.getView().setFrame(164,243,144,35);
         _tempLabelC.getView().setViewBox(0,0,144,35);
         _tempLabelC.setTextColor(model.getThemeModel().defaultToolTextColor());
-        _tempLabelC.setTextSize(model.getThemeModel().mediumTextSize());
+        _tempLabelC.setTextSize(model.getThemeModel().bigTextSize());
         _tempLabelC.setTextAlignment(TextAlignment.RIGHT);
         self.add(_tempLabelC);
 

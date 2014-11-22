@@ -14,7 +14,7 @@ function ThemeModel() {
      * * @returns {string}
      */
     this.toolBackgroundColor = function () {
-        return "rgba(41, 36, 33, 1.0)";
+        return "rgba(41, 36, 33, 0.95)";
     };
 
     /**
@@ -23,6 +23,14 @@ function ThemeModel() {
      */
     this.defaultToolTextColor = function () {
         return "rgba(246, 246, 246, 1.0)";
+    };
+
+    /**
+     *
+     * @returns {string}
+     */
+    this.secondaryTextColor = function() {
+        return "rgba(187, 187, 187, 1.0)";
     };
 
     this.selectedButtonColor = function (layerName) {
@@ -45,9 +53,18 @@ function ThemeModel() {
 
     /**
      *
+     * @returns {string}
      */
     this.largeTextSize = function() {
         return "50px";
+    };
+
+    /**
+     *
+     * @returns {string}
+     */
+    this.biggerTextSize = function() {
+        return "34px";
     };
 
     /**

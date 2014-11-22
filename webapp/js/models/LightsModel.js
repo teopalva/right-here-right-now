@@ -14,12 +14,32 @@ function LightsModel() {
      *      - number_out : number
      */
     var _lights = [];
+    var _cachedData = [];
+    var _dataAvailable = false;
 
     // Update timer
     var _updateTimer;
     var _intervalMillis = 60000; // 1 minute
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
+
+    this.filterByDate = function(){
+        var timeRange = timeToDisplay;
+        if(timeRange == TimeRange.LAST_MONTH)
+            _lights = _cachedData;
+        else{
+            _lights = [];
+            var elapsed = Date.now() - timeRange * 86400000;
+            var limitDate = new Date(elapsed);
+            for(i in _cachedData) {
+                var stringDate = _cachedData[i].creation_date;
+                var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
+                if(d - limitDate >= 0)
+                    _lights.push(_cachedData[i]);
+            }
+        }
+        notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
+    };
 
     /**
      * Returns the lights objects in the form:
@@ -35,10 +55,45 @@ function LightsModel() {
     };
 
     /**
+     *
+     * @returns {Array}
+     */
+    this.getLightsWithinArea = function() {
+        return model.getAreaOfInterestModel().filterObjects(_lights);
+    };
+
+    /**
      * Remove the old lights
      */
     this.clearLights = function(){
         _lights = [];
+    };
+
+    this.isDataAvailable = function(){
+        return _dataAvailable;
+    };
+
+    /**
+     *
+     * @returns {number}
+     */
+    this.getLightsDensityWithinArea = function() {
+        var filtered = model.getAreaOfInterestModel().filterObjects(_lights);
+
+        if(filtered == null || filtered.length == 0) {
+            return 0;
+        }
+
+        return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
+    };
+
+    /**
+     *
+     * @returns {number}
+     */
+    this.getLightsDensityInChicago = function() {
+        var chicagoArea = 234;
+        return _lights.length / chicagoArea;
     };
 
     /**
@@ -49,10 +104,14 @@ function LightsModel() {
         self.clearLights();
 
         var link = "http://data.cityofchicago.org/resource/zuxi-7xem.json";
+        var days = TimeRange.LAST_MONTH;
+        var elapsed = Date.now() - days * 86400000;
+        var date = new Date(elapsed);
         var query = "?$select=service_request_number%20as%20id,creation_date,street_address,latitude,longitude" +
                     "&$order=creation_date%20DESC" +
                     "&$limit=1000" +
-                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+                    "&$where=status=%27Open%27and%20creation_date>=%27" + date.toISOString() + "%27and%20" +
+                    "latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
         /*
         var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
@@ -83,7 +142,9 @@ function LightsModel() {
                     light.number_out = "1 or 2";
                     _lights.push(light);
                 });
-                notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
+                _cachedData = _lights;
+                self.filterByDate();
+                _dataAvailable = true;
             });
         });
     };
@@ -101,9 +162,7 @@ function LightsModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        self.clearLights();
     };
-
 
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
@@ -113,6 +172,6 @@ function LightsModel() {
     };
 
     var init = function() {
-
+        self.updateLights();
     } ();
 }

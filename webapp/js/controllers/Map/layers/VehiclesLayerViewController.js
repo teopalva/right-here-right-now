@@ -10,20 +10,17 @@ function VehiclesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    var _cachedData = [];
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Updates the vehicles on the screen
-     */
-    this.vehiclesUpdated = function () {
-        draw();
+    this.drawCachedPoints = function(){
+        draw(_cachedData);
     };
 
-    /**
-     * Handler method for ZOOM_CHANGED notification
-     */
-    this.zoomChanged = function() {
-        draw();
+    this.drawNewPoints = function(){
+        _cachedData = model.getVehiclesModel().getVehicles();
+        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
+        draw(_cachedData);
     };
 
     /**
@@ -36,17 +33,14 @@ function VehiclesLayerViewController() {
 
         // Do cleaning stuff here
         model.getVehiclesModel().stopUpdates();
+        model.getPopupModel().removeAll(Layers.VEHICLES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function() {
-        var vehicles = model.getVehiclesModel().getVehicles();
-        vehicles = model.getAreaOfInterestModel().filterObjects(vehicles);
+    var draw = function(vehicles) {
 
         var canvas = self.getView().getSvg();
-
-
 
         var size = {
             width: model.getVisualizationModel().abandonedVehiclesMarkerIconSize().width,
@@ -67,7 +61,7 @@ function VehiclesLayerViewController() {
                 })
                 .attr("y", function(d) {
                     var point = self.project(d.latitude, d.longitude);
-                    return point.y - size.height;
+                    return point.y - (size.height /2);
                 });
 
 
@@ -84,7 +78,7 @@ function VehiclesLayerViewController() {
                 })
                 .attr("y", function(d) {
                     var point = self.project(d.latitude, d.longitude);
-                    return point.y - size.height;
+                    return point.y - (size.height /2);
                 })
                 .attr("width", size.width)
                 .attr("height", size.height)
@@ -144,6 +138,7 @@ function VehiclesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.VEHICLES,
+            layer: Layers.VEHICLES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude
@@ -163,9 +158,9 @@ function VehiclesLayerViewController() {
         self.getView().addClass("vehicles-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.vehiclesUpdated, Notifications.vehicles.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.vehiclesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.vehiclesUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.vehicles.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getVehiclesModel().startUpdates();
     }();

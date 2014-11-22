@@ -25,6 +25,14 @@ function UIPopupViewController(dictionary) {
         height: 20
     };
 
+    var _dataSourceImage;
+
+    var _triangle;
+    var _triangleSize = {
+        width: 31,
+        height: 22
+    };
+
     /////////////////////  PUBLIC METHODS /////////////////////
 
     /**
@@ -53,12 +61,49 @@ function UIPopupViewController(dictionary) {
         return _idDict;
     };
 
+    this.setDataSourceImage = function(path){
+        _dataSourceImage.setImagePath(path);
+    };
+
+    this.setDataSourceFrame = function(left,top,width,height){
+        _dataSourceImage.getView().setFrame(left,top,width,height);
+    };
+
     this.frameDidChange = function() {
+        var box = self.getView().getViewBox();
+
+        if(box.height == null) {
+            box = self.getView().getFrame();
+        }
+
+        if(box.height != 0) {
+            self.getView().setContentHeight(box.height - _triangleSize.height);
+            _triangle.getView().setFrame(
+                (box.width / 2) - (_triangleSize.width /2),
+                    box.height - _triangleSize.height,
+                _triangleSize.width,
+                _triangleSize.height);
+        }
         updateChildren();
     };
 
     this.viewBoxDidChange = function() {
-      updateChildren();
+        var box = self.getView().getViewBox();
+
+        if(box.height == null) {
+            box = self.getView().getFrame();
+        }
+
+        if(box.height != 0) {
+            self.getView().setContentHeight(box.height - _triangleSize.height);
+            _triangle.getView().setFrame(
+                    (box.width / 2) - (_triangleSize.width /2),
+                    box.height - _triangleSize.height *1.16,
+                _triangleSize.width,
+                _triangleSize.height);
+        }
+
+        updateChildren();
     };
 
     /////////////////////  PRIVATE METHODS /////////////////////
@@ -78,6 +123,13 @@ function UIPopupViewController(dictionary) {
 
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
         self.getView().setCornerRadius(10);
+        //self.getView().setContentHeight("88%");
+
+        _triangle = new UIImageViewController();
+        _triangle.setImagePath("assets/icon/triangle.svg");
+        //_triangle.getView().setFrame("50%", "90%", "12%", "12%");
+        self.add(_triangle);
+
 
         self.getView().setDelegate(self);
 
@@ -86,6 +138,9 @@ function UIPopupViewController(dictionary) {
         _closeButton.setImage("assets/icon/closePopup.svg");
         _closeButton.getView().setFrameSize(_closeButtonBox.width, _closeButtonBox.height);
         self.add(_closeButton);
+
+        _dataSourceImage = new UIImageViewController();
+        self.add(_dataSourceImage);
 
         addBehaviors();
     }();

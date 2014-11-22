@@ -21,15 +21,25 @@ function UILayersBarViewController() {
     var _margin = 4;
     var _verticalPadding = _p.h + _margin;
 
+    // Set static title
+    var _title = new UILabelViewController();
+    _title.setText("Layers");
+    _title.setTextSize(35);
+    _title.setTextColor("white");
+    _title.setTextAlignment("center");
+    _title.getView().setFrame(_p.x, _p.y, _p.w, _p.h);
+    _title.getView().setViewBox(0, 0, _p.w, _p.h);
+    self.add(_title);
+
     var _bindings = [
 
         {
-            title: "Trasport",
+            title: "Transport",
             label: new UILabelViewController(),
             elements: [{
                     title: "CTA bus",
                     button: new UIButtonViewController(),
-                    layers: [Layers.CTA_STOPS, Layers.CTA_BUSES]
+                    layers: [Layers.CTA_STOPS, Layers.CTA_BUSES, Layers.CTA_BUS_ROUTES]
             },
                 {
                     title: "CTA train",
@@ -83,17 +93,13 @@ function UILayersBarViewController() {
             title: "Places of Interest",
             label: new UILabelViewController(),
             elements: [{
-                title: "Restaurants",
+                title: "Top Restaurants",
                 button: new UIButtonViewController(),
-                layers: [Layers.CRIMES]
+                layers: [Layers.PASSED_RESTAURANTS]
             }, {
-                title: "Bars",
+                title: "Failed Restaurants",
                 button: new UIButtonViewController(),
-                layers: [Layers.CRIMES]
-            }, {
-                title: "Stores",
-                button: new UIButtonViewController(),
-                layers: [Layers.CRIMES]
+                layers: [Layers.FAILED_RESTAURANTS]
             }]
         }
     ];
@@ -125,7 +131,7 @@ function UILayersBarViewController() {
     this.viewDidAppear = function () {
         var toolViewBox = self.getView().getViewBox();
 
-        var tot = 0;
+        var tot = 1;
 
         _bindings.forEach(function (category, i) {
             var label = category.label;
@@ -142,7 +148,7 @@ function UILayersBarViewController() {
                 layer.button.setTitle(layer.title);
                 layer.button.getView().setFrame(_p.x, _p.y + _verticalPadding * (tot), _p.w, _p.h);
                 layer.button.getView().setViewBox(0, 0, _p.w, _p.h);
-
+                layer.button.getView().setCornerRadius(8);
                 layer.button.onClick(function (layers) {
                     if (model.getMapLayersModel().areAllLayersActive(layers)) {
                         model.getMapLayersModel().disableLayers(layers);

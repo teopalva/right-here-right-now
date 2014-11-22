@@ -335,12 +335,18 @@ function UIView() {
           .attr("rx",radius)
           .attr("ry",radius);
     };
+
+    /**
+     *
+     * @param color
+     * @param duration
+     */
     this.highlight = function (color, duration) {
         var old;
         if (_eventsLayer.style("fill")) {
             old = _eventsLayer.style("fill");
             _eventsLayer.style("fill", color).transition().delay(duration).style("fill", old);
-        } else return;
+        }
     };
 
     this.setStroke = function (color, size) {
@@ -348,6 +354,13 @@ function UIView() {
         _eventsLayer.style("stroke-width", size);
     };
 
+    /**
+     * Set bottom padding
+     * @param height
+     */
+    this.setContentHeight = function(height) {
+        _eventsLayer.attr("height", height);
+    };
 
     //////////////////////// PRIVATE METHODS ////////////////////////
     var init = function () {

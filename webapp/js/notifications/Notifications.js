@@ -108,6 +108,7 @@ Notifications.cta = {
     TIME : "com.righthererightnow.cta.time",
     VEHICLES: "com.righthererightnow.cta.vechicles",
     STOPS: "com.righthererightnow.cta.stops",
+    ROUTES_PATHS: "com.righthererightnow.cta.routesPaths",
     TRAIN_STATIONS: "com.righthererihgtnow.cta.trainStations"
 };
 
@@ -135,6 +136,10 @@ Notifications.qualityOfLifeCrimes = {
     LAYER_UPDATED: "com.righthererightnow.qualityOfLife.layerUpdated"
 };
 
+Notifications.crimes = {
+    SELECTION_UPDATED : "com.righthererightnow.crimes.SeletionUpdated"
+};
+
 /**
  * Notifications about buttons events
  * @type {{}}
@@ -149,4 +154,20 @@ Notifications.buttons = {
  */
 Notifications.popups = {
     POPUPS_CHANGED : "com.righthererightnow.popups.popupsChanged"
+}
+
+/**
+ *
+ * @type {{}}
+ */
+Notifications.passedRestaurants = {
+    LAYER_UPDATED: "com.righthererightnow.passedRestaurants.layerUpdated"
+}
+
+/**
+ *
+ * @type {{}}
+ */
+Notifications.failedRestaurants = {
+    LAYER_UPDATED: "com.righthererightnow.failedRestaurants.layerUpdated"
 }

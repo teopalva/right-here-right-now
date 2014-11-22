@@ -9,12 +9,17 @@ function PropertyCrimesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    var _cachedData = [];
+
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Updates the propertyCrimes on the screen
-     */
-    this.crimesUpdated = function () {
-        draw();
+    this.drawCachedPoints = function(){
+        draw(_cachedData);
+    };
+
+    this.drawNewPoints = function(){
+        _cachedData = model.getCrimesModel().getCrimes(CrimeCategory.PROPERTY);
+        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
+        draw(_cachedData);
     };
 
 
@@ -27,14 +32,12 @@ function PropertyCrimesLayerViewController() {
         super_dispose.call(self);
 
         // Do cleaning stuff here
+        model.getPopupModel().removeAll(Layers.PROPERTY_CRIMES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function() {
-        var crimes = model.getCrimesModel().getCrimes(CrimeCategory.PROPERTY);
-        crimes = model.getAreaOfInterestModel().filterObjects(crimes);
-
+    var draw = function(crimes) {
         var canvas = self.getView().getSvg();
 
 
@@ -57,7 +60,7 @@ function PropertyCrimesLayerViewController() {
                 })
                 .attr("y", function(d) {
                     var point = self.project(d.latitude, d.longitude);
-                    return point.y - size.height;
+                    return point.y - (size.height /2);
                 });
 
 
@@ -74,7 +77,7 @@ function PropertyCrimesLayerViewController() {
                 })
                 .attr("y", function(d) {
                     var point = self.project(d.latitude, d.longitude);
-                    return point.y - size.height;
+                    return point.y - (size.height /2);
                 })
                 .attr("width", size.width)
                 .attr("height", size.height)
@@ -134,6 +137,7 @@ function PropertyCrimesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.CRIME,
+            layer: Layers.PROPERTY_CRIMES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude
@@ -154,9 +158,9 @@ function PropertyCrimesLayerViewController() {
     var init = function() {
         self.getView().addClass("propertyCrimes-layer-view-controller");
 
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.propertyCrimes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.propertyCrimes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getCrimesModel().startUpdates();
     } ();

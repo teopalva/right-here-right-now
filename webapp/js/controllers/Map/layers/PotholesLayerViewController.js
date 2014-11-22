@@ -10,21 +10,19 @@ function PotholesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    var _cachedData = [];
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Updates the potholes on the screen
-     */
-    this.potholesUpdated = function () {
-        draw();
+    this.drawCachedPoints = function(){
+        draw(_cachedData);
     };
 
-    /**
-     * Handler method for ZOOM_CHANGED notification
-     */
-    this.zoomChanged = function() {
-        draw();
+    this.drawNewPoints = function(){
+        _cachedData = model.getPotholesModel().getPotholes();
+        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
+        draw(_cachedData);
     };
+
 
     /**
      * @overridden
@@ -36,17 +34,14 @@ function PotholesLayerViewController() {
 
         // Do cleaning stuff here
         model.getPotholesModel().stopUpdates();
+        model.getPopupModel().removeAll(Layers.POTHOLES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
     ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function() {
-        var potholes = model.getPotholesModel().getPotholes();
-        potholes = model.getAreaOfInterestModel().filterObjects(potholes);
+    var draw = function(potholes) {
 
         var canvas = self.getView().getSvg();
-
-
 
         var size = {
             width: model.getVisualizationModel().potholesMarkerIconSize().width,
@@ -67,7 +62,7 @@ function PotholesLayerViewController() {
                 })
                 .attr("y", function(d) {
                     var point = self.project(d.latitude, d.longitude);
-                    return point.y - size.height;
+                    return point.y - (size.height /2);
                 });
 
 
@@ -144,6 +139,7 @@ function PotholesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.POTHOLES,
+            layer: Layers.POTHOLES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude
@@ -159,9 +155,9 @@ function PotholesLayerViewController() {
         self.getView().addClass("potholes-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.potholesUpdated, Notifications.potholes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.potholesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.potholesUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.potholes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getPotholesModel().startUpdates();
     }();

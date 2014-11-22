@@ -9,14 +9,19 @@ function ViolentCrimesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
+    var _cachedData = [];
+
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    /**
-     * Updates the violentCrimes on the screen
-     */
-    this.crimesUpdated = function () {
-        draw();
+
+    this.drawCachedPoints = function(){
+        draw(_cachedData);
     };
 
+    this.drawNewPoints = function(){
+        _cachedData = model.getCrimesModel().getCrimes(CrimeCategory.VIOLENT);
+        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
+        draw(_cachedData);
+    };
 
     /**
      * @overridden
@@ -27,16 +32,15 @@ function ViolentCrimesLayerViewController() {
         super_dispose.call(self);
 
         // Do cleaning stuff here
+        model.getPopupModel().removeAll(Layers.VIOLENT_CRIMES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
-    ////////////////////////// PRIVATE METHODS //////////////////////////
-    var draw = function() {
-        var crimes = model.getCrimesModel().getCrimes(CrimeCategory.VIOLENT);
-        crimes = model.getAreaOfInterestModel().filterObjects(crimes);
+    ////////////////////////// PRIVATE METHODS /////////////////////////;
+
+    var draw = function(crimes) {
         
         var canvas = self.getView().getSvg();
-
 
         var size = {
             width: model.getVisualizationModel().violentCrimesMarkerIconSize().width,
@@ -57,7 +61,7 @@ function ViolentCrimesLayerViewController() {
                 })
                 .attr("y", function(d) {
                     var point = self.project(d.latitude, d.longitude);
-                    return point.y - size.height;
+                    return point.y - (size.height /2);
                 });
 
 
@@ -74,7 +78,7 @@ function ViolentCrimesLayerViewController() {
                 })
                 .attr("y", function(d) {
                     var point = self.project(d.latitude, d.longitude);
-                    return point.y - size.height;
+                    return point.y - (size.height /2);
                 })
                 .attr("width", size.width)
                 .attr("height", size.height)
@@ -134,6 +138,7 @@ function ViolentCrimesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.CRIME,
+            layer: Layers.VIOLENT_CRIMES,
             position: {
                 latitude: d.latitude,
                 longitude: d.longitude
@@ -154,9 +159,9 @@ function ViolentCrimesLayerViewController() {
     var init = function() {
         self.getView().addClass("violentCrimes-layer-view-controller");
 
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.violentCrimes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.crimesUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.violentCrimes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getCrimesModel().startUpdates();
     } ();

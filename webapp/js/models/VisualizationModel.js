@@ -159,8 +159,8 @@ function VisualizationModel() {
      */
     this.CTAMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -187,8 +187,8 @@ function VisualizationModel() {
      */
     this.CTABusStationIconSize = function () {
         return {
-            width: 40,
-            height: 40
+            width: 20,
+            height: 20
         }
     };
 
@@ -215,8 +215,8 @@ function VisualizationModel() {
      */
     this.CTATrainStationIconSize = function () {
         return {
-            width: 40,
-            height: 40
+            width: 20,
+            height: 20
         }
     };
 
@@ -243,8 +243,8 @@ function VisualizationModel() {
      */
     this.divvyMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 30,
+            height: 30
         }
     };
 
@@ -288,6 +288,16 @@ function VisualizationModel() {
     };
 
     /**
+     *
+     * @param opacity
+     * @returns {string}
+     */
+    this.potholesColor = function(/**opacity=1*/opacity) {
+        opacity = opacity || 1;
+        return "rgba(106,81,163," + opacity + ")";
+    };
+
+    /**
      * Returns potholes icon path
      * @returns {string}
      */
@@ -301,8 +311,86 @@ function VisualizationModel() {
      */
     this.potholesMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
+        }
+    };
+
+
+    // PASSED RESTAURANTS
+    /**
+     * Returns restaurant color
+     * @returns {string}
+     */
+    this.passedRestaurantsMarkerColor = function () {
+        return this.layersColors["Top Restaurants"];
+    };
+
+    /**
+     * Returns restaurant icon path
+     * @returns {string}
+     */
+    this.passedRestaurantsMarkerIconPath = function () {
+        return "assets/icon/markers/restaurant_top.svg";
+    };
+
+    /**
+     * Returns restaurant  marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.passedRestaurantsMarkerIconSize = function () {
+        return {
+            width: 40,
+            height: 40
+        }
+    };
+
+    // FAILED RESTAURANTS
+    /**
+     * Returns restaurant color
+     * @returns {string}
+     */
+    this.failedRestaurantsMarkerColor = function () {
+        return this.layersColors["Failed Restaurants"];
+    };
+
+    /**
+     * Returns restaurant  icon path
+     * @returns {string}
+     */
+    this.failedRestaurantsMarkerIconPath = function () {
+        return "assets/icon/markers/restaurant_failed.svg";
+    };
+
+    /**
+     * Returns restaurant marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.failedRestaurantsMarkerIconSize = function () {
+        return {
+            width: 40,
+            height: 40
+        }
+    };
+
+
+    // PLACES OF INTEREST
+    /**
+     * Returns restaurant  icon path
+     * @returns {string}
+     */
+    this.placesOfInterestMarkerIconPath = function () {
+        return "assets/icon/markers/restaurant_failed.svg";
+    };
+
+    /**
+     * Returns restaurant marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.placesOfInterestMarkerIconSize = function () {
+        return {
+            width: 40,
+            height: 40
         }
     };
 
@@ -314,6 +402,16 @@ function VisualizationModel() {
      */
     this.abandonedVehiclesMarkerColor = function () {
         return this.layersColors["Abandoned Vehicles"];
+    };
+
+    /**
+     *
+     * @param opacity
+     * @returns {string}
+     */
+    this.abandonedVehiclesColor = function(/**opacity=1*/opacity) {
+        opacity = opacity || 1;
+        return "rgba(128,125,186," + opacity + ")";
     };
 
     /**
@@ -330,8 +428,8 @@ function VisualizationModel() {
      */
     this.abandonedVehiclesMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -343,6 +441,16 @@ function VisualizationModel() {
      */
     this.streetLightsMarkerColor = function () {
         return this.layersColors["Streets Lights Out"];
+    };
+
+    /**
+     *
+     * @param opacity
+     * @returns {string}
+     */
+    this.streetLightsColor = function(/**opacity=1*/opacity) {
+        opacity = opacity || 1;
+        return "rgba(188,189,220," + opacity + ")";
     };
 
     /**
@@ -359,8 +467,8 @@ function VisualizationModel() {
      */
     this.streetLightsMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -388,8 +496,8 @@ function VisualizationModel() {
      */
     this.violentCrimesMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -416,8 +524,8 @@ function VisualizationModel() {
      */
     this.propertyCrimesMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -445,8 +553,8 @@ function VisualizationModel() {
      */
     this.qualityOfLifeCrimesMarkerIconSize = function () {
         return {
-            width: 70,
-            height: 70
+            width: 50,
+            height: 50
         }
     };
 
@@ -477,9 +585,9 @@ function VisualizationModel() {
         "Violent Crimes": "rgba(248,53,33, 1.0)",
         "Property Crimes": "rgba(250,121,46, 1.0)",
         "Quality-of-life Crimes": "rgba(252,163,60, 1.0)",
-        "Restaurants": "rgba(31,123,53, 1.0)",
-        "Bars": "rgba(55,159,75, 1.0)",
-        "Stores": "rgba(100,187,99, 1.0)"
+        "Top Restaurants": "rgba(31,123,53, 1.0)",
+        "Failed Restaurants": "rgba(107,196,105, 1.0)",
+       
     };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////

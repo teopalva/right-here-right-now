@@ -12,7 +12,11 @@ function PotholesModel() {
      *      - latitude : number
      *      - longitude : number
      */
+    var _cachedData = [];
     var _potholes = [];
+    var _dataAvailable = false;
+
+    var _daysToVisualize = TimeRange.LAST_MONTH;
 
     // Update timer
     var _updateTimer;
@@ -31,11 +35,64 @@ function PotholesModel() {
         return _potholes;
     };
 
+    this.filterByDate = function(){
+        var timeRange = timeToDisplay;
+        if(timeRange == TimeRange.LAST_MONTH)
+            _potholes = _cachedData;
+        else{
+            _potholes = [];
+            var elapsed = Date.now() - timeRange * 86400000;
+            var limitDate = new Date(elapsed);
+            for(i in _cachedData) {
+                var stringDate = _cachedData[i].creation_date;
+                var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
+                if(d - limitDate >= 0)
+                    _potholes.push(_cachedData[i]);
+            }
+        }
+        notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
+    };
+
+    /**
+     *
+     * @returns {Array}
+     */
+    this.getPotholesWithinArea = function() {
+        return model.getAreaOfInterestModel().filterObjects(_potholes);
+    };
+
     /**
      * Remove the old potholes
      */
     this.clearPotholes = function(){
         _potholes = [];
+    };
+
+    /**
+     *
+     * @returns {number}
+     */
+    this.getPotholesDensityWithinArea = function() {
+        var filtered = model.getAreaOfInterestModel().filterObjects(_potholes);
+
+        if(filtered == null || filtered.length == 0) {
+            return 0;
+        }
+
+        return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
+    };
+
+    /**
+     *
+     * @returns {number}
+     */
+    this.getPotholesDensityInChicago = function() {
+        var chicagoArea = 234;
+        return _potholes.length / chicagoArea;
+    };
+
+    this.isDataAvailable = function(){
+        return _dataAvailable;
     };
 
     /**
@@ -46,10 +103,14 @@ function PotholesModel() {
         self.clearPotholes();
 
         var link = "http://data.cityofchicago.org/resource/7as2-ds3y.json";
+        var days = TimeRange.LAST_MONTH;
+        var elapsed = Date.now() - days * 86400000;
+        var date = new Date(elapsed);
         var query = "?$select=service_request_number%20as%20id,creation_date,street_address,latitude,longitude" +
                     "&$limit=10000" +
                     "&$order=creation_date%20DESC" +
-                    "&$where=status=%27Open%27and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
+                    "&$where=status=%27Open%27and%20creation_date>=%27" + date.toISOString() + "%27and%20" +
+                    "latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
         /*
         var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
@@ -70,7 +131,9 @@ function PotholesModel() {
                pothole.creation_date = parseDate(pothole.creation_date);
                _potholes.push(pothole);
            });
-            notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
+            _cachedData = _potholes;
+            self.filterByDate();
+            _dataAvailable = true;
         });
 
     };
@@ -88,7 +151,6 @@ function PotholesModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        self.clearPotholes();
     };
 
 
@@ -101,6 +163,13 @@ function PotholesModel() {
     };
 
     var init = function() {
-
+        self.updatePotholes();
     } ();
 }
+
+var TimeRange = {
+    LAST_TWO_WEEKS : 14,
+    LAST_MONTH : 30
+}
+
+var timeToDisplay = TimeRange.LAST_MONTH;

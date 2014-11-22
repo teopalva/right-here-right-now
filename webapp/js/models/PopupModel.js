@@ -23,6 +23,14 @@ function PopupModel() {
         notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
     };
 
+    this.removeAll = function(layer){
+        for(var i = 0; i < _popups.length ; i++)
+            if(_popups[i].layer == layer) {
+                _popups.splice(i, 1);
+                notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
+            }
+    };
+
     this.getPopups = function() {
         return _popups;
     };
@@ -40,5 +48,11 @@ var PopupsType = {
     POTHOLES : "potholes",
     LIGHTS : "lights",
     DIVVY_BIKES : "divvy_bikes",
-    VEHICLES : "vehicles"
+    VEHICLES : "vehicles",
+    PLACES_OF_INTEREST : "places_of_interest",
+    RESTAURANTS : "restaurants",
+    BUS_STOPS: "bus_stops",
+    BUS_VEHICLES: "bus_vehicles",
+    BUS_ROUTES: "bus_routes",
+    TRAIN_STATIONS: "train_stations"
 };

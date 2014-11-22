@@ -13,8 +13,8 @@ function CtaModel() {
 
     // CTA API
     var _site = "http://www.ctabustracker.com/bustime/api/v1/";
-    var _key = "key=PS2GNpW4RCK4AXiiJssFsjWF9";
-    //var _key = "key=17505d0615f04180b8a67faa7d6016cc";
+    //var _key = "key=PS2GNpW4RCK4AXiiJssFsjWF9";
+    var _key = "key=TFd7NmkbASS6sVSFiHy6yRBaH";
 
     // CTA Time
     var _time;
@@ -28,11 +28,18 @@ function CtaModel() {
     // CTA Vehicles
     var _vehicles= [];
 
+    // CTA RoutesPaths
+    var _routesPaths = [];
+
     // Update timer
     var _updateTimer = null;
     var _intervalMillis = 5000;
 
     //////////////////////// PUBLIC METHODS ////////////////////////
+    this.getUpdateInterval = function() {
+        return _intervalMillis;
+    };
+
     this.getCtaTime = function() {
         return _time;
     };
@@ -81,6 +88,10 @@ function CtaModel() {
         return _routes;
     };
 
+    this.getRoutesPaths = function() {
+        return _routesPaths;
+    };
+
     this.getFakeVehicles = function() {
         return fakeVehicles;
     };
@@ -89,10 +100,15 @@ function CtaModel() {
         _vehicles = [];
     };
 
+    this.clearRoutesPaths = function() {
+        _routesPaths = [];
+    };
+
     this.clearData = function() {
         _routes = [];
         _stops= [];
         _vehicles= [];
+        _routesPaths = [];
     };
 
     /**
@@ -115,7 +131,7 @@ function CtaModel() {
      */
     this.updateVehicles = function() {
         self.clearVehicles();
-        console.log("updating...");
+        console.log("updating vehicles...");
 
         // Allow to use fake queries for testing purposes
         if(fakeVehicles) {
@@ -127,6 +143,18 @@ function CtaModel() {
             }
         }
 
+    };
+
+    /**
+     * Update the paths of the routes
+     */
+    this.updateRoutesPaths = function() {
+        self.clearRoutesPaths();
+        console.log("update routes paths...");
+
+        for(var i in _routes) {
+            retrieveRoutePath(_routes[i]);
+        }
     };
 
     /**
@@ -175,7 +203,7 @@ function CtaModel() {
      * Retrieve stops data from a static JSON file.
      */
     var getStopsFromJSON = function() {
-        d3.json("/webapp/data/stops.json", function(json){
+        d3.json("data/stops.json", function(json){
             for(var i in json) {
                 json[i].id = i;
 
@@ -198,7 +226,7 @@ function CtaModel() {
      * Retrieve stops data from a static JSON file.
      */
     var getVehiclesFromJSON = function() {
-        d3.json("/webapp/data/vehicles.json", function(json){
+        d3.json("data/vehicles.json", function(json){
             for(var i in json) {
                 json[i].id = i;
                 // Check if the vehicle is in the selected Area
@@ -328,14 +356,18 @@ function CtaModel() {
                 var heading = $(this).find('hdg').text();
                 var delay = $(this).find('dly').text();
                 var route = $(this).find('rt').text();
+                var patternId = $(this).find('pid').text();
+
 
                 var vehicleInfo = {
                     id: id,
-                    latitude: lat,
-                    longitude: lon,
+                    latitude: parseFloat(lat),
+                    longitude: parseFloat(lon),
                     heading: heading,
                     delay: delay,
-                    route: route};
+                    route: route,
+                    patternID: patternId
+                };
 
                 // Check if the vehicle is in the selected Area
                 if(inArea(vehicleInfo)) {
@@ -343,10 +375,62 @@ function CtaModel() {
                 }
 
             });
-                notificationCenter.dispatch(Notifications.cta.VEHICLES);
+            notificationCenter.dispatch(Notifications.cta.VEHICLES);
         });
 
 
+    };
+
+    /**
+     * Get the path of the route
+     * @param route
+     */
+    var retrieveRoutePath = function(route) {
+        var query = "getpatterns?";
+        var attributes = "rt=" + route + "&";
+        var url = _site + query + attributes + _key;
+        var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from xml where url="' + url + '"') + '&format=xml&callback=?';
+
+        $.getJSON(yql, function (data) {
+            var parsed_xml = data.results[0];
+
+            var routeDirections = [];
+
+            // Directions
+            $(parsed_xml).find('ptr').each(function() {
+                var points = [];
+
+
+                // Stations and waypoints
+                $(this).find('pt').each(function() {
+                    var pointInfo = {
+                        seq:        parseInt($(this).find('seq').text()),
+                        latitude:   parseFloat($(this).find('lat').text()),
+                        longitude:  parseFloat($(this).find('lon').text()),
+                        type:       $(this).find('typ').text(),
+                        stopID:     $(this).find('stpid').text(),
+                        stopName:   $(this).find('stpnm').text()
+                    };
+                    points.push(pointInfo);
+                });
+
+                var patternID = $(this).find('pid').text();
+
+                var routePath = {
+                    route:     route,
+                    direction:  $(this).find('rtdir').text(),
+                    points:     points
+                };
+
+                //routeDirections.push(routePath);
+                _routesPaths[patternID] = routePath
+
+            });
+            //_routesPaths[route] = routeDirections;
+            notificationCenter.dispatch(Notifications.cta.ROUTES_PATHS);
+
+            //console.log(_routesPaths);
+        });
     };
 
     /**
@@ -355,21 +439,6 @@ function CtaModel() {
      * @returns {boolean}
      */
     var inArea = function(geoElement) {
-        if(model.getAreaOfInterestModel().getAreaOfInterest()) {
-
-            var latitude = parseFloat(geoElement.latitude, 10);
-            var longitude = parseFloat(geoElement.longitude, 10);
-
-            var coordinates = [longitude, latitude];
-
-            var area = model.getAreaOfInterestModel().getAreaOfInterest();
-
-            var multipolygon = area.features[0].geometry;
-            var _multipolygon = [];
-            _multipolygon.push(multipolygon.coordinates);
-
-            return model.getAreaOfInterestModel().isPointInArea(coordinates, _multipolygon)
-        }
-        return false;
+        return model.getAreaOfInterestModel().isInsideAreaOfInterest(geoElement.latitude, geoElement.longitude);
     };
 }
