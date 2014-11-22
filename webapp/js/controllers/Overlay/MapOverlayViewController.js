@@ -60,7 +60,7 @@ function MapOverlayViewController() {
 
     var _chartsAreaViewController;
     var _chartsAreaFrame = {
-        x: (3750 - 1500) - 12.5,
+        x: (3700 - 1500) - 12.5,
         y: 12.5,
         width: 1500,
         height: 975
