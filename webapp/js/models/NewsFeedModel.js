@@ -37,7 +37,7 @@ function NewsFeedModel() {
     this.postTweet = function (tweet) {
         var i = 0;
 
-        while (i < _newsList.length && (_newsList[i].getTimestamp() < news.getTimestamp() || +_newsList[i].getTimestamp().getTime() === +news.getTimestamp().getTime())) {
+        while (i < _newsList.length && (_newsList[i].getTimestamp() < tweet.getTimestamp() || +_newsList[i].getTimestamp().getTime() === +tweet.getTimestamp().getTime())) {
             i++;
         }
 

@@ -255,8 +255,8 @@ function UINewsFeedViewController() {
             };
             _newsIconButton.setImage(news_.getImagePath());
             _newsIconButton.getView().getSvg()
-                .attr("width", _pIcon.w)
-                .attr("height", _pIcon.h)
+                .attr("width", _pIcon.w - 10)
+                .attr("height", _pIcon.h - 10)
             _newsIconButton.onClick(function () {
                 // TODO interaction news-map
             });
