@@ -9,6 +9,8 @@ function CrimesModel() {
     // Crimes
     var _crimes = [];
 
+    var _crimesInSelectedArea = [];
+
     // Keep if data is available
     var _dataAvailable = false;
     var _cachedData = [];
@@ -54,7 +56,7 @@ function CrimesModel() {
     this.getCrimes = function(category){
         if(category) {
             var filteredCrimes = [];
-            for (i = 0; i < _crimes.length; i++)
+            for (var i = 0; i < _crimes.length; i++)
                 if (_crimes[i].category == category) {
                     filteredCrimes.push(_crimes[i]);
                 }
@@ -218,6 +220,15 @@ function CrimesModel() {
         return categorize(primaryCategory);
     };
 
+    /**
+     *
+     */
+    this.updateSelection = function() {
+
+
+        notificationCenter.dispatch(Notifications.crimes.SELECTION_UPDATED);
+    };
+
 
     //////////////////////// PRIVATE METHODS ////////////////////////
     var categorize = function(primary_type){
@@ -292,6 +303,8 @@ function CrimesModel() {
 
     var init = function() {
         self.updateCrimes();
+
+        notificationCenter.subscribe(self, self.updateSelection, Notifications.areaOfInterest.PATH_UPDATED);
     } ();
 }
 

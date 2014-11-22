@@ -49,7 +49,9 @@ function AreaOfInterestModel() {
                 break;
             case AreaOfInterestType.PATH:
                 _points.push(newPoint);
+                console.time("Google request");
                 requestPath(_points, function(overviewPath) {
+                    console.timeEnd("Google request");
 
                     var directions = [];
                     overviewPath.forEach(function(pair) {
@@ -61,9 +63,13 @@ function AreaOfInterestModel() {
 
                     setDirections(directions);
 
+                    console.time("create buffer");
                     _featureCollection = featureCollectionBuffer(overviewPath);
+                    console.timeEnd("create buffer");
+                    console.time("dispatch notifications");
                     notificationCenter.dispatch(Notifications.areaOfInterest.POINTS_UPDATED);
                     notificationCenter.dispatch(Notifications.areaOfInterest.PATH_UPDATED);
+                    console.timeEnd("dispatch notifications");
                 });
                 break;
         }
@@ -146,6 +152,7 @@ function AreaOfInterestModel() {
      *  @return {Array}
      */
     this.filterObjects = function (objects) {
+        console.time("filter");
         var res = [];
         var area = self.getAreaOfInterest();
         if (area == null) {
@@ -155,6 +162,9 @@ function AreaOfInterestModel() {
         var _multipolygon = [];
         _multipolygon.push(multipolygon.coordinates);
         //console.log(_multipolygon, _multipoligonCA);
+
+        objects = self.spatialReduction(objects);
+
         objects.forEach(function (o) {
             var coordinates = [];
             coordinates.push(o.longitude);
@@ -163,7 +173,41 @@ function AreaOfInterestModel() {
                 res.push(o);
             }
         });
+        console.timeEnd("filter");
         return res;
+    };
+
+    this.spatialReduction = function(objects) {
+        var reducedSet = [];
+        var area = self.getAreaOfInterest();
+        if (area == null) {
+            return objects;
+        }
+        var bounds = d3.geo.bounds(area);
+
+        var quadtree = d3.geom.quadtree()
+            .x(function(d) {return d.longitude})
+            .y(function(d) {return d.latitude})
+            (objects);
+
+        var x0 = bounds[0][0];
+        var y0 = bounds[0][1];
+        var x3 = bounds[1][0];
+        var y3 = bounds[1][1];
+        quadtree.visit(function(node, x1, y1, x2, y2) {
+            var p = node.point;
+            if (p) {
+                p.scanned = true;
+                p.selected = (p.longitude >= x0) && (p.longitude < x3) && (p.latitude >= y0) && (p.latitude < y3);
+                //console.log(p.selected);
+                if(p.selected) {
+                    reducedSet.push(p);
+                }
+            }
+            return x1 >= x3 || y1 >= y3 || x2 < x0 || y2 < y0;
+        });
+
+        return reducedSet;
     };
 
     /**

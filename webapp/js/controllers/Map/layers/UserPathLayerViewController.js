@@ -21,7 +21,9 @@ function UserPathLayerViewController() {
      * This methods handles POINT_ADDED_TO_PATH notification
      */
     this.pointsUpdated = function() {
+        console.time("points updated");
         draw();
+        console.timeEnd("points updated");
     };
 
     this.zoomChanged = function() {

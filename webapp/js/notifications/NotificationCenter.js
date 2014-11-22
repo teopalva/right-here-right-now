@@ -62,6 +62,9 @@ function NotificationCenter () {
         }
     };
 
+    this.getObserversList = function() {
+        return _observers;
+    };
 
     ////////////////////////////////// PRIVATE METHODS //////////////////////////////////
     var init = function() {

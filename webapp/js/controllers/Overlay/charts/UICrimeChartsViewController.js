@@ -17,6 +17,8 @@ function UICrimeChartsViewController() {
     var _selectedAreaAsterPlotVC;
     var _chicagoAsterPlotVC;
 
+    var _stackedChart;
+
     // Legend
     var _qualityOfLifeLabel;
     var _propertyLabel;
@@ -40,7 +42,9 @@ function UICrimeChartsViewController() {
      *  Handler method for notifications update on crimes
      */
     this.dataChanged = function() {
+        console.time("crime chart updated");
         draw();
+        console.timeEnd("crime chart updated");
     };
 
 
@@ -50,6 +54,115 @@ function UICrimeChartsViewController() {
     };
 
     var draw = function() {
+        var chicago;
+        var selectedArea;
+
+        chicago = [
+            {
+                label: "Violent",
+                color: model.getVisualizationModel().violentCrimesMarkerColor(),
+                group: []
+            },
+            {
+                label: "Property",
+                color: model.getVisualizationModel().propertyCrimesMarkerColor(),
+                group: []
+            },
+            {
+                label: "Quality Of Life",
+                color: model.getVisualizationModel().qualityOfLifeCrimesMarkerColor(),
+                group: []
+            }
+        ];
+
+        selectedArea = [
+            {
+                label: "Violent",
+                color: model.getVisualizationModel().violentCrimesMarkerColor(),
+                group: []
+            },
+            {
+                label: "Property",
+                color: model.getVisualizationModel().propertyCrimesMarkerColor(),
+                group: []
+            },
+            {
+                label: "Quality Of Life",
+                color: model.getVisualizationModel().qualityOfLifeCrimesMarkerColor(),
+                group: []
+            }
+        ];
+
+        d3.values(CrimePrimaryType).forEach(function(primaryType) {
+            var macroCategory = model.getCrimesModel().getMacroCategory(primaryType);
+            var density = model.getCrimesModel().getChicagoCrimeDensityOfPrimaryType(primaryType);
+            var selectedAreaDensity = model.getCrimesModel().getCrimeDensityWithinAreaOfPrimaryType(primaryType);
+
+            //var colorHighlighted, selectedAreaColor;
+            //var colorDeselected;
+            var chicagoColor = "rgba(146,197,222,0.7)";
+            var selectedAreaColor = "rgba(178,24,43,0.7)";
+
+            switch(macroCategory) {
+                case CrimeCategory.VIOLENT:
+                    //colorHighlighted = "rgba(103,169,207, 0.6)";//model.getVisualizationModel().layersColors["Violent Crimes"];
+                    //colorDeselected = "rgba(103,169,207, 1.0)";//model.getVisualizationModel().violentCrimesDeselectedColor();
+
+                    selectedArea[0].group.push({
+                        label: primaryType,
+                        value: selectedAreaDensity,
+                        color: selectedAreaColor
+                    });
+
+                    chicago[0].group.push({
+                        label: primaryType,
+                        value: density,
+                        color: chicagoColor
+                    });
+                    break;
+                case CrimeCategory.PROPERTY:
+                    //colorHighlighted = "rgba(103,169,207, 0.6)";
+                    //colorDeselected = "rgba(103,169,207, 1.0)";
+
+                    selectedArea[1].group.push({
+                        label: primaryType,
+                        value: selectedAreaDensity,
+                        color: selectedAreaColor
+                    });
+
+                    chicago[1].group.push({
+                        label: primaryType,
+                        value: density,
+                        color: chicagoColor
+                    });
+                    break;
+                case CrimeCategory.QUALITY_OF_LIFE:
+                    //colorHighlighted = "rgba(103,169,207, 0.6)";
+                    //colorDeselected = "rgba(103,169,207, 1.0)";
+
+                    selectedArea[2].group.push({
+                        label: primaryType,
+                        value: selectedAreaDensity,
+                        color: selectedAreaColor
+                    });
+
+                    chicago[2].group.push({
+                        label: primaryType,
+                        value: density,
+                        color: chicagoColor
+                    });
+                    break;
+            }
+        });
+
+        _stackedChart.emptyChart();
+        _stackedChart.pushData(chicago);
+        if(model.getAreaOfInterestModel().getAreaOfInterest() != null) {
+            _stackedChart.pushData(selectedArea);
+        }
+        _stackedChart.setYLabel("crimes / mile²");
+        _stackedChart.draw();
+        /*
         var data = [];
         var min, max;
 
@@ -93,11 +206,15 @@ function UICrimeChartsViewController() {
         max = d3.max(data, function(d) {return d.value});
         _chicagoAsterPlotVC.setData(data);
 
+        var chicagoTotal;
+
         // Update chicago count
         if(_chicagoAsterPlotVC.getSelectedItem() != null) {
-            _chicagoCrimesCountLabel.setText(data[_chicagoAsterPlotVC.getSelectedItem()].count);
+            chicagoTotal = data[_chicagoAsterPlotVC.getSelectedItem()].count;
+            _chicagoCrimesCountLabel.setText(chicagoTotal + " cases");
         } else {
-            _chicagoCrimesCountLabel.setText(d3.sum(data, function(d) {return d.count}));
+            chicagoTotal = d3.sum(data, function(d) {return d.count});
+            _chicagoCrimesCountLabel.setText(chicagoTotal + " cases");
         }
 
 
@@ -151,10 +268,21 @@ function UICrimeChartsViewController() {
             _selectedAreaAsterPlotVC.draw();
 
             // Update selected count
+            var selectionCount;
+            var percent;
             if(_selectedAreaAsterPlotVC.getSelectedItem() != null) {
-                _selectionCrimesCountLabel.setText(data[_selectedAreaAsterPlotVC.getSelectedItem()].count);
+                selectionCount = data[_selectedAreaAsterPlotVC.getSelectedItem()].count;
+                percent = (((selectionCount / chicagoTotal) *100)).toFixed(2);
+                _selectionCrimesCountLabel
+                    .setText(
+                        selectionCount
+                        + " cases (" + percent  + "%)");
             } else {
-                _selectionCrimesCountLabel.setText(d3.sum(data, function(d) {return d.count}));
+                selectionCount = d3.sum(data, function(d) {return d.count});
+                percent = (((selectionCount / chicagoTotal) *100)).toFixed(2);
+                _selectionCrimesCountLabel
+                    .setText(selectionCount
+                        + " cases (" + percent  + "%)");
             }
         } else {
             _selectedAreaAsterPlotVC.getView().getSvg().html("");
@@ -165,7 +293,7 @@ function UICrimeChartsViewController() {
         _chicagoAsterPlotVC.setMetricLabel("crimes/mile²");
         _chicagoAsterPlotVC.setRange(min, max);
 
-        _chicagoAsterPlotVC.draw();
+        _chicagoAsterPlotVC.draw();*/
     };
 
     this.viewBoxDidChange = function() {
@@ -175,9 +303,9 @@ function UICrimeChartsViewController() {
         var y = 0;
 
         // Title label
-        _titleLabel.getView().setFrame(0, y, box.width, 100);
+        _titleLabel.getView().setFrame(40, y, box.width, 100);
 
-        y += 10;
+        y += 0;
         var legendWidth = (box.width / 2);
         var legendOffset = (box.width / 2);
         _qualityOfLifeLabel.getView().setFrame(legendOffset, y, legendWidth/3, 100);
@@ -196,7 +324,7 @@ function UICrimeChartsViewController() {
                 .style("fill", color);
         }
         dot
-            .attr("cx", legendOffset + r)
+            .attr("cx", legendOffset)
             .attr("cy", y + r*2)
             .attr("r", r);
 
@@ -254,6 +382,9 @@ function UICrimeChartsViewController() {
         // Chicago plot
         _chicagoAsterPlotVC.getView().setFrame(box.width /2, y, box.width /2, 500);
         _chicagoAsterPlotVC.getView().setViewBox(0, 0, box.width /2, 500);
+
+        _stackedChart.getView().setFrame(0, y, box.width, 500);
+        _stackedChart.getView().setViewBox(0, 0, box.width, 500);
     };
 
     /**
@@ -296,7 +427,7 @@ function UICrimeChartsViewController() {
         // Title
         _titleLabel = new UILabelViewController();
         _titleLabel.setText("All Crimes");
-        _titleLabel.setTextSize(model.getThemeModel().hugeTextSize());
+        _titleLabel.setTextSize(model.getThemeModel().largeTextSize());
         _titleLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         _titleLabel.setTextAlignment(TextAlignment.LEFT);
         self.add(_titleLabel);
@@ -318,15 +449,15 @@ function UICrimeChartsViewController() {
         // Selection count label
         _selectionCrimesCountLabel = new UILabelViewController();
         _selectionCrimesCountLabel.setText("");
-        _selectionCrimesCountLabel.setTextSize(model.getThemeModel().largeTextSize());
-        _selectionCrimesCountLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        _selectionCrimesCountLabel.setTextSize(model.getThemeModel().biggerTextSize());
+        _selectionCrimesCountLabel.setTextColor(model.getThemeModel().secondaryTextColor());
         self.add(_selectionCrimesCountLabel);
 
         // Selection count label
         _chicagoCrimesCountLabel = new UILabelViewController();
         _chicagoCrimesCountLabel.setText("");
-        _chicagoCrimesCountLabel.setTextSize(model.getThemeModel().largeTextSize());
-        _chicagoCrimesCountLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        _chicagoCrimesCountLabel.setTextSize(model.getThemeModel().biggerTextSize());
+        _chicagoCrimesCountLabel.setTextColor(model.getThemeModel().secondaryTextColor());
         self.add(_chicagoCrimesCountLabel);
 
         // Selected plot
@@ -360,6 +491,10 @@ function UICrimeChartsViewController() {
         _violentLabel.setTextColor(model.getThemeModel().secondaryTextColor());
         _violentLabel.setTextAlignment(TextAlignment.RIGHT);
         self.add(_violentLabel);
+
+
+        _stackedChart = new UIGroupedStackBarChart();
+        self.add(_stackedChart);
 
 
         addBehavior();

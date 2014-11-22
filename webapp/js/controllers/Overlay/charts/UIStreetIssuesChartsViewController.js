@@ -80,7 +80,7 @@ function UIStreetIssuesChartsViewController() {
 
         // Title label
         _titleLabel.getView().setFrame(0, y, box.width, 100);
-        y += 110;
+        y += 100;
 
         // Potholes label
         _potholesLabel.getView().setFrame(0, y, box.width/3, 70);
@@ -234,7 +234,7 @@ function UIStreetIssuesChartsViewController() {
         // Title
         _titleLabel = new UILabelViewController();
         _titleLabel.setText("Street Issues");
-        _titleLabel.setTextSize(model.getThemeModel().hugeTextSize());
+        _titleLabel.setTextSize(model.getThemeModel().largeTextSize());
         _titleLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         _titleLabel.setTextAlignment(TextAlignment.LEFT);
         self.add(_titleLabel);
@@ -242,21 +242,21 @@ function UIStreetIssuesChartsViewController() {
         // Potholes
         _potholesLabel = new UILabelViewController();
         _potholesLabel.setText("Potholes");
-        _potholesLabel.setTextSize(model.getThemeModel().largeTextSize());
+        _potholesLabel.setTextSize(model.getThemeModel().biggerTextSize());
         _potholesLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         self.add(_potholesLabel);
 
         // Abandoned vehicles
         _abandonedVehiclesLabel = new UILabelViewController();
         _abandonedVehiclesLabel.setText("Abandoned Vehicles");
-        _abandonedVehiclesLabel.setTextSize(model.getThemeModel().largeTextSize());
+        _abandonedVehiclesLabel.setTextSize(model.getThemeModel().biggerTextSize());
         _abandonedVehiclesLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         self.add(_abandonedVehiclesLabel);
 
         // Street lights out
         _streetLightsLabel = new UILabelViewController();
         _streetLightsLabel.setText("Street Lights Out");
-        _streetLightsLabel.setTextSize(model.getThemeModel().largeTextSize());
+        _streetLightsLabel.setTextSize(model.getThemeModel().biggerTextSize());
         _streetLightsLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         self.add(_streetLightsLabel);
 

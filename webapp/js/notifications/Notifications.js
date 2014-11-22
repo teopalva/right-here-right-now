@@ -136,6 +136,10 @@ Notifications.qualityOfLifeCrimes = {
     LAYER_UPDATED: "com.righthererightnow.qualityOfLife.layerUpdated"
 };
 
+Notifications.crimes = {
+    SELECTION_UPDATED : "com.righthererightnow.crimes.SeletionUpdated"
+};
+
 /**
  * Notifications about buttons events
  * @type {{}}
