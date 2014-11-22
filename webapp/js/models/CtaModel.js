@@ -203,7 +203,7 @@ function CtaModel() {
      * Retrieve stops data from a static JSON file.
      */
     var getStopsFromJSON = function() {
-        d3.json("/webapp/data/stops.json", function(json){
+        d3.json("data/stops.json", function(json){
             for(var i in json) {
                 json[i].id = i;
 
@@ -226,7 +226,7 @@ function CtaModel() {
      * Retrieve stops data from a static JSON file.
      */
     var getVehiclesFromJSON = function() {
-        d3.json("/webapp/data/vehicles.json", function(json){
+        d3.json("data/vehicles.json", function(json){
             for(var i in json) {
                 json[i].id = i;
                 // Check if the vehicle is in the selected Area

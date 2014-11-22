@@ -16,7 +16,9 @@ function AreaOfInterestLayerViewController() {
      * This methods handles PATH_UPDATED notification
      */
     this.pathChanged = function() {
+        console.time("draw boundaries");
         draw();
+        console.timeEnd("draw boundaries");
     };
 
     this.zoomChanged = function() {

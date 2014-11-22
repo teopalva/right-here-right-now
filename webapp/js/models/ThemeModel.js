@@ -64,7 +64,7 @@ function ThemeModel() {
      * @returns {string}
      */
     this.biggerTextSize = function() {
-        return "32px";
+        return "34px";
     };
 
     /**
