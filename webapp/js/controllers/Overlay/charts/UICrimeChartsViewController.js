@@ -21,8 +21,8 @@ function UICrimeChartsViewController() {
 
     // Legend
     var _qualityOfLifeLabel;
-    var _propertyLabel;
-    var _violentLabel;
+    var _chicagoLegendLabel;
+    var _selectedAreaLegendLabel;
 
     ///////////////////////// PUBLIC METHODS /////////////////////////
     /**
@@ -308,13 +308,14 @@ function UICrimeChartsViewController() {
         y += 0;
         var legendWidth = (box.width / 2);
         var legendOffset = (box.width / 2);
-        _qualityOfLifeLabel.getView().setFrame(legendOffset, y, legendWidth/3, 100);
-        _propertyLabel.getView().setFrame(legendOffset + legendWidth/3, y, legendWidth/3, 100);
-        _violentLabel.getView().setFrame(legendOffset + (legendWidth/3) *1.9, y, legendWidth/3, 100);
+        //_qualityOfLifeLabel.getView().setFrame(legendOffset, y, legendWidth/3, 100);
+        _chicagoLegendLabel.getView().setFrame(legendOffset, y, legendWidth/2, 100);
+        _selectedAreaLegendLabel.getView().setFrame(legendOffset + (legendWidth/2), y, legendWidth/2, 100);
 
         // Draw circles
         var r = 25;
 
+        /*
         var dot = canvas.select(".quality");
         var color = model.getVisualizationModel().qualityOfLifeCrimesMarkerColor();
         if(dot.empty()) {
@@ -326,10 +327,10 @@ function UICrimeChartsViewController() {
         dot
             .attr("cx", legendOffset)
             .attr("cy", y + r*2)
-            .attr("r", r);
+            .attr("r", r);*/
 
-        dot = canvas.select(".property");
-        color = model.getVisualizationModel().propertyCrimesMarkerColor();
+        var dot = canvas.select(".property");
+        var color = model.getVisualizationModel().propertyCrimesMarkerColor();
         if(dot.empty()) {
             dot = canvas
                 .append("circle")
@@ -337,7 +338,7 @@ function UICrimeChartsViewController() {
                 .style("fill", color);
         }
         dot
-            .attr("cx", legendOffset + legendWidth/3 + r *3)
+            .attr("cx", legendOffset + r *8)
             .attr("cy", y + r*2)
             .attr("r", r);
 
@@ -350,7 +351,7 @@ function UICrimeChartsViewController() {
                 .style("fill", color);
         }
         dot
-            .attr("cx", legendOffset + (legendWidth/3)*2 + r *3)
+            .attr("cx", legendOffset + (legendWidth/3)*2)
             .attr("cy", y + r*2)
             .attr("r", r);
 
@@ -361,10 +362,10 @@ function UICrimeChartsViewController() {
 
 
         // Selection label
-        _selectionLabel.getView().setFrame(0, y, box.width/2, 70);
+        //_selectionLabel.getView().setFrame(0, y, box.width/2, 70);
 
         // Chicago label
-        _chicagoLabel.getView().setFrame(box.width /2, y, box.width/2, 70);
+        //_chicagoLabel.getView().setFrame(box.width /2, y, box.width/2, 70);
         y += 70;
 
         // Selection count label
@@ -478,19 +479,19 @@ function UICrimeChartsViewController() {
         _qualityOfLifeLabel.setTextAlignment(TextAlignment.RIGHT);
         self.add(_qualityOfLifeLabel);
 
-        _propertyLabel = new UILabelViewController();
-        _propertyLabel.setText("Property");
-        _propertyLabel.setTextSize(model.getThemeModel().biggerTextSize());
-        _propertyLabel.setTextColor(model.getThemeModel().secondaryTextColor());
-        _propertyLabel.setTextAlignment(TextAlignment.RIGHT);
-        self.add(_propertyLabel);
+        _chicagoLegendLabel = new UILabelViewController();
+        _chicagoLegendLabel.setText("Chicago");
+        _chicagoLegendLabel.setTextSize(model.getThemeModel().biggerTextSize());
+        _chicagoLegendLabel.setTextColor(model.getThemeModel().secondaryTextColor());
+        _chicagoLegendLabel.setTextAlignment(TextAlignment.RIGHT);
+        self.add(_chicagoLegendLabel);
 
-        _violentLabel = new UILabelViewController();
-        _violentLabel.setText("Violent");
-        _violentLabel.setTextSize(model.getThemeModel().biggerTextSize());
-        _violentLabel.setTextColor(model.getThemeModel().secondaryTextColor());
-        _violentLabel.setTextAlignment(TextAlignment.RIGHT);
-        self.add(_violentLabel);
+        _selectedAreaLegendLabel = new UILabelViewController();
+        _selectedAreaLegendLabel.setText("Selected Area");
+        _selectedAreaLegendLabel.setTextSize(model.getThemeModel().biggerTextSize());
+        _selectedAreaLegendLabel.setTextColor(model.getThemeModel().secondaryTextColor());
+        _selectedAreaLegendLabel.setTextAlignment(TextAlignment.RIGHT);
+        self.add(_selectedAreaLegendLabel);
 
 
         _stackedChart = new UIGroupedStackBarChart();

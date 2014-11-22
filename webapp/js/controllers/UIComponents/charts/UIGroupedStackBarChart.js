@@ -179,7 +179,9 @@ function UIGroupedStackBarChart() {
             .data(y.ticks(yAxis.ticks()))
             .attr({
                 "x1": 0,
-                "x2": width,
+                "x2": function(d, i) {
+                    return i == 0 ? 0 : width;
+                },
                 "y1": function (d) {
                     return y(d);
                 },
@@ -192,7 +194,9 @@ function UIGroupedStackBarChart() {
             .attr({
                 "class": "horizontalGrid",
                 "x1": 0,
-                "x2": width,
+                "x2": function(d, i) {
+                    return i == 0 ? 0 : width;
+                },
                 "y1": function (d) {
                     return y(d);
                 },
