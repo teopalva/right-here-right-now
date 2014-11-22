@@ -18,12 +18,8 @@ $settings = array(
     'consumer_secret' => "iKk9rXQ4iqHhQlBSZlzBL9dbDVmZ1Rm7iCPC33W0ltnrbeFUpY"
 );
 
-$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-
-$getfield3 = '?screen_name=teopalva';
-$getfield4 = '?result_type=popular&locations=-180,-90,180,90';
-$getfield = '?result_type=popular&locations=41.714255,-87.981386,42.014935,-87.524080';
-$getfield2 = '?screen_name=JonSolworth&result_type=popular&geocode=-41.885091,-87.692992,25km';
+$url = 'https://api.twitter.com/1.1/search/tweets.json';
+$getfield = '?q=breakingnews%20AND%20chicago%20-RT&lang=en&count=100';
 $requestMethod = 'GET';
 
 $twitter = new TwitterAPIExchange($settings);

@@ -104,6 +104,7 @@ function UINewsFeedViewController() {
             if (model.getNewsFeedModel().getNewsfeed().length - 1 > _indexPage + 2) {
                 _indexPage += 3;
                 self.drawNews();
+                //console.log("next page");
             }
         });
         self.add(_downButton);
