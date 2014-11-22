@@ -68,6 +68,7 @@ function MapOverlayViewController() {
 
     /////////////////////////////// PUBLIC METHODS ///////////////////////////////
     /**
+     *
      * @override
      */
     var super_viewDidAppear = this.viewDidAppear;
