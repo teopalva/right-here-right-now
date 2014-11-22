@@ -237,14 +237,25 @@ function UIGroupedStackBarChart() {
                 .data(function(d) { return d.group; })
                 .attr("y", function(d) { return y(d.value); })
                 .attr("height", function(d) { return height - y(d.value); })
-                .enter().append("rect")
-                .attr("width", columnWidth -2)//x1.rangeBand())
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d, i) {
+                    updateTooltip(g,d,i,d3.select(this));
+                })
+                .enter()
+                .append("rect")
+                .attr("width", columnWidth -2)
                 .attr("x", function(d, i) {
                     return columnWidth * i;
-                })//function(d) { return x1(d.label); })
+                })
                 .attr("y", function(d) { return y(d.value); })
                 .attr("height", function(d) { return height - y(d.value); })
-                .style("fill", function(d) { return d.color; });
+                .style("fill", function(d) { return d.color; })
+                .style("pointer-events", "visiblePainted")
+                .style("cursor", "pointer")
+                .on("click", function(d, i) {
+                    updateTooltip(g,d,i,d3.select(this));
+                });
 
 
 
@@ -267,6 +278,24 @@ function UIGroupedStackBarChart() {
     };
 
     // Init
+    var updateTooltip = function(g, d, i,column) {
+        var tip = g.selectAll(".crime-tip");
+        if(!tip.empty() && tip.select("text").text() == d.label) {
+            tip.remove();
+        } else {
+            if(!tip.empty()) {
+                console.log("remove");
+                tip.remove();
+            }
+            tip = g.append("g")
+                .classed("crime-tip", true)
+                .attr("transform", "translate(" + parseFloat(column.attr("x")) + ",0)")
+                .append("text")
+                .style("fill", "rgba(246,246,246, 1.0)")
+                .text(d.label);
+        }
+    };
+
     var init = function() {
         self.getView().addClass("ui-grouped-stack-bar-chart-view-controller");
         self.getView().setViewBox(_defaultViewBox.x, _defaultViewBox.y, _defaultViewBox.width, _defaultViewBox.height);
