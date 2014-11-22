@@ -69,43 +69,33 @@ function UITimeIntervalViewController() {
         model.getCrimesModel().filterByDate();
     };
 
+    var weekSelected = function () {
+        _monthButton.deselect();
+        _monthButton.getView().setBackgroundColor(null);
+        _weekButton.select();
+        _weekButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor);
+    };
+
+    var monthSelected = function () {
+        _weekButton.deselect();
+        _weekButton.getView().setBackgroundColor(null);
+        _monthButton.select();
+        _monthButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor);
+    };
+
     var init = function () {
         self.getView().addClass("ui-time-interval-view-controller");
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
-
 
         // Setup UI
         _titleLabel = new UILabelViewController;
         _weekButton = new UIButtonViewController;
         _monthButton = new UIButtonViewController;
 
+        // Init month selected
+        monthSelected();
+
     }();
-
-    var weekSelected = function () {
-        _monthButton.deselect();
-        _monthButton.getView().setBackgroundColor(null);
-        if (_weekButton.isSelected()) {
-            // disable interval
-            _weekButton.deselect();
-            _weekButton.getView().setBackgroundColor(null);
-        } else {
-            _weekButton.select();
-            _weekButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor);
-        }
-    };
-
-    var monthSelected = function () {
-        _weekButton.deselect();
-        _weekButton.getView().setBackgroundColor(null);
-        if (_monthButton.isSelected()) {
-            // disable interval
-            _monthButton.deselect();
-            _monthButton.getView().setBackgroundColor(null);
-        } else {
-            _monthButton.select();
-            _monthButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor);
-        }
-    };
 
 }
 
