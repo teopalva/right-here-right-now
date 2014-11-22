@@ -29,7 +29,6 @@ function TwitterModel() {
                     //console.log("Count: ", tweet.retweet_count , "Text: ", tweet.text);
                 }
             });
-            //console.log(_tweets.length);
             notifyDifferences(_oldTweets,_tweets);
         });
     };
