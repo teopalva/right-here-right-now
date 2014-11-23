@@ -91,7 +91,24 @@ function CtaBusVehiclesLayerViewController() {
 
     //////////////////////// PRIVATE METHODS ////////////////////////
     var draw = function (vehicles) {
-        vehicles = model.getAreaOfInterestModel().filterObjects(vehicles);
+
+        var vehiclesArray = [];
+
+        // Fill this array for d3 purposes.
+        _vehicles.forEach(function(v) {
+            vehiclesArray.push(v);
+        });
+
+
+        vehiclesArray = model.getAreaOfInterestModel().filterObjects(vehiclesArray);
+
+        // Refill
+        _vehicles = [];
+
+        // Refill _vehicles local copy.
+        vehiclesArray.forEach(function(v) {
+           _vehicles[v.id] = v;
+        });
 
         //console.log("Vehicles");
         //console.log(vehicles);
@@ -116,7 +133,7 @@ function CtaBusVehiclesLayerViewController() {
         // Draw marker type based on zoom level
         if (model.getMapModel().getZoomLevel() >= model.getVisualizationModel().detailedMarkerZoomLevel()) {
             canvas.selectAll(".marker.point").remove();
-            markers = canvas.selectAll(".marker.pin").data(vehicles);
+            markers = canvas.selectAll(".marker.pin").data(vehiclesArray);
 
             // Update
             markers
@@ -364,6 +381,9 @@ function CtaBusVehiclesLayerViewController() {
 
             }
         }
+
+
+
         draw(_vehicles);
     };
 
