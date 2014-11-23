@@ -50,7 +50,7 @@ function TwitterModel() {
                 // NOTIFY NEW TWEET
                 console.log("New tweet at", formatAMPM(new Date(tweets[i].created_at)) , ":" ,tweets[i].text);
 
-                model.getNewsFeedModel().postTweet(new News("Tweet", tweets[i].text.substring(0, 19) + "...", "assets/icon/twitter.svg", tweets[i].creation_date));
+                model.getNewsFeedModel().postTweet(new News("Tweet", tweets[i].text.substring(0, 19) + "...", "assets/icon/twitter.svg", new Date(tweets[i].created_at)));
             }
 
     };
