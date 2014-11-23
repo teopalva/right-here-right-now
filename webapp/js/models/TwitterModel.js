@@ -9,8 +9,9 @@ function TwitterModel() {
     var _oldTweets = [];
     var _tweets = [];
 
-    var _updateTimer = 10000; // 10 secs
+    var _updateTimer = 1000000; // 10 secs
     var _timer;
+    var _tweetDetail;
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
@@ -31,6 +32,15 @@ function TwitterModel() {
         });
     };
 
+    this.setTweetDetail = function (tweet) {
+        _tweetDetail = tweet;
+        notificationCenter.dispatch(Notifications.twitter.TWEET_DETAIL_REQUESTED);
+    };
+
+    this.getTweetDetail = function () {
+        return _tweetDetail;
+    };
+
     ///////////////////////// PRIVATE METHODS /////////////////////////
 
     var contains = function (tweets, text) {
@@ -45,9 +55,18 @@ function TwitterModel() {
         for (i in tweets)
             if (!contains(oldTweets, tweets[i].text)) {
                 // NOTIFY NEW TWEET
-                console.log("New tweet !: ", tweets[i].text);
-
-                model.getNewsFeedModel().postTweet(new News("Tweet", tweets[i].text.substring(0, 19) + "...", "assets/icon/twitter.svg", tweets[i].creation_date));
+                console.log("New tweet: ", tweets[i].text);
+                //console.log("New tweet: ", tweets[i]);
+                var p = tweets[i].created_at.split(" ");
+                var month = ("JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(p[1]) / 3 + 1);
+                var time = p[3].split(":");
+                var date = new Date(p[5], month - 1, p[2], time[0], time[1], time[2]);
+                var name = tweets[i].user.name;
+                var nick = "@" + tweets[i].user.screen_name;
+                var tweet = tweets[i].text;
+                var url = tweets[i].user.profile_image_url;
+                //console.log(tweets[i].created_at, date);
+                model.getNewsFeedModel().postTweet(new News([name, nick], tweet, "assets/icon/twitter.svg", date, url));
             }
 
     };

@@ -97,7 +97,7 @@ function UILayersBarViewController() {
                 button: new UIButtonViewController(),
                 layers: [Layers.PASSED_RESTAURANTS]
             }, {
-                title: "Failed Restaurants",
+                title: "Inspection Failed Restaurants",
                 button: new UIButtonViewController(),
                 layers: [Layers.FAILED_RESTAURANTS]
             }]
@@ -146,6 +146,9 @@ function UILayersBarViewController() {
 
                 tot++;
                 layer.button.setTitle(layer.title);
+                if (layer.title === "Inspection Failed Restaurants") {
+                    layer.button.setTitleSize(22);
+                }
                 layer.button.getView().setFrame(_p.x, _p.y + _verticalPadding * (tot), _p.w, _p.h);
                 layer.button.getView().setViewBox(0, 0, _p.w, _p.h);
                 layer.button.getView().setCornerRadius(8);

@@ -12,13 +12,13 @@ var Notifications = Notifications || {};
  */
 Notifications.mapController = {
     //whenever a map change its position / zoom
-    MAP_POSITION_OR_ZOOM_CHANGED : "com.divvy.mapContainerController.mapPositionOrZoomChanged",
-    ZOOM_CHANGED : "com.divvy.mapContainerController.mapZoomChanged"
+    MAP_POSITION_OR_ZOOM_CHANGED: "com.divvy.mapContainerController.mapPositionOrZoomChanged",
+    ZOOM_CHANGED: "com.divvy.mapContainerController.mapZoomChanged"
 };
 
 Notifications.mapContainerController = {
     //Whenever a new map is open/closed
-    MAP_CONFIGURATION_CHANGED : "com.divvy.mapContainerController.mapConfigurationChanged"
+    MAP_CONFIGURATION_CHANGED: "com.divvy.mapContainerController.mapConfigurationChanged"
 
 };
 
@@ -27,15 +27,15 @@ Notifications.mapContainerController = {
  * @type {{}}
  */
 Notifications.areaOfInterest = {
-    POINT_ADDED_TO_PATH : "com.divvy.areaOfInterest.pointAddedToPath",
-    POINTS_UPDATED : "com.divvy.areaOfInterest.pointsUpdated",
-    PATH_CLEANED : "com.divvy.areaOfInterest.pathCleaned",
-    PATH_UPDATED : "com.divvy.areaOfInterest.pathUpdated",
-    DIRECTIONS_UPDATED : "com.divvy.areaOfInterest.directionsUpdated"
+    POINT_ADDED_TO_PATH: "com.divvy.areaOfInterest.pointAddedToPath",
+    POINTS_UPDATED: "com.divvy.areaOfInterest.pointsUpdated",
+    PATH_CLEANED: "com.divvy.areaOfInterest.pathCleaned",
+    PATH_UPDATED: "com.divvy.areaOfInterest.pathUpdated",
+    DIRECTIONS_UPDATED: "com.divvy.areaOfInterest.directionsUpdated"
 };
 
 Notifications.newsfeed = {
-    NEWS_POSTED : "com.divvy.newsfeed.newsPosted"
+    NEWS_POSTED: "com.divvy.newsfeed.newsPosted"
 };
 
 /**
@@ -75,7 +75,7 @@ Notifications.divvyBikes = {
  * @type {{}}
  */
 Notifications.weather = {
-    WEATHER_UPDATED : "com.divvy.weather.weatherUpdated"
+    WEATHER_UPDATED: "com.divvy.weather.weatherUpdated"
 };
 
 /**
@@ -83,7 +83,7 @@ Notifications.weather = {
  * @type {{}}
  */
 Notifications.mapLayers = {
-    LAYERS_STATUS_CHANGED : "com.righthererightnow.mapLayers.layersStatusChanged"
+    LAYERS_STATUS_CHANGED: "com.righthererightnow.mapLayers.layersStatusChanged"
 };
 
 /**
@@ -91,8 +91,8 @@ Notifications.mapLayers = {
  * @type {{}}
  */
 Notifications.time = {
-    CLOCK_UPDATED : "com.righthererightnow.time.clockUpdated",
-    SUN_UPDATED : "com.righthererightnow.time.sunUpdated"
+    CLOCK_UPDATED: "com.righthererightnow.time.clockUpdated",
+    SUN_UPDATED: "com.righthererightnow.time.sunUpdated"
 };
 
 /**
@@ -101,11 +101,11 @@ Notifications.time = {
  */
 Notifications.cta = {
     // Dispatched by the layer button
-    LAYER_ADDED : "com.righthererightnow.cta.layerAdded",
+    LAYER_ADDED: "com.righthererightnow.cta.layerAdded",
     LAYER_CLEANED: "com.righthererightnow.cta.layerCleaned",
     // Dispatched by the model
     LAYER_UPDATED: "com.righthererightnow.cta.layerUpdated",
-    TIME : "com.righthererightnow.cta.time",
+    TIME: "com.righthererightnow.cta.time",
     VEHICLES: "com.righthererightnow.cta.vechicles",
     STOPS: "com.righthererightnow.cta.stops",
     ROUTES_PATHS: "com.righthererightnow.cta.routesPaths",
@@ -137,7 +137,7 @@ Notifications.qualityOfLifeCrimes = {
 };
 
 Notifications.crimes = {
-    SELECTION_UPDATED : "com.righthererightnow.crimes.SeletionUpdated"
+    SELECTION_UPDATED: "com.righthererightnow.crimes.SeletionUpdated"
 };
 
 /**
@@ -145,7 +145,7 @@ Notifications.crimes = {
  * @type {{}}
  */
 Notifications.buttons = {
-    NEW_TRIP_CLICKED : "com.righthererightnow.buttons.newTripClicked"
+    NEW_TRIP_CLICKED: "com.righthererightnow.buttons.newTripClicked"
 };
 
 /**
@@ -153,7 +153,7 @@ Notifications.buttons = {
  * @type {{}}
  */
 Notifications.popups = {
-    POPUPS_CHANGED : "com.righthererightnow.popups.popupsChanged"
+    POPUPS_CHANGED: "com.righthererightnow.popups.popupsChanged"
 }
 
 /**
@@ -170,4 +170,8 @@ Notifications.passedRestaurants = {
  */
 Notifications.failedRestaurants = {
     LAYER_UPDATED: "com.righthererightnow.failedRestaurants.layerUpdated"
+}
+
+Notifications.twitter = {
+    TWEET_DETAIL_REQUESTED: "com.righthererightnow.twitter.tweetDetailRequested"
 }

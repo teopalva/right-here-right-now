@@ -51,11 +51,17 @@ function MapOverlayViewController() {
         width: 66,
         height: 105
     };
-    
+
     var _mapTypeViewController;
     var _mapTypeViewSize = {
         width: 90,
         height: 105
+    };
+
+    var _tweetDetailViewController;
+    var _tweetDetailViewSize = {
+        width: 485,
+        height: 185
     };
 
     var _chartsAreaViewController;
@@ -101,10 +107,14 @@ function MapOverlayViewController() {
         _zoomViewController.getView().setFrame(1337, 882, _zoomViewSize.width, _zoomViewSize.height);
         _zoomViewController.getView().setViewBox(0, 0, _zoomViewSize.width, _zoomViewSize.height);
         self.add(_zoomViewController);
-        
+
         _mapTypeViewController.getView().setFrame(1416, 882, _mapTypeViewSize.width, _mapTypeViewSize.height);
         _mapTypeViewController.getView().setViewBox(0, 0, _mapTypeViewSize.width, _mapTypeViewSize.height);
         self.add(_mapTypeViewController);
+
+        _tweetDetailViewController.getView().setFrame(1145, 12.5, _tweetDetailViewSize.width, _tweetDetailViewSize.height);
+        _tweetDetailViewController.getView().setViewBox(0, 0, _tweetDetailViewSize.width, _tweetDetailViewSize.height);
+        self.add(_tweetDetailViewController);
 
         addBehaviours();
 
@@ -128,6 +138,7 @@ function MapOverlayViewController() {
         _timeIntervalViewController = new UITimeIntervalViewController();
         _zoomViewController = new UIZoomViewController();
         _mapTypeViewController = new UIMapTypeViewController();
+        _tweetDetailViewController = new UITweetDetailViewController();
 
     }();
 }

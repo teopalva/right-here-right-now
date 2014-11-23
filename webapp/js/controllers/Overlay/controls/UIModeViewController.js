@@ -71,7 +71,7 @@ function UIModeViewController() {
         _recommenderButton.getView().setFrame(31, 237, 253.5, 75.5);
         _recommenderButton.getView().setViewBox(0, 0, 253.5, 75.5);
         _recommenderButton.getView().setStroke("white", "1pt");
-        self.add(_recommenderButton);
+        //self.add(_recommenderButton);
 
         // Walk
         _walkButton.getView().setFrame(34, 237, 63, 75.5);
@@ -120,6 +120,8 @@ function UIModeViewController() {
         });
         self.add(_busButton);
         _transportButtons.push(_busButton);
+
+        deselectAllTransportButtons();
 
         // Call super
         super_viewDidAppear.call(self);
