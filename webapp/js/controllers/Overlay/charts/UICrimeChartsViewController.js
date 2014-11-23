@@ -176,11 +176,16 @@ function UICrimeChartsViewController() {
             for(var i = 0; i < _topNumber; i++) {
                 for(var j = 0; j < 3; j++) {
                     var intPercent = parseInt(locations[j][i].percentage);
-                    var percentage = intPercent < 10 ? (" " + intPercent) : intPercent;
+                    var space = "";
+                    if(intPercent < 10) {
+                        space = "\xA0   ";
+                    }
                     _selectedAreaLocationsLabels[i][j]
-                        .setText("" + percentage + "% | " + locations[j][i].location);
+                        .setText(space + intPercent + "% | " + locations[j][i].location);
                 }
             }
+        } else {
+
         }
 
         locations = [];
@@ -191,9 +196,12 @@ function UICrimeChartsViewController() {
         for(i = 0; i < _topNumber; i++) {
             for(j = 0; j < 3; j++) {
                 intPercent = parseInt(locations[j][i].percentage);
-                percentage = intPercent < 10 ? (" " + intPercent) : intPercent;
+                space = "";
+                if(intPercent < 10) {
+                    space = "\xA0   ";
+                }
                 _chicagoLocationsLabels[i][j]
-                    .setText("" + percentage + "% | " + locations[j][i].location);
+                    .setText(space + intPercent + "% | " + locations[j][i].location);
             }
         }
     };
@@ -257,11 +265,11 @@ function UICrimeChartsViewController() {
 
         y += 40;
 
-        var chartHeight = 400;
+        var chartHeight = 450;
         _stackedChart.getView().setFrame(0, y, box.width, chartHeight);
         _stackedChart.getView().setViewBox(0, 0, box.width, chartHeight);
 
-        y += chartHeight + 50;
+        y += chartHeight + 20;
 
         var columnWidth = box.width /3;
         for(var i = 0; i < 3; i++) {
@@ -425,6 +433,7 @@ function UICrimeChartsViewController() {
             _selectedAreaLabels[i].setTextSize(model.getThemeModel().moreThanBigTextSize());
             _selectedAreaLabels[i].setTextColor(_selectedAreaColor);
             _selectedAreaLabels[i].setTextAlignment(TextAlignment.MIDDLE);
+            _selectedAreaLabels[i].setFontWeight("bold");
             self.add(_selectedAreaLabels[i]);
         }
         _selectedAreaLabels[0].setText("Selected Area");
@@ -436,6 +445,7 @@ function UICrimeChartsViewController() {
             _chicagoLabels[i].setTextSize(model.getThemeModel().moreThanBigTextSize());
             _chicagoLabels[i].setTextColor(_chicagoColor);
             _chicagoLabels[i].setTextAlignment(TextAlignment.MIDDLE);
+            _chicagoLabels[i].setFontWeight("bold");
             self.add(_chicagoLabels[i]);
         }
         _chicagoLabels[0].setText("Chicago");
