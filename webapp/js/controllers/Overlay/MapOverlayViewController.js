@@ -60,7 +60,7 @@ function MapOverlayViewController() {
 
     var _tweetDetailViewController;
     var _tweetDetailViewSize = {
-        width: 485,
+        width: 490,
         height: 185
     };
 
@@ -112,7 +112,7 @@ function MapOverlayViewController() {
         _mapTypeViewController.getView().setViewBox(0, 0, _mapTypeViewSize.width, _mapTypeViewSize.height);
         self.add(_mapTypeViewController);
 
-        _tweetDetailViewController.getView().setFrame(1145, 12.5, _tweetDetailViewSize.width, _tweetDetailViewSize.height);
+        _tweetDetailViewController.getView().setFrame(1140, 12.5, _tweetDetailViewSize.width, _tweetDetailViewSize.height);
         _tweetDetailViewController.getView().setViewBox(0, 0, _tweetDetailViewSize.width, _tweetDetailViewSize.height);
         self.add(_tweetDetailViewController);
 

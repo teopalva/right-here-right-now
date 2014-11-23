@@ -56,7 +56,7 @@ function UITweetDetailViewController() {
         self.add(_profileIcon);
 
         // close (hide) detail
-        _closeButton.getView().setFrame(450, 150, 25, 25);
+        _closeButton.getView().setFrame(455, 150, 25, 25);
         _closeButton.getView().setViewBox(0, 0, 25, 25);
         _closeButton.setImage("assets/icon/closePopup.svg");
         _closeButton.onClick(function () {
@@ -96,8 +96,8 @@ function UITweetDetailViewController() {
         _tweetRow1.setTextSize(_fontSize);
         _tweetRow1.setTextColor("white");
         _tweetRow1.setTextAlignment("left");
-        _tweetRow1.getView().setFrame(17, 80, 451, 30);
-        _tweetRow1.getView().setViewBox(0, 0, 451, 30);
+        _tweetRow1.getView().setFrame(17, 80, 456, 30);
+        _tweetRow1.getView().setViewBox(0, 0, 456, 30);
         self.add(_tweetRow1);
 
         // tweet second row
@@ -105,8 +105,8 @@ function UITweetDetailViewController() {
         _tweetRow2.setTextSize(_fontSize);
         _tweetRow2.setTextColor("white");
         _tweetRow2.setTextAlignment("left");
-        _tweetRow2.getView().setFrame(17, 110, 451, 30);
-        _tweetRow2.getView().setViewBox(0, 0, 451, 30);
+        _tweetRow2.getView().setFrame(17, 110, 456, 30);
+        _tweetRow2.getView().setViewBox(0, 0, 456, 30);
         self.add(_tweetRow2);
 
         // tweet third row
@@ -114,8 +114,8 @@ function UITweetDetailViewController() {
         _tweetRow3.setTextSize(_fontSize);
         _tweetRow3.setTextColor("white");
         _tweetRow3.setTextAlignment("left");
-        _tweetRow3.getView().setFrame(17, 140, 451, 30);
-        _tweetRow3.getView().setViewBox(0, 0, 451, 30);
+        _tweetRow3.getView().setFrame(17, 140, 456, 30);
+        _tweetRow3.getView().setViewBox(0, 0, 456, 30);
         self.add(_tweetRow3);
 
     };
