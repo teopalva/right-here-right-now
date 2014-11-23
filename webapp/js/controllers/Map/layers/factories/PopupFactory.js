@@ -542,13 +542,8 @@ function PopupFactory() {
     var  setupBusStopPopup = function(popup,dictionary) {
         // Setup popup
         var _busStopFrameSize = {
-            width: 250,
-            height: 100
-        };
-
-        var labelsSize = {
-            width: _busStopFrameSize.width - 20,
-            height: 30
+            width: 300,
+            height: 200
         };
 
         var padding = {
@@ -566,25 +561,9 @@ function PopupFactory() {
         );
         popup.getView().setViewBox(0, 0, _busStopFrameSize.width, _busStopFrameSize.height);
 
-        var idLabel = new UILabelViewController();
-        idLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
-        idLabel.setText(dictionary.info.id);
-        idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        popup.add(idLabel);
-
-        var nameLabel = new UILabelViewController();
-        nameLabel.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
-        nameLabel.setText(dictionary.info.name);
-        nameLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        popup.add(nameLabel);
-
-        var routeLabel = new UILabelViewController();
-        routeLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
-        routeLabel.setText("ROUTE: " + dictionary.info.route);
-        routeLabel.setTextAlignment(TextAlignment.LEFT);
-        routeLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        popup.add(routeLabel);
-
+        var busContent = new BusStopPopupContentViewController(dictionary, _busStopFrameSize);
+        busContent.getView().setFrame(padding.left, padding.top, _busStopFrameSize.width, _busStopFrameSize.height);
+        popup.add(busContent);
 
     };
 
@@ -596,8 +575,8 @@ function PopupFactory() {
     var  setupBusVehiclePopup = function(popup,dictionary) {
         // Setup popup
         var _busStopFrameSize = {
-            width: 250,
-            height: 100
+            width: 300,
+            height: 200
         };
 
         var labelsSize = {

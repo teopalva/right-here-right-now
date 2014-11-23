@@ -9,19 +9,16 @@ function ViolentCrimesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
-    var _cachedData = [];
 
     ////////////////////////// PUBLIC METHODS /////////////////////////
-
-    this.drawCachedPoints = function(){
-        draw(_cachedData);
-    };
-
+    /**
+     *
+     */
     this.drawNewPoints = function(){
-        _cachedData = model.getCrimesModel().getCrimes(CrimeCategory.VIOLENT);
-        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
-        draw(_cachedData);
+        var points = model.getCrimesModel().getCrimesInSelectedArea(CrimeCategory.VIOLENT);
+        draw(points);
     };
+
 
     /**
      * @overridden
@@ -159,11 +156,11 @@ function ViolentCrimesLayerViewController() {
     var init = function() {
         self.getView().addClass("violentCrimes-layer-view-controller");
 
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.violentCrimes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
-        model.getCrimesModel().startUpdates();
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.crimes.SELECTION_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.mapController.ZOOM_CHANGED);
+
+        self.drawNewPoints();
     } ();
 }
 

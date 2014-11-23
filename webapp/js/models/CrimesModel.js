@@ -6,40 +6,68 @@ function CrimesModel() {
     //////////////////////// PRIVATE ATTRIBUTES ////////////////////////
     var self = this;
 
-    // Crimes
-    var _crimes = [];
-
-    var _crimesInSelectedArea = [];
-
-    // Keep if data is available
+    // data available
     var _dataAvailable = false;
-    var _cachedData = [];
 
-    // Update timer
-    var _updateTimer = null;
-    var _intervalMillis = 10000;
+    // Crimes
+    var _chicagoCrimesAllTime = [];
+    var _areaCrimesAllTime = [];
+
+    var _chicagoCrimesByDate = [];
+    var _areaCrimesByDate = [];
 
     //////////////////////// PUBLIC METHODS ////////////////////////
 
-
-    this.filterByDate = function(){
-        var timeRange = timeToDisplay;
-        if(timeRange == TimeRange.LAST_MONTH)
-            _crimes = _cachedData;
-        else{
-            _crimes = [];
-            var elapsed = Date.now() - timeRange * 86400000;
-            var limitDate = new Date(elapsed);
-            for(i in _cachedData) {
-                var stringDate = _cachedData[i].date;
-                var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
-                if(d - limitDate >= 0)
-                    _crimes.push(_cachedData[i]);
-            }
-        }
-        self.startUpdates();
+    /**
+     * Get the top locations in Chicago
+     * @param number of top locations to select (sorted by occurences)
+     * @param category is the crime category
+     * @returns {Array.<T>|string|Blob|*}
+     */
+    this.getTopLocationsInSelectedArea = function (number, category) {
+        return classifyLocations(_areaCrimesByDate, category).slice(0, number);
     };
-    
+
+    /**
+     * Get the top locations in Chicago
+     * @param number of top locations to select (sorted by occurences)
+     * @param category is the crime category
+     * @returns {Array.<T>|string|Blob|*}
+     */
+    this.getTopLocationsInChicago = function (number, category) {
+        return classifyLocations(_chicagoCrimesByDate, category).slice(0, number);
+    };
+
+    this.filterByDate = function (objects) {
+        var timeRange = model.getTimeModel().getTemporalScope();
+        if (timeRange == TimeRange.LAST_MONTH) {
+            return objects;
+        }
+
+        var filteredObjects = [];
+
+        //_areaCrimesAllTime = [];
+        var elapsed = Date.now() - timeRange * 86400000;
+        var limitDate = new Date(elapsed);
+        for (var i in objects) {
+            var stringDate = objects[i].date;
+            var d = new Date(stringDate.substring(0, stringDate.indexOf('-')));
+            if (d - limitDate >= 0)
+                filteredObjects.push(objects[i]);
+        }
+
+        return filteredObjects;
+    };
+
+    /**
+     * Returns crimes in area for a given category
+     * @param category
+     * @returns {Array}
+     */
+    this.getCrimesInSelectedArea = function (category) {
+        return self.getCrimes(_areaCrimesByDate, category);
+    };
+
     /**
      * Returns the violentCrimes objects in the form:
      *      - id : number
@@ -51,26 +79,23 @@ function CrimesModel() {
      *      - longitude : number
      *      - location : string
      * @param category Ex: CrimeCategory.PROPERTY
+     * @param objects
      * @returns {Array}
      */
-    this.getCrimes = function(category){
-        if(category) {
-            var filteredCrimes = [];
-            for (var i = 0; i < _crimes.length; i++)
-                if (_crimes[i].category == category) {
-                    filteredCrimes.push(_crimes[i]);
-                }
-            return filteredCrimes;
-        }
-        // else
-        return _crimes;
+    this.getCrimes = function (objects, category) {
+        var filteredCrimes = [];
+        for (var i = 0; i < objects.length; i++)
+            if (objects[i].category == category) {
+                filteredCrimes.push(objects[i]);
+            }
+        return filteredCrimes;
     };
 
     /**
      * Return true if data is available
      * @returns {boolean}
      */
-    this.isDataAvailable = function() {
+    this.isDataAvailable = function () {
         return _dataAvailable;
     };
 
@@ -79,19 +104,19 @@ function CrimesModel() {
      * @param category
      * @returns {*}
      */
-    this.getCrimeDensityWithinAreaOfMacroCategory = function(category) {
-        var crimes = self.getCrimes(category);
-        var filtered = model.getAreaOfInterestModel().filterObjects(crimes);
-        return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
+    this.getCrimeDensityWithinAreaOfMacroCategory = function (category) {
+
+        var crimes = self.getCrimes(_areaCrimesByDate, category);
+        return crimes.length / model.getAreaOfInterestModel().getSquaredMiles();
     };
 
     /**
      *
      * @param category
      */
-    this.getChicagoCrimeDensityOfMacroCategory = function(category) {
+    this.getChicagoCrimeDensityOfMacroCategory = function (category) {
         var chicagoSquaredMiles = 234;
-        var count = self.getCrimes(category).length;
+        var count = self.getCrimes(_chicagoCrimesByDate, category).length;
         return count / chicagoSquaredMiles;
     };
 
@@ -100,19 +125,18 @@ function CrimesModel() {
      * @param primaryType
      * @returns {*}
      */
-    this.getCrimeDensityWithinAreaOfPrimaryType = function(primaryType) {
-        var crimes = getCrimes(primaryType);
-        var filtered = model.getAreaOfInterestModel().filterObjects(crimes);
-        return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
+    this.getCrimeDensityWithinAreaOfPrimaryType = function (primaryType) {
+        var crimes = getCrimes(_areaCrimesByDate, primaryType);
+        return crimes.length / model.getAreaOfInterestModel().getSquaredMiles();
     };
 
     /**
      *
      * @param primaryType
      */
-    this.getChicagoCrimeDensityOfPrimaryType  = function(primaryType) {
+    this.getChicagoCrimeDensityOfPrimaryType = function (primaryType) {
         var chicagoSquaredMiles = 234;
-        var count = getCrimes(primaryType).length;
+        var count = getCrimes(_chicagoCrimesByDate, primaryType).length;
         return count / chicagoSquaredMiles;
     };
 
@@ -121,10 +145,9 @@ function CrimesModel() {
      * @param primaryType
      * @returns {Number}
      */
-    this.getNumberOfCrimesWithinArea = function(primaryType){
-        var crimes = getCrimes(primaryType);
-        var filtered = model.getAreaOfInterestModel().filterObjects(crimes);
-        return filtered.length;
+    this.getNumberOfCrimesWithinArea = function (primaryType) {
+        var crimes = getCrimes(_areaCrimesByDate, primaryType);
+        return crimes.length;
     };
 
     /**
@@ -132,22 +155,23 @@ function CrimesModel() {
      * @param primaryType
      * @returns {*}
      */
-    this.getNumberOfCrimesInChicago = function(primaryType) {
-        var filtered = getCrimes(primaryType);
+    this.getNumberOfCrimesInChicago = function (primaryType) {
+        var filtered = getCrimes(_chicagoCrimesByDate, primaryType);
         return filtered.length;
     };
 
+    // TODO !!???
     /**
      * Remove the old violentCrimes
      */
-    this.clearCrimes = function(){
-        _crimes = [];
+    this.clearCrimes = function () {
+        _areaCrimesAllTime = [];
     };
 
     /**
      *  Update the violentCrimes information
      */
-    this.updateCrimes = function() {
+    this.updateCrimes = function () {
         // remove the old violentCrimes
         self.clearCrimes();
 
@@ -165,25 +189,11 @@ function CrimesModel() {
             "%20and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
 
-        /*
-         var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
-         if(areaOfInterest) {
-         var coordinates = d3.geo.bounds(areaOfInterest);
-
-         //  0: long
-         //  1: lat
-         var bottomLeft = coordinates[0];
-         var topRight = coordinates[1];
-
-         query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
-         }
-         */
-
-
-        d3.json(link + query, function(json){
-            json.forEach(function(crime){
+        d3.json(link + query, function (json) {
+            _chicagoCrimesAllTime = [];
+            json.forEach(function (crime) {
                 // Add only if we know both latitude and longitude
-                if(crime.latitude && crime.longitude && crime.location_description) {
+                if (crime.latitude && crime.longitude && crime.location_description) {
                     crime.category = categorize(crime.primary_type);
 
                     crime.block = parseBlock(crime.block);
@@ -192,47 +202,102 @@ function CrimesModel() {
                     crime.description = crime.description.capitalize();
                     //crime.primary_type =  crime.primary_type.capitalize();
                     crime.location_description = crime.location_description.capitalize();
-                    _crimes.push(crime);
+                    _chicagoCrimesAllTime.push(crime);
                 }
             });
-            console.log("Crimes file downloaded: "+_crimes.length+" crimes");
-            _cachedData = _crimes;
+            console.log("Crimes file downloaded: " + _chicagoCrimesAllTime.length + " crimes");
+            _chicagoCrimesByDate = self.filterByDate(_chicagoCrimesAllTime);
             _dataAvailable = true;
-            self.filterByDate();
+            self.updateSelection();
         });
-
-    };
-
-    /**
-     * Starts the timer that updates the model at a given interval
-     */
-    this.startUpdates = function() {
-        notificationCenter.dispatch(Notifications.violentCrimes.LAYER_UPDATED);
-        notificationCenter.dispatch(Notifications.propertyCrimes.LAYER_UPDATED);
-        notificationCenter.dispatch(Notifications.qualityOfLifeCrimes.LAYER_UPDATED);
     };
 
     /**
      * Returns the macro category for a given primary category
      * @param primaryCategory
      */
-    this.getMacroCategory = function(primaryCategory) {
+    this.getMacroCategory = function (primaryCategory) {
         return categorize(primaryCategory);
     };
 
+
     /**
-     *
+     * Handler for notification PATH_UPDATED
      */
-    this.updateSelection = function() {
+    var q;
+    this.updateSelection = function () {
+        q = queue(1);
+        q.defer(filterObjectInSelectedArea, _chicagoCrimesAllTime);
+        q.awaitAll(function () {
+            notificationCenter.dispatch(Notifications.crimes.SELECTION_UPDATED);
+        });
+    };
 
 
+    /**
+     * Handler for notification TEMPORAL_SCOPE_CHANGED
+     */
+    this.updateTemporalScope = function () {
+        _chicagoCrimesByDate = self.filterByDate(_chicagoCrimesAllTime);
+        _areaCrimesByDate = self.filterByDate(_areaCrimesAllTime);
         notificationCenter.dispatch(Notifications.crimes.SELECTION_UPDATED);
     };
 
 
     //////////////////////// PRIVATE METHODS ////////////////////////
-    var categorize = function(primary_type){
-        switch (primary_type){
+
+
+    var classifyLocations = function (array, category) {
+        var locations = [];
+        var len = 0;
+
+        for (var i in array) {
+            if (array[i].category == category) {
+                len ++;
+                var cont = containsLocation(locations, array[i].location_description);
+                if (cont == null) {
+                    var location = {
+                        "location": array[i].location_description,
+                        "number": 1
+                    };
+                    locations.push(location);
+                }
+                else
+                    locations[cont].number++;
+            }
+        }
+
+        for(var i in locations)
+            locations[i].percentage = locations[i].number / len * 100;
+
+        return locations.sort(compareLocations);
+    };
+
+    function compareLocations(a, b) {
+        if (a.number < b.number)
+            return 1;
+        if (a.number > b.number)
+            return -1;
+        return 0;
+    }
+
+    var containsLocation = function (array, location) {
+        for (var i in array)
+            if (array[i].location == location)
+                return i;
+        return null;
+    };
+
+    var filterObjectInSelectedArea = function (objects, callback) {
+        _areaCrimesAllTime = model.getAreaOfInterestModel().filterObjects(_chicagoCrimesAllTime);
+        _areaCrimesByDate = self.filterByDate(_areaCrimesAllTime);
+
+        callback(null, null);
+    };
+
+
+    var categorize = function (primary_type) {
+        switch (primary_type) {
             case CrimePrimaryType.ASSAULT                              :
             case CrimePrimaryType.CONCEALED_LICENCE                    :
             case CrimePrimaryType.DECEPTIVE_PRACTICE                   :
@@ -250,7 +315,8 @@ function CrimesModel() {
             case CrimePrimaryType.PUBLIC_PEACE_VIOLATION               :
             case CrimePrimaryType.RITUALISM                            :
             case CrimePrimaryType.STALKING                             :
-            case CrimePrimaryType.WEAPONS_VIOLATION                    : return CrimeCategory.QUALITY_OF_LIFE;
+            case CrimePrimaryType.WEAPONS_VIOLATION                    :
+                return CrimeCategory.QUALITY_OF_LIFE;
 
             case CrimePrimaryType.ARSON                                :
             case CrimePrimaryType.BURGLARY                             :
@@ -258,7 +324,8 @@ function CrimesModel() {
             case CrimePrimaryType.CRIMINAL_TRESPASS                    :
             case CrimePrimaryType.MOTOR_VEHICLE_THEFT                  :
             case CrimePrimaryType.ROBBERY                              :
-            case CrimePrimaryType.THEFT                                : return CrimeCategory.PROPERTY;
+            case CrimePrimaryType.THEFT                                :
+                return CrimeCategory.PROPERTY;
 
             case CrimePrimaryType.BATTERY                              :
             case CrimePrimaryType.SEX_ASSAULT                          :
@@ -270,42 +337,45 @@ function CrimesModel() {
             case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN           :
             case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN1          :
             case CrimePrimaryType.OTHER_OFFENSE                        :
-            case CrimePrimaryType.SEX_OFFENSE                          : return CrimeCategory.VIOLENT;
+            case CrimePrimaryType.SEX_OFFENSE                          :
+                return CrimeCategory.VIOLENT;
 
             // should never get here
-            default                                     : return CrimeCategory._error;
+            default                                     :
+                return CrimeCategory._error;
         }
     };
 
-    var parseBlock = function(block){
+    var parseBlock = function (block) {
         return block.substring(6);
     };
 
-    var parseDate = function(date) {
-        var parsedDate = new Date(date.replace("T"," "));
+    var parseDate = function (date) {
+        var parsedDate = new Date(date.replace("T", " "));
         return parsedDate.toDateString() + " - " + formatAMPM(parsedDate);
     };
 
-    var parseArrest = function(arrest){
-        if(arrest)
+    var parseArrest = function (arrest) {
+        if (arrest)
             return "yes";
         return "no";
     };
 
-    var getCrimes = function(primaryType){
+    var getCrimes = function (objects, primaryType) {
         var filteredCrimes = [];
-        for (i = 0; i < _crimes.length; i++)
-            if (_crimes[i].primary_type == primaryType) {
-                filteredCrimes.push(_crimes[i]);
+        for (var i = 0; i < objects.length; i++)
+            if (objects[i]["primary_type"] == primaryType) {
+                filteredCrimes.push(objects[i]);
             }
         return filteredCrimes;
     };
 
-    var init = function() {
+    var init = function () {
         self.updateCrimes();
 
         notificationCenter.subscribe(self, self.updateSelection, Notifications.areaOfInterest.PATH_UPDATED);
-    } ();
+        notificationCenter.subscribe(self, self.updateTemporalScope, Notifications.time.TEMPORAL_SCOPE_CHANGED);
+    }();
 }
 
 /**
@@ -313,50 +383,50 @@ function CrimesModel() {
  * @type {{VIOLENT: string, PROPERTY: string, QUALITY_OF_LIFE: string}}
  */
 var CrimeCategory = {
-    VIOLENT : "violent_crime",
-    PROPERTY : "property_crime",
-    QUALITY_OF_LIFE : "quality_of_life_crime",
-    _error : "unknown"
+    VIOLENT: "violent_crime",
+    PROPERTY: "property_crime",
+    QUALITY_OF_LIFE: "quality_of_life_crime",
+    _error: "unknown"
 };
 
 var CrimePrimaryType = {
 
-    ASSAULT : "ASSAULT",
-    CONCEALED_LICENCE : "CONCEALED CARRY LICENSE VIOLATION",
-    DECEPTIVE_PRACTICE : "DECEPTIVE PRACTICE",
-    GAMBLING : "GAMBLING",
-    INTIMIDATION : "INTIMIDATION",
-    LIQUOR_VIOLATION : "LIQUOR LAW VIOLATION",
-    NARCOTICS : "NARCOTICS",
-    NON_CRIMINAL : "NON - CRIMINAL",
-    NON_CRIMINAL1 : "NON-CRIMINAL",
-    NON_CRIMINAL2 : "NON-CRIMINAL (SUBJECT SPECIFIED)",
-    OBSCENITY : "OBSCENITY",
-    OTHER_NARCOTIC : "OTHER NARCOTIC VIOLATION",
-    PROSTITUTION :  "PROSTITUTION",
-    PUBLIC_INDECENCY :"PUBLIC INDECENCY",
-    PUBLIC_PEACE_VIOLATION : "PUBLIC PEACE VIOLATION",
-    RITUALISM : "RITUALISM",
-    STALKING : "STALKING",
-    WEAPONS_VIOLATION : "WEAPONS VIOLATION",
+    ASSAULT: "ASSAULT",
+    CONCEALED_LICENCE: "CONCEALED CARRY LICENSE VIOLATION",
+    DECEPTIVE_PRACTICE: "DECEPTIVE PRACTICE",
+    GAMBLING: "GAMBLING",
+    INTIMIDATION: "INTIMIDATION",
+    LIQUOR_VIOLATION: "LIQUOR LAW VIOLATION",
+    NARCOTICS: "NARCOTICS",
+    NON_CRIMINAL: "NON - CRIMINAL",
+    NON_CRIMINAL1: "NON-CRIMINAL",
+    NON_CRIMINAL2: "NON-CRIMINAL (SUBJECT SPECIFIED)",
+    OBSCENITY: "OBSCENITY",
+    OTHER_NARCOTIC: "OTHER NARCOTIC VIOLATION",
+    PROSTITUTION: "PROSTITUTION",
+    PUBLIC_INDECENCY: "PUBLIC INDECENCY",
+    PUBLIC_PEACE_VIOLATION: "PUBLIC PEACE VIOLATION",
+    RITUALISM: "RITUALISM",
+    STALKING: "STALKING",
+    WEAPONS_VIOLATION: "WEAPONS VIOLATION",
 
-    ARSON : "ARSON",
-    BURGLARY : "BURGLARY",
-    CRIMINAL_DAMAGE : "CRIMINAL DAMAGE",
-    CRIMINAL_TRESPASS : "CRIMINAL TRESPASS",
-    MOTOR_VEHICLE_THEFT : "MOTOR VEHICLE THEFT",
-    ROBBERY : "ROBBERY",
-    THEFT : "THEFT",
+    ARSON: "ARSON",
+    BURGLARY: "BURGLARY",
+    CRIMINAL_DAMAGE: "CRIMINAL DAMAGE",
+    CRIMINAL_TRESPASS: "CRIMINAL TRESPASS",
+    MOTOR_VEHICLE_THEFT: "MOTOR VEHICLE THEFT",
+    ROBBERY: "ROBBERY",
+    THEFT: "THEFT",
 
-    BATTERY : "BATTERY",
-    SEX_ASSAULT : "CRIM SEXUAL ASSAULT",
-    DOMESTIC_VIOLENCE : "DOMESTIC VIOLENCE",
-    HOMICIDE : "HOMICIDE",
-    INTERFERENCE_WITH_PUBBLIC_OFFICER : "INTERFERENCE WITH PUBLIC OFFICER",
-    INTERFERENCE_WITH_PUBBLIC_OFFICER1 : "INTERFERE WITH PUBLIC OFFICER",
-    KIDNAPPING : "KIDNAPPING",
-    OFFENSE_INVOLVING_CHILDREN : "OFFENSE INVOLVING CHILDREN",
-    OFFENSE_INVOLVING_CHILDREN1 :"OFFENSES INVOLVING CHILDREN",
-    OTHER_OFFENSE : "OTHER OFFENSE",
-    SEX_OFFENSE : "SEX OFFENSE"
+    BATTERY: "BATTERY",
+    SEX_ASSAULT: "CRIM SEXUAL ASSAULT",
+    DOMESTIC_VIOLENCE: "DOMESTIC VIOLENCE",
+    HOMICIDE: "HOMICIDE",
+    INTERFERENCE_WITH_PUBBLIC_OFFICER: "INTERFERENCE WITH PUBLIC OFFICER",
+    INTERFERENCE_WITH_PUBBLIC_OFFICER1: "INTERFERE WITH PUBLIC OFFICER",
+    KIDNAPPING: "KIDNAPPING",
+    OFFENSE_INVOLVING_CHILDREN: "OFFENSE INVOLVING CHILDREN",
+    OFFENSE_INVOLVING_CHILDREN1: "OFFENSES INVOLVING CHILDREN",
+    OTHER_OFFENSE: "OTHER OFFENSE",
+    SEX_OFFENSE: "SEX OFFENSE"
 };

@@ -18,7 +18,7 @@ function CtaBusVehiclesLayerViewController() {
     var _updateTimer = null;
     var _fps = 10.0;
     // Default value is 0.00004
-    var _meanSpeed = 0.0004;
+    var _meanSpeed = 0.00004;
 
 
     // TODO: use queue.js
@@ -38,7 +38,7 @@ function CtaBusVehiclesLayerViewController() {
         // Just for debug purposes or when key expires.
         var fakeVehicles = model.getCtaModel().getFakeVehicles();
 
-        console.log(_counter);
+        //console.log(_counter);
 
         // Draw only when all the queries ended.
         if (++_counter === model.getCtaModel().getRoutes().length || fakeVehicles) {
@@ -47,7 +47,7 @@ function CtaBusVehiclesLayerViewController() {
             var vehicles = model.getCtaModel().getVehicles();
 
 
-            console.log(vehicles);
+            //console.log(vehicles);
             updateVehiclesInformation(vehicles);
 
             draw(vehicles);
@@ -91,7 +91,24 @@ function CtaBusVehiclesLayerViewController() {
 
     //////////////////////// PRIVATE METHODS ////////////////////////
     var draw = function (vehicles) {
-        vehicles = model.getAreaOfInterestModel().filterObjects(vehicles);
+
+        var vehiclesArray = [];
+
+        // Fill this array for d3 purposes.
+        _vehicles.forEach(function(v) {
+            vehiclesArray.push(v);
+        });
+
+
+        vehiclesArray = model.getAreaOfInterestModel().filterObjects(vehiclesArray);
+
+        // Refill
+        _vehicles = [];
+
+        // Refill _vehicles local copy.
+        vehiclesArray.forEach(function(v) {
+           _vehicles[v.id] = v;
+        });
 
         //console.log("Vehicles");
         //console.log(vehicles);
@@ -116,7 +133,7 @@ function CtaBusVehiclesLayerViewController() {
         // Draw marker type based on zoom level
         if (model.getMapModel().getZoomLevel() >= model.getVisualizationModel().detailedMarkerZoomLevel()) {
             canvas.selectAll(".marker.point").remove();
-            markers = canvas.selectAll(".marker.pin").data(vehicles);
+            markers = canvas.selectAll(".marker.pin").data(vehiclesArray);
 
             // Update
             markers
@@ -256,6 +273,7 @@ function CtaBusVehiclesLayerViewController() {
                 _vehicles[id].deltaLat = 0;
                 _vehicles[id].deltaLng = 0;
                 _vehicles[id].meanSpeed = _meanSpeed;
+                _vehicles[id].id = id;
             }
             else {
                 // If vehicles are changed
@@ -363,6 +381,9 @@ function CtaBusVehiclesLayerViewController() {
 
             }
         }
+
+
+
         draw(_vehicles);
     };
 
@@ -388,10 +409,14 @@ function CtaBusVehiclesLayerViewController() {
         // Just the first time
         if(vehicle.headingPoint === undefined) {
 
-            // Old implementation
-            vehicle.headingPoint = getNearestSegmentEndPoint(busPosition, points);
+            var nearestSegment = getNearestSegment(busPosition, points);
+            vehicle.headingPoint = nearestSegment.endPoint;
 
-            //vehicle.headingPoint = model.getCtaModel().getVehicleNextStop(vehicle.id);
+            // TODO: check if convenient
+            // Set position on route line
+            vehicle.deltaLat += nearestSegment.deltaLatitude;
+            vehicle.deltaLng += nearestSegment.deltaLongitude;
+
 
         }
 
@@ -399,7 +424,7 @@ function CtaBusVehiclesLayerViewController() {
         var headingPoint = vehicle.headingPoint;
 
         // If near enough to a stop/way-point select the next point in the path.
-        if(getDistanceBetweenTwoPoints(busPosition, headingPoint) < 0.0005) {
+        if(getDistanceBetweenTwoPoints(busPosition, headingPoint) < 0.000005) {
             //console.log("changing to: " + headingPoint.seq);
             //console.log(points);
             if(points[headingPoint.seq] !== undefined) {
@@ -514,7 +539,7 @@ function CtaBusVehiclesLayerViewController() {
         return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
     };
 
-    var getNearestSegmentEndPoint = function(position, points) {
+    var getNearestSegment = function(position, points) {
         /***
          * Structure which contains information about the nearest segment of the path.
          * It determines in which segment the bus actually is.
@@ -523,7 +548,9 @@ function CtaBusVehiclesLayerViewController() {
         var nearestSegment = {
             distance: null,
             startPoint: null,
-            endPoint: null
+            endPoint: null,
+            deltaLongitude: null,
+            deltaLatitude: null
         };
 
         // Iterates on each segment of the path in order to determine the nearest segment.
@@ -556,7 +583,24 @@ function CtaBusVehiclesLayerViewController() {
                 nearestSegment.endPoint = segmentEnd;
             }
         }
-        return nearestSegment.endPoint;
+
+        var vectorA = vec2(nearestSegment.startPoint.longitude, nearestSegment.startPoint.latitude);
+        var vectorB = vec2(nearestSegment.endPoint.longitude, nearestSegment.endPoint.latitude);
+        var vectorP = vec2(position.longitude, position.latitude);
+
+
+        var vectorAB = vectorB.subV(vectorA);
+        var vectorAP = vectorP.subV(vectorA);
+
+
+        var vectorAH = (vectorAB.normalize()).mulS(vectorAB.dot(vectorAP));
+
+        var vectorPH = vectorAH.subV(vectorAP);
+
+        nearestSegment.deltaLongitude = vectorPH.x;
+        nearestSegment.deltaLatitude = vectorPH.y;
+
+        return nearestSegment;
     };
 
 

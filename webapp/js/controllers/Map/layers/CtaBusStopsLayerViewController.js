@@ -24,7 +24,7 @@ function CtaBusStopsLayerViewController() {
     };
 
     /**
-     *
+     * Called when the path is changed.
      */
     this.pathChanged = function() {
         model.getCtaModel().stopUpdates();
@@ -55,8 +55,8 @@ function CtaBusStopsLayerViewController() {
     //////////////////////// PRIVATE METHODS ////////////////////////
     var draw = function() {
         var stops = model.getCtaModel().getStops();
-        console.log("Stops");
-        console.log(stops);
+        //console.log("Stops");
+        //console.log(stops);
 
 
         stops = model.getAreaOfInterestModel().filterObjects(stops);

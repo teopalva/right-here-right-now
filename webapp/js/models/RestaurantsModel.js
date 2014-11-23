@@ -127,8 +127,8 @@ function RestaurantsModel() {
     };
 
     this.startUpdates = function () {
-        notificationCenter.dispatch(Notifications.passedRestaurants.LAYER_UPDATED);
-        notificationCenter.dispatch(Notifications.failedRestaurants.LAYER_UPDATED);
+        notificationCenter.dispatch(Notifications.passedRestaurants.DATA_CHANGED);
+        notificationCenter.dispatch(Notifications.failedRestaurants.DATA_CHANGED);
     };
 
 

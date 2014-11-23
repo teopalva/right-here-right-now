@@ -23,7 +23,27 @@ function TimeModel() {
     var _updateSun;
     var _intervalMillisSun = 60000 ; // 1 minutes
 
+    // Temporal scope of 311 layers
+    var _timeToDisplay = TimeRange.LAST_MONTH;
+
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
+    /**
+     * Get 311 temporal scope
+     * @returns {number}
+     */
+    this.getTemporalScope = function() {
+        return _timeToDisplay;
+    };
+
+    /**
+     * Set 311 temporal scope
+     * @param timeRange
+     */
+    this.setTemporalScope = function(timeRange) {
+        _timeToDisplay = timeRange;
+        notificationCenter.dispatch(Notifications.time.TEMPORAL_SCOPE_CHANGED);
+    };
+
     /**
      * Returns current date (javascript Date)
      * @returns {String}
@@ -94,3 +114,10 @@ function TimeModel() {
 
     } ();
 }
+
+var TimeRange = {
+    LAST_TWO_WEEKS : 14,
+    LAST_MONTH : 30
+};
+
+//var timeToDisplay = TimeRange.LAST_MONTH;

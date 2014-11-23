@@ -91,9 +91,14 @@ Notifications.mapLayers = {
  * @type {{}}
  */
 Notifications.time = {
+<<<<<<< HEAD
+    CLOCK_UPDATED: "com.righthererightnow.time.clockUpdated",
+    SUN_UPDATED: "com.righthererightnow.time.sunUpdated"
+=======
     CLOCK_UPDATED : "com.righthererightnow.time.clockUpdated",
     SUN_UPDATED : "com.righthererightnow.time.sunUpdated",
     TEMPORAL_SCOPE_CHANGED : "com.righthererightnow.time.temporalScope"
+>>>>>>> 1d7e752d023b3c399c5c8a66e34374d5bdf780fd
 };
 
 /**
@@ -116,8 +121,12 @@ Notifications.cta = {
 };
 
 Notifications.crimes = {
+<<<<<<< HEAD
+    SELECTION_UPDATED: "com.righthererightnow.crimes.SeletionUpdated"
+=======
     SELECTION_UPDATED : "com.righthererightnow.crimes.SeletionUpdated",
     DATA_CHANGED : "com.righthererightnow.crimes.DataChanged"
+>>>>>>> 1d7e752d023b3c399c5c8a66e34374d5bdf780fd
 };
 
 /**

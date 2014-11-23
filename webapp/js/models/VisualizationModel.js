@@ -138,6 +138,22 @@ function VisualizationModel() {
 
     // CTA Bus
     /**
+     * Returns the color of the bus lines
+     * @returns {*}
+     * @constructor
+     */
+    this.CTABusLineColor= function() {
+        return this.layersColors["CTA bus"];
+    };
+
+    /**
+     *
+     */
+    this.CTABusLineWidth = function () {
+        return 5;
+    };
+
+    /**
      * Returns CTA bus color
      * @returns {string}
      */

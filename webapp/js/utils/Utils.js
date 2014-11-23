@@ -66,4 +66,8 @@ String.prototype.capitalize = function() {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+String.prototype.startsWith = function (str){
+    return this.slice(0, str.length) == str;
+};
+
 var InterstellarAspectRatio = 1.586;
