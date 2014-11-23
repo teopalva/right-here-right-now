@@ -43,7 +43,7 @@ Notifications.newsfeed = {
  * @type {{}}
  */
 Notifications.potholes = {
-    DATA_CHANGED: "com.righthererightnow.potholes.dataChanged"
+    SELECTION_UPDATED: "com.righthererightnow.potholes.selectionUpdated"
 };
 
 /**

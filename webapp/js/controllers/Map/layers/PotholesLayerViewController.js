@@ -10,17 +10,9 @@ function PotholesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
-    var _cachedData = [];
-
-    ////////////////////////// PUBLIC METHODS /////////////////////////
-    this.drawCachedPoints = function(){
-        draw(_cachedData);
-    };
-
     this.drawNewPoints = function(){
-        _cachedData = model.getPotholesModel().getPotholes();
-        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
-        draw(_cachedData);
+        var points = model.getPotholesModel().getPotholes();
+        draw(points);
     };
 
 
