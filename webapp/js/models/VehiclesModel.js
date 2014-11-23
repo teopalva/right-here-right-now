@@ -42,7 +42,7 @@ function VehiclesModel() {
                     _vehicles.push(_cachedData[i]);
             }
         }
-        notificationCenter.dispatch(Notifications.vehicles.LAYER_UPDATED);
+        notificationCenter.dispatch(Notifications.vehicles.DATA_CHANGED);
     };
 
 

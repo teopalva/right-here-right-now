@@ -67,7 +67,7 @@ function DivvyBikesModel() {
             });
             console.log("Divvy bikes JSON last update at " + parsedJson.executionTime);
             _lastUpdate = new Date(parsedJson.executionTime);
-            notificationCenter.dispatch(Notifications.divvyBikes.LAYER_UPDATED);
+            notificationCenter.dispatch(Notifications.divvyBikes.DATA_CHANGED);
 
             // News feed
             var temp = model.getAreaOfInterestModel().filterObjects(_divvyBikes);

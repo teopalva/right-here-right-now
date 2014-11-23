@@ -158,7 +158,7 @@ function VehiclesLayerViewController() {
         self.getView().addClass("vehicles-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.vehicles.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.vehicles.DATA_CHANGED);
         notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 

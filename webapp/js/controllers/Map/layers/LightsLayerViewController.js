@@ -154,7 +154,7 @@ function LightsLayerViewController() {
         self.getView().addClass("lights-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.lights.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.lights.DATA_CHANGED);
         notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 

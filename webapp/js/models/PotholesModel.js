@@ -12,17 +12,26 @@ function PotholesModel() {
      *      - latitude : number
      *      - longitude : number
      */
-    var _cachedData = [];
-    var _potholes = [];
-    var _dataAvailable = false;
+    var _chicagoPotholesAllTime = [];
+    var _areaPotholesAllTime = [];
 
-    var _daysToVisualize = TimeRange.LAST_MONTH;
+    var _chicagoPotholesByDate = [];
+    var _areaPotholesByDate = [];
+
+    var _dataAvailable = false;
 
     // Update timer
     var _updateTimer;
     var _intervalMillis = 60000; // 1 minute
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
+
+    this.updateTemporalScope = function(){
+        _chicagoPotholesByDate = self.filterByDate(_chicagoPotholesAllTime);
+        _areaPotholesByDate = self.filterByDate(_areaPotholesAllTime);
+        notificationCenter.dispatch(Notifications.potholes.SELECTION_UPDATED);
+    };
+
 
     /**
      * Returns the potholes objects in the form:
@@ -32,48 +41,46 @@ function PotholesModel() {
      * @returns {Array}
      */
     this.getPotholes = function(){
-        return _potholes;
+        return _areaPotholesByDate;
     };
 
-    this.filterByDate = function(){
-        var timeRange = timeToDisplay;
-        if(timeRange == TimeRange.LAST_MONTH)
-            _potholes = _cachedData;
-        else{
-            _potholes = [];
-            var elapsed = Date.now() - timeRange * 86400000;
-            var limitDate = new Date(elapsed);
-            for(i in _cachedData) {
-                var stringDate = _cachedData[i].creation_date;
-                var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
-                if(d - limitDate >= 0)
-                    _potholes.push(_cachedData[i]);
-            }
+    this.filterByDate = function(objects){
+        var timeRange = model.getTimeModel().getTemporalScope();
+        if(timeRange == TimeRange.LAST_MONTH) {
+            return objects;
         }
-        notificationCenter.dispatch(Notifications.potholes.LAYER_UPDATED);
+
+        var filteredObjects = [];
+
+        //_areaCrimesAllTime = [];
+        var elapsed = Date.now() - timeRange * 86400000;
+        var limitDate = new Date(elapsed);
+        for(var i in objects) {
+            var stringDate = objects[i].creation_date;
+            var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
+            if(d - limitDate >= 0)
+                filteredObjects.push(objects[i]);
+        }
+
+        return filteredObjects;
     };
+
 
     /**
      *
      * @returns {Array}
      */
     this.getPotholesWithinArea = function() {
-        return model.getAreaOfInterestModel().filterObjects(_potholes);
+        return model.getAreaOfInterestModel().filterObjects(_areaPotholesAllTime);
     };
 
-    /**
-     * Remove the old potholes
-     */
-    this.clearPotholes = function(){
-        _potholes = [];
-    };
 
     /**
      *
      * @returns {number}
      */
     this.getPotholesDensityWithinArea = function() {
-        var filtered = model.getAreaOfInterestModel().filterObjects(_potholes);
+        var filtered = model.getAreaOfInterestModel().filterObjects(_areaPotholesAllTime);
 
         if(filtered == null || filtered.length == 0) {
             return 0;
@@ -88,7 +95,7 @@ function PotholesModel() {
      */
     this.getPotholesDensityInChicago = function() {
         var chicagoArea = 234;
-        return _potholes.length / chicagoArea;
+        return _areaPotholesAllTime.length / chicagoArea;
     };
 
     this.isDataAvailable = function(){
@@ -100,7 +107,7 @@ function PotholesModel() {
      */
     this.updatePotholes = function() {
         // remove the old potholes
-        self.clearPotholes();
+        _chicagoPotholesAllTime = [];
 
         var link = "http://data.cityofchicago.org/resource/7as2-ds3y.json";
         var days = TimeRange.LAST_MONTH;
@@ -112,28 +119,15 @@ function PotholesModel() {
                     "&$where=status=%27Open%27and%20creation_date>=%27" + date.toISOString() + "%27and%20" +
                     "latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
-        /*
-        var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
-        if(areaOfInterest) {
-            var coordinates = d3.geo.bounds(areaOfInterest);
-
-            //  0: long
-            //  1: lat
-            var bottomLeft = coordinates[0];
-            var topRight = coordinates[1];
-
-            query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
-        }
-        */
-
         d3.json(link + query, function(json){
            json.forEach(function(pothole){
                pothole.creation_date = parseDate(pothole.creation_date);
-               _potholes.push(pothole);
+               _chicagoPotholesAllTime.push(pothole);
            });
-            _cachedData = _potholes;
-            self.filterByDate();
+            _chicagoPotholesByDate = self.filterByDate(_chicagoPotholesAllTime);
             _dataAvailable = true;
+            self.updateSelection();
+            notificationCenter.dispatch(Notifications.potholes.SELECTION_UPDATED);
         });
 
     };
@@ -157,6 +151,25 @@ function PotholesModel() {
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
 
+    /**
+     * Handler for notification PATH_UPDATED
+     */
+    var q;
+    this.updateSelection = function() {
+        q = queue(1);
+        q.defer(filterObjectInSelectedArea, _chicagoPotholesAllTime);
+        q.awaitAll(function() {
+            notificationCenter.dispatch(Notifications.potholes.SELECTION_UPDATED);
+        });
+    };
+
+    var filterObjectInSelectedArea = function(objects, callback) {
+        _areaPotholesAllTime = model.getAreaOfInterestModel().filterObjects(_chicagoPotholesAllTime);
+        _areaPotholesByDate = self.filterByDate(_areaPotholesAllTime);
+
+        callback(null, null);
+    };
+
     var parseDate = function(date) {
         var parsedDate = new Date(date.replace("T"," "));
         return parsedDate.toDateString() + " - " + formatAMPM(parsedDate);
@@ -164,5 +177,7 @@ function PotholesModel() {
 
     var init = function() {
         self.updatePotholes();
+        notificationCenter.subscribe(self, self.updateSelection, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.updateTemporalScope, Notifications.time.TEMPORAL_SCOPE_CHANGED);
     } ();
 }

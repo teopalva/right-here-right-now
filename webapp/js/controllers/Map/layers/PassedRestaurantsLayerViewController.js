@@ -159,7 +159,7 @@ function PassedRestaurantsLayerViewController() {
         self.getView().addClass("passedRestaurants-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.passedRestaurants.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.passedRestaurants.DATA_CHANGED);
         notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 

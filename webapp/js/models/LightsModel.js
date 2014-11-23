@@ -38,7 +38,7 @@ function LightsModel() {
                     _lights.push(_cachedData[i]);
             }
         }
-        notificationCenter.dispatch(Notifications.lights.LAYER_UPDATED);
+        notificationCenter.dispatch(Notifications.lights.DATA_CHANGED);
     };
 
     /**

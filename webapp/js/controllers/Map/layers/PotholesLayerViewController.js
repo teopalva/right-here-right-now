@@ -154,10 +154,8 @@ function PotholesLayerViewController() {
     var init = function () {
         self.getView().addClass("potholes-layer-view-controller");
 
-
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.potholes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.potholes.SELECTION_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getPotholesModel().startUpdates();
     }();

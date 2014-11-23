@@ -200,18 +200,11 @@ function CrimesModel() {
                     _chicagoCrimesAllTime.push(crime);
                 }
             });
-            console.log("Crimes file downloaded: "+_areaCrimesAllTime.length+" crimes");
+            console.log("Crimes file downloaded: "+_chicagoCrimesAllTime.length+" crimes");
             _chicagoCrimesByDate = self.filterByDate(_chicagoCrimesAllTime);
             _dataAvailable = true;
             self.updateSelection();
         });
-    };
-
-    /**
-     * Starts the timer that updates the model at a given interval
-     */
-    this.startUpdates = function() {
-        notificationCenter.dispatch(Notifications.crimes.DATA_CHANGED);
     };
 
     /**
@@ -240,7 +233,6 @@ function CrimesModel() {
      * Handler for notification TEMPORAL_SCOPE_CHANGED
      */
     this.updateTemporalScope = function() {
-        console.log("updating scope..");
         _chicagoCrimesByDate = self.filterByDate(_chicagoCrimesAllTime);
         _areaCrimesByDate = self.filterByDate(_areaCrimesAllTime);
         notificationCenter.dispatch(Notifications.crimes.SELECTION_UPDATED);
