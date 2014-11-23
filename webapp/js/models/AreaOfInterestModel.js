@@ -18,6 +18,11 @@ function AreaOfInterestModel() {
 
     var _directions = null;
 
+    var delta = {
+        latitude: 0.004,
+        longitude: 0.005
+    };
+
     ///////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      * Adds a point to the current path
@@ -188,7 +193,7 @@ function AreaOfInterestModel() {
         var quadtree = d3.geom.quadtree()
             .x(function(d) {return d.longitude})
             .y(function(d) {return d.latitude})
-            (objects);
+        (objects);
 
         var x0 = bounds[0][0];
         var y0 = bounds[0][1];
@@ -240,17 +245,56 @@ function AreaOfInterestModel() {
         notificationCenter.dispatch(Notifications.areaOfInterest.DIRECTIONS_UPDATED);
     };
 
-// Compute index of the closest point to given latitude and longitude
+    // Compute index of the closest point to given latitude and longitude
     var closestPoint = function(latitude, longitude) {
-        return 0;
+        var closestIndex = 0;
+        var closestDistance = Math.sqrt(Math.pow(_points[0].latitude - latitude, 2) + Math.pow(_points[0].longitude - longitude, 2));
+
+        var tmpDistance;
+        _points.forEach(function(point, index) {
+            tmpDistance = Math.sqrt(Math.pow(point.latitude - latitude, 2) + Math.pow(point.longitude - longitude, 2));
+            if(tmpDistance < closestDistance) {
+                closestDistance = tmpDistance;
+                closestIndex = index;
+            }
+        });
+        return closestIndex;
     };
 
 
 // Compute feature collection bound for coordinates
     var computeFeatureCollectionBoundsWithCoordinates = function(coordinates) {
+        var tmp = [
+            {
+                latitude: coordinates[0].latitude,
+                longitude: coordinates[0].longitude
+            },
+            {
+                latitude: coordinates[1].latitude,
+                longitude: coordinates[1].longitude
+            }
+        ];
+
+
+        if(tmp[0].longitude < tmp[1].longitude) {
+            tmp[0].longitude -= delta.longitude;
+            tmp[1].longitude += delta.longitude;
+        } else {
+            tmp[0].longitude += delta.longitude;
+            tmp[1].longitude -= delta.longitude;
+        }
+
+        if(tmp[0].latitude < tmp[1].latitude) {
+            tmp[0].latitude -= delta.latitude;
+            tmp[1].latitude += delta.latitude;
+        } else {
+            tmp[0].latitude += delta.latitude;
+            tmp[1].latitude -= delta.latitude;
+        }
+
         var coordinatesArray = [
-            [coordinates[0].longitude, coordinates[0].latitude],
-            [coordinates[1].longitude, coordinates[1].latitude]
+            [tmp[0].longitude, tmp[0].latitude],
+            [tmp[1].longitude, tmp[1].latitude]
         ];
         var polygon = computeFeatureCollectionPolygonWithCoordinates(coordinatesArray);
         return computeFeatureCollectionBoundRectangle(polygon);

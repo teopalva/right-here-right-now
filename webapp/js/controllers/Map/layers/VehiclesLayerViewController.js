@@ -10,17 +10,10 @@ function VehiclesLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
-    var _cachedData = [];
-
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    this.drawCachedPoints = function(){
-        draw(_cachedData);
-    };
-
     this.drawNewPoints = function(){
-        _cachedData = model.getVehiclesModel().getVehicles();
-        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
-        draw(_cachedData);
+        var points = model.getVehiclesModel().getVehiclesWithinArea();
+        draw(points);
     };
 
     /**
@@ -157,10 +150,8 @@ function VehiclesLayerViewController() {
     var init = function () {
         self.getView().addClass("vehicles-layer-view-controller");
 
-
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.vehicles.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.vehicles.SELECTION_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getVehiclesModel().startUpdates();
     }();

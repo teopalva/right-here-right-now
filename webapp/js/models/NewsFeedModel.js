@@ -9,6 +9,7 @@ function NewsFeedModel() {
     var self = this;
 
     var _newsList = [];
+    var _tweetList = [];
 
     /////////////////////////// PUBLIC METHODS ///////////////////////////
     /**
@@ -29,11 +30,32 @@ function NewsFeedModel() {
     };
 
     /**
+     * Post a new tweet
+     *
+     * @param news = a News object
+     */
+    this.postTweet = function (tweet) {
+        var i = 0;
+
+        while (i < _newsList.length && (_newsList[i].getTimestamp() < tweet.getTimestamp() || +_newsList[i].getTimestamp().getTime() === +tweet.getTimestamp().getTime())) {
+            i++;
+        }
+
+        _tweetList.splice(i, 0, tweet);
+
+        notificationCenter.dispatch(Notifications.newsfeed.NEWS_POSTED);
+    };
+
+    /**
      * Return the list of News objects
      * @returns {Array}
      */
     this.getNewsfeed = function () {
         return _newsList;
+    };
+
+    this.getTweets = function () {
+        return _tweetList;
     };
 
     ////////////////////////// PRIVATE METHODS ///////////////////////////

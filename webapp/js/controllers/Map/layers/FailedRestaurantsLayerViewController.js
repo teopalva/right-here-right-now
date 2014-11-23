@@ -161,7 +161,7 @@ function FailedRestaurantsLayerViewController() {
         self.getView().addClass("failedRestaurants-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.failedRestaurants.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.failedRestaurants.DATA_CHANGED);
         notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 

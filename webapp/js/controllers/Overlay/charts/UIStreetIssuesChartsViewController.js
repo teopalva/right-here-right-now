@@ -308,7 +308,7 @@ function UIStreetIssuesChartsViewController() {
         addBehavior();
 
         notificationCenter.subscribe(self, self.dataChanged, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.dataChanged, Notifications.potholes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.dataChanged, Notifications.potholes.DATA_CHANGED);
     } ();
 }
 

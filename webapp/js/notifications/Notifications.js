@@ -43,7 +43,7 @@ Notifications.newsfeed = {
  * @type {{}}
  */
 Notifications.potholes = {
-    LAYER_UPDATED: "com.righthererightnow.potholes.layerUpdated"
+    SELECTION_UPDATED: "com.righthererightnow.potholes.selectionUpdated"
 };
 
 /**
@@ -51,7 +51,7 @@ Notifications.potholes = {
  * @type {{}}
  */
 Notifications.vehicles = {
-    LAYER_UPDATED: "com.righthererightnow.vehicles.layerUpdated"
+    SELECTION_UPDATED: "com.righthererightnow.vehicles.selectionUpdated"
 }
 
 /**
@@ -59,7 +59,7 @@ Notifications.vehicles = {
  * @type {{}}
  */
 Notifications.lights = {
-    LAYER_UPDATED: "com.righthererightnow.lights.layerUpdated"
+    SELECTION_UPDATED: "com.righthererightnow.lights.selectionUpdated"
 }
 
 /**
@@ -92,7 +92,8 @@ Notifications.mapLayers = {
  */
 Notifications.time = {
     CLOCK_UPDATED : "com.righthererightnow.time.clockUpdated",
-    SUN_UPDATED : "com.righthererightnow.time.sunUpdated"
+    SUN_UPDATED : "com.righthererightnow.time.sunUpdated",
+    TEMPORAL_SCOPE_CHANGED : "com.righthererightnow.time.temporalScope"
 };
 
 /**
@@ -114,32 +115,9 @@ Notifications.cta = {
     BUS_STOP_PREDICTIONS: "com.righthererightnow.cta.predictions"
 };
 
-/**
- * Notifications about violentCrimes
- * @type {{}}
- */
-Notifications.violentCrimes = {
-    LAYER_UPDATED: "com.righthererightnow.violentCrimes.layerUpdated"
-};
-
-/**
- * Notifications about propertyCrimes
- * @type {{}}
- */
-Notifications.propertyCrimes = {
-    LAYER_UPDATED: "com.righthererightnow.propertyCrimes.layerUpdated"
-};
-
-/**
- * Notifications about qualityOfLifeCrimes
- * @type {{}}
- */
-Notifications.qualityOfLifeCrimes = {
-    LAYER_UPDATED: "com.righthererightnow.qualityOfLife.layerUpdated"
-};
-
 Notifications.crimes = {
-    SELECTION_UPDATED : "com.righthererightnow.crimes.SeletionUpdated"
+    SELECTION_UPDATED : "com.righthererightnow.crimes.SeletionUpdated",
+    DATA_CHANGED : "com.righthererightnow.crimes.DataChanged"
 };
 
 /**

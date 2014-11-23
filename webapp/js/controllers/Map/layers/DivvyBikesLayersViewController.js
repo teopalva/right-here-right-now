@@ -162,7 +162,7 @@ function DivvyBikesLayerViewController() {
         self.getView().addClass("divvyBikes-layer-view-controller");
 
 
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.divvyBikes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.divvyBikes.DATA_CHANGED);
         notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
 
