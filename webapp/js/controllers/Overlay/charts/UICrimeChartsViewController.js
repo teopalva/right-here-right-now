@@ -163,6 +163,7 @@ function UICrimeChartsViewController() {
         if(model.getAreaOfInterestModel().getAreaOfInterest() != null) {
             _stackedChart.pushData(selectedArea);
         }
+
         _stackedChart.setYLabel("crimes / mile²");
         _stackedChart.draw();
 
@@ -185,7 +186,12 @@ function UICrimeChartsViewController() {
                 }
             }
         } else {
-
+            for(i = 0; i < _topNumber; i++) {
+                for(j = 0; j < 3; j++) {
+                    _selectedAreaLocationsLabels[i][j]
+                        .setText("");
+                }
+            }
         }
 
         locations = [];
@@ -263,13 +269,13 @@ function UICrimeChartsViewController() {
         _chartTitle.getView().setFrame(0, y, box.width, 70);
         _chartTitle.getView().setViewBox(0, 0, box.width, 70);
 
-        y += 40;
+        y += 30;
 
         var chartHeight = 450;
         _stackedChart.getView().setFrame(0, y, box.width, chartHeight);
         _stackedChart.getView().setViewBox(0, 0, box.width, chartHeight);
 
-        y += chartHeight + 20;
+        y += chartHeight + 30;
 
         var columnWidth = box.width /3;
         for(var i = 0; i < 3; i++) {
