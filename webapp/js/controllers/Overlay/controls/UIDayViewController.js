@@ -34,7 +34,14 @@ function UIDayViewController() {
      */
     this.weatherUpdated = function() {
         var conditions = model.getWeatherModel().getCurrentConditions();
-        _weatherImage.setImagePath("assets/images/weather/" + weatherIconMapping[conditions].day);
+
+        var dayOrNight;
+        if(model.getTimeModel().isDay())
+            dayOrNight = "day";
+        else
+            dayOrNight = "night";
+
+        _weatherImage.setImagePath("assets/images/weather/" + weatherIconMapping[conditions][dayOrNight]);
         _tempLabelF.setText(model.getWeatherModel().getCurrentFahrenheitTemperature() + " F");
         _tempLabelC.setText(model.getWeatherModel().getCurrentCelsiusTemperature() + " C");
     };
