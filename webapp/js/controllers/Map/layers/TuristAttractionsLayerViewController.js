@@ -69,7 +69,7 @@ function TuristAttractionsLayerViewController() {
 
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
-            type: PopupsType.TURIST_ATTRACTIONS,
+            type: PopupsType.PLACES_OF_INTEREST,
             layer: Layers.TURIST_ATTRACTIONS,
             position: {
                 latitude: d.latitude,
