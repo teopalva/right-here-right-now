@@ -17,7 +17,7 @@ function PopupModel() {
      * @param dictionary
      * @returns {number}
      */
-    this.addPopup = function(dictionary) {
+    this.addPopup = function (dictionary) {
         var currentId = _countID;
         _countID++;
 
@@ -33,7 +33,7 @@ function PopupModel() {
      * @param id
      * @param dictionary
      */
-    this.changePopup = function(id, dictionary) {
+    this.changePopup = function (id, dictionary) {
         _popups[id] = dictionary;
         notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
     };
@@ -43,7 +43,7 @@ function PopupModel() {
      * @param id
      * @returns {*}
      */
-    this.getPopup = function(id) {
+    this.getPopup = function (id) {
         return _popups[id];
     };
 
@@ -51,7 +51,7 @@ function PopupModel() {
      * Remove a popup with a given id
      * @param id
      */
-    this.removePopupWithId = function(id) {
+    this.removePopupWithId = function (id) {
         delete _popups[id];
         notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
     };
@@ -59,10 +59,10 @@ function PopupModel() {
     /**
      * @param dictionary
      */
-    this.removePopup = function(dictionary) {
+    this.removePopup = function (dictionary) {
         var removeId = null;
-        for(var id in _popups) {
-            if(_popups[id] == dictionary) {
+        for (var id in _popups) {
+            if (_popups[id] == dictionary) {
                 removeId = id;
             }
         }
@@ -72,34 +72,55 @@ function PopupModel() {
         notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
     };
 
-    this.removeAll = function(layer){
-        for(var i = 0; i < _popups.length ; i++)
-            if(_popups[i].layer == layer) {
-                _popups.splice(i, 1);
-                notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
+    this.removeAll = function (layer) {
+        var idsToRemove = [];
+        for(var id in _popups) {
+            if(_popups[id].layer == layer) {
+                idsToRemove.push(id);
             }
+        }
+        idsToRemove.forEach(function(id) {
+            delete _popups[id];
+        });
+        notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
     };
 
-    this.getPopups = function() {
+
+    this.removeOutOfPath = function () {
+        var idsToRemove = [];
+        for(var id in _popups) {
+            var lat = _popups[id].position.latitude;
+            var long = _popups[id].position.longitude;
+            if ( ! model.getAreaOfInterestModel().isInsideAreaOfInterest(lat, long)) {
+                idsToRemove.push(id);
+            }
+        }
+        idsToRemove.forEach(function(id) {
+            delete _popups[id];
+        });
+        notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
+    };
+
+    this.getPopups = function () {
         return d3.values(_popups);
     };
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
 
-    var init = function() {
-
-    } ();
+    var init = function () {
+        notificationCenter.subscribe(self, self.removeOutOfPath, Notifications.areaOfInterest.PATH_UPDATED);
+    }();
 }
 
 
 var PopupsType = {
-    CRIME : "crimes",
-    POTHOLES : "potholes",
-    LIGHTS : "lights",
-    DIVVY_BIKES : "divvy_bikes",
-    VEHICLES : "vehicles",
-    PLACES_OF_INTEREST : "places_of_interest",
-    RESTAURANTS : "restaurants",
+    CRIME: "crimes",
+    POTHOLES: "potholes",
+    LIGHTS: "lights",
+    DIVVY_BIKES: "divvy_bikes",
+    VEHICLES: "vehicles",
+    PLACES_OF_INTEREST: "places_of_interest",
+    RESTAURANTS: "restaurants",
     BUS_STOPS: "bus_stops",
     BUS_VEHICLES: "bus_vehicles",
     BUS_ROUTES: "bus_routes",

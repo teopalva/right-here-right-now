@@ -53,11 +53,11 @@ function PopupFactory() {
                 popup.setDataSourceImage("assets/icon/data_sources/cta.svg");
                 setupBusVehiclePopup(popup,dictionary);
                 break;
-            case PopupsType.BUS_ROUTES:
-                popup.setDataSourceFrame(10,5,50,50);
-                popup.setDataSourceImage("assets/icon/data_sources/cta.svg");
-                setupBusRoutePopup(popup,dictionary);
-                break;
+            //case PopupsType.BUS_ROUTES:
+            //    popup.setDataSourceFrame(10,5,50,50);
+            //    popup.setDataSourceImage("assets/icon/data_sources/cta.svg");
+            //    setupBusRoutePopup(popup,dictionary);
+            //    break;
             case PopupsType.TRAIN_STATIONS:
                 popup.setDataSourceFrame(10,5,50,50);
                 popup.setDataSourceImage("assets/icon/data_sources/cta.svg");
@@ -568,7 +568,7 @@ function PopupFactory() {
     };
 
     /**
-     * Setup bus stop popup
+     * Setup bus vehicle popup
      * @param popup
      * @param dictionary
      */
@@ -625,20 +625,15 @@ function PopupFactory() {
     };
 
     /**
-     * Setup bus route popup
+     * Setup train station popup
      * @param popup
      * @param dictionary
      */
-    var  setupBusRoutePopup = function(popup,dictionary) {
+    var  setupTrainStopPopup = function(popup,dictionary) {
         // Setup popup
-        var _busStopFrameSize = {
-            width: 250,
-            height: 100
-        };
-
-        var labelsSize = {
-            width: _busStopFrameSize.width - 20,
-            height: 30
+        var _trainStopFrameSize = {
+            width: 300,
+            height: 200
         };
 
         var padding = {
@@ -647,24 +642,18 @@ function PopupFactory() {
             between : 4
         };
 
-        var latitude = dictionary.info.latitude;
-        var longitude = dictionary.info.longitude;
-
-        var position = model.getMapModel().projectAtCurrentZoom(latitude, longitude);
+        var position = model.getMapModel().projectAtCurrentZoom(dictionary.info.latitude, dictionary.info.longitude);
         popup.getView().setFrame(
-            position.x - (_busStopFrameSize.width / 2),
-            position.y - _busStopFrameSize.height,
-            _busStopFrameSize.width,
-            _busStopFrameSize.height
+            position.x - (_trainStopFrameSize.width / 2),
+            position.y - _trainStopFrameSize.height,
+            _trainStopFrameSize.width,
+            _trainStopFrameSize.height
         );
-        popup.getView().setViewBox(0, 0, _busStopFrameSize.width, _busStopFrameSize.height);
+        popup.getView().setViewBox(0, 0, _trainStopFrameSize.width, _trainStopFrameSize.height);
 
-        var idLabel = new UILabelViewController();
-        idLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
-        idLabel.setText(dictionary.info.route + " - " + dictionary.info.direction);
-        idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        popup.add(idLabel);
-
+        var trainContent = new TrainStopPopupContentViewController(dictionary, _trainStopFrameSize);
+        trainContent.getView().setFrame(padding.left, padding.top, _trainStopFrameSize.width, _trainStopFrameSize.height);
+        popup.add(trainContent);
 
 
     };

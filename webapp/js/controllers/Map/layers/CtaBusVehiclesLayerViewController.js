@@ -191,7 +191,7 @@ function CtaBusVehiclesLayerViewController() {
 
         } else {
             canvas.selectAll(".marker.pin").remove();
-            markers = canvas.selectAll(".marker.point").data(vehicles);
+            markers = canvas.selectAll(".marker.point").data(vehiclesArray);
             // Update
             markers
                 .attr("cx", function (d) {

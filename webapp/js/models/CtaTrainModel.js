@@ -14,10 +14,31 @@ function CtaTrainModel() {
     // CTA Train stations
     var _stations = [];
 
+    // CTA predictions
+    var _predictions = {};
+
+    // CTA lines
+    var _lineColors = {
+        Red: "rgb(145,10,31)",
+
+    }
+
     /////////////// PUBLIC METHODS ///////////////
     this.getStations = function() {
         return _stations;
     };
+
+    this.removePredictions = function(stopID) {
+        delete _predictions[stopID];
+    };
+
+    this.getPredictions = function(stopID) {
+        return _predictions[stopID];
+    };
+
+    this.getAllPredictions = function() {
+        return _predictions;
+    }
 
     /***
      * Retrieve the list of all the stations
@@ -46,14 +67,18 @@ function CtaTrainModel() {
      * A station can have many stops inside of it depending on directions and lines.
      * For more information consult the CTA Train API Documents.
      */
-    this.retrieveStationInfo = function(stop) {
-        var url = "http://lapi.transitchicago.com/api/1.0/ttarrivals.aspx?key=" + _key + "&stpid=" + stop;
+    this.retrieveStationInfo = function(stopID) {
+        var url = "http://lapi.transitchicago.com/api/1.0/ttarrivals.aspx?key=" + _key + "&mapid=" + parseInt(stopID);
         var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from xml where url="' + url + '"') + '&format=xml&callback=?';
 
-        var info = [];
 
         $.getJSON(yql, function (data) {
             var parsed_xml = data.results[0];
+
+            console.log(parsed_xml);
+
+            _predictions[stopID] = [];
+
             $(parsed_xml).find('eta').each(function () {
 
                 var arrivalTime    =$(this).find("arrT").text();
@@ -65,7 +90,7 @@ function CtaTrainModel() {
 
                 var minutes = (arrivalDate - predictionDate)/60000;
 
-                var eta     = $(this).find("isApp").text() === "0" ? minutes : "due";
+                var eta     = $(this).find("isApp").text() === "0" ? minutes : "DUE";
                 var delay   = $(this).find("isDly").text() === "0" ? "-" : "delay";
 
                 var stopInfo = {
@@ -84,10 +109,12 @@ function CtaTrainModel() {
                     heading:            $(this).find("heading").text()
                 };
 
-                info.push(stopInfo);
+                _predictions[stopID].push(stopInfo);
             });
-            console.log("Station " + stop);
-            console.log(info);
+            console.log("Station " + stopID);
+            console.log(_predictions[stopID]);
+
+            notificationCenter.dispatch(Notifications.cta.TRAIN_STOP_PREDICTIONS);
         });
     };
 

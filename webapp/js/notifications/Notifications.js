@@ -112,7 +112,9 @@ Notifications.cta = {
     ROUTES_PATHS: "com.righthererightnow.cta.routesPaths",
     ROUTES_PATHS_LOADED: "com.righthererightnow.cta.routesPathsLoaded",
     TRAIN_STATIONS: "com.righthererihgtnow.cta.trainStations",
-    BUS_STOP_PREDICTIONS: "com.righthererightnow.cta.predictions"
+    BUS_STOP_PREDICTIONS: "com.righthererightnow.cta.busPredictions",
+    TRAIN_STOP_PREDICTIONS: "com.righthererightnow.cta.trainPredictions"
+
 };
 
 Notifications.crimes = {
