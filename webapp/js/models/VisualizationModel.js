@@ -390,15 +390,6 @@ function VisualizationModel() {
     };
 
 
-    // PLACES OF INTEREST
-    /**
-     * Returns restaurant  icon path
-     * @returns {string}
-     */
-    this.placesOfInterestMarkerIconPath = function () {
-        return "assets/icon/markers/restaurant_failed.svg";
-    };
-
     /**
      * Returns restaurant marker size
      * @returns {{width: number, height: number}}
@@ -409,6 +400,19 @@ function VisualizationModel() {
             height: 40
         }
     };
+
+
+    /**
+     * Returns restaurant marker size
+     * @returns {{width: number, height: number}}
+     */
+    this.turistAttractionsMarkerIconSize = function () {
+        return {
+            width: 40,
+            height: 40
+        }
+    };
+
 
 
     // Abandoned Vehicles
@@ -606,8 +610,8 @@ function VisualizationModel() {
         "Quality-of-life Crimes": "rgba(252,163,60, 1.0)",
 
         "Top Restaurants": "rgba(31,123,53, 1.0)",
-        "Failed Restaurants": "rgba(107,196,105, 1.0)",
-
+        "Inspection Failed Restaurants": "rgba(107,196,105, 1.0)",
+        "Turist Attractions": "#00294C"
     };
     
     ///////////////////////////// PRIVATE METHODS /////////////////////////////

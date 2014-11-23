@@ -100,6 +100,10 @@ function UILayersBarViewController() {
                 title: "Inspection Failed Restaurants",
                 button: new UIButtonViewController(),
                 layers: [Layers.FAILED_RESTAURANTS]
+            }, {
+                title: "Turist Attractions",
+                button: new UIButtonViewController(),
+                layers: [Layers.TURIST_ATTRACTIONS]
             }]
         }
     ];
