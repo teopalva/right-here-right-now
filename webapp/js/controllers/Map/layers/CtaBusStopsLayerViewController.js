@@ -24,7 +24,7 @@ function CtaBusStopsLayerViewController() {
     };
 
     /**
-     *
+     * Called when the path is changed.
      */
     this.pathChanged = function() {
         model.getCtaModel().stopUpdates();
