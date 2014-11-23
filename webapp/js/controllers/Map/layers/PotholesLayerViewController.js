@@ -11,7 +11,7 @@ function PotholesLayerViewController() {
     var self = this;
 
     this.drawNewPoints = function(){
-        var points = model.getPotholesModel().getPotholes();
+        var points = model.getPotholesModel().getPotholesWithinArea();
         draw(points);
     };
 
