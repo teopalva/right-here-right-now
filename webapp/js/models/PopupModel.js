@@ -8,18 +8,67 @@ function PopupModel() {
 
     var self = this;
 
-    var _popups = [];
+    var _popups = {};
+    var _countID = 0;
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
-
+    /**
+     *
+     * @param dictionary
+     * @returns {number}
+     */
     this.addPopup = function(dictionary) {
-        _popups.push(dictionary);
+        var currentId = _countID;
+        _countID++;
+
+        _popups[currentId] = dictionary;
+
+        notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
+
+        return currentId;
+    };
+
+    /**
+     *
+     * @param id
+     * @param dictionary
+     */
+    this.changePopup = function(id, dictionary) {
+        _popups[id] = dictionary;
         notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
     };
 
+    /**
+     *
+     * @param id
+     * @returns {*}
+     */
+    this.getPopup = function(id) {
+        return _popups[id];
+    };
+
+    /**
+     *
+     * @param id
+     */
+    this.removePopupWithId = function(id) {
+        delete _popups[id];
+        notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
+    };
+
+    /**
+     * @param dictionary
+     */
     this.removePopup = function(dictionary) {
-        var index = _popups.indexOf(dictionary);
-        _popups.splice(index,1);
+        var removeId = null;
+        for(var id in _popups) {
+            if(_popups[id] == dictionary) {
+                removeId = id;
+            }
+        }
+        delete _popups[removeId];
+        //var index = _popups.indexOf(dictionary);
+        //_popups.splice(index,1);
         notificationCenter.dispatch(Notifications.popups.POPUPS_CHANGED);
     };
 
@@ -32,7 +81,7 @@ function PopupModel() {
     };
 
     this.getPopups = function() {
-        return _popups;
+        return d3.values(_popups);
     };
 
     ///////////////////////// PRIVATE METHODS /////////////////////////

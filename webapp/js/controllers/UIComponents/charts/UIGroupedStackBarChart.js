@@ -167,10 +167,10 @@ function UIGroupedStackBarChart() {
             _yLabelElement = gAxis
                 .append("text")
                 .classed("yLabel", true)
-                .attr("transform", "rotate(-90)")
+                .attr("transform", "translate(-10, -15)")
                 .attr("y", 6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end");
+                .attr("dy", "0.0em")
+                .style("text-anchor", "start");
         }
         _yLabelElement.text(_yLabel);
 
@@ -190,7 +190,7 @@ function UIGroupedStackBarChart() {
                 }
             });
         grid.enter()
-            .append("line")
+            .insert("line", ":first-child")
             .attr({
                 "class": "horizontalGrid",
                 "x1": 0,
