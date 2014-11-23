@@ -367,7 +367,7 @@ function VisualizationModel() {
      * @returns {string}
      */
     this.failedRestaurantsMarkerColor = function () {
-        return this.layersColors["Failed Restaurants"];
+        return this.layersColors["Inspection Failed Restaurants"];
     };
 
     /**
