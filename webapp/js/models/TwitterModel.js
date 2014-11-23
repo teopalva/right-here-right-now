@@ -58,19 +58,10 @@ function TwitterModel() {
         for (i in tweets)
             if (!contains(oldTweets, tweets[i].text)) {
                 // NOTIFY NEW TWEET
-                console.log("New tweet at: ", new Date(tweets[i].created_at),tweets[i].text);
                 var name = tweets[i].user.name;
                 var nick = "@" + tweets[i].user.screen_name;
                 var tweet = tweets[i].text;
                 var url = tweets[i].user.profile_image_url;
-                //console.log("New tweet: ", tweets[i]);
-                /*
-                var p = tweets[i].created_at.split(" ");
-                var month = ("JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(p[1]) / 3 + 1);
-                var time = p[3].split(":");
-                var date = new Date(p[5], month - 1, p[2], time[0], time[1], time[2]);
-                //console.log(tweets[i].created_at, date);
-                */
                 model.getNewsFeedModel().postTweet(new News([name, nick], tweet, "assets/icon/twitter.svg", new Date(tweets[i].created_at), url));
             }
 

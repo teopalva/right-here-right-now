@@ -333,6 +333,7 @@ function UINewsFeedViewController() {
     /////////////////////  PRIVATE METHODS /////////////////////
 
     var init = function () {
+
         self.getView().addClass("ui-news-feed-view-controller");
 
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
@@ -349,6 +350,7 @@ function UINewsFeedViewController() {
         _mode = _modes.PLAY;
 
         // Fake news
+
         var news1 = new News("News1", "sono news1", "assets/icon/markers/crime_violent.svg", new Date());
         var news2 = new News("News2", "sono news2", "assets/icon/markers/crime_violent.svg", new Date());
         var news3 = new News("News3", "sono news3", "assets/icon/markers/crime_violent.svg", new Date());
@@ -363,6 +365,7 @@ function UINewsFeedViewController() {
         model.getNewsFeedModel().postNews(news5);
         model.getNewsFeedModel().postNews(news6);
         //model.getNewsFeedModel().postNews(news7);
+
 
         // Show first page of news
         self.seeLastPage();
