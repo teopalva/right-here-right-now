@@ -26,12 +26,6 @@ function PotholesModel() {
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
-    this.updateTemporalScope = function(){
-        _chicagoPotholesByDate = self.filterByDate(_chicagoPotholesAllTime);
-        _areaPotholesByDate = self.filterByDate(_areaPotholesAllTime);
-        notificationCenter.dispatch(Notifications.potholes.SELECTION_UPDATED);
-    };
-
 
     /**
      * Returns the potholes objects in the form:
@@ -80,9 +74,6 @@ function PotholesModel() {
      * @returns {number}
      */
     this.getPotholesDensityWithinArea = function() {
-        if(_areaPotholesByDate.length == 0) {
-            return 0;
-        }
         return _areaPotholesByDate.length / model.getAreaOfInterestModel().getSquaredMiles();
     };
 
@@ -97,6 +88,12 @@ function PotholesModel() {
 
     this.isDataAvailable = function(){
         return _dataAvailable;
+    };
+
+    this.updateTemporalScope = function(){
+        _chicagoPotholesByDate = self.filterByDate(_chicagoPotholesAllTime);
+        _areaPotholesByDate = self.filterByDate(_areaPotholesAllTime);
+        notificationCenter.dispatch(Notifications.potholes.SELECTION_UPDATED);
     };
 
     /**

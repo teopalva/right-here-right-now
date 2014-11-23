@@ -51,7 +51,7 @@ Notifications.potholes = {
  * @type {{}}
  */
 Notifications.vehicles = {
-    LAYER_UPDATED: "com.righthererightnow.vehicles.layerUpdated"
+    SELECTION_UPDATED: "com.righthererightnow.vehicles.selectionUpdated"
 }
 
 /**
