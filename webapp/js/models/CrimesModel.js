@@ -18,6 +18,24 @@ function CrimesModel() {
 
     //////////////////////// PUBLIC METHODS ////////////////////////
 
+    /**
+     * Get the top locations in the current selected area
+     * @param number of top locations to select (sorted by occurences)
+     * @returns {Array<Objects>|string|Blob|*}
+     */
+    this.getTopLocationsInSelectedArea = function(number){
+        return classifyLocations(_areaCrimesByDate).slice(0,number);
+    };
+
+    /**
+     * Get the top locations in Chicago
+     * @param number of top locations to select (sorted by occurences)
+     * @returns {Array.<T>|string|Blob|*}
+     */
+    this.getTopLocationsInChicago = function(number){
+        return classifyLocations(_chicagoCrimesByDate).slice(0,number);
+    };
+
     this.filterByDate = function(objects){
         var timeRange = model.getTimeModel().getTemporalScope();
         if(timeRange == TimeRange.LAST_MONTH) {
@@ -169,21 +187,6 @@ function CrimesModel() {
             "%20and%20latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
 
-        /*
-         var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
-         if(areaOfInterest) {
-         var coordinates = d3.geo.bounds(areaOfInterest);
-
-         //  0: long
-         //  1: lat
-         var bottomLeft = coordinates[0];
-         var topRight = coordinates[1];
-
-         query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
-         }
-         */
-
-
         d3.json(link + query, function(json){
             _chicagoCrimesAllTime = [];
             json.forEach(function(crime){
@@ -239,6 +242,40 @@ function CrimesModel() {
     };
 
 
+    //////////////////////// PRIVATE METHODS ////////////////////////
+
+    var classifyLocations = function(array){
+        var locations = [];
+        for(var i in array){
+            var cont = containsLocation(locations,array[i].location_description);
+            if(cont == null){
+                var location = {"location": array[i].location_description ,
+                    "number": 1
+                };
+                locations.push(location);
+            }
+            else
+                locations[cont].number ++;
+        }
+
+        return locations.sort(compareLocations);
+    };
+
+    function compareLocations(a,b) {
+        if (a.number < b.number)
+            return 1;
+        if (a.number > b.number)
+            return -1;
+        return 0;
+    }
+
+    var containsLocation = function(array, location){
+        for(var i in array)
+            if(array[i].location == location)
+                return i;
+        return null;
+    };
+
     var filterObjectInSelectedArea = function(objects, callback) {
         _areaCrimesAllTime = model.getAreaOfInterestModel().filterObjects(_chicagoCrimesAllTime);
         _areaCrimesByDate = self.filterByDate(_areaCrimesAllTime);
@@ -246,7 +283,7 @@ function CrimesModel() {
         callback(null, null);
     };
 
-    //////////////////////// PRIVATE METHODS ////////////////////////
+
     var categorize = function(primary_type){
         switch (primary_type){
             case CrimePrimaryType.ASSAULT                              :
