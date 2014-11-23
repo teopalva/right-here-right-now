@@ -29,7 +29,7 @@ function ThemeModel() {
      *
      * @returns {string}
      */
-    this.secondaryTextColor = function() {
+    this.secondaryTextColor = function () {
         return "rgba(187, 187, 187, 1.0)";
     };
 
@@ -47,7 +47,7 @@ function ThemeModel() {
      *
      * @returns {string}
      */
-    this.hugeTextSize = function() {
+    this.hugeTextSize = function () {
         return "70px";
     };
 
@@ -55,7 +55,7 @@ function ThemeModel() {
      *
      * @returns {string}
      */
-    this.largeTextSize = function() {
+    this.largeTextSize = function () {
         return "50px";
     };
 
@@ -63,7 +63,7 @@ function ThemeModel() {
      *
      * @returns {string}
      */
-    this.biggerTextSize = function() {
+    this.biggerTextSize = function () {
         return "34px";
     };
 
@@ -92,20 +92,24 @@ function ThemeModel() {
     };
 
     // Charts
-    this.chartsMenuButtonBackgroundColor = function() {
+    this.chartsMenuButtonBackgroundColor = function () {
         return "rgba(246, 246, 246, 0)";
     };
 
-    this.chartsMenuButtonSelectedBackgroundColor = function() {
+    this.chartsMenuButtonSelectedBackgroundColor = function () {
         return "rgba(246, 246, 246, 1)";
     };
 
-    this.chartsMenuButtonTextColor = function() {
+    this.chartsMenuButtonTextColor = function () {
         return "rgba(187, 187, 187, 1)";
     };
 
-    this.chartsMenuButtonSelectedTextColor = function() {
+    this.chartsMenuButtonSelectedTextColor = function () {
         return "rgba(41, 36, 33, 1)";
+    };
+
+    this.tweetColor = function () {
+        return "rgba(30, 150, 219, 0.95";
     };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////

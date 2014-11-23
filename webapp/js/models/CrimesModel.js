@@ -19,9 +19,10 @@ function CrimesModel() {
     //////////////////////// PUBLIC METHODS ////////////////////////
 
     /**
-     * Get the top locations in the current selected area
+     * Get the top locations in Chicago
      * @param number of top locations to select (sorted by occurences)
-     * @returns {Array<Objects>|string|Blob|*}
+     * @param category is the crime category
+     * @returns {Array.<T>|string|Blob|*}
      */
     this.getTopLocationsInSelectedArea = function (number, category) {
         return classifyLocations(_areaCrimesByDate, category).slice(0, number);
@@ -30,6 +31,7 @@ function CrimesModel() {
     /**
      * Get the top locations in Chicago
      * @param number of top locations to select (sorted by occurences)
+     * @param category is the crime category
      * @returns {Array.<T>|string|Blob|*}
      */
     this.getTopLocationsInChicago = function (number, category) {
@@ -244,10 +246,14 @@ function CrimesModel() {
 
     //////////////////////// PRIVATE METHODS ////////////////////////
 
+
     var classifyLocations = function (array, category) {
         var locations = [];
+        var len = 0;
+
         for (var i in array) {
             if (array[i].category == category) {
+                len ++;
                 var cont = containsLocation(locations, array[i].location_description);
                 if (cont == null) {
                     var location = {
@@ -260,6 +266,9 @@ function CrimesModel() {
                     locations[cont].number++;
             }
         }
+
+        for(var i in locations)
+            locations[i].percentage = locations[i].number / len * 100;
 
         return locations.sort(compareLocations);
     };

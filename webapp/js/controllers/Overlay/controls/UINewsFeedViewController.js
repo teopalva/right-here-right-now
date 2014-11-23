@@ -33,9 +33,9 @@ function UINewsFeedViewController() {
     };
 
     var _pHour = {
-        x: 222,
+        x: 160,
         y: 78,
-        w: 85,
+        w: 147,
         h: 53
     };
 
@@ -89,9 +89,16 @@ function UINewsFeedViewController() {
         _upButton.getView().setViewBox(0, 0, 28, 28);
         _upButton.setImage("assets/icon/arrow_up.svg");
         _upButton.onClick(function () {
-            if (_indexPage >= 3) {
-                _indexPage -= 3;
-                self.drawNews();
+            if (_type === "RSS") {
+                if (_indexPage >= 3) {
+                    _indexPage -= 3;
+                    self.drawNews();
+                }
+            } else {
+                if (_indexPageTwitter >= 3) {
+                    _indexPageTwitter -= 3;
+                    self.drawTweets();
+                }
             }
         });
         self.add(_upButton);
@@ -101,10 +108,16 @@ function UINewsFeedViewController() {
         _downButton.getView().setViewBox(0, 0, 28, 28);
         _downButton.setImage("assets/icon/arrow_down.svg");
         _downButton.onClick(function () {
-            if (model.getNewsFeedModel().getNewsfeed().length - 1 > _indexPage + 2) {
-                _indexPage += 3;
-                self.drawNews();
-                //console.log("next page");
+            if (_type === "RSS") {
+                if (model.getNewsFeedModel().getNewsfeed().length - 1 > _indexPage + 2) {
+                    _indexPage += 3;
+                    self.drawNews();
+                }
+            } else {
+                if (model.getNewsFeedModel().getTweets().length - 1 > _indexPageTwitter + 2) {
+                    _indexPageTwitter += 3;
+                    self.drawTweets();
+                }
             }
         });
         self.add(_downButton);
@@ -200,7 +213,7 @@ function UINewsFeedViewController() {
 
             // Hour
             _hourLabel = new UILabelViewController();
-            _hourLabel.setText(formatAMPM(news_.getTimestamp()));
+            _hourLabel.setText(news_.getTimestamp().getMonth() + 1 + "/" + news_.getTimestamp().getDate() + " " + formatAMPM(news_.getTimestamp()));
             _hourLabel.setTextSize(20);
             _hourLabel.setTextColor("white");
             _hourLabel.getView().setFrame(_pHour.x, _pHour.y + _vPadding * p, _pHour.w, _pHour.h);
@@ -246,37 +259,37 @@ function UINewsFeedViewController() {
 
             // Icon
             _newsIconButton = new UIButtonViewController();
-            _newsIconButton.getView().setFrame(_pIcon.x, _pIcon.y + _vPadding * p, _pIcon.w, _pIcon.h);
-            _newsIconButton.getView().setViewBox(0, 0, _pIcon.w, _pIcon.h);
+            _newsIconButton.getView().setFrame(_pIcon.x + 5, _pIcon.y + _vPadding * p + 10, _pIcon.w - 20, _pIcon.h - 20);
+            _newsIconButton.getView().setViewBox(0, 0, _pIcon.w - 20, _pIcon.h - 20);
 
             var size = {
                 width: model.getVisualizationModel().divvyMarkerIconSize().width,
                 height: model.getVisualizationModel().divvyMarkerIconSize().height
             };
             _newsIconButton.setImage(news_.getImagePath());
-            _newsIconButton.getView().getSvg()
-                .attr("width", _pIcon.w - 10)
-                .attr("height", _pIcon.h - 10)
-            _newsIconButton.onClick(function () {
-                // TODO interaction news-map
-            });
+            _newsIconButton.onClick(function (tweet) {
+                model.getTwitterModel().setTweetDetail(tweet);
+            }, news_);
             self.add(_newsIconButton);
             _pageElements.push(_newsIconButton);
 
             // Description
             _descriptionLabel = new UILabelViewController();
-            _descriptionLabel.setText(news_.getDescription());
+            var description = news_.getDescription();
+            description = description.replace("#BreakingNews", "");
+            description = description.substring(0, 22) + "...";
+            _descriptionLabel.setText(description);
             _descriptionLabel.setTextSize(20);
             _descriptionLabel.setTextColor("white");
             _descriptionLabel.setTextAlignment("left");
-            _descriptionLabel.getView().setFrame(_pDesc.x, _pDesc.y + _vPadding * p, _pDesc.w, _pDesc.h);
+            _descriptionLabel.getView().setFrame(_pDesc.x - 5, _pDesc.y + _vPadding * p, _pDesc.w, _pDesc.h);
             _descriptionLabel.getView().setViewBox(0, 0, _pDesc.w, _pDesc.h);
             self.add(_descriptionLabel);
             _pageElements.push(_descriptionLabel);
 
             // Hour
             _hourLabel = new UILabelViewController();
-            _hourLabel.setText(formatAMPM(news_.getTimestamp()));
+            _hourLabel.setText(news_.getTimestamp().getMonth() + 1 + "/" + news_.getTimestamp().getDate() + " " + formatAMPM(news_.getTimestamp()));
             _hourLabel.setTextSize(20);
             _hourLabel.setTextColor("white");
             _hourLabel.getView().setFrame(_pHour.x, _pHour.y + _vPadding * p, _pHour.w, _pHour.h);
@@ -301,7 +314,7 @@ function UINewsFeedViewController() {
 
     /////////////////////////////////////////////
 
-    this.seeLastPage = function (type) {
+    this.seeLastPage = function () {
         if (_mode === _modes.PLAY) {
             // Retrieve real-time feed
             if (_type === "RSS") {

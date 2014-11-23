@@ -71,10 +71,10 @@ function DivvyBikesModel() {
 
             // News feed
             var temp = model.getAreaOfInterestModel().filterObjects(_divvyBikes);
-            for(var i=0 ; i < temp.length ; i++)
-                if(_oldDivvyBikes.length > 0)
-                    if(hasChanged(temp[i],_oldDivvyBikes)) {
-                        var news = new News("Divvy" + new Date(), temp[i].id + " updated", "assets/icon/markers/divvy.svg", new Date());
+            for (var i = 0; i < temp.length; i++)
+                if (_oldDivvyBikes.length > 0)
+                    if (hasChanged(temp[i], _oldDivvyBikes)) {
+                        var news = new News("Divvy" + new Date(), "Station n." + temp[i].id + " updated", "assets/icon/markers/divvy.svg", new Date());
                         model.getNewsFeedModel().postNews(news);
                     }
         });
@@ -106,11 +106,12 @@ function DivvyBikesModel() {
      * @param arr
      * @returns {boolean}
      */
-    var hasChanged = function (obj , arr){
-        for (i in arr){
-            if(isIt(arr[i], obj) && ! isEqual(arr[i], obj)) {
+    var hasChanged = function (obj, arr) {
+        for (i in arr) {
+            if (isIt(arr[i], obj) && !isEqual(arr[i], obj)) {
                 return true;
-            }}
+            }
+        }
         return false;
     };
 
@@ -120,7 +121,7 @@ function DivvyBikesModel() {
      * @param obj2
      * @returns {boolean}
      */
-    var isIt = function (obj1 , obj2){
+    var isIt = function (obj1, obj2) {
         return obj1.id == obj2.id;
     };
 
@@ -130,7 +131,7 @@ function DivvyBikesModel() {
      * @param obj2
      * @returns {boolean}
      */
-    var isEqual = function( obj1 , obj2 ){
+    var isEqual = function (obj1, obj2) {
         return JSON.stringify(obj1) == JSON.stringify(obj2);
     };
 

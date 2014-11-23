@@ -13,6 +13,7 @@ function News(title, description, imagePath, timestamp) {
     var _description = description || "";
     var _imagePath = imagePath || "";
     var _timestamp = timestamp || new Date();
+    var _profileImagePath = arguments[4] || "";
 
     /////////////////////////// PUBLIC METHODS ///////////////////////////
     /**
@@ -79,6 +80,11 @@ function News(title, description, imagePath, timestamp) {
     this.setTimestamp = function (timestamp) {
         _timestamp = timestamp;
     };
+    
+     this.getProfileImagePath = function () {
+        return _profileImagePath;
+    };
+
 
     ////////////////////////// PRIVATE METHODS ///////////////////////////
     var init = function () {
