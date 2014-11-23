@@ -16,18 +16,20 @@ function TwitterModel() {
 
     this.updateTweets = function () {
 
-        _oldTweets = _tweets;
-        _tweets = [];
         var proxy = "https://script.google.com/a/macros/mcpher.com/s/AKfycbzGgpLEWS0rKSBqXG5PcvJ7Fpe02fvGqiCqq54SVQmBJSpy_6s/exec";
         var tweetslink = "http://paolobruzzo.altervista.org/project3/twitter.php";
         d3.json(proxy + "?url=" + tweetslink, function (json) {
             var parsedJson = JSON.parse(json.results);
-            parsedJson.statuses.forEach(function (tweet) {
-                if (!contains(_tweets, tweet.text)) {
-                    _tweets.push(tweet);
-                }
-            });
-            notifyDifferences(_oldTweets, _tweets);
+            if(parsedJson) {
+                _oldTweets = _tweets;
+                _tweets = [];
+                parsedJson.statuses.forEach(function (tweet) {
+                    if (!contains(_tweets, tweet.text)) {
+                        _tweets.push(tweet);
+                    }
+                });
+                notifyDifferences(_oldTweets, _tweets);
+            }
         });
     };
 
