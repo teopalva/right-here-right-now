@@ -19,6 +19,7 @@ function CtaBusVehiclesLayerViewController() {
     var _fps = 10.0;
     // Default value is 0.00004
     var _meanSpeed = 0.00004;
+    var _maximumSpeed = 0.0001;
 
 
     // TODO: use queue.js
@@ -38,7 +39,7 @@ function CtaBusVehiclesLayerViewController() {
         // Just for debug purposes or when key expires.
         var fakeVehicles = model.getCtaModel().getFakeVehicles();
 
-        //console.log(_counter);
+        console.log(_counter);
 
         // Draw only when all the queries ended.
         if (++_counter === model.getCtaModel().getRoutes().length || fakeVehicles) {
@@ -282,11 +283,16 @@ function CtaBusVehiclesLayerViewController() {
                 _vehicles[id].deltaLng = 0;
                 _vehicles[id].meanSpeed = _meanSpeed;
                 _vehicles[id].id = id;
+                _vehicles[id].lastUpdate = new Date();
             }
             else {
                 // If vehicles are changed
                 if (parseFloat(_vehicles[id].longitude) !== parseFloat(newVehicles[i].longitude) ||
                     parseFloat(_vehicles[id].latitude) !== parseFloat(newVehicles[i].latitude)) {
+                    var now = new Date();
+                    var lastUpdate = _vehicles[id].lastUpdate;
+
+                    _vehicles[id].lastUpdate = now;
 
                     // Update values
                     _vehicles[id].oldLatitude   = parseFloat(_vehicles[id].latitude);
@@ -305,7 +311,8 @@ function CtaBusVehiclesLayerViewController() {
                     var xSpeed = parseFloat(_vehicles[id].longitude) - _vehicles[id].oldLongitude;
                     var ySpeed = parseFloat(_vehicles[id].latitude) - _vehicles[id].oldLatitude;
 
-                    var newSpeed = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2)) / timerInterval;
+                    var elapsedTime = (now - lastUpdate)/1000;
+                    var newSpeed = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2)) / elapsedTime;
 
                     var speedRegister = _vehicles[id].speedValues;
 
@@ -327,10 +334,18 @@ function CtaBusVehiclesLayerViewController() {
 
                     meanSpeed /= j;
 
-                    var weigthedSpeed = (meanSpeed + _meanSpeed)/2;
+                    var weightedSpeed = (meanSpeed + _meanSpeed)/2;
+                    // Clamp it if too high
+                    if(weightedSpeed > _maximumSpeed) {
+                        weightedSpeed = _maximumSpeed;
+                    }
+                    console.log("weighted speed: " + weightedSpeed + " j: " + j);
+                    console.log(speedRegister)
+                    console.log(_vehicles[id])
+
 
                     // TODO: try with weightedSpeed computed above
-                    _vehicles[id].meanSpeed = _meanSpeed;
+                    _vehicles[id].meanSpeed = weightedSpeed;
                 }
 
 
