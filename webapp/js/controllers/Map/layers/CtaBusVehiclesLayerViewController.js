@@ -85,6 +85,7 @@ function CtaBusVehiclesLayerViewController() {
         // Do cleaning stuff here
         model.getCtaModel().stopUpdates();
         stopAnimation();
+        model.getPopupModel().removeAll(Layers.CTA_BUSES);
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -235,6 +236,11 @@ function CtaBusVehiclesLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.BUS_VEHICLES,
+            layer: Layers.CTA_BUSES,
+            position: {
+                latitude: d.latitude,
+                longitude: d.longitude
+            },
             info: d
         });
     };
@@ -243,8 +249,10 @@ function CtaBusVehiclesLayerViewController() {
      * Start the animation of the buses
      */
     var startAnimation = function () {
-        if (_updateTimer === null) {
-            _updateTimer = setInterval(frameUpdate, 1000 / _fps);
+        if(model.getCtaModel().getRoutesPathsLoaded()) {
+            if (_updateTimer === null) {
+                _updateTimer = setInterval(frameUpdate, 1000 / _fps);
+            }
         }
     };
 
@@ -362,23 +370,30 @@ function CtaBusVehiclesLayerViewController() {
         var count = 0;
 
         for (var i in _vehicles) {
-            // 0°   : North
-            // 90°  : East
-            // 180° : South
-            // 270° : West
-            //var alpha = parseInt(_vehicles[i].heading);
-            var alpha = getHeadingFromPath(_vehicles[i]);
-            _vehicles[i].headingAngle = alpha;
+
+            // If not already loaded skip
+            if(model.getCtaModel().getRoutesPaths()[_vehicles[i].patternID]) {
+                // 0°   : North
+                // 90°  : East
+                // 180° : South
+                // 270° : West
+                //var alpha = parseInt(_vehicles[i].heading);
+                var alpha = getHeadingFromPath(_vehicles[i]);
+                _vehicles[i].headingAngle = alpha;
 
 
-            // Inverted because of alpha angle which is described above
-            if (_vehicles[i].meanSpeed !== undefined) {
-                //_vehicles[i].longitude = parseFloat(_vehicles[i].longitude) + parseFloat(_vehicles[i].meanSpeed)/_fps * Math.sin(alpha);
-                //_vehicles[i].latitude = parseFloat(_vehicles[i].latitude) + parseFloat(_vehicles[i].meanSpeed)/_fps * Math.cos(alpha);
+                // Inverted because of alpha angle which is described above
+                if (_vehicles[i].meanSpeed !== undefined) {
+                    //_vehicles[i].longitude = parseFloat(_vehicles[i].longitude) + parseFloat(_vehicles[i].meanSpeed)/_fps * Math.sin(alpha);
+                    //_vehicles[i].latitude = parseFloat(_vehicles[i].latitude) + parseFloat(_vehicles[i].meanSpeed)/_fps * Math.cos(alpha);
 
-                _vehicles[i].deltaLng += (parseFloat(_vehicles[i].meanSpeed) / _fps) * Math.sin(toRadians(alpha));
-                _vehicles[i].deltaLat += (parseFloat(_vehicles[i].meanSpeed) / _fps) * Math.cos(toRadians(alpha));
+                    _vehicles[i].deltaLng += (parseFloat(_vehicles[i].meanSpeed) / _fps) * Math.sin(toRadians(alpha));
+                    _vehicles[i].deltaLat += (parseFloat(_vehicles[i].meanSpeed) / _fps) * Math.cos(toRadians(alpha));
 
+                }
+            }
+            else {
+                console.error("Something went wrong! RoutePath  " + _vehicles[i].patternID + " not loaded yet.")
             }
         }
 
@@ -613,6 +628,8 @@ function CtaBusVehiclesLayerViewController() {
         notificationCenter.subscribe(self, self.vehiclesChanged, Notifications.cta.VEHICLES);
         notificationCenter.subscribe(self, self.pathChanged, Notifications.areaOfInterest.PATH_UPDATED);
         notificationCenter.subscribe(self, self.zoomUpdated, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, startAnimation, Notifications.cta.ROUTES_PATHS_LOADED);
+
     } ();
 }
 

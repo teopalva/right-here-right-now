@@ -18,23 +18,6 @@ function UILabelViewController() {
      */
     this.setText = function (text) {
         _d3Text.text(text);
-        /*
-         var d3Svg = self.getView().getSvg();
-
-         // Update
-         var textEl = d3Svg.selectAll(".text").data([text]);
-         textEl.text(text);
-
-         // Enter
-         textEl.enter()
-         .append("text")
-         .classed("text", true)
-         .text(text);
-         //.attr("x", "50%")
-         //.attr("y", "50%")
-         //.attr("dy", "0.4em")
-         //.attr("text-anchor", "middle")
-         */
     };
 
     this.getText = function () {
@@ -90,6 +73,14 @@ function UILabelViewController() {
          var textEl = d3Svg.select(".text");
          textEl.style("font-size", fontSize);*/
         _d3Text.style("font-size", fontSize);
+    };
+
+    /**
+     *
+     * @param weight
+     */
+    this.setFontWeight = function(weight) {
+        _d3Text.style("font-weight", weight);
     };
 
     //////////////////// PRIVATE METHODS ///////////////////////

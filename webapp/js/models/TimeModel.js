@@ -28,12 +28,15 @@ function TimeModel() {
 
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
 
+    /**
+     *
+     * @returns {boolean}
+     */
     this.isDay = function(){
         var sunrise = SunCalc.getTimes(new Date(), 41.83, -87.68).sunriseEnd;
         var sunset = SunCalc.getTimes(new Date(), 41.83, -87.68).sunsetStart;
-        if(self.getCurrentDate() - sunrise >= 0 && sunset - self.getCurrentDate >= 0)
-            return true;
-        return false;
+        var now = new Date();
+        return now > sunrise && now < sunset ;
     };
 
     /**

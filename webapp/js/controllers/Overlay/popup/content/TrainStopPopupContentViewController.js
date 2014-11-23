@@ -61,7 +61,7 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
                         predictionString += " min";
                     }
                     if (p.routeName !== "") {
-                        _predictionLabel[counter].setTextColor(p.routeName);
+                        _predictionLabel[counter].setTextColor(model.getCtaTrainModel().getLineColor(p.routeName));
                         predictionString += " - " + p.routeName;
                     }
                     if (p.destinationName !== "") {

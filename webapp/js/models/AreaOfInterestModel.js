@@ -157,7 +157,7 @@ function AreaOfInterestModel() {
      *  @return {Array}
      */
     this.filterObjects = function (objects) {
-        console.time("filter");
+        //console.time("filter");
         var res = [];
         var area = self.getAreaOfInterest();
         if (area == null) {
@@ -178,7 +178,7 @@ function AreaOfInterestModel() {
                 res.push(o);
             }
         });
-        console.timeEnd("filter");
+        //console.timeEnd("filter");
         return res;
     };
 

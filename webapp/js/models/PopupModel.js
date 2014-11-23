@@ -75,6 +75,7 @@ function PopupModel() {
     this.removeAll = function (layer) {
         var idsToRemove = [];
         for(var id in _popups) {
+            console.log(_popups[id])
             if(_popups[id].layer == layer) {
                 idsToRemove.push(id);
             }
