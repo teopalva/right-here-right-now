@@ -20,6 +20,14 @@ function CrimesModel() {
 
     /**
      * Get the top locations in Chicago
+     *
+     * @data-format
+     * {
+     * location: string,
+     * number: int,
+     * percentage: float
+     * }
+     *
      * @param number of top locations to select (sorted by occurences)
      * @param category is the crime category
      * @returns {Array.<T>|string|Blob|*}

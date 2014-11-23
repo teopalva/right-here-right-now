@@ -14,7 +14,7 @@ function UIGroupedStackBarChart() {
     var _data = [];
 
     // UI
-    var _chartMargin = {top: 60, right: 100, bottom: 100, left: 100};
+    var _chartMargin = {top: 60, right: 100, bottom: 50, left: 100};
     var _defaultViewBox = {x: 0, y: 0, width: 500, height: 300};
 
     var _yLabel = "y label";
