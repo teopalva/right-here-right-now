@@ -24,7 +24,7 @@ function CtaTrainModel() {
         Brn:"rgb(140,64,42)",
         G:"rgb(21,141,25)",
         Org:"rgb(255,126,36)",
-        Pexp:"rgb(147,66,255)",
+        P:"rgb(147,66,255)",
         Pink:"rgb(217,102,149)",
         Y:"rgb(246,224,10)"
     };
