@@ -1,10 +1,10 @@
 /**
- * @class BusStopPopupContentViewController
+ * @class TrainStopPopupContentViewController
  * @description
- * 
+ *
  * @constructor
  */
-function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
+function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
     UIViewController.call(this);
     /////////////////// PRIVATE ATTRIBUTES ///////////////////
     var self = this;
@@ -13,6 +13,7 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
     var _nameLabel;
     var _routeLabel;
     var _predictionLabel = [];
+    var _predictionsNumber = 4;
 
     var _dictionary = dictionary;
 
@@ -29,55 +30,45 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
         // Do clean here
         notificationCenter.unsuscribeFromAll(self);
-        model.getCtaModel().removePredictions(_stopID);
-        model.getCtaModel().removeRoutePath(_dictionary.info.route, _stopID);
+        model.getCtaTrainModel().removePredictions(_stopID);
+        // TODO manage metro lines in the same way
+        //model.getCtaModel().removeRoutePath(_dictionary.info.route, _stopID);
         stopUpdates();
     };
-    
+
 
     /////////////////// PRIVATE METHODS ///////////////////
     var updatePredictions = function() {
         console.log("Updatind predictions...")
 
-        var predictions = model.getCtaModel().getPredictions(_stopID);
+        var predictions = model.getCtaTrainModel().getPredictions(_stopID);
         //var predictions = model.getCtaModel().getAllPredictions();
 
         if(predictions && predictions.length > 0) {
 
-            var preds = [predictions[0], predictions[1]];
+            var preds = [];
+            for(var i = 0; i < _predictionsNumber; i++) {
+                preds.push(predictions[i]);
+                _predictionLabel[i].setText("");
+            }
             var counter = 0;
-
-            _predictionLabel[0].setText("");
-            _predictionLabel[1].setText("");
 
 
             preds.forEach(function (p) {
                 if (p) {
-                    var predictedTime = p.time.slice(0, 4) + "/" + p.time.slice(4, 6) + "/" + p.time.slice(6, p.time.length);
-
-                    var time = parseInt((new Date(predictedTime) - model.getTimeModel().getCurrentDate()) / (1000 * 60));
-
-                    var predictionString = "";
-                    if (time != 0) {
-                        predictionString += time + " min";
+                    var predictionString = "" + p.eta;
+                    if(p.eta != "DUE") {
+                        predictionString += " min";
                     }
-                    else {
-                        predictionString += "DUE";
+                    if (p.routeName !== "") {
+                        _predictionLabel[counter].setTextColor(p.routeName);
+                        predictionString += " - " + p.routeName;
                     }
-                    if (p.route !== "") {
-                        predictionString += " - " + p.route;
+                    if (p.destinationName !== "") {
+                        predictionString += " - " + p.destinationName;
                     }
-                    if (p.destination !== "") {
-                        predictionString += " - " + p.destination;
-                    }
-                    //if(p.direction !== "") {
-                    //    predictionString += " - " + p.direction;
-                    //}
-                    if (p.delay !== "") {
-                        predictionString += " - delay";
-                    }
-                    if (p.vehicleID !== "") {
-                        predictionString += " - ID: " + p.vehicleID;
+                    if(p.delay != "-") {
+                        predictionString += " - " + p.delay;
                     }
 
                     _predictionLabel[counter++].setText(predictionString);
@@ -113,13 +104,14 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
     };
 
     var retrievePrediction = function() {
-        model.getCtaModel().retrievePrediction(_stopID);
+        model.getCtaTrainModel().retrieveStationInfo(_stopID);
     };
 
 
-    var enableRoute = function() {
-        model.getCtaModel().enableRoutePath(_dictionary.info.route, _stopID);
-    };
+    // TODO: do
+    //var enableRoute = function() {
+    //    model.getCtaTrainModel().enableRoutePath(_dictionary.info.route, _stopID);
+    //};
 
 
     var init = function() {
@@ -135,17 +127,18 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
             between : 4
         };
 
-        _stopID = _dictionary.info.id;
+        _stopID = _dictionary.info.PARENT_STOP_ID;
+        console.log(_stopID)
 
         _idLabel = new UILabelViewController();
         _idLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
-        _idLabel.setText("route" + dictionary.info.route + " - " + _stopID);
+        _idLabel.setText(_stopID);
         _idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         self.add(_idLabel);
 
         _nameLabel = new UILabelViewController();
         _nameLabel.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
-        _nameLabel.setText(_dictionary.info.name);
+        _nameLabel.setText(_dictionary.info.STATION_NAME);
         _nameLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         self.add(_nameLabel);
 
@@ -156,30 +149,27 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
         //_routeLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         //self.add(_routeLabel);
 
-        _predictionLabel[0] = new UILabelViewController();
-        _predictionLabel[0].getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
-        _predictionLabel[0].setTextAlignment(TextAlignment.LEFT);
-        _predictionLabel[0].setTextColor(model.getThemeModel().defaultToolTextColor());
-        self.add(_predictionLabel[0]);
+        for(var i = 0; i < _predictionsNumber; i++) {
+            _predictionLabel[i] = new UILabelViewController();
+            _predictionLabel[i].getView().setFrame(padding.left, padding.top * (7 + i*2), labelsSize.width, labelsSize.height);
+            _predictionLabel[i].setTextAlignment(TextAlignment.LEFT);
+            _predictionLabel[i].setTextColor(model.getThemeModel().defaultToolTextColor());
+            self.add(_predictionLabel[i]);
+        }
 
-        _predictionLabel[1] = new UILabelViewController();
-        _predictionLabel[1].getView().setFrame(padding.left,padding.top * 9 ,labelsSize.width,labelsSize.height);
-        _predictionLabel[1].setTextAlignment(TextAlignment.LEFT);
-        _predictionLabel[1].setTextColor(model.getThemeModel().defaultToolTextColor());
-        self.add(_predictionLabel[1]);
+        notificationCenter.subscribe(self, updatePredictions, Notifications.cta.TRAIN_STOP_PREDICTIONS);
 
-
-        notificationCenter.subscribe(self, updatePredictions, Notifications.cta.BUS_STOP_PREDICTIONS);
-        notificationCenter.subscribe(self, enableRoute, Notifications.cta.ROUTES_PATHS_LOADED);
+        // TODO caricamento linee
+        //notificationCenter.subscribe(self, enableRoute, Notifications.cta.ROUTES_PATHS_LOADED);
 
 
 
         //model.getCtaModel().retrievePrediction(_stopID);
 
-        //TODO: aspettare la fine di tutte le query
-        if(model.getCtaModel().getRoutesPathsLoaded() === true) {
-            enableRoute();
-        }
+        //TODO: aspettare la fine di tutte le query e disegnare linea metro
+        //if(model.getCtaModel().getRoutesPathsLoaded() === true) {
+        //    enableRoute();
+        //}
 
 
         //startTimer
@@ -188,4 +178,4 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
     } ();
 }
 
-Utils.extend(BusStopPopupContentViewController, UIViewController);
+Utils.extend(TrainStopPopupContentViewController, UIViewController);
