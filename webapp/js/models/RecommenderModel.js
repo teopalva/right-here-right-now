@@ -43,7 +43,7 @@ function RecommenderModel() {
 
             layers.push(Layers.VEHICLES);
             layers = layers.concat(_crimeLayers);
-            if (!isDay()) {
+            if (!model.getTimeModel().isDay()) {
                 layers.push(Layers.LIGHTS);
             }
             break;
@@ -52,7 +52,7 @@ function RecommenderModel() {
 
             layers.push(Layers.DIVVY_BIKES, Layers.POTHOLES, Layers.VEHICLES);
             layers = layers.concat(_crimeLayers);
-            if (!isDay()) {
+            if (!model.getTimeModel().isDay()) {
                 layers.push(Layers.LIGHTS);
             }
             break;
@@ -60,7 +60,7 @@ function RecommenderModel() {
         case _transports.CAR:
 
             layers.push(Layers.POTHOLES);
-            if (!isDay()) {
+            if (!model.getTimeModel().isDay()) {
                 layers.push(Layers.LIGHTS);
             }
             break;
@@ -90,13 +90,4 @@ function RecommenderModel() {
 
     }();
 
-    /**
-     * @return true if the current time is in the day (daylight), false if during night
-     */
-    var isDay = function () {
-        var sunrise = model.getTimeModel().getSunriseTime();
-        var sunset = model.getTimeModel().getSunsetTime();
-        var time = model.getTimeModel().getCurrentTime();
-        return (time > sunrise && time < sunset) ? true : false;
-    };
 }
