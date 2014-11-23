@@ -142,7 +142,7 @@ function VisualizationModel() {
      * @returns {*}
      * @constructor
      */
-    this.CTABusLineColor= function() {
+    this.CTABusLineColor = function () {
         return this.layersColors["CTA bus"];
     };
 
@@ -308,7 +308,7 @@ function VisualizationModel() {
      * @param opacity
      * @returns {string}
      */
-    this.potholesColor = function(/**opacity=1*/opacity) {
+    this.potholesColor = function ( /**opacity=1*/ opacity) {
         opacity = opacity || 1;
         return "rgba(106,81,163," + opacity + ")";
     };
@@ -425,7 +425,7 @@ function VisualizationModel() {
      * @param opacity
      * @returns {string}
      */
-    this.abandonedVehiclesColor = function(/**opacity=1*/opacity) {
+    this.abandonedVehiclesColor = function ( /**opacity=1*/ opacity) {
         opacity = opacity || 1;
         return "rgba(128,125,186," + opacity + ")";
     };
@@ -464,7 +464,7 @@ function VisualizationModel() {
      * @param opacity
      * @returns {string}
      */
-    this.streetLightsColor = function(/**opacity=1*/opacity) {
+    this.streetLightsColor = function ( /**opacity=1*/ opacity) {
         opacity = opacity || 1;
         return "rgba(188,189,220," + opacity + ")";
     };
@@ -575,15 +575,15 @@ function VisualizationModel() {
     };
 
 
-    this.violentCrimesDeselectedColor = function() {
+    this.violentCrimesDeselectedColor = function () {
         return "rgba(248,53,33, 0.3)";
     };
 
-    this.propertyCrimesDeselectedColor = function() {
+    this.propertyCrimesDeselectedColor = function () {
         return "rgba(250,121,46, 0.3)";
     };
 
-    this.qualityOfLifeCrimesDeselectedColor = function() {
+    this.qualityOfLifeCrimesDeselectedColor = function () {
         return "rgba(252,163,60, 0.3";
     };
 
@@ -591,19 +591,23 @@ function VisualizationModel() {
      * Dictionary of layers colors
      */
     this.layersColors = {
+
         "CTA bus": "rgba(28,91,166, 1.0)",
         "CTA stops": "teal",
         "CTA train": "rgba(53,126,186, 1.0)",
         "Divvy Bikes": "rgba(90,158,204, 1.0)",
-        "Potholes": "rgba(106,81,163, 1.0)",
-        "Abandoned Vehicles": "rgba(128,125,186, 1.0)",
-        "Streets Lights Out": "rgba(188,189,220, 1.0)",
+
+        "Potholes": "rgba(68, 47, 116, 1)",
+        "Abandoned Vehicles": "rgba(106,81,163, 1.0)",
+        "Streets Lights Out": "rgba(128,125,186, 1.0)",
+
         "Violent Crimes": "rgba(248,53,33, 1.0)",
         "Property Crimes": "rgba(250,121,46, 1.0)",
         "Quality-of-life Crimes": "rgba(252,163,60, 1.0)",
+
         "Top Restaurants": "rgba(31,123,53, 1.0)",
         "Failed Restaurants": "rgba(107,196,105, 1.0)",
-       
+
     };
 
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
