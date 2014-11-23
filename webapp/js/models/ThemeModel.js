@@ -80,7 +80,7 @@ function ThemeModel() {
      * @returns {string}
      */
     this.bigTextSize = function () {
-        return "24px";
+        return "22px";
     };
 
     /**
@@ -96,7 +96,7 @@ function ThemeModel() {
      * @returns {string}
      */
     this.smallTextSize = function () {
-        return "16px";
+        return "18px";
     };
 
     // Charts

@@ -19,6 +19,7 @@ function UILabelViewController() {
     this.setText = function (text) {
         _d3Text.text(text);
     };
+    
 
     this.getText = function () {
         return _d3Text;
