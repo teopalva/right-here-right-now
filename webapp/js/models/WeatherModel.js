@@ -17,7 +17,7 @@ function WeatherModel() {
 
     // Update timer
     var _updateTimer = null;
-    var _intervalMillis = 20000;
+    var _intervalMillis = 60000 * 2; // 2 mins
 
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
@@ -48,9 +48,6 @@ function WeatherModel() {
      * Updates data
      */
     this.updateData = function() {
-        // TODO: restore ajax call when the app is ready
-
-        /*
         // Keys for the weather. They are the same, just use the second one as a backup
         var key1 = "e4c22e5150092e01";
         var key2 = "0de84738476e1349";
@@ -64,13 +61,6 @@ function WeatherModel() {
                 notificationCenter.dispatch(Notifications.weather.WEATHER_UPDATED);
             }
         });
-        */
-
-        // TODO: remove these when the app the ready
-        _conditions = "Overcast";//parsed_json["current_observation"]["weather"];
-        _fahrenheit = 56.4;//parsed_json["current_observation"]["temp_f"];
-        _celsius = 16.4;//parsed_json["current_observation"]["temp_c"];
-        notificationCenter.dispatch(Notifications.weather.WEATHER_UPDATED);
     };
 
     /**
@@ -79,8 +69,7 @@ function WeatherModel() {
     this.startUpdates = function() {
         if(_updateTimer == null) {
             self.updateData();
-            // TODO uncomment when the app is ready
-            //_updateTimer = setInterval(self.updateData, _intervalMillis);
+            _updateTimer = setInterval(self.updateData, _intervalMillis);
         }
     };
 
