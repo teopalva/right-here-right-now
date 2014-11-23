@@ -36,9 +36,7 @@ function TimeModel() {
         var sunrise = SunCalc.getTimes(new Date(), 41.83, -87.68).sunriseEnd;
         var sunset = SunCalc.getTimes(new Date(), 41.83, -87.68).sunsetStart;
         var now = new Date();
-        if(now > sunrise && now < sunset)
-            return true;
-        return false;
+        return now > sunrise && now < sunset ;
     };
 
     /**
