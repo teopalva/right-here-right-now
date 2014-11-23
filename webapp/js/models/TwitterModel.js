@@ -25,6 +25,7 @@ function TwitterModel() {
                 _tweets = [];
                 parsedJson.statuses.forEach(function (tweet) {
                     if (!contains(_tweets, tweet.text)) {
+                        tweet.text = parseTweet(tweet.text);
                         _tweets.push(tweet);
                     }
                 });
@@ -47,11 +48,19 @@ function TwitterModel() {
         for (i in tweets)
             if (!contains(oldTweets, tweets[i].text)) {
                 // NOTIFY NEW TWEET
-                console.log("New tweet !: ", tweets[i].text);
+                console.log("New tweet at", formatAMPM(new Date(tweets[i].created_at)) , ":" ,tweets[i].text);
 
                 model.getNewsFeedModel().postTweet(new News("Tweet", tweets[i].text.substring(0, 19) + "...", "assets/icon/twitter.svg", tweets[i].creation_date));
             }
 
+    };
+
+
+    var parseTweet = function(tweetText) {
+        var start = "#BreakingNews";
+        if(tweetText.startsWith(start))
+            return tweetText.substr(start.length);
+        return tweetText;
     };
 
     var init = function () {
