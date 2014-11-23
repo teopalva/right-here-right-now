@@ -323,8 +323,7 @@ function CrimesModel() {
             case CrimePrimaryType.PUBLIC_PEACE_VIOLATION               :
             case CrimePrimaryType.RITUALISM                            :
             case CrimePrimaryType.STALKING                             :
-            case CrimePrimaryType.WEAPONS_VIOLATION                    :
-                return CrimeCategory.QUALITY_OF_LIFE;
+            case CrimePrimaryType.WEAPONS_VIOLATION                    : return CrimeCategory.QUALITY_OF_LIFE;
 
             case CrimePrimaryType.ARSON                                :
             case CrimePrimaryType.BURGLARY                             :
@@ -332,8 +331,7 @@ function CrimesModel() {
             case CrimePrimaryType.CRIMINAL_TRESPASS                    :
             case CrimePrimaryType.MOTOR_VEHICLE_THEFT                  :
             case CrimePrimaryType.ROBBERY                              :
-            case CrimePrimaryType.THEFT                                :
-                return CrimeCategory.PROPERTY;
+            case CrimePrimaryType.THEFT                                : return CrimeCategory.PROPERTY;
 
             case CrimePrimaryType.BATTERY                              :
             case CrimePrimaryType.SEX_ASSAULT                          :
@@ -345,8 +343,7 @@ function CrimesModel() {
             case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN           :
             case CrimePrimaryType.OFFENSE_INVOLVING_CHILDREN1          :
             case CrimePrimaryType.OTHER_OFFENSE                        :
-            case CrimePrimaryType.SEX_OFFENSE                          :
-                return CrimeCategory.VIOLENT;
+            case CrimePrimaryType.SEX_OFFENSE                          : return CrimeCategory.VIOLENT;
 
             // should never get here
             default                                     :

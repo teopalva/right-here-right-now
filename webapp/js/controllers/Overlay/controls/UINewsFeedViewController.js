@@ -348,6 +348,7 @@ function UINewsFeedViewController() {
         // Set mode
         _mode = _modes.PLAY;
 
+        /*
         // Fake news
         var news1 = new News("News1", "sono news1", "assets/icon/markers/crime_violent.svg", new Date());
         var news2 = new News("News2", "sono news2", "assets/icon/markers/crime_violent.svg", new Date());
@@ -363,13 +364,13 @@ function UINewsFeedViewController() {
         model.getNewsFeedModel().postNews(news5);
         model.getNewsFeedModel().postNews(news6);
         //model.getNewsFeedModel().postNews(news7);
+        */
 
         // Show first page of news
         self.seeLastPage();
         self.drawNews();
 
         notificationCenter.subscribe(self, self.seeLastPage, Notifications.newsfeed.NEWS_POSTED);
-        //notificationCenter.subscribe(self, self.seeLastPageTweets, Notifications.newsfeed.TWEETS_POSTED);
 
     }();
 }
