@@ -19,14 +19,14 @@ function CtaTrainModel() {
 
     // CTA lines
     var _lineColors = {
-        Red: "rgb(145,10,31)",
+        Red: "rgb(255,55,29)",
         Blue:"rgb(18,141,210)",
-        Brown:"rgb(79,41,22)",
-        Green:"rgb(21,141,25)",
-        Orange:"rgb(233,49,28)",
-        Purple:"rgb(65,27,126)",
+        Brn:"rgb(140,64,42)",
+        G:"rgb(21,141,25)",
+        Org:"rgb(255,126,36)",
+        Pexp:"rgb(147,66,255)",
         Pink:"rgb(217,102,149)",
-        Yellow:"rgb(246,224,10)"
+        Y:"rgb(246,224,10)"
     };
 
     /////////////// PUBLIC METHODS ///////////////
