@@ -609,7 +609,7 @@ function VisualizationModel() {
         "Failed Restaurants": "rgba(107,196,105, 1.0)",
 
     };
-
+    
     ///////////////////////////// PRIVATE METHODS /////////////////////////////
     var init = function () {
 

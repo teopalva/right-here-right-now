@@ -71,6 +71,14 @@ function ThemeModel() {
      *
      * @returns {string}
      */
+    this.moreThanBigTextSize = function() {
+        return "30px";
+    };
+
+    /**
+     *
+     * @returns {string}
+     */
     this.bigTextSize = function () {
         return "24px";
     };
