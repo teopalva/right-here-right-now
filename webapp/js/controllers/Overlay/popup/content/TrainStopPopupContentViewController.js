@@ -61,7 +61,6 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
                         predictionString += " min";
                     }
                     //if (p.routeName !== "") {
-                    //    _predictionLabel[counter].setTextColor(model.getCtaTrainModel().getLineColor(p.routeName));
                     //    predictionString += " - " + p.routeName;
                     //}
                     if (p.destinationName !== "") {
@@ -71,7 +70,9 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
                         predictionString += " - " + p.delay;
                     }
 
+                    _predictionLabel[counter].setTextColor(model.getCtaTrainModel().getLineColor(p.routeName));
                     _predictionLabel[counter++].setText(predictionString);
+
                 }
             });
         }
@@ -176,9 +177,13 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
         _idLabel = new UILabelViewController();
         _idLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
-        _idLabel.setText(_dictionary.info.STATION_NAME + " (" + _stopID + " )");
+        var text = _dictionary.info.STATION_NAME + " (" + _stopID + " )";
+        if(text.length > 22) {
+            text = text.substring(0,22) + "...";
+        }
+        _idLabel.setText(text);
         _idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        _idLabel.setTextSize(model.getThemeModel().bigTextSize());
+        _idLabel.setTextSize(model.getThemeModel().mediumTextSize());
         self.add(_idLabel);
 
         _linesLabel = new UILabelViewController();
