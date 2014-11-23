@@ -13,7 +13,7 @@ function PopupModel() {
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
     /**
-     *
+     * Add popup. This method returns the id of the popup
      * @param dictionary
      * @returns {number}
      */
@@ -29,7 +29,7 @@ function PopupModel() {
     };
 
     /**
-     *
+     * Change popup by id with a new content dictionary
      * @param id
      * @param dictionary
      */
@@ -39,7 +39,7 @@ function PopupModel() {
     };
 
     /**
-     *
+     * Get Popup by id
      * @param id
      * @returns {*}
      */
@@ -48,7 +48,7 @@ function PopupModel() {
     };
 
     /**
-     *
+     * Remove a popup with a given id
      * @param id
      */
     this.removePopupWithId = function(id) {
