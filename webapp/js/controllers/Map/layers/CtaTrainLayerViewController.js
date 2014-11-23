@@ -49,6 +49,7 @@ function CtaTrainLayerViewController() {
 
         // Do cleaning stuff here
         //model.getCtaTrainModel().stopUpdates();
+        model.getPopupModel().removeAll(Layers.CTA_TRAINS);
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -161,6 +162,11 @@ function CtaTrainLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.TRAIN_STATIONS,
+            layer: Layers.CTA_TRAINS,
+            position: {
+                latitude: d.latitude,
+                longitude: d.longitude
+            },
             info: d
         });
     };

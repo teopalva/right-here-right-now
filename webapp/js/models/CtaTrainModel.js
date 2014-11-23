@@ -20,8 +20,14 @@ function CtaTrainModel() {
     // CTA lines
     var _lineColors = {
         Red: "rgb(145,10,31)",
-
-    }
+        Blue:"rgb(18,141,210)",
+        Brown:"rgb(79,41,22)",
+        Green:"rgb(21,141,25)",
+        Orange:"rgb(233,49,28)",
+        Purple:"rgb(65,27,126)",
+        Pink:"rgb(217,102,149)",
+        Yellow:"rgb(246,224,10)"
+    };
 
     /////////////// PUBLIC METHODS ///////////////
     this.getStations = function() {
@@ -38,7 +44,11 @@ function CtaTrainModel() {
 
     this.getAllPredictions = function() {
         return _predictions;
-    }
+    };
+
+    this.getLineColor = function(color) {
+        return _lineColors[color];
+    };
 
     /***
      * Retrieve the list of all the stations

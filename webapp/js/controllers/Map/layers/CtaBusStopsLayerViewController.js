@@ -49,6 +49,7 @@ function CtaBusStopsLayerViewController() {
 
         // Do cleaning stuff here
         model.getCtaModel().stopUpdates();
+        model.getPopupModel().removeAll(Layers.CTA_STOPS);
         notificationCenter.unsuscribeFromAll(self);
     };
 
@@ -163,6 +164,11 @@ function CtaBusStopsLayerViewController() {
     var addToPopup = function(d){
         model.getPopupModel().addPopup({
             type: PopupsType.BUS_STOPS,
+            layer: Layers.CTA_STOPS,
+            position: {
+                latitude: d.latitude,
+                longitude: d.longitude
+            },
             info: d
         });
     };
