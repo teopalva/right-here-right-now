@@ -10,7 +10,7 @@ function PlacesOfInterestLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
-    this.draw = function() {
+    this.draw = function () {
 
         var placesOfInterest = model.getPlacesOfInterestModel().getPlacesOfInterest();
 
@@ -22,8 +22,8 @@ function PlacesOfInterestLayerViewController() {
         };
         var markers;
 
-            canvas.selectAll(".marker.point").remove();
-            markers = canvas.selectAll(".marker.pin").data(placesOfInterest);
+        canvas.selectAll(".marker.point").remove();
+        markers = canvas.selectAll(".marker.pin").data(placesOfInterest);
 
         // Update
         markers
@@ -33,7 +33,7 @@ function PlacesOfInterestLayerViewController() {
             })
             .attr("y", function (d) {
                 var point = self.project(d.latitude, d.longitude);
-                return point.y - (size.height /2);
+                return point.y - (size.height / 2);
             });
 
         // Enter
@@ -41,18 +41,19 @@ function PlacesOfInterestLayerViewController() {
             .append("image")
             .classed("marker", true)
             .classed("pin", true)
-            .attr("xlink:href", model.getVisualizationModel().placesOfInterestMarkerIconPath())
+            .attr("xlink:href", function (d) {
+                return d.url;
+            })
             .attr("x", function (d) {
                 var point = self.project(d.latitude, d.longitude);
                 return point.x - (size.width / 2);
             })
             .attr("y", function (d) {
                 var point = self.project(d.latitude, d.longitude);
-                return point.y - (size.height /2);
+                return point.y - (size.height / 2);
             })
             .attr("width", size.width)
-            .attr("height", size.height);
-        ;
+            .attr("height", size.height);;
 
         // Exit
         markers.exit().remove();
