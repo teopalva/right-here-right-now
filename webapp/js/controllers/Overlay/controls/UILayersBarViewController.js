@@ -13,7 +13,7 @@ function UILayersBarViewController() {
 
     var _p = {
         x: 20,
-        y: 20,
+        y: 35,
         w: 300,
         h: 50
     };
@@ -100,6 +100,10 @@ function UILayersBarViewController() {
                 title: "Inspection Failed Restaurants",
                 button: new UIButtonViewController(),
                 layers: [Layers.FAILED_RESTAURANTS]
+            }, {
+                title: "Tourist Attractions",
+                button: new UIButtonViewController(),
+                layers: [Layers.ATTRACTIONS]
             }]
         }
     ];
