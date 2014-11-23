@@ -201,7 +201,7 @@ function CrimesModel() {
                     crime.arrest = parseArrest(crime.arrest);
                     crime.description = crime.description.capitalize();
                     //crime.primary_type =  crime.primary_type.capitalize();
-                    crime.location_description = crime.location_description.capitalize();
+                    crime.location_description = parseLocation(crime.location_description.capitalize());
                     _chicagoCrimesAllTime.push(crime);
                 }
             });
@@ -267,8 +267,10 @@ function CrimesModel() {
             }
         }
 
-        for(var i in locations)
+        for(var i in locations) {
             locations[i].percentage = locations[i].number / len * 100;
+            console.log(locations[i].location);
+        }
 
         return locations.sort(compareLocations);
     };
@@ -359,6 +361,17 @@ function CrimesModel() {
         if (arrest)
             return "yes";
         return "no";
+    };
+
+    var parseLocation = function (location){
+        switch(location){
+            case "Residential yard (front/back)" : return "Residential";
+            case "Parking lot/garage(non.resid.)": return "Parking lot";
+            //case "Hospital building/grounds" : return "Hospital";
+            default:
+                if(location.length > 12)
+                return location.substr(0,12)+"...";
+        }
     };
 
     var getCrimes = function (objects, primaryType) {
