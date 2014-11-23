@@ -109,7 +109,9 @@ Notifications.cta = {
     VEHICLES: "com.righthererightnow.cta.vechicles",
     STOPS: "com.righthererightnow.cta.stops",
     ROUTES_PATHS: "com.righthererightnow.cta.routesPaths",
-    TRAIN_STATIONS: "com.righthererihgtnow.cta.trainStations"
+    ROUTES_PATHS_LOADED: "com.righthererightnow.cta.routesPathsLoaded",
+    TRAIN_STATIONS: "com.righthererihgtnow.cta.trainStations",
+    BUS_STOP_PREDICTIONS: "com.righthererightnow.cta.predictions"
 };
 
 /**

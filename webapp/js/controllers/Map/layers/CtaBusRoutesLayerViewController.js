@@ -64,23 +64,30 @@ function CtaBusRoutesLayerViewController() {
      * Get all the routes and draw them
      */
     var drawRoutes = function() {
-        var routes = model.getCtaModel().getRoutesPaths();
+        var routes = model.getCtaModel().getEnabledRoutesPaths();
 
         var busLines = [];
 
-        for(var i in routes) {
-            busLines.push(routes[i].points);
+
+
+        for (var i in routes) {
+            if(routes[i]) {
+                busLines.push(routes[i].points);
+            }
+            else {
+                console.error("Something happened. Route Skipped");
+            }
 
         }
 
         var canvas = self.getView().getSvg();
 
         var lineFunction = d3.svg.line()
-            .x(function(d) {
+            .x(function (d) {
                 var point = self.project(d.latitude, d.longitude);
                 return point.x;
             })
-            .y(function(d) {
+            .y(function (d) {
                 var point = self.project(d.latitude, d.longitude);
                 return point.y;
             })
@@ -90,7 +97,7 @@ function CtaBusRoutesLayerViewController() {
 
         // Update
         directions
-            .attr("d", function(busLine) {
+            .attr("d", function (busLine) {
                 return lineFunction(busLine);
             });
 
@@ -98,12 +105,12 @@ function CtaBusRoutesLayerViewController() {
         directions.enter()
             .append("path")
             .classed("busLine", true)
-            .attr("stroke", function(d) {
-                return model.getVisualizationModel().directionsStrokeColor()
+            .attr("stroke", function (d) {
+                return model.getVisualizationModel().CTABusLineColor()
             })
-            .attr("stroke-width", model.getVisualizationModel().directionsStrokeWidth())
+            .attr("stroke-width", model.getVisualizationModel().CTABusLineWidth())
             .attr("fill", "none")
-            .attr("d", function(busLine) {
+            .attr("d", function (busLine) {
                 return lineFunction(busLine);
             });
 
@@ -137,8 +144,8 @@ function CtaBusRoutesLayerViewController() {
         if(directionsLine.empty()) {
             directionsLine = canvas.append("path")
                 .classed("directions", true)
-                .attr("stroke", model.getVisualizationModel().directionsStrokeColor())
-                .attr("stroke-width", model.getVisualizationModel().directionsStrokeWidth())
+                .attr("stroke", model.getVisualizationModel().CTABusLineColor())
+                .attr("stroke-width", model.getVisualizationModel().CTABusLineWidth())
                 .attr("fill", "none");
         }
 

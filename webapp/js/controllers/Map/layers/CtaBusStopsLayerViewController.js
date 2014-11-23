@@ -55,8 +55,8 @@ function CtaBusStopsLayerViewController() {
     //////////////////////// PRIVATE METHODS ////////////////////////
     var draw = function() {
         var stops = model.getCtaModel().getStops();
-        console.log("Stops");
-        console.log(stops);
+        //console.log("Stops");
+        //console.log(stops);
 
 
         stops = model.getAreaOfInterestModel().filterObjects(stops);

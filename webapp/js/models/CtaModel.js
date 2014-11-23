@@ -30,6 +30,12 @@ function CtaModel() {
 
     // CTA RoutesPaths
     var _routesPaths = [];
+    var _enabledRoutesPaths = [];
+    // Counter used to determine how may routes have to be loaded yet
+    var _routesPathsCounter;
+
+    // CTA Predictions
+    var _predictions = {};
 
     // Update timer
     var _updateTimer = null;
@@ -92,6 +98,41 @@ function CtaModel() {
         return _routesPaths;
     };
 
+    this.getEnabledRoutesPaths = function() {
+        return _enabledRoutesPaths;
+    };
+
+    this.getRoutesPathsLoaded = function() {
+        return _routesPathsCounter === 0;
+    };
+
+    this.enableRoutePath = function(route, stopID) {
+        var patternIDs = getPatternIDFromRouteAndStopID(route,stopID);
+
+        patternIDs.forEach(function(p) {
+            _enabledRoutesPaths[p] = _routesPaths[p];
+        });
+
+        notificationCenter.dispatch(Notifications.cta.ROUTES_PATHS);
+    };
+
+
+    this.removeRoutePath = function(route, stopID) {
+        var patternIDs = getPatternIDFromRouteAndStopID(route,stopID);
+        patternIDs.forEach(function(p) {
+            delete _enabledRoutesPaths[p];
+        });
+        notificationCenter.dispatch(Notifications.cta.ROUTES_PATHS);
+    };
+
+    this.removePredictions = function(stopID) {
+        delete _predictions[stopID];
+    };
+
+    this.getPredictions = function(stopID) {
+        return _predictions[stopID];
+    };
+
     this.getFakeVehicles = function() {
         return fakeVehicles;
     };
@@ -104,11 +145,21 @@ function CtaModel() {
         _routesPaths = [];
     };
 
+    this.clearEnabledRoutesPaths = function() {
+        _enabledRoutesPaths = [];
+    };
+
+
+    this.clearPredictions = function() {
+        _predictions = [];
+    };
+
     this.clearData = function() {
         _routes = [];
         _stops= [];
         _vehicles= [];
-        _routesPaths = [];
+        _predictions = [];
+        //self.clearRoutesPaths();
     };
 
     /**
@@ -149,11 +200,13 @@ function CtaModel() {
      * Update the paths of the routes
      */
     this.updateRoutesPaths = function() {
-        self.clearRoutesPaths();
+        //self.clearRoutesPaths();
         console.log("update routes paths...");
 
+        _routesPathsCounter = _routes.length;
+
         for(var i in _routes) {
-            retrieveRoutePath(_routes[i]);
+            this.retrieveRoutePath(_routes[i]);
         }
     };
 
@@ -385,7 +438,7 @@ function CtaModel() {
      * Get the path of the route
      * @param route
      */
-    var retrieveRoutePath = function(route) {
+    this.retrieveRoutePath = function(route) {
         var query = "getpatterns?";
         var attributes = "rt=" + route + "&";
         var url = _site + query + attributes + _key;
@@ -429,7 +482,49 @@ function CtaModel() {
             //_routesPaths[route] = routeDirections;
             notificationCenter.dispatch(Notifications.cta.ROUTES_PATHS);
 
+            _routesPathsCounter--;
+
+            if(_routesPathsCounter === 0) {
+                notificationCenter.dispatch(Notifications.cta.ROUTES_PATHS_LOADED);
+                console.log("LOADEDD");
+            };
+
             //console.log(_routesPaths);
+        });
+
+
+    };
+
+    this.retrievePrediction = function(stopID){
+        var query = "getpredictions?";
+        var attributes = "stpid=" + stopID + "&";
+        var url = _site + query + attributes + _key;
+        var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from xml where url="' + url + '"') + '&format=xml&callback=?';
+
+        $.getJSON(yql, function (data) {
+            var parsed_xml = data.results[0];
+
+            _predictions[stopID] = [];
+
+            // Directions
+            $(parsed_xml).find('prd').each(function() {
+                var delay = $(this).find('dly').text();
+
+                var info = {
+                    type: $(this).find('typ').text(),
+                    vehicleID: $(this).find('vid').text(),
+                    direction: $(this).find('rtdir').text(),
+                    destination: $(this).find('des').text(),
+                    route: $(this).find('rt').text(),
+                    time: $(this).find('prdtm').text(),
+                    delay: delay !== undefined ? delay : "-"
+                };
+
+                _predictions[stopID].push(info);
+
+            });
+            notificationCenter.dispatch(Notifications.cta.BUS_STOP_PREDICTIONS);
+
         });
     };
 
@@ -440,5 +535,25 @@ function CtaModel() {
      */
     var inArea = function(geoElement) {
         return model.getAreaOfInterestModel().isInsideAreaOfInterest(geoElement.latitude, geoElement.longitude);
+    };
+
+    /**
+     *
+     * @param route
+     * @param stopID
+     * @returns {*}
+     */
+    var getPatternIDFromRouteAndStopID = function(route, stopID) {
+        var patternID = [];
+        for(r in _routesPaths) {
+            //if(_routesPaths[r].route == route) {
+                _routesPaths[r].points.forEach(function(p) {
+                    if(p.stopID == stopID) {
+                        patternID.push(r);
+                    }
+                });
+            //}
+        }
+        return patternID;
     };
 }
