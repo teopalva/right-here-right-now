@@ -275,10 +275,8 @@ function CrimesModel() {
             }
         }
 
-        for(var i in locations) {
+        for(var i in locations)
             locations[i].percentage = locations[i].number / len * 100;
-            console.log(locations[i].location);
-        }
 
         return locations.sort(compareLocations);
     };
@@ -375,10 +373,11 @@ function CrimesModel() {
         switch(location){
             case "Residential yard (front/back)" : return "Residential";
             case "Parking lot/garage(non.resid.)": return "Parking lot";
-            //case "Hospital building/grounds" : return "Hospital";
+            case "Hospital building/grounds" : return "Hospital";
             default:
                 if(location.length > 12)
-                return location.substr(0,12)+"...";
+                    return location.substr(0,12)+"...";
+                return location;
         }
     };
 
