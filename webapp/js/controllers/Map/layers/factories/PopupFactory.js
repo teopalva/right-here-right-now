@@ -63,7 +63,11 @@ function PopupFactory() {
                 popup.setDataSourceImage("assets/icon/data_sources/cta.svg");
                 setupTrainStopPopup(popup,dictionary);
                 break;
-
+            case PopupsType.PLACES_OF_INTEREST:
+                popup.setDataSourceFrame(10,10,40,40);
+                popup.setDataSourceImage("assets/icon/data_sources/wiki.svg");
+                setupPlacesOfInterestPopup(popup,dictionary);
+                break;
 
         }
 
@@ -451,8 +455,8 @@ function PopupFactory() {
         };
 
         var imageSize = {
-            width: 60,
-            height: 60
+            width: 55,
+            height: 55
         };
 
         var padding = {
@@ -655,8 +659,90 @@ function PopupFactory() {
         trainContent.getView().setFrame(padding.left, padding.top, _trainStopFrameSize.width, _trainStopFrameSize.height);
         popup.add(trainContent);
 
+    };
+
+    /**
+     * Setup places of interest popup
+     * @param popup
+     * @param dictionary
+     */
+    var  setupPlacesOfInterestPopup = function(popup,dictionary) {
+        // Setup popup
+        var _placesOfInterestFrameSize = {
+            width: 335,
+            height: 335 / InterstellarAspectRatio
+        };
+
+        var labelsSize = {
+            width: _placesOfInterestFrameSize.width - 20,
+            height: 30
+        };
+
+        var imageSize = {
+            width: 75,
+            height: 75
+        };
+
+        var padding = {
+            top : 10,
+            left : 10,
+            afterImage : imageSize.width + 20,
+            between : 4
+        };
+
+        var position = model.getMapModel().projectAtCurrentZoom(dictionary.position.latitude, dictionary.position.longitude);
+        popup.getView().setFrame(
+            position.x - (_placesOfInterestFrameSize.width / 2),
+            position.y - _placesOfInterestFrameSize.height,
+            _placesOfInterestFrameSize.width,
+            _placesOfInterestFrameSize.height
+        );
+        popup.getView().setViewBox(0, 0, _placesOfInterestFrameSize.width, _placesOfInterestFrameSize.height);
+
+        var addressLabel1 = new UILabelViewController();
+        addressLabel1.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
+        addressLabel1.setText(new Date().toDateString());
+        addressLabel1.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(addressLabel1);
+
+        var addressLabel2 = new UILabelViewController();
+        addressLabel2.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
+        addressLabel2.setText(dictionary.address);
+        addressLabel2.setTextColor(model.getThemeModel().defaultToolTextColor());
+        popup.add(addressLabel2);
+
+        var nameLabel = new UILabelViewController();
+        nameLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
+        nameLabel.setText(dictionary.name);
+        nameLabel.setTextAlignment(TextAlignment.LEFT);
+        nameLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        nameLabel.setTextSize(model.getThemeModel().bigTextSize());
+        popup.add(nameLabel);
+
+        var linkButton = new UIButtonViewController();
+        linkButton.getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width,labelsSize.height);
+        linkButton.setTitle("Link");
+        linkButton.setTitleColor(model.getThemeModel().defaultToolTextColor());
+        linkButton.onClick(function(){window.open(dictionary.wiki,'_blank')});
+        popup.add(linkButton);
+
+        var imageLabel = new UIImageViewController();
+        imageLabel.getView().setFrame(padding.left,padding.top * 10, imageSize.width, imageSize.height);
+        imageLabel.setImagePath(dictionary.image);
+        popup.add(imageLabel);
+
+        var lines = getMultipleLinesFromText(dictionary.description,5,40);
+        for(var i = 0 ; i < lines.length ; i++){
+            var descriptionLine = new UILabelViewController();
+            descriptionLine.getView().setFrame(padding.afterImage,padding.top * (9 + i) + padding.between * (i + 1),labelsSize.width,labelsSize.height);
+            descriptionLine.setText(lines[i]);
+            descriptionLine.setTextAlignment(TextAlignment.LEFT);
+            descriptionLine.setTextColor(model.getThemeModel().defaultToolTextColor());
+            popup.add(descriptionLine);
+        }
 
     };
+
 
     var init = function() {
 
