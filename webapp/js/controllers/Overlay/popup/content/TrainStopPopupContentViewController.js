@@ -60,10 +60,10 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
                     if(p.eta != "DUE") {
                         predictionString += " min";
                     }
-                    if (p.routeName !== "") {
-                        _predictionLabel[counter].setTextColor(model.getCtaTrainModel().getLineColor(p.routeName));
-                        predictionString += " - " + p.routeName;
-                    }
+                    //if (p.routeName !== "") {
+                    //    _predictionLabel[counter].setTextColor(model.getCtaTrainModel().getLineColor(p.routeName));
+                    //    predictionString += " - " + p.routeName;
+                    //}
                     if (p.destinationName !== "") {
                         predictionString += " - " + p.destinationName;
                     }
@@ -142,8 +142,8 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
                 if(s.Y == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Y"))) {
                     colors.push(model.getCtaTrainModel().getLineColor("Y"));
                 }
-                if(s.Pexp == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Pexp"))) {
-                    colors.push(model.getCtaTrainModel().getLineColor("Pexp"));
+                if(s.P == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("P"))) {
+                    colors.push(model.getCtaTrainModel().getLineColor("P"));
                 }
             }
         });
@@ -176,8 +176,9 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
         _idLabel = new UILabelViewController();
         _idLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
-        _idLabel.setText(_stopID + " - " + _dictionary.info.STATION_NAME);
+        _idLabel.setText(_dictionary.info.STATION_NAME + " (" + _stopID + " )");
         _idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        _idLabel.setTextSize(model.getThemeModel().bigTextSize());
         self.add(_idLabel);
 
         _linesLabel = new UILabelViewController();

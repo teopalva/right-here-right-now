@@ -137,15 +137,16 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
         _stopID = _dictionary.info.id;
 
-        _idLabel = new UILabelViewController();
-        _idLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
-        _idLabel.setText("route" + dictionary.info.route + " - " + _stopID);
-        _idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        self.add(_idLabel);
+        //_idLabel = new UILabelViewController();
+        //_idLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
+        //_idLabel.setText("route" + dictionary.info.route + " - " + _stopID);
+        //_idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
+        //self.add(_idLabel);
 
         _nameLabel = new UILabelViewController();
         _nameLabel.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
-        _nameLabel.setText(_dictionary.info.name);
+        _nameLabel.setText(_dictionary.info.name + " (" + _stopID + ")");
+        _nameLabel.setTextSize(model.getThemeModel().bigTextSize());
         _nameLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         self.add(_nameLabel);
 

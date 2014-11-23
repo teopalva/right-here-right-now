@@ -117,45 +117,45 @@ function CtaBusStopsLayerViewController() {
             markers.exit().remove();
 
         } else {
-            canvas.selectAll(".marker.pin").remove();
-            markers = canvas.selectAll(".marker.point").data(stops);
-            // Update
-            markers
-                .attr("cx", function(d) {
-                    var point = self.project(d.latitude, d.longitude);
-                    return point.x;
-                })
-                .attr("cy", function(d) {
-                    var point = self.project(d.latitude, d.longitude);
-                    return point.y;
-                });
-
-
-            // Enter
-            markers.enter()
-                .append("circle")
-                .classed("marker", true)
-                .classed("point", true)
-                .style("fill", model.getVisualizationModel().CTABusStationColor())
-                .attr("cx", function(d) {
-                    var point = self.project(d.latitude, d.longitude);
-                    return point.x;
-                })
-                .attr("cy", function(d) {
-                    var point = self.project(d.latitude, d.longitude);
-                    return point.y;
-                })
-                .attr("r", model.getVisualizationModel().markerRadius())
-                .attr("stroke",model.getVisualizationModel().markerStrokeColor())
-                .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth())
-                .style("pointer-events", "visiblePainted")
-                .style("cursor", "pointer")
-                .on("click", function(d) {
-                    addToPopup(d);
-                });
-
-            // Exit
-            markers.exit().remove();
+            //canvas.selectAll(".marker.pin").remove();
+            //markers = canvas.selectAll(".marker.point").data(stops);
+            //// Update
+            //markers
+            //    .attr("cx", function(d) {
+            //        var point = self.project(d.latitude, d.longitude);
+            //        return point.x;
+            //    })
+            //    .attr("cy", function(d) {
+            //        var point = self.project(d.latitude, d.longitude);
+            //        return point.y;
+            //    });
+            //
+            //
+            //// Enter
+            //markers.enter()
+            //    .append("circle")
+            //    .classed("marker", true)
+            //    .classed("point", true)
+            //    .style("fill", model.getVisualizationModel().CTABusStationColor())
+            //    .attr("cx", function(d) {
+            //        var point = self.project(d.latitude, d.longitude);
+            //        return point.x;
+            //    })
+            //    .attr("cy", function(d) {
+            //        var point = self.project(d.latitude, d.longitude);
+            //        return point.y;
+            //    })
+            //    .attr("r", model.getVisualizationModel().markerRadius())
+            //    .attr("stroke",model.getVisualizationModel().markerStrokeColor())
+            //    .attr("stroke-width",model.getVisualizationModel().markerStrokeWidth())
+            //    .style("pointer-events", "visiblePainted")
+            //    .style("cursor", "pointer")
+            //    .on("click", function(d) {
+            //        addToPopup(d);
+            //    });
+            //
+            //// Exit
+            //markers.exit().remove();
         }
 
     };
