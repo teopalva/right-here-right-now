@@ -46,6 +46,7 @@ function CrimesModel() {
         return classifyLocations(_chicagoCrimesByDate, category).slice(0, number);
     };
 
+
     this.filterByDate = function (objects) {
         var timeRange = model.getTimeModel().getTemporalScope();
         if (timeRange == TimeRange.LAST_MONTH) {
@@ -203,7 +204,7 @@ function CrimesModel() {
                 // Add only if we know both latitude and longitude
                 if (crime.latitude && crime.longitude && crime.location_description) {
                     crime.category = categorize(crime.primary_type);
-
+                    crime.creation_date = crime.date;
                     crime.block = parseBlock(crime.block);
                     crime.date = parseDate(crime.date);
                     crime.arrest = parseArrest(crime.arrest);
@@ -217,6 +218,7 @@ function CrimesModel() {
             _chicagoCrimesByDate = self.filterByDate(_chicagoCrimesAllTime);
             _dataAvailable = true;
             self.updateSelection();
+            launchNotifications(_chicagoCrimesAllTime,12);
         });
     };
 
@@ -287,7 +289,35 @@ function CrimesModel() {
         if (a.number > b.number)
             return -1;
         return 0;
-    }
+    };
+
+    var launchNotifications = function(array,lastHappened) {
+        var last = array.sort(compareDate).slice(0,lastHappened);
+        for(var i = 0 ; i < last.length ; i++){
+            var iconPath;
+            switch(last[i].category){
+                case CrimeCategory.PROPERTY:
+                    iconPath = "assets/icon/markers/crime_property.svg";
+                    break;
+                case CrimeCategory.VIOLENT:
+                    iconPath = "assets/icon/markers/crime_violent.svg";
+                    break;
+                case CrimeCategory.QUALITY_OF_LIFE:
+                    iconPath = "assets/icon/markers/crime_quality-of-life.svg";
+                    break;
+            }
+            var news = new News("Crime" + new Date(), last[i]["primary_type"], iconPath, new Date(last[i].creation_date));
+            model.getNewsFeedModel().postNews(news);
+        }
+    };
+
+    function compareDate(a,b){
+        if (a.date < b.date)
+            return 1;
+        if (a.date > b.date)
+            return -1;
+        return 0;
+    };
 
     var containsLocation = function (array, location) {
         for (var i in array)
