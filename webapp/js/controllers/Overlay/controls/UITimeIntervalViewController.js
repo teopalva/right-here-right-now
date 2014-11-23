@@ -62,11 +62,12 @@ function UITimeIntervalViewController() {
 
     /////////////////////  PRIVATE METHODS /////////////////////
     var filterLayers = function (timeRange) {
-        timeToDisplay = timeRange;
+        /*timeToDisplay = timeRange;
         model.getPotholesModel().filterByDate();
         model.getLightsModel().filterByDate();
         model.getVehiclesModel().filterByDate();
-        model.getCrimesModel().filterByDate();
+        model.getCrimesModel().filterByDate();*/
+        model.getTimeModel().setTemporalScope(timeRange);
     };
 
     var weekSelected = function () {

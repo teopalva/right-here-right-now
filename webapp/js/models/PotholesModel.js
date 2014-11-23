@@ -166,10 +166,3 @@ function PotholesModel() {
         self.updatePotholes();
     } ();
 }
-
-var TimeRange = {
-    LAST_TWO_WEEKS : 14,
-    LAST_MONTH : 30
-}
-
-var timeToDisplay = TimeRange.LAST_MONTH;

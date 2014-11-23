@@ -503,10 +503,11 @@ function UICrimeChartsViewController() {
 
         addBehavior();
 
-        notificationCenter.subscribe(self, self.dataChanged, Notifications.violentCrimes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.dataChanged, Notifications.propertyCrimes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.dataChanged, Notifications.qualityOfLifeCrimes.LAYER_UPDATED);
-        notificationCenter.subscribe(self, self.dataChanged, Notifications.areaOfInterest.PATH_UPDATED);
+        //notificationCenter.subscribe(self, self.dataChanged, Notifications.violentCrimes.LAYER_UPDATED);
+        //notificationCenter.subscribe(self, self.dataChanged, Notifications.propertyCrimes.LAYER_UPDATED);
+        //notificationCenter.subscribe(self, self.dataChanged, Notifications.qualityOfLifeCrimes.LAYER_UPDATED);
+        notificationCenter.subscribe(self, self.dataChanged, Notifications.crimes.DATA_CHANGED);
+        notificationCenter.subscribe(self, self.dataChanged, Notifications.crimes.SELECTION_UPDATED);
     } ();
 }
 

@@ -92,7 +92,8 @@ Notifications.mapLayers = {
  */
 Notifications.time = {
     CLOCK_UPDATED : "com.righthererightnow.time.clockUpdated",
-    SUN_UPDATED : "com.righthererightnow.time.sunUpdated"
+    SUN_UPDATED : "com.righthererightnow.time.sunUpdated",
+    TEMPORAL_SCOPE_CHANGED : "com.righthererightnow.time.temporalScope"
 };
 
 /**
@@ -137,7 +138,8 @@ Notifications.qualityOfLifeCrimes = {
 };
 
 Notifications.crimes = {
-    SELECTION_UPDATED : "com.righthererightnow.crimes.SeletionUpdated"
+    SELECTION_UPDATED : "com.righthererightnow.crimes.SeletionUpdated",
+    DATA_CHANGED : "com.righthererightnow.crimes.DataChanged"
 };
 
 /**
