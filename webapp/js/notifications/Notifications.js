@@ -59,7 +59,7 @@ Notifications.vehicles = {
  * @type {{}}
  */
 Notifications.lights = {
-    LAYER_UPDATED: "com.righthererightnow.lights.layerUpdated"
+    SELECTION_UPDATED: "com.righthererightnow.lights.selectionUpdated"
 }
 
 /**

@@ -10,18 +10,13 @@ function LightsLayerViewController() {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
-    var _cachedData = [];
-
     ////////////////////////// PUBLIC METHODS /////////////////////////
-    this.drawCachedPoints = function(){
-        draw(_cachedData);
-    };
 
     this.drawNewPoints = function(){
-        _cachedData = model.getLightsModel().getLights();
-        _cachedData = model.getAreaOfInterestModel().filterObjects(_cachedData);
-        draw(_cachedData);
+        var points = model.getLightsModel().getLightsWithinArea();
+        draw(points);
     };
+
 
     /**
      * @overridden
@@ -153,10 +148,8 @@ function LightsLayerViewController() {
     var init = function () {
         self.getView().addClass("lights-layer-view-controller");
 
-
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.lights.DATA_CHANGED);
-        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.drawCachedPoints, Notifications.mapController.ZOOM_CHANGED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.lights.SELECTION_UPDATED);
+        notificationCenter.subscribe(self, self.drawNewPoints, Notifications.mapController.ZOOM_CHANGED);
 
         model.getLightsModel().startUpdates();
     }();

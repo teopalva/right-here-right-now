@@ -13,8 +13,12 @@ function LightsModel() {
      *      - longitude : number
      *      - number_out : number
      */
-    var _lights = [];
-    var _cachedData = [];
+    var _chicagoLightsAllTime = [];
+    var _areaLightsAllTime = [];
+
+    var _chicagoLightsByDate = [];
+    var _areaLightsByDate = [];
+    
     var _dataAvailable = false;
 
     // Update timer
@@ -23,68 +27,54 @@ function LightsModel() {
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////
 
-    this.filterByDate = function(){
-        var timeRange = timeToDisplay;
-        if(timeRange == TimeRange.LAST_MONTH)
-            _lights = _cachedData;
-        else{
-            _lights = [];
-            var elapsed = Date.now() - timeRange * 86400000;
-            var limitDate = new Date(elapsed);
-            for(i in _cachedData) {
-                var stringDate = _cachedData[i].creation_date;
-                var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
-                if(d - limitDate >= 0)
-                    _lights.push(_cachedData[i]);
-            }
-        }
-        notificationCenter.dispatch(Notifications.lights.DATA_CHANGED);
-    };
-
     /**
      * Returns the lights objects in the form:
-     *      - id : number
-     *      - creation_date : date (when the light has been found)
+     *      - creation_date : date (when the pothole has been found)
      *      - latitude : number
      *      - longitude : number
-     *      - number_out : number (number of broken lights on the same pole)
      * @returns {Array}
      */
     this.getLights = function(){
-        return _lights;
+        return _chicagoLightsByDate;
     };
+
+    this.filterByDate = function(objects){
+        var timeRange = model.getTimeModel().getTemporalScope();
+        if(timeRange == TimeRange.LAST_MONTH) {
+            return objects;
+        }
+
+        var filteredObjects = [];
+
+        //_areaCrimesAllTime = [];
+        var elapsed = Date.now() - timeRange * 86400000;
+        var limitDate = new Date(elapsed);
+        for(var i in objects) {
+            var stringDate = objects[i].creation_date;
+            var d = new Date(stringDate.substring(0,stringDate.indexOf('-')));
+            if(d - limitDate >= 0)
+                filteredObjects.push(objects[i]);
+        }
+
+        return filteredObjects;
+    };
+
 
     /**
      *
      * @returns {Array}
      */
     this.getLightsWithinArea = function() {
-        return model.getAreaOfInterestModel().filterObjects(_lights);
+        return _areaLightsByDate;
     };
 
-    /**
-     * Remove the old lights
-     */
-    this.clearLights = function(){
-        _lights = [];
-    };
-
-    this.isDataAvailable = function(){
-        return _dataAvailable;
-    };
 
     /**
      *
      * @returns {number}
      */
     this.getLightsDensityWithinArea = function() {
-        var filtered = model.getAreaOfInterestModel().filterObjects(_lights);
-
-        if(filtered == null || filtered.length == 0) {
-            return 0;
-        }
-
-        return filtered.length / model.getAreaOfInterestModel().getSquaredMiles();
+        return _areaLightsByDate.length / model.getAreaOfInterestModel().getSquaredMiles();
     };
 
     /**
@@ -93,15 +83,26 @@ function LightsModel() {
      */
     this.getLightsDensityInChicago = function() {
         var chicagoArea = 234;
-        return _lights.length / chicagoArea;
+        return _chicagoLightsByDate.length / chicagoArea;
     };
+
+    this.isDataAvailable = function(){
+        return _dataAvailable;
+    };
+
+    this.updateTemporalScope = function(){
+        _chicagoLightsByDate = self.filterByDate(_chicagoLightsAllTime);
+        _areaLightsByDate = self.filterByDate(_areaLightsAllTime);
+        notificationCenter.dispatch(Notifications.lights.SELECTION_UPDATED);
+    };
+
 
     /**
      *  Update the lights information
      */
     this.updateLights = function() {
         // remove the old lights
-        self.clearLights();
+        _chicagoLightsAllTime = [];
 
         var link = "http://data.cityofchicago.org/resource/zuxi-7xem.json";
         var days = TimeRange.LAST_MONTH;
@@ -113,26 +114,11 @@ function LightsModel() {
                     "&$where=status=%27Open%27and%20creation_date>=%27" + date.toISOString() + "%27and%20" +
                     "latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
-        /*
-        var areaOfInterest = model.getAreaOfInterestModel().getAreaOfInterest();
-        if(areaOfInterest) {
-            var coordinates = d3.geo.bounds(areaOfInterest);
-
-            //  0: long
-            //  1: lat
-            var bottomLeft = coordinates[0];
-            var topRight = coordinates[1];
-
-            query += "%20and%20within_box(location," + topRight[1] + "," + bottomLeft[0] + "," + bottomLeft[1] + "," + topRight[0] + ")";
-        }
-        */
-
-
         d3.json(link + query, function(json){
             json.forEach(function(light){
                 light.creation_date = parseDate(light.creation_date);
                 light.number_out = "3 or more";
-                _lights.push(light);
+                _chicagoLightsAllTime.push(light);
             });
 
             var link2 = "http://data.cityofchicago.org/resource/3aav-uy2v.json";
@@ -140,11 +126,12 @@ function LightsModel() {
                 json.forEach(function(light){
                     light.creation_date = parseDate(light.creation_date);
                     light.number_out = "1 or 2";
-                    _lights.push(light);
+                    _chicagoLightsAllTime.push(light);
                 });
-                _cachedData = _lights;
-                self.filterByDate();
+                _chicagoLightsByDate = self.filterByDate(_chicagoLightsAllTime);
                 _dataAvailable = true;
+                self.updateSelection();
+                notificationCenter.dispatch(Notifications.lights.SELECTION_UPDATED);
             });
         });
     };
@@ -162,10 +149,34 @@ function LightsModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
+        _areaLightsAllTime = [];
+        _areaLightsByDate = [];
+        _chicagoLightsAllTime = [];
+        _chicagoLightsByDate = [];
     };
 
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
+    /**
+     * Handler for notification PATH_UPDATED
+     */
+    var q;
+    this.updateSelection = function() {
+        q = queue(1);
+        q.defer(filterObjectInSelectedArea, _chicagoLightsAllTime);
+        q.awaitAll(function() {
+            notificationCenter.dispatch(Notifications.lights.SELECTION_UPDATED);
+        });
+    };
+
+    var filterObjectInSelectedArea = function(objects, callback) {
+        _areaLightsAllTime = model.getAreaOfInterestModel().filterObjects(_chicagoLightsAllTime);
+        _areaLightsByDate = self.filterByDate(_areaLightsAllTime);
+
+        callback(null, null);
+    };
+
+
     var parseDate = function(date) {
         var parsedDate = new Date(date.replace("T"," "));
         return parsedDate.toDateString() + " - " + formatAMPM(parsedDate);
@@ -173,5 +184,7 @@ function LightsModel() {
 
     var init = function() {
         self.updateLights();
+        notificationCenter.subscribe(self, self.updateSelection, Notifications.areaOfInterest.PATH_UPDATED);
+        notificationCenter.subscribe(self, self.updateTemporalScope, Notifications.time.TEMPORAL_SCOPE_CHANGED);
     } ();
 }
