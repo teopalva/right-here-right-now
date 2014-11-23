@@ -36,6 +36,7 @@ function UIGroupedStackBarChart() {
     };
 
     this.emptyChart = function() {
+        self.getView().getSvg().html("");
         _data = [];
     };
 
@@ -233,7 +234,7 @@ function UIGroupedStackBarChart() {
             });
             var columnWidth = x0.rangeBand() / maxColumnNumberPerGroup;
 
-            groups.selectAll("rect")
+            var columns = groups.selectAll("rect")
                 .data(function(d) { return d.group; })
                 .attr("y", function(d) { return y(d.value); })
                 .attr("height", function(d) { return height - y(d.value); })
@@ -241,8 +242,8 @@ function UIGroupedStackBarChart() {
                 .style("cursor", "pointer")
                 .on("click", function(d, i) {
                     updateTooltip(d3.select(this.parentNode),d,i,d3.select(this));
-                })
-                .enter()
+                });
+            columns.enter()
                 .append("rect")
                 .attr("width", columnWidth -2)
                 .attr("x", function(d, i) {
@@ -256,6 +257,7 @@ function UIGroupedStackBarChart() {
                 .on("click", function(d, i) {
                     updateTooltip(d3.select(this.parentNode),d,i,d3.select(this));
                 });
+            columns.exit().remove();
 
 
 
