@@ -9,7 +9,7 @@ function TwitterModel() {
     var _oldTweets = [];
     var _tweets = [];
 
-    var _updateTimer = 10000; // 10 secs
+    var _updateTimer = 60000; // 10 secs
     var _timer;
 
     ///////////////////////// PUBLIC METHODS /////////////////////////////

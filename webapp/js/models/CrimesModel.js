@@ -6,19 +6,15 @@ function CrimesModel() {
     //////////////////////// PRIVATE ATTRIBUTES ////////////////////////
     var self = this;
 
-    // Crimes
-    var _crimesInAreaAllTime = [];
-
-    // Keep if data is available
+    // data available
     var _dataAvailable = false;
-    var _allCrimesData = [];
+
+    // Crimes
+    var _chicagoCrimesAllTime = [];
+    var _areaCrimesAllTime = [];
 
     var _chicagoCrimesByDate = [];
     var _areaCrimesByDate = [];
-
-    // Update timer
-    var _updateTimer = null;
-    var _intervalMillis = 10000;
 
     //////////////////////// PUBLIC METHODS ////////////////////////
 
@@ -30,7 +26,7 @@ function CrimesModel() {
 
         var filteredObjects = [];
 
-        //_crimesInAreaAllTime = [];
+        //_areaCrimesAllTime = [];
         var elapsed = Date.now() - timeRange * 86400000;
         var limitDate = new Date(elapsed);
         for(var i in objects) {
@@ -149,7 +145,7 @@ function CrimesModel() {
      * Remove the old violentCrimes
      */
     this.clearCrimes = function(){
-        _crimesInAreaAllTime = [];
+        _areaCrimesAllTime = [];
     };
 
     /**
@@ -189,7 +185,7 @@ function CrimesModel() {
 
 
         d3.json(link + query, function(json){
-            _allCrimesData = [];
+            _chicagoCrimesAllTime = [];
             json.forEach(function(crime){
                 // Add only if we know both latitude and longitude
                 if(crime.latitude && crime.longitude && crime.location_description) {
@@ -201,11 +197,11 @@ function CrimesModel() {
                     crime.description = crime.description.capitalize();
                     //crime.primary_type =  crime.primary_type.capitalize();
                     crime.location_description = crime.location_description.capitalize();
-                    _allCrimesData.push(crime);
+                    _chicagoCrimesAllTime.push(crime);
                 }
             });
-            console.log("Crimes file downloaded: "+_crimesInAreaAllTime.length+" crimes");
-            _chicagoCrimesByDate = self.filterByDate(_allCrimesData);
+            console.log("Crimes file downloaded: "+_areaCrimesAllTime.length+" crimes");
+            _chicagoCrimesByDate = self.filterByDate(_chicagoCrimesAllTime);
             _dataAvailable = true;
             self.updateSelection();
         });
@@ -233,7 +229,7 @@ function CrimesModel() {
     var q;
     this.updateSelection = function() {
         q = queue(1);
-        q.defer(filterObjectInSelectedArea, _allCrimesData);
+        q.defer(filterObjectInSelectedArea, _chicagoCrimesAllTime);
         q.awaitAll(function() {
             notificationCenter.dispatch(Notifications.crimes.SELECTION_UPDATED);
         });
@@ -245,15 +241,15 @@ function CrimesModel() {
      */
     this.updateTemporalScope = function() {
         console.log("updating scope..");
-        _chicagoCrimesByDate = self.filterByDate(_allCrimesData);
-        _areaCrimesByDate = self.filterByDate(_crimesInAreaAllTime);
+        _chicagoCrimesByDate = self.filterByDate(_chicagoCrimesAllTime);
+        _areaCrimesByDate = self.filterByDate(_areaCrimesAllTime);
         notificationCenter.dispatch(Notifications.crimes.SELECTION_UPDATED);
     };
 
 
     var filterObjectInSelectedArea = function(objects, callback) {
-        _crimesInAreaAllTime = model.getAreaOfInterestModel().filterObjects(_allCrimesData);
-        _areaCrimesByDate = self.filterByDate(_crimesInAreaAllTime);
+        _areaCrimesAllTime = model.getAreaOfInterestModel().filterObjects(_chicagoCrimesAllTime);
+        _areaCrimesByDate = self.filterByDate(_areaCrimesAllTime);
 
         callback(null, null);
     };
