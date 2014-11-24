@@ -45,6 +45,20 @@ function TwitterModel() {
     };
 
     ///////////////////////// PRIVATE METHODS /////////////////////////
+    /**
+     * Handler for notification PATH_UPDATED
+     */
+    var q;
+    this.updateSelection = function() {
+        var a = [];
+        q = queue(1);
+        q.defer(callbackFoo, a);
+    };
+
+    var callbackFoo = function(objects, callback) {
+        self.updateTweets();
+        callback(null, null);
+    };
 
     var contains = function (tweets, text) {
         for (i in tweets) {
@@ -76,7 +90,7 @@ function TwitterModel() {
     };
 
     var init = function () {
-        self.updateTweets();
+        self.updateSelection();
         _timer = setInterval(self.updateTweets, _updateTimer);
     }();
 }

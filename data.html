@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://getbootstrap.com/examples/grid/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>User Manual</title>
+
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="grid.css" rel="stylesheet">
+    <style type="text/css">
+        .center {
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body style="padding-top: 70px;">
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="user_manual.html">User manual</a></li>
+            <li><a href="code.html">Download</a></li>
+            <li><a href="installation.html">Installation</a></li>
+            <li class="active"><a href="data.html">Data</a></li>
+            <li><a href="progress.html">Progress</a></li>
+            <li><a href="discovery.html">Discovery</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="page-header">
+        <h1>Data</h1>
+        <p class="lead">Where the data comes from and the preprocessing phase</p>
+    </div>
+
+    <h3>Potholes</h3>
+    <p>
+        The aim of the project is displaying geographical data regarging <strong>Divvy bikes</strong> in the time period that goes from July to December 2013. For that reason it is map centered: evey data is geolocalized on the map that cover the entire surface of the application. An overlay layer of semi-transparent controls is present to let the user iteract with the application. Every control is present only when the user need it. In every moment the user can move the map, zoom in for a more detailed view or zoom out for see more general patterns.
+    </p>
+
+    <h4>Single map mode</h4>
+    <p>
+        In this mode the user can display all the graphs and compare the data using different charts (that are present at the same time). The user can choose:
+    <ul>
+        <li>A day of the year</li>
+        <li>An hour of the day</li>
+        <li>The gender: male, female</li>
+        <li>The user type: customer, subscriber</li>
+        <li>An age range</li>
+    </ul>
+    All the filters are independent and the user can enable/disable them in any order (except for the hour that can be only choosen after the day).
+    </p>
+    <div class="col-sm-12 col-md-12">
+        <img src="image/single_map.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Single map streets visualization</p>
+    </div>
+    <div class="col-sm-12 col-md-12">
+        <img src="image/single_map_satellite.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Single map satellite visualization</p>
+    </div>
+    <div class="col-sm-12 col-md-12">
+        <img src="image/single_map_graphs.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Single map visualization with charts</p>
+    </div>
+    <div class="clearfix"></div>
+
+    <h4>Multi map mode</h4>
+    <p>
+        In this modality the user can compare data for more than one day. The data is displayed directly on the maps, there are no constraint on the number of stations selected or on the day and hour choosen. In this mode every functionality is replicated twice for maintain the separation between the two maps and allow the best user experience possible. The two maps can be also controlled by different person because the controllers behind them are completely separated and can manage more than one workflow at the same time (for the moment only one user per map is supported).
+    </p>
+    <div class="col-sm-12 col-md-12">
+        <img src="image/multimap_viz.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Multimap visualization</p>
+    </div>
+    <div class="clearfix"></div>
+
+    <h4>Stations representation</h4>
+    <p>
+        In order to represent Divvy bikes stations there are markers on the location. This markers represent the actual location of every single station, and has a color according to the visualization mode selected by the user.
+        There are three different station visualization modality:
+    <ul>
+        <li>
+            <strong>Popularity visualization:</strong> every station has its own popularity, computed as the number of travels over the period of time and normalized over the maximum (of the stations in city). If the popularity is near 100% the marker will be completely blue, if the popularity is near 0% it will be white. This visualization modality is active by default and doesn't require any use interaction.
+        </li>
+        <li>
+            <strong>Inflow visualization:</strong> the user has previously activated the inflow using the <strng>inflow</strong> button on <atrong>station control</strong>. In this modality every station has a marker with colors that goes from white (no flow from current station to the selected one) to red (every bikes that goes in the selected station comes from the current one).
+        </li>
+        <li>
+            <strong>Outflow visualization:</strong> it is exactly the same as <strong>inflow visualization</strong> but with the flow of bikes that leave the selected station.
+        </li>
+    </ul>
+    </p>
+    <div class="col-sm-6 col-md-2">
+        <img src="image/pop0.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Popularity 0%</p>
+    </div>
+    <div class="col-sm-6 col-md-2">
+        <img src="image/pop1.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Popularity 20%</p>
+    </div>
+    <div class="col-sm-6 col-md-2">
+        <img src="image/pop2.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Popularity 40%</p>
+    </div>
+    <div class="col-sm-6 col-md-2">
+        <img src="image/pop3.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Popularity 60%</p>
+    </div>
+    <div class="col-sm-6 col-md-2">
+        <img src="image/pop4.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Popularity 80%</p>
+    </div>
+    <div class="col-sm-6 col-md-2">
+        <img src="image/pop5.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Popularity 100%</p>
+    </div>
+    <div class="clearfix"></div>
+
+    <h4>Community areas representation and selection</h4>
+    <p>
+        In order to falicitate the station selection there's the possibility to enable the community areas directly on the map. To enable CA the user has to click on Show CA from <stong>selection control</strong>.
+    </p>
+    <p>
+        When CAs are enabled the user can click on one of them to select (multiple selection) all the stations inside it. On mouseover the community area will change color in order to provide the best user experience possible.
+    </p>
+    <div class="col-sm-12 col-md-6">
+        <img src="image/map_no_ca.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Map without CAs</p>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <img src="image/map_ca.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Map with CAs</p>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <img src="image/map_ca_hover.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Map with CAs and mouse hover</p>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <img src="image/map_ca_selected.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Map with CAs and an area selected</p>
+    </div>
+    <div class="clearfix"></div>
+
+    <h4>Bikes patter representation</h4>
+    <p>
+        This visualization modality is active when the user select the day using <strong>calendar control</strong> and the desired hour using <strong>day control</strong>. This type of representation is focused on trips. Every trip that started before the selected hour and is not yet terminated is displayed on the map. The actual position of the bike is obtained interpolating the start station and the end station coordinates and it is displayed as a red circle.
+    </p>
+    <p>
+        If the user zoom in he/she can actually distinguish every bike and every path. While the user zoom out it is possible to see general patterns. This type of visualization is very useful in combination with <strong>moment of day chart</strong> and <strong>bikes out per hour of the day chart</strong> (all visible in the same moment on the screen). User can turn on and off the stations that he/she want to include in the pattern visualization selecting them in <strong>station control</strong> (compare all modality) or using the community are selection mode.
+    </p>
+    <div class="col-sm-6 col-md-4">
+        <img src="image/pattern0.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Single bike visualization</p>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <img src="image/pattern1.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Three bikes moving pattern</p>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <img src="image/pattern2.png" class="img-responsive center" alt="Responsive image"/>
+        <p>North suburbs bikes moving south pattern</p>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <img src="image/pattern3.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Entire city trips pattern during the night</p>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <img src="image/pattern4.png" class="img-responsive center" alt="Responsive image"/>
+        <p>Central stations bikes pattern during afternoon</p>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <img src="image/pattern5.png" class="img-responsive center" alt="Responsive image"/>
+        <p>South suburbs bikes moving north pattern</p>
+    </div>
+    <div class="clearfix"></div>
+
+    <hr>
+
+</div> <!-- /container -->
+</body>
+</html>
