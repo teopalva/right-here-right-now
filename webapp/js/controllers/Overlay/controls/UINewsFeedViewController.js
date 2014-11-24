@@ -248,7 +248,11 @@ function UINewsFeedViewController() {
 
             // Description
             _descriptionLabel = new UILabelViewController();
-            _descriptionLabel.setText(news_.getDescription());
+            var description = news_.getDescription();
+            console.log(description);
+            if (description.length > 17)
+                description = description.substring(0, 17) + "...";
+            _descriptionLabel.setText(description);
             _descriptionLabel.setTextSize(20);
             _descriptionLabel.setTextColor("white");
             _descriptionLabel.setTextAlignment("left");
@@ -366,12 +370,10 @@ function UINewsFeedViewController() {
             if (_type === "RSS") {
                 var _feed = model.getNewsFeedModel().getNewsfeed();
                 _indexPage = _feed.length - 3;
-                console.log("drawing news");
                 self.drawNews();
             } else {
                 var _feedTweets = model.getNewsFeedModel().getTweets();
                 _indexPageTwitter = _feedTweets.length - 3;
-                console.log("drawing tweets");
                 self.drawTweets();
             }
 

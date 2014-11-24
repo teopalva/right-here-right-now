@@ -108,6 +108,8 @@
         </p>
         <p>The <b>clear selection</b> button allows to clear all the shapes drawn on the map, so that all the map is cleared and the user can restart his selections.
             <br>Let us notice that we decided not to disable the enabled layers when this button is clicked, since it is likely that the user wants to draw a new selection, but keeping the layers already activeted (or changing only few of them).
+            <br>
+            <br>The selection control contains also another module, the <b>Recommender System</b>, which is here because it is thought to be primarily used after the user has cleared the selection and/or changed type of selection.
         </p>
 
         <h4>Recommender System</h4>
@@ -120,6 +122,32 @@
             The idea behind our decision to add a recommender system comes from the question: "How can we facilitate the choice of the enabled layers for the user?"
             <br>The answer was simple: we can just ask him to declare which kind of means of transportation he is going to use. Given this information the system uses it together with the information on the time of the day to predict which layers are more probable to be of some interest for the user.
             <br>For example, if it's night and the user is going to walk, then the system will automatically activate the layers about the abandoned vehicles and criminality, to let him see if the area is dangerous (especially if crossed going on foot). The layer of the street lights out will be activated too, since it's night, so this is an important information. At any time the user can modify (enable/disable) layers.</p>
+
+        <h4>Layers control</h4>
+        <div class="col-sm-3 col-md-3">
+            <img src="image/layers.png" class="img-responsive center" alt="Responsive image" />
+        </div>
+        <div class="clearfix"></div>
+        <br>
+        <p>
+            The selection of the layers is one of the key features of the app. This control contains buttons to enable/disable layers. The layers are subdivided into 4 main categories, each of which is characterized by a scale of colors in the same range.
+            <br>In the next section each layer will be described more in detail.
+        </p>
+
+        <h4>Space and Time controls</h4>
+        <div class="col-sm-3 col-md-3">
+            <img src="image/map_controls.png" class="img-responsive center" alt="Responsive image" />
+        </div>
+        <div class="clearfix"></div>
+        <br>In order from the left:
+        <ul>
+            <li> <b>Time interval control</b>: it lets the user specify which is the time interval to look in the past for data. By default it is set to a month, but the user can select "last 2 weeks" to request more recent data.
+            </li>
+            <li> <b>Zoom control</b>: custom zoom to move in/out wrt the map
+            </li>
+            <li> <b>Type of map control</b>: by clicking on it the user can change the map from street view to satellite and vice versa.
+            </li>
+        </ul>
 
         <hr>
         <!--//////////////////////////////////////////////////////////////////////////////-->
@@ -153,20 +181,48 @@
         <!--//////////////////////////////////////////////////////////////////////////////-->
 
         <h3>Real-Time notifications: Newsfeed</h3>
+
+        <div class="col-sm-3 col-md-3">
+            <img src="image/newsfeed1.png" class="img-responsive center" alt="Responsive image" />
+        </div>
+        <div class="clearfix"></div>
+
         <p>
             Text
         </p>
+
+        <div class="col-sm-3 col-md-3">
+            <img src="image/newsfeed_detail.png" class="img-responsive center" alt="Responsive image" />
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="col-sm-3 col-md-3">
+            <img src="image/newsfeed_divvy.png" class="img-responsive center" alt="Responsive image" />
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="col-sm-3 col-md-3">
+            <img src="image/newsfeed_twitter.png" class="img-responsive center" alt="Responsive image" />
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="col-sm-3 col-md-3">
+            <img src="image/tweet1.png" class="img-responsive center" alt="Responsive image" />
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="col-sm-3 col-md-3">
+            <img src="image/tweet2.png" class="img-responsive center" alt="Responsive image" />
+        </div>
+        <div class="clearfix"></div>
 
         <hr>
         <!--//////////////////////////////////////////////////////////////////////////////-->
 
         <h3>Charts</h3>
         <p>
-            Charts have been designed to show a general overview of Chicago crime data and general street
-            issues and to allow comparisons between a selected area and Chicago as a whole. <br/>
-            The chart panel is placed on the right part of the screen and offers two views, one regarding the crime
-            data and the other regarding street issues; By clicking the two buttons on the bottom part of the
-            chart panel user can switch between the two views.
+            Charts have been designed to show a general overview of Chicago crime data and general street issues and to allow comparisons between a selected area and Chicago as a whole.
+            <br/>The chart panel is placed on the right part of the screen and offers two views, one regarding the crime data and the other regarding street issues; By clicking the two buttons on the bottom part of the chart panel user can switch between the two views.
 
         </p>
         <h4>Crimes charts</h4>
