@@ -214,7 +214,7 @@ function CrimesModel() {
                     _chicagoCrimesAllTime.push(crime);
                 }
             });
-            console.log("Crimes file downloaded: " + _chicagoCrimesAllTime.length + " crimes");
+            //console.log("Crimes file downloaded: " + _chicagoCrimesAllTime.length + " crimes");
             _chicagoCrimesByDate = self.filterByDate(_chicagoCrimesAllTime);
             _dataAvailable = true;
             self.updateSelection();
