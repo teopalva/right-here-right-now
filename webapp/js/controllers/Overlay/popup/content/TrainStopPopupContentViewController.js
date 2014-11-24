@@ -80,6 +80,8 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
                     _timeLabel[counter].setTextColor(model.getCtaTrainModel().getLineColor(p.routeName));
                     _timeLabel[counter].setText(timeString);
+
+                    counter++;
                 }
             });
         }
@@ -150,7 +152,7 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
                 if(s.Y == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Y")) === -1) {
                     colors.push(model.getCtaTrainModel().getLineColor("Y"));
                 }
-                if(s.P == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("P")) === -1) {
+                if(s.Pexp == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("P")) === -1) {
                     colors.push(model.getCtaTrainModel().getLineColor("P"));
                 }
             }

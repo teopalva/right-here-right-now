@@ -21,7 +21,7 @@ function CtaTrainModel() {
     var _lineColors = {
         Red: "rgb(255,55,29)",
         Blue:"rgb(49,130,189)",
-        Brn:"rgb(140,64,42)",
+        Brn:"rgb(153,52,4)",
         G:"rgb(21,141,25)",
         Org:"rgb(255,126,36)",
         P:"rgb(147,66,255)",
