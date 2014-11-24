@@ -330,11 +330,11 @@ function UIStreetIssuesChartsViewController() {
         addBehavior();
 
         notificationCenter.subscribe(self, self.potholesChanged, Notifications.potholes.SELECTION_UPDATED);
-        notificationCenter.subscribe(self, self.potholesChanged, Notifications.potholes.DATA_CHANGED);
+        //notificationCenter.subscribe(self, self.potholesChanged, Notifications.potholes.DATA_CHANGED);
         notificationCenter.subscribe(self, self.vehiclesChanged, Notifications.vehicles.SELECTION_UPDATED);
-        notificationCenter.subscribe(self, self.vehiclesChanged, Notifications.vehicles.DATA_CHANGED);
+        //notificationCenter.subscribe(self, self.vehiclesChanged, Notifications.vehicles.DATA_CHANGED);
         notificationCenter.subscribe(self, self.streetLightsOutChanged, Notifications.lights.SELECTION_UPDATED);
-        notificationCenter.subscribe(self, self.streetLightsOutChanged, Notifications.lights.DATA_CHANGED);
+        //notificationCenter.subscribe(self, self.streetLightsOutChanged, Notifications.lights.DATA_CHANGED);
     } ();
 }
 
