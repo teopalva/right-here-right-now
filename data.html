@@ -230,7 +230,7 @@
         To this list of stops, the geographic selection filter is applied in order to reduce the size of it.<br>
     </p>
     <p>
-        Once obtained a filtered list, it is scanned to find all the routes of the selected area by simply checking the route of each stop.<br>
+        Once a filtered list is obtained, it is scanned to find all the routes of the selected area by simply checking the route of each stop.<br>
         With the list of all the active routes of an area it is now possible to call the <b>getvehicles</b> API to retrieve a list of vehicles.
         This list too is filtered to have just the vehicles currently inside the selected area.<br>
         The list of the active routes is also used to call the <b>getpatterns</b> api, which returns all the paths of those routes.<br>
@@ -250,7 +250,7 @@
     <ol>
     <li><b>Mobile mean adjusted speed</b></li>
     <p>
-        Once an update arrives, data about the previous data is stored in order to compute the speed of the last "step".
+        Once an update arrives, data about the previous update is stored in order to compute the speed of the last "step".
         The speed of the bus is set as a mean between an empirical value (that has been found analyzing the buses) and
         the mobile mean of the latest 5 speed values of the bus.
     </p>
@@ -267,7 +267,7 @@
     </p>
     <li><b>Animation</b></li>
     <p>
-        Once all this data is available the bus is animated with a frame-rate of 10fps according to the simulation that
+        Once all this data is available, the bus is animated with a frame-rate of 10fps according to the simulation that
         has been conducted so far.
     </p>
     <li><b>New data update</b></li>
