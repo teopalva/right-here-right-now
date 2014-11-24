@@ -15,6 +15,11 @@
 
     <link href="bootstrap.min.css" rel="stylesheet">
     <link href="grid.css" rel="stylesheet">
+    <style type="text/css">
+        .center {
+            margin: auto;
+        }
+    </style>
 </head>
 
 <body style="padding-top: 70px;">
@@ -41,21 +46,133 @@
     </nav>
 
     <div class="container">
-
         <div class="page-header">
             <h1>Data</h1>
             <p class="lead">The real-time heart of the application</p>
         </div>
 
-        <h3>Title1</h3>
-        <p>
-            Text
-        </p>
+    <h3>311 Datasets</h3>
+    <p>
+        311 service is generally implemented at the local level, and in some cities, it is also used for various municipal calls.
+        The service in chicago uses to collect a bunch of data and release them live to the web for free. Live means that the dataset is updated with a certain frequency
+        that goes from minutes two variuos days, and they can be easily accessed and queried real time with the API that they provide. The main page where to find data can
+        be found starting from <a href="https://data.cityofchicago.org/browse?limitTo=datasets">here</a> and the SODA2 API webpage used to query the datasets is available
+        <a href="http://dev.socrata.com/docs/queries.html">here</a>.
 
-    </div>
+    <h4>Potholes Data</h4>
+    <p>
+        The 311 service keeps a dataset of potholes in Chicago at <a href="https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Pot-Holes-Reported/7as2-ds3y">this page</a>,
+        that can be easily queried by downloading the linked <a href="http://data.cityofchicago.org/resource/7as2-ds3y.json">JSON file</a> and appending the parameters in the URL.
+        The parameters we specified have been chosen as explained below:
+    <ul>
+        <li>$select = only the fields we needed to display</li>
+        <li>$where = latitude and longitude are not NULL (to display the pothole), the pothole hasn't been fixed yet, and it has been pointed out in the last month</li>
+        <li>$order = order by date to have sorted set to manipulate</li>
+    </ul>
+        The data is retrieved when the user activates the layer and is asynchronously downloaded, parsed and displayed. The frequency of updates is 1 minute, so that the user
+        can possibly see live updates if new data is available.
+    </p>
 
-    </div>
-    <!-- /container -->
+    <h4>Street Lights Out Data</h4>
+    <p>
+        The 311 service keeps a dataset of broken street lights in Chicago at <a href="https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Street-Lights-All-Out/zuxi-7xem">this page</a>,
+        where are listed all the poles with 3 or more lights out, and <a href="https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Street-Lights-One-Out/3aav-uy2v">this page</a> where
+        are listed the poles with 1 or 2 lights out. Data can be easily queried by downloading the linked JSON files and appending the parameters in the URL.
+        The parameters we specified have been chosen as explained below:
+    <ul>
+        <li>$select = only the fields we needed to display</li>
+        <li>$where = latitude and longitude are not NULL (to display the lights on the map) and the broken lights has been pointed out in the last month but still hasn't been given back</li>
+        <li>$order = order by date to have sorted set to manipulate</li>
+    </ul>
+    The data is retrieved when the user activates the layer and is asynchronously downloaded, parsed and displayed. The frequency of updates is 1 minute, so that the user
+    can possibly see live updates if new data is available.
+    </p>
+
+    <h4>Abandoned Vehicles Data</h4>
+    <p>
+        The 311 service keeps a dataset of abandoned vehicles in Chicago at <a href="https://data.cityofchicago.org/Service-Requests/311-Service-Requests-Abandoned-Vehicles/3c9v-pnva">this page</a>,
+        that can be easily queried by downloading the linked <a href="http://data.cityofchicago.org/resource/3c9v-pnva.json">JSON file</a> and appending the parameters in the URL.
+        The parameters we specified have been chosen as explained below:
+    <ul>
+        <li>$select = only the fields we needed to display</li>
+        <li>$where = latitude and longitude are not NULL (to display the vehicle on the map) and the vehicle has been pointed out in the last month but still hasn't been given back</li>
+        <li>$order = order by date to have sorted set to manipulate</li>
+    </ul>
+    The data is retrieved when the user activates the layer and is asynchronously downloaded, parsed and displayed. The frequency of updates is 1 minute, so that the user
+    can possibly see live updates if new data is available.
+    </p>
+
+    <h4>Crimes Data</h4>
+    <p>
+        The 311 service keeps a dataset of crimes in Chicago at <a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2">this page</a>,
+        that can be easily queried by downloading the linked <a href="http://data.cityofchicago.org/resource/ijzp-q8t2.json">JSON file</a> and appending the parameters in the URL.
+        The parameters we specified have been chosen as explained below:
+    <ul>
+        <li>$select = only the fields we needed to display</li>
+        <li>$where = latitude and longitude are not NULL (to display the vehicle on the map) and the crime has been pointed out in the last month</li>
+        <li>$order = order by date to have sorted set to manipulate</li>
+    </ul>
+    The data is retrieved when the user activates the layer and is asynchronously downloaded, parsed and displayed. With this particular dataset, the handling of the results is
+    more tricky since the data retrieved is significantly bigger (10 times bigger than the data described above), so the asynchronous download and the cache of the data has been
+    fundamental to avoid the application freeze and increase the usability. Also, we decided to classify the crimes into 3 distinct categories that have been assigned to each single
+    crime starting from it's type. For example:
+    <ul>
+        <li>Type = Theft -> Category = Property Crime</li>
+        <li>Type = Burglar -> Category = Property Crime</li>
+        <li>Type = Homicide -> Category = Violent Crime</li>
+        <li>Type = Battery -> Category = Violent Crime</li>
+        <li>Type = Prostitution -> Category =  Quality of Life Crime</li>
+        <li>Type = Gambling -> Category =  Quality of Life Crime</li>
+    </ul>
+    and so on ... In this way turns really meaningful make comparison and statistics on the different kind of crimes.
+    </p>
+
+    <h3>Divvy Bikes Data</h3>
+    Divvy is a bicycle sharing system that launched in Chicago on June 28, 2013 initially with 750 bikes at 75 stations spanning from the Loop north to Berwyn Ave, west to Kedzie Ave, and south to 59th St.
+    The system was planned to grow to 4,000 bicycles at 400 stations by Spring 2014, however supply shortages have delayed expansion to 2015.
+
+    <h4>Bikes Data</h4>
+    <p>
+        The company released a bunch of historical data on their launch, and now keeps updating <a href="http://www.divvybikes.com/stations/json/">this JSON file</a>
+        every minute with the information of all the divvy bikes stations in Chicago. The application checks if new data is available every 10 seconds, so that the user
+        is actually aware of the stations status in real time.
+        The only issue that we encountered with the download of this file was how bypass of the Cross Site Domain error that was given from our server, and we managed it using
+        <a href="https://script.google.com/a/macros/mcpher.com/s/AKfycbzGgpLEWS0rKSBqXG5PcvJ7Fpe02fvGqiCqq54SVQmBJSpy_6s/exec?url=http://www.divvybikes.com/stations/json/">this proxy server</a> owned by Google.
+    </p>
+
+    <h3>Other Resources</h3>
+    We felt like the application could show much more than that, and we decided to extend it by getting other data from external resources to give more useful real time
+    information. In general to get this data we decided to use a php script to authenticate i a easier way with the server, and pass trough the Google proxy mentioned
+        before.
+
+    <h4>Yelp Data</h4>
+    <p>
+        Yelp is a multinational corporation headquartered in San Francisco, California and provides basic data about businesses such as hours of operation. We have used
+        <a href="http://www.yelp.com/developers/documentation">their APIs</a> to retrieve data about the best classified restaurants in Chicago. Unfortunately the sorting by rate
+        only allows to retrieve 40 results, which were not enough for what we wanted to visualize. So we have decided to retrieve them with the 'best match' criteria, which
+        gives back up to 1000 preferred restaurants sorted with a complex algorithm that takes into account many more factors than just rating.
+        This results have been combined with the data that can found <a href="https://data.cityofchicago.org/Health-Human-Services/Food-Inspections/4ijn-s7e5">here</a> to highlight
+        the preferred restaurant that have failed a food inspection in the last few months.
+    </p>
+
+    <h4>Twitter Data</h4>
+    <p>
+        Twitter is a really powerful instrument nowadays, that can give tons of useful information if they area well filtered. The <a href="https://dev.twitter.com/overview/documentation">Twitter APIs</a>
+        are really straightforward and easy to use; the biggest challenge has been to find some interesting tweets regarding the purpose of the application: security on the street.
+        We noticed that important tweets regarding crimes and inconviniences come from settle down companies like #BreakingNews that usually don't share their location, while everyday users that
+        are geolocalized cannot be trusted apriori regarding this kind of alerts. Eventually we decided not to the meaningless geotagged tweets on the map, but rather
+        untagged meaningful tweets as simple notifications.
+    </p>
+
+    <h4>Wikipedia Data</h4>
+    <p>
+        We used wikipedia just as external resource to retrive information about tourist attractions and important places. No API has been used, the information have been
+        taken directly from the Wikipedia web pages.
+    </p>
+
+
+    <hr>
+
+</div> <!-- /container -->
 </body>
-
 </html>
