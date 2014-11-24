@@ -183,13 +183,13 @@
         </li>
     </ul>
 
-    <h4>Bus</h4>
+    <h4>CTA Bus</h4>
     <p>
         For Buses the “Bus Tracker API documentation” has been used. Since it provided not so user-friendly “calls” for
         the purposes of this application, a good design about queries and their optimization has been needed.
     </p>
 
-    <h5>Query Hierarchy</h5>
+    <h5>Calls Hierarchy</h5>
     <p>
         The main API calls are:
     <ul>
@@ -239,7 +239,7 @@
         After a click on the popup of a station a <b>getprediction</b> call is made with the id of the selected station.
     </p>
 
-    <h5>Bus Animation</h5>
+    <h4>Bus Animation</h4>
     <p>
         Data about vehicles is updated on the CTA servers just once every minute. This is such a long time for information like
         position of buses and it is difficult to provide the user useful information. With this kind of update rate it is
@@ -247,28 +247,48 @@
         For these reasons it has been decided to simulate the positions of buses in between two consecutive updates.
         This is pursued through some steps.
     </p>
-    <h6>Mobile mean adjusted speed</h6>
+    <ol>
+    <li><b>Mobile mean adjusted speed</b></li>
     <p>
         Once an update arrives, data about the previous data is stored in order to compute the speed of the last "step".
         The speed of the bus is set as a mean between an empirical value (that has been found analyzing the buses) and
         the mobile mean of the latest 5 speed values of the bus.
     </p>
-    <h6>Route Repositioning</h6>
+    <li><b>Route Repositioning</b></li>
     <p>
-        Position data of the buses is not so accurate and in some particular conditions like, for instance, when the bus is
-        downtown among the skyscrapers, the signal is very noisy. For this reason each bus is repositioned on his track.<br>
-        Since every bus "is aware" of the route it is traveling on, it is possible to set the position of the bus on the route
+        Position data of the buses is not so accurate and in some particular conditions like, for instance, in
+        downtown among the skyscrapers, the signal is very noisy. For this reason each bus is repositioned on his track
+        just after an update.<br>
+        This is pursued quite easily: since every bus "is aware" of the route it is traveling on, it is possible to set
+        the position of the bus on the route
         in a precise way. This task is accomplished by computing the distance between the bus position and each segment
         which the route path is composed of. The segment with the smaller distance is chosen and the bus is positioned in between it
         by simply following a perpendicular line toward it.
     </p>
-    <h6>Animation</h6>
-    <h6>New data update</h6>
+    <li><b>Animation</b></li>
+    <p>
+        Once all this data is available the bus is animated with a frame-rate of 10fps according to the simulation that
+        has been conducted so far.
+    </p>
+    <li><b>New data update</b></li>
+    <p>
+        When a new update is retrieved, the bus position is reset to the actual position contained in the data and simulation
+        starts again.
+    </p>
+    </ol>
 
+    <h4>CTA Train</h4>
+    <p>
+        For Trains the “cta Train Tracker API documentation” has been used.
+        These APIs are currently in beta phase so they still contain some imprecisions.<br>
+        </p>
+    <p>
+        They have been used just for retrieving the predictions of trains approaching each station.
+        This task is accomplished making use of the call <b>ttarrivals?stpid=XXX</b> which returns the arrival time
+        related to a given stop<br>
 
-    <p></p>
-
-
+        The list of the stations, instead, is provided by CTA as a static csv file which has been parsed.
+    </p>
 
     <hr>
 
