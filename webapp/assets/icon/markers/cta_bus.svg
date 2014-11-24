@@ -42,5 +42,5 @@
 	c0-1.43,1.16-2.588,2.592-2.588c1.43,0,2.59,1.158,2.59,2.588C32.242,33.817,31.082,34.977,29.652,34.977z M32.944,23.641H8.333
 	V10.732h24.611V23.641z"/>
 <rect x="8.292" y="10.732" fill="none" width="24.901" height="13.487"/>
-<text id="bus_number" transform="matrix(1 0 0 1 8.2925 19.2517)" font-family="Helvetica" font-size="12">177</text>
+<text id="bus_number" transform="matrix(1 0 0 1 8.2925 19.2517)" font-family="Helvetica" font-size="12"></text>
 </svg>

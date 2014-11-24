@@ -48,16 +48,7 @@ function PopupFactory() {
                 popup.setDataSourceImage("assets/icon/data_sources/cta.svg");
                 setupBusStopPopup(popup,dictionary);
                 break;
-            case PopupsType.BUS_VEHICLES:
-                popup.setDataSourceFrame(10,5,50,50);
-                popup.setDataSourceImage("assets/icon/data_sources/cta.svg");
-                setupBusVehiclePopup(popup,dictionary);
-                break;
-            //case PopupsType.BUS_ROUTES:
-            //    popup.setDataSourceFrame(10,5,50,50);
-            //    popup.setDataSourceImage("assets/icon/data_sources/cta.svg");
-            //    setupBusRoutePopup(popup,dictionary);
-            //    break;
+
             case PopupsType.TRAIN_STATIONS:
                 popup.setDataSourceFrame(10,5,50,50);
                 popup.setDataSourceImage("assets/icon/data_sources/cta.svg");
@@ -568,63 +559,6 @@ function PopupFactory() {
         var busContent = new BusStopPopupContentViewController(dictionary, _busStopFrameSize);
         busContent.getView().setFrame(padding.left, padding.top, _busStopFrameSize.width, _busStopFrameSize.height);
         popup.add(busContent);
-
-    };
-
-    /**
-     * Setup bus vehicle popup
-     * @param popup
-     * @param dictionary
-     */
-    var  setupBusVehiclePopup = function(popup,dictionary) {
-        // Setup popup
-        var _busStopFrameSize = {
-            width: 300,
-            height: 200
-        };
-
-        var labelsSize = {
-            width: _busStopFrameSize.width - 20,
-            height: 30
-        };
-
-        var padding = {
-            top : 10,
-            left : 10,
-            between : 4
-        };
-
-        var latitude = dictionary.info.latitude;
-        var longitude = dictionary.info.longitude;
-
-        var position = model.getMapModel().projectAtCurrentZoom(latitude, longitude);
-        popup.getView().setFrame(
-            position.x - (_busStopFrameSize.width / 2),
-            position.y - _busStopFrameSize.height,
-            _busStopFrameSize.width,
-            _busStopFrameSize.height
-        );
-        popup.getView().setViewBox(0, 0, _busStopFrameSize.width, _busStopFrameSize.height);
-
-        var idLabel = new UILabelViewController();
-        idLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
-        idLabel.setText(dictionary.info.id);
-        idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        popup.add(idLabel);
-
-        var routeLabel = new UILabelViewController();
-        routeLabel.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
-        routeLabel.setText("ROUTE: " + dictionary.info.route);
-        routeLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        popup.add(routeLabel);
-
-        var delayLabel = new UILabelViewController();
-        delayLabel.getView().setFrame(padding.left,padding.top * 5 ,labelsSize.width,labelsSize.height);
-        delayLabel.setText("Delay: " + dictionary.info.delay);
-        delayLabel.setTextAlignment(TextAlignment.LEFT);
-        delayLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        popup.add(delayLabel);
-
 
     };
 

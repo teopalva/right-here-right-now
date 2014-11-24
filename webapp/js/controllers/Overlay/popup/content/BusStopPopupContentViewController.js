@@ -13,6 +13,7 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
     var _nameLabel;
     var _routeLabel;
     var _predictionLabel = [];
+    var _timeLabel = [];
 
     var _dictionary = dictionary;
 
@@ -60,14 +61,9 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
                     var time = parseInt((new Date(predictedTime) - new Date(currentTime)) / (1000 * 60));
 
                     var predictionString = "";
-                    if (time != 0) {
-                        predictionString += time + " min";
-                    }
-                    else {
-                        predictionString += "DUE";
-                    }
+
                     if (p.route !== "") {
-                        predictionString += " - " + p.route;
+                        predictionString += p.route;
                     }
                     if (p.destination !== "") {
                         predictionString += " - " + p.destination;
@@ -78,11 +74,23 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
                     if (p.delay !== "") {
                         predictionString += " - delay";
                     }
-                    if (p.vehicleID !== "") {
-                        predictionString += " - ID: " + p.vehicleID;
-                    }
+                    //if (p.vehicleID !== "") {
+                    //    predictionString += " - ID: " + p.vehicleID;
+                    //}
 
-                    _predictionLabel[counter++].setText(predictionString);
+                    _predictionLabel[counter].setText(predictionString);
+
+
+                    var timeString = "";
+                    if (time != 0) {
+                        timeString += time + " min";
+                    }
+                    else {
+                        timeString += "DUE";
+                    }
+                    _timeLabel[counter].setText(timeString);
+
+                    counter++;
                 }
             });
         }
@@ -147,12 +155,11 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
         _nameLabel = new UILabelViewController();
         _nameLabel.getView().setFrame(padding.left,padding.top + padding.between,labelsSize.width,labelsSize.height);
-        var text = _dictionary.info.name + " (" + _stopID + ")";
-        if(text.length > 22) {
-            text = text.substring(0,22) + "...";
+        var text = _dictionary.info.name;
+        if(text.length > 30) {
+            text = text.substring(0,30) + "...";
         }
         _nameLabel.setText(text);
-        _nameLabel.setTextSize(model.getThemeModel().mediumTextSize());
         _nameLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         self.add(_nameLabel);
 
@@ -175,6 +182,18 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
         _predictionLabel[1].setTextColor(model.getThemeModel().defaultToolTextColor());
         self.add(_predictionLabel[1]);
 
+
+        _timeLabel[0] = new UILabelViewController();
+        _timeLabel[0].getView().setFrame(padding.left,padding.top * 7 ,labelsSize.width - padding.left,labelsSize.height);
+        _timeLabel[0].setTextAlignment(TextAlignment.RIGHT);
+        _timeLabel[0].setTextColor(model.getThemeModel().defaultToolTextColor());
+        self.add(_timeLabel[0]);
+
+        _timeLabel[1] = new UILabelViewController();
+        _timeLabel[1].getView().setFrame(padding.left,padding.top * 9 ,labelsSize.width - padding.left,labelsSize.height);
+        _timeLabel[1].setTextAlignment(TextAlignment.RIGHT);
+        _timeLabel[1].setTextColor(model.getThemeModel().defaultToolTextColor());
+        self.add(_timeLabel[1]);
 
         notificationCenter.subscribe(self, updatePredictions, Notifications.cta.BUS_STOP_PREDICTIONS);
         notificationCenter.subscribe(self, enableRoute, Notifications.cta.ROUTES_PATHS_LOADED);

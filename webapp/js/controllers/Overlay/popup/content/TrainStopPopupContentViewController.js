@@ -13,6 +13,8 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
     var _linesLabel;
     var _routeLabel;
     var _predictionLabel = [];
+    var _timeLabel = [];
+
     var _predictionsNumber = 4;
 
     var _dictionary = dictionary;
@@ -56,23 +58,28 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
             preds.forEach(function (p) {
                 if (p) {
-                    var predictionString = "" + p.eta;
-                    if(p.eta != "DUE") {
-                        predictionString += " min";
-                    }
+                    var predictionString = ""
+
                     //if (p.routeName !== "") {
                     //    predictionString += " - " + p.routeName;
                     //}
                     if (p.destinationName !== "") {
-                        predictionString += " - " + p.destinationName;
+                        predictionString += p.destinationName;
                     }
                     if(p.delay != "-") {
                         predictionString += " - " + p.delay;
                     }
 
                     _predictionLabel[counter].setTextColor(model.getCtaTrainModel().getLineColor(p.routeName));
-                    _predictionLabel[counter++].setText(predictionString);
+                    _predictionLabel[counter].setText(predictionString);
 
+                    var timeString = "" + p.eta;
+                    if(p.eta != "DUE") {
+                        timeString += " min";
+                    }
+
+                    _timeLabel[counter].setTextColor(model.getCtaTrainModel().getLineColor(p.routeName));
+                    _timeLabel[counter].setText(timeString);
                 }
             });
         }
@@ -177,9 +184,9 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
         _idLabel = new UILabelViewController();
         _idLabel.getView().setFrame(padding.left,padding.top,labelsSize.width,labelsSize.height);
-        var text = _dictionary.info.STATION_NAME + " (" + _stopID + " )";
-        if(text.length > 22) {
-            text = text.substring(0,22) + "...";
+        var text = _dictionary.info.STATION_NAME;
+        if(text.length > 30) {
+            text = text.substring(0,30) + "...";
         }
         _idLabel.setText(text);
         _idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
@@ -239,6 +246,13 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
             _predictionLabel[i].setTextAlignment(TextAlignment.LEFT);
             _predictionLabel[i].setTextColor(model.getThemeModel().defaultToolTextColor());
             self.add(_predictionLabel[i]);
+
+
+            _timeLabel[i] = new UILabelViewController();
+            _timeLabel[i].getView().setFrame(padding.left, padding.top * (7 + i*2), labelsSize.width - padding.left, labelsSize.height);
+            _timeLabel[i].setTextAlignment(TextAlignment.RIGHT);
+            _timeLabel[i].setTextColor(model.getThemeModel().defaultToolTextColor());
+            self.add(_timeLabel[i]);
         }
 
         notificationCenter.subscribe(self, updatePredictions, Notifications.cta.TRAIN_STOP_PREDICTIONS);
