@@ -74,7 +74,7 @@ function DivvyBikesModel() {
             for (var i = 0; i < temp.length; i++)
                 if (_oldDivvyBikes.length > 0)
                     if (hasChanged(temp[i], _oldDivvyBikes)) {
-                        var news = new News("Divvy" + new Date(), "Station n." + temp[i].id + " updated", "assets/icon/markers/divvy.svg", new Date());
+                        var news = new News(PopupsType.DIVVY_BIKES, "Station n." + temp[i].id + " updated", "assets/icon/markers/divvy.svg", new Date(),"",temp[i]);
                         model.getNewsFeedModel().postNews(news);
                     }
         });

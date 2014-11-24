@@ -339,12 +339,7 @@ function CtaBusVehiclesLayerViewController() {
                     if(weightedSpeed > _maximumSpeed) {
                         weightedSpeed = _maximumSpeed;
                     }
-                    console.log("weighted speed: " + weightedSpeed + " j: " + j);
-                    console.log(speedRegister)
-                    console.log(_vehicles[id])
 
-
-                    // TODO: try with weightedSpeed computed above
                     _vehicles[id].meanSpeed = weightedSpeed;
                 }
 

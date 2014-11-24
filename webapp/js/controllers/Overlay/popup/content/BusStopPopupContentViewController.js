@@ -54,8 +54,10 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
             preds.forEach(function (p) {
                 if (p) {
                     var predictedTime = p.time.slice(0, 4) + "/" + p.time.slice(4, 6) + "/" + p.time.slice(6, p.time.length);
+                    var currentTime = model.getCtaModel().getCtaTime();
+                    currentTime = currentTime.slice(0, 4) + "/" + currentTime.slice(4, 6) + "/" + currentTime.slice(6, currentTime.length);
 
-                    var time = parseInt((new Date(predictedTime) - model.getTimeModel().getCurrentDate()) / (1000 * 60));
+                    var time = parseInt((new Date(predictedTime) - new Date(currentTime)) / (1000 * 60));
 
                     var predictionString = "";
                     if (time != 0) {
@@ -181,7 +183,6 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
         //model.getCtaModel().retrievePrediction(_stopID);
 
-        //TODO: aspettare la fine di tutte le query
         if(model.getCtaModel().getRoutesPathsLoaded() === true) {
             enableRoute();
         }
