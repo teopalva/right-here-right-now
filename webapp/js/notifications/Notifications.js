@@ -157,3 +157,7 @@ Notifications.failedRestaurants = {
 Notifications.twitter = {
     TWEET_DETAIL_REQUESTED: "com.righthererightnow.twitter.tweetDetailRequested"
 }
+
+Notifications.turistAttractions ={
+    DATA_CHANGED : "com.righthererightnow.twitter.dataChanged"
+}

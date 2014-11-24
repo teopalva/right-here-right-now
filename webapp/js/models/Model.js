@@ -68,6 +68,8 @@ function Model() {
     // Holds information about twitter
     var _twitterModel;
 
+    var _turistAttractionsModel;
+
     ///////////////////////////// PUBLIC METHODS /////////////////////////////
     /**
      *
@@ -178,6 +180,9 @@ function Model() {
         return _crimesModel;
     };
 
+    this.getTuristAttractionsModel = function() {
+        return _turistAttractionsModel;
+    };
     /**
      * Returns popup model
      * @returns {PopupModel}
@@ -262,6 +267,8 @@ function Model() {
         _placesOfInterestModel = new PlacesOfInterestModel();
 
         _twitterModel = new TwitterModel();
+
+        _turistAttractionsModel = new TuristAttractionsModel();
 
     } ();
 }

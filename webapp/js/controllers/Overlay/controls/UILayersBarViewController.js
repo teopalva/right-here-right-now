@@ -101,9 +101,9 @@ function UILayersBarViewController() {
                 button: new UIButtonViewController(),
                 layers: [Layers.FAILED_RESTAURANTS]
             }, {
-                title: "Tourist Attractions",
+                title: "Turist Attractions",
                 button: new UIButtonViewController(),
-                layers: [Layers.ATTRACTIONS]
+                layers: [Layers.TURIST_ATTRACTIONS]
             }]
         }
     ];

@@ -66,6 +66,9 @@ function MapLayersFactory() {
                 case Layers.POPUPS:
                     layers.push(PopupLayerViewController);
                     break;
+                case Layers.TURIST_ATTRACTIONS:
+                    layers.push(TuristAttractionsLayerViewController);
+                    break;
             }
 
         });

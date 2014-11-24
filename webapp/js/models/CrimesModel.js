@@ -312,7 +312,9 @@ function CrimesModel() {
     };
 
     function compareDate(a,b){
-        if (a.date < b.date)
+        if (a.creation_date < b.creation_date)
+            return 1;
+        if (a.creation_date > b.creation_date)
             return -1;
         if (a.date > b.date)
             return 1;

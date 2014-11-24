@@ -119,5 +119,6 @@ var Layers = {
     FAILED_RESTAURANTS: "FailedRestaurantsLayerViewController",
     PLACES_OF_INTEREST: "PlacesOfInterestLayerViewController",
     AREA_OF_INTEREST: "AreaOfInterestViewController",
-    POPUPS: "PopupLayerViewController"
+    POPUPS: "PopupLayerViewController",
+    TURIST_ATTRACTIONS: "TuristAttractionsLayerViewController"
 };

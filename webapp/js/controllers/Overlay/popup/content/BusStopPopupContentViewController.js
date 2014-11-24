@@ -20,7 +20,7 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
     // Update timer
     var _updateTimer = null;
-    var _intervalMillis = 30000;
+    var _intervalMillis = 10000;
 
     /////////////////// PUBLIC METHODS /////////////////////
     var super_dispose = this.dispose;
@@ -144,9 +144,13 @@ function BusStopPopupContentViewController(dictionary, _busStopFrameSize) {
         //self.add(_idLabel);
 
         _nameLabel = new UILabelViewController();
-        _nameLabel.getView().setFrame(padding.left,padding.top * 2 + padding.between,labelsSize.width,labelsSize.height);
-        _nameLabel.setText(_dictionary.info.name + " (" + _stopID + ")");
-        _nameLabel.setTextSize(model.getThemeModel().bigTextSize());
+        _nameLabel.getView().setFrame(padding.left,padding.top + padding.between,labelsSize.width,labelsSize.height);
+        var text = _dictionary.info.name + " (" + _stopID + ")";
+        if(text.length > 22) {
+            text = text.substring(0,22) + "...";
+        }
+        _nameLabel.setText(text);
+        _nameLabel.setTextSize(model.getThemeModel().mediumTextSize());
         _nameLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
         self.add(_nameLabel);
 
