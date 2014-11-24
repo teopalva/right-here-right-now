@@ -153,7 +153,7 @@ function RestaurantsModel() {
 
     var checkDownload = function () {
         if (_yelpDownloaded && _failedRestaurantsDownloaded) {
-            console.log("Restaurants downloaded: " + _yelpRestaurants.length + " from Yelp, "+_failedRestaurants.length+" from Failed Inspections");
+            //console.log("Restaurants downloaded: " + _yelpRestaurants.length + " from Yelp, "+_failedRestaurants.length+" from Failed Inspections");
             findFoodInspectionFailures(_failedRestaurants, _yelpRestaurants);
             self.startUpdates();
             clearInterval(_checkTimer);

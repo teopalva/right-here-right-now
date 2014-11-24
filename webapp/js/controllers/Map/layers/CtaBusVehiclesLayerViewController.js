@@ -39,7 +39,7 @@ function CtaBusVehiclesLayerViewController() {
         // Just for debug purposes or when key expires.
         var fakeVehicles = model.getCtaModel().getFakeVehicles();
 
-        console.log(_counter);
+        //console.log(_counter);
 
         // Draw only when all the queries ended.
         if (++_counter === model.getCtaModel().getRoutes().length || fakeVehicles) {
@@ -109,7 +109,7 @@ function CtaBusVehiclesLayerViewController() {
 
         // Refill _vehicles local copy.
         vehiclesArray.forEach(function(v) {
-           _vehicles[v.id] = v;
+            _vehicles[v.id] = v;
         });
 
         //console.log("Vehicles");
@@ -139,6 +139,17 @@ function CtaBusVehiclesLayerViewController() {
 
             // Update
             markers
+                .attr("transform", function(d) {
+                    var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
+                    return "translate(" + (point.x - (size.width / 2)) + "," + (point.y - size.height) + ")";
+                })
+                .select("text")
+                .text(function(d) {
+                    return d.route;
+                });
+
+
+                /*
                 .attr("x", function (d) {
                     var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
                     return point.x - (size.width / 2);
@@ -146,50 +157,67 @@ function CtaBusVehiclesLayerViewController() {
                 .attr("y", function (d) {
                     var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
                     return point.y - size.height;
-                })
-                //.attr("transform", function(d) {
-                //    var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
-                //
-                //    var angle = parseFloat(_vehicles[d.id].headingAngle);
-                //
-                //    var x = point.x - (size.width / 2) * Math.cos(angle) - size.height * Math.cos(angle);
-                //
-                //    var y = point.y - size.height * Math.cos(angle) + (size.width / 2) * Math.cos(angle);
-                //    return "translate(" + x + "," + y + ")" +
-                //            " rotate(" + (90 + angle) + ")";
-                //});
+                });*/
+            //.attr("transform", function(d) {
+            //    var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
+            //
+            //    var angle = parseFloat(_vehicles[d.id].headingAngle);
+            //
+            //    var x = point.x - (size.width / 2) * Math.cos(angle) - size.height * Math.cos(angle);
+            //
+            //    var y = point.y - size.height * Math.cos(angle) + (size.width / 2) * Math.cos(angle);
+            //    return "translate(" + x + "," + y + ")" +
+            //            " rotate(" + (90 + angle) + ")";
+            //});
+
 
             // Enter
-            markers.enter()
+            var g = markers.enter()
                 .append("g")
-                .append("image")
                 .classed("marker", true)
-                .classed("pin", true)
+                .classed("pin", true)/*
+                .attr("x", function (d) {
+                    var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
+                    return point.x - (size.width / 2);
+                })
+                .attr("y", function (d) {
+                    var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
+                    return point.y - size.height;
+                })*/
+                .attr("transform", function(d) {
+                    var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
+                    return "translate(" + (point.x - (size.width / 2)) + "," + (point.y - size.height) + ")";
+                });
+
+            g.append("image")
                 //.attr("transform", function(d) {
                 //    var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
                 //    return "translate(" + (point.x - (size.width / 2)) + "," + (point.y - size.height) + ")";
                 //})
                 //.append("image")
                 .attr("xlink:href", model.getVisualizationModel().CTAMarkerIconPath())
-                .attr("x", function (d) {
-                    var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
-                    return point.x - (size.width / 2);
-                })
-                .attr("y", function (d) {
-                    var point = self.project(d.latitude + _vehicles[d.id].deltaLat, d.longitude + _vehicles[d.id].deltaLng);
-                    return point.y - size.height;
-                })
                 .attr("width", size.width)
                 .attr("height", size.height)
-                .style("pointer-events", "visiblePainted")
-                .style("cursor", "pointer")
-                .on("click", function(d) {
-                    addToPopup(d);
+
+
+
+            g.append("text")//, ":first-child")
+                .classed("bus-number", true)
+                .style("fill", "rgba(46,33,31,1.0)")
+                .style("font-size", "16px")
+                .style("text-anchor", "middle")
+                .attr("x", (size.width /2))
+                .attr("y", 25)
+                .text(function(d) {
+                    return d.route;
                 });
+
 
 
             // Exit
             markers.exit().remove();
+
+
 
         } else {
             canvas.selectAll(".marker.pin").remove();
@@ -222,11 +250,7 @@ function CtaBusVehiclesLayerViewController() {
                 .attr("r", model.getVisualizationModel().markerRadius())
                 .attr("stroke", model.getVisualizationModel().markerStrokeColor())
                 .attr("stroke-width", model.getVisualizationModel().markerStrokeWidth())
-                .style("pointer-events", "visiblePainted")
-                .style("cursor", "pointer")
-                .on("click", function(d) {
-                    addToPopup(d);
-                });
+
 
             // Exit
             markers.exit().remove();
@@ -234,17 +258,6 @@ function CtaBusVehiclesLayerViewController() {
 
     };
 
-    var addToPopup = function(d){
-        model.getPopupModel().addPopup({
-            type: PopupsType.BUS_VEHICLES,
-            layer: Layers.CTA_BUSES,
-            position: {
-                latitude: d.latitude,
-                longitude: d.longitude
-            },
-            info: d
-        });
-    };
 
     /**
      * Start the animation of the buses

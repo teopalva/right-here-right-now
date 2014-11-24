@@ -24,32 +24,32 @@
 
 <body style="padding-top: 70px;">
 
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <ul class="nav navbar-nav">
-                <li><a href="index.html">Home</a>
-                </li>
-                <li><a href="team.html">Team and Roles</a>
-                </li>
-                <li><a href="progress.html">Progress</a>
-                </li>
-                <li><a href="user_manual.html">User Manual</a>
-                </li>
-                <li class="active"><a href="data.html">Data</a>
-                </li>
-                <li><a href="source_code.html">Source Code</a>
-                </li>
-                <li><a href="findings.html">Findings</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
-        <div class="page-header">
-            <h1>Data</h1>
-            <p class="lead">The real-time heart of the application</p>
-        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a>
+            </li>
+            <li><a href="team.html">Team and Roles</a>
+            </li>
+            <li><a href="progress.html">Progress</a>
+            </li>
+            <li><a href="user_manual.html">User Manual</a>
+            </li>
+            <li class="active"><a href="data.html">Data</a>
+            </li>
+            <li><a href="source_code.html">Source Code</a>
+            </li>
+            <li><a href="findings.html">Findings</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Data</h1>
+        <p class="lead">The real-time heart of the application</p>
+    </div>
 
     <h3>311 Datasets</h3>
     <p>
@@ -69,8 +69,8 @@
         <li>$where = latitude and longitude are not NULL (to display the pothole), the pothole hasn't been fixed yet, and it has been pointed out in the last month</li>
         <li>$order = order by date to have sorted set to manipulate</li>
     </ul>
-        The data is retrieved when the user activates the layer and is asynchronously downloaded, parsed and displayed. The frequency of updates is 1 minute, so that the user
-        can possibly see live updates if new data is available.
+    The data is retrieved when the user activates the layer and is asynchronously downloaded, parsed and displayed. The frequency of updates is 1 minute, so that the user
+    can possibly see live updates if new data is available.
     </p>
 
     <h4>Street Lights Out Data</h4>
@@ -143,7 +143,7 @@
     <h3>Other Resources</h3>
     We felt like the application could show much more than that, and we decided to extend it by getting other data from external resources to give more useful real time
     information. In general to get this data we decided to use a php script to authenticate i a easier way with the server, and pass trough the Google proxy mentioned
-        before.
+    before.
 
     <h4>Yelp Data</h4>
     <p>
@@ -169,6 +169,87 @@
         We used wikipedia just as external resource to retrive information about tourist attractions and important places. No API has been used, the information have been
         taken directly from the Wikipedia web pages.
     </p>
+
+    <h3>CTA APIs</h3>
+    Data about bus and trains are retrieved taking advantage of the CTA APIs.
+    <br>
+    CTA provide two handy manuals for its APIs:
+    <ul>
+        <li>
+            <a href="http://www.transitchicago.com/developers/bustracker.aspx">BUS Tracker API</a>
+        </li>
+        <li>
+            <a href="http://www.transitchicago.com/developers/traintracker.aspx">Train Tracker API</a>
+        </li>
+    </ul>
+
+    <h4>Bus</h4>
+    <p>
+        For Buses the “Bus Tracker API documentation” has been used. Since it provided not so user-friendly “calls” for
+        the purposes of this application, a good design about queries and their optimization has been needed.
+    </p>
+
+    <h5>Query Hierarchy</h5>
+    <p>
+        The main API calls are:
+    <ul>
+        <li><b>getroutes</b>
+            <p style="margin:0px 15px">which returns the list of all the cta routes</p>
+        </li>
+        <li><b>getroutedirections?Rt=XXX</b>
+            <p style="margin:0px 15px">which returns all the directions given a route</p>
+        </li>
+        <li><b>getvehicles?Rt=XXX</b>
+            <p style="margin:0px 15px">which returns all the vehicles given a route</p>
+        </li>
+        <li><b>getpatterns?rt=XXX</b>
+            <p style="margin:0px 15px">which returns a list of the geographic points that compose the route</p>
+        </li>
+        <li><b>getpredictions?stpid=XXX</b>
+            <p style="margin:0px 15px">which returns a list of time predictions for a given stop</p>
+        </li>
+    </ul>
+    </p>
+
+    <p>
+        As it is possible to notice, having a list of vehicles or stops for a particular area is not straightforward.
+        Retrieving the whole list of stops would be a process which involves too many calls. For this reason,
+        it has been decided to save a local copy of the bus stops which is updated everyday.
+        This list of stops is retrieved according to the following scheme:
+    </p>
+
+    <ol>
+        <li><b>getroutes</b></li>
+        <li>for all routes -> <b>getroutedirections</b></li>
+        <li>for all routes and directions -> <b>getstops</b></li>
+    </ol>
+    <p>
+        To this list of stops, the geographic selection filter is applied in order to reduce the size of it.<br>
+    </p>
+    <p>
+        Once obtained a filtered list, it is scanned to find all the routes of the selected area by simply checking the route of each stop.<br>
+        With the list of all the active routes of an area it is now possible to call the <b>getvehicles</b> API to retrieve a list of vehicles.
+        This list too is filtered to have just the vehicles currently inside the selected area.<br>
+        The list of the active routes is also used to call the <b>getpatterns</b> api, which returns all the paths of those routes.<br>
+    </p>
+    <p>
+        After a click on the popup of a station a <b>getprediction</b> call is made with the id of the selected station.
+    </p>
+
+    <h5>Bus Animation</h5>
+    <p>
+        Data about vehicles is updated on the CTA servers just once every minute. This is such a long time for information like
+        position of buses and it is difficult to provide the user useful information. With this kind of update rate it is
+        even difficult to understand which direction they are moving to.
+    </p>
+    <h6>Mobile mean adjusted speed</h6>
+    <h6>Repositioning</h6>
+    <h6>Animation</h6>
+    <h6>New data update</h6>
+
+
+    <p></p>
+
 
 
     <hr>

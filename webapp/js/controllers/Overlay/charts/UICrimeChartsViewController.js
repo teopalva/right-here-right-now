@@ -168,46 +168,48 @@ function UICrimeChartsViewController() {
         _stackedChart.draw();
 
         // Update text
-        if(model.getAreaOfInterestModel().getAreaOfInterest() != null) {
-            var locations = [];
-            locations.push(model.getCrimesModel().getTopLocationsInSelectedArea(_topNumber, CrimeCategory.VIOLENT));
-            locations.push(model.getCrimesModel().getTopLocationsInSelectedArea(_topNumber, CrimeCategory.PROPERTY));
-            locations.push(model.getCrimesModel().getTopLocationsInSelectedArea(_topNumber, CrimeCategory.QUALITY_OF_LIFE));
+        if(model.getCrimesModel().isDataAvailable()) {
+            if(model.getAreaOfInterestModel().getAreaOfInterest() != null) {
+                var locations = [];
+                locations.push(model.getCrimesModel().getTopLocationsInSelectedArea(_topNumber, CrimeCategory.VIOLENT));
+                locations.push(model.getCrimesModel().getTopLocationsInSelectedArea(_topNumber, CrimeCategory.PROPERTY));
+                locations.push(model.getCrimesModel().getTopLocationsInSelectedArea(_topNumber, CrimeCategory.QUALITY_OF_LIFE));
 
-            for(var i = 0; i < _topNumber; i++) {
-                for(var j = 0; j < 3; j++) {
-                    var intPercent = parseInt(locations[j][i].percentage);
-                    var space = "";
+                for(var i = 0; i < _topNumber; i++) {
+                    for(var j = 0; j < 3; j++) {
+                        var intPercent = parseInt(locations[j][i].percentage);
+                        var space = "";
+                        if(intPercent < 10) {
+                            space = "\xA0   ";
+                        }
+                        _selectedAreaLocationsLabels[i][j]
+                            .setText(space + intPercent + "% | " + locations[j][i].location);
+                    }
+                }
+            } else {
+                for(i = 0; i < _topNumber; i++) {
+                    for(j = 0; j < 3; j++) {
+                        _selectedAreaLocationsLabels[i][j]
+                            .setText("");
+                    }
+                }
+            }
+
+            locations = [];
+            locations.push(model.getCrimesModel().getTopLocationsInChicago(_topNumber, CrimeCategory.VIOLENT));
+            locations.push(model.getCrimesModel().getTopLocationsInChicago(_topNumber, CrimeCategory.PROPERTY));
+            locations.push(model.getCrimesModel().getTopLocationsInChicago(_topNumber, CrimeCategory.QUALITY_OF_LIFE));
+
+            for(i = 0; i < _topNumber; i++) {
+                for(j = 0; j < 3; j++) {
+                    intPercent = parseInt(locations[j][i].percentage);
+                    space = "";
                     if(intPercent < 10) {
                         space = "\xA0   ";
                     }
-                    _selectedAreaLocationsLabels[i][j]
+                    _chicagoLocationsLabels[i][j]
                         .setText(space + intPercent + "% | " + locations[j][i].location);
                 }
-            }
-        } else {
-            for(i = 0; i < _topNumber; i++) {
-                for(j = 0; j < 3; j++) {
-                    _selectedAreaLocationsLabels[i][j]
-                        .setText("");
-                }
-            }
-        }
-
-        locations = [];
-        locations.push(model.getCrimesModel().getTopLocationsInChicago(_topNumber, CrimeCategory.VIOLENT));
-        locations.push(model.getCrimesModel().getTopLocationsInChicago(_topNumber, CrimeCategory.PROPERTY));
-        locations.push(model.getCrimesModel().getTopLocationsInChicago(_topNumber, CrimeCategory.QUALITY_OF_LIFE));
-
-        for(i = 0; i < _topNumber; i++) {
-            for(j = 0; j < 3; j++) {
-                intPercent = parseInt(locations[j][i].percentage);
-                space = "";
-                if(intPercent < 10) {
-                    space = "\xA0   ";
-                }
-                _chicagoLocationsLabels[i][j]
-                    .setText(space + intPercent + "% | " + locations[j][i].location);
             }
         }
     };
