@@ -67,7 +67,7 @@ function RecommenderModel() {
 
         case _transports.BUS:
 
-            layers.push(Layers.CTA_BUSES, Layers.CTA_STOPS, Layers.CTA_TRAINS);
+            layers.push(Layers.CTA_BUSES, Layers.CTA_STOPS, Layers.CTA_BUS_ROUTES, Layers.CTA_TRAINS, Layers.DIVVY_BIKES);
             break;
 
         }

@@ -36,11 +36,14 @@ function UIModeViewController() {
         _newTripButton.getView().setFrame(31, 17.5, 253.5, 75.5);
         _newTripButton.getView().setViewBox(0, 0, 253.5, 75.5);
         //_newTripButton.setImage("assets/icon/newTripButton.svg");
-        _newTripButton.setTitle("NEW TRIP");
-        _newTripButton.getView().setStroke("white", "1pt");
+        _newTripButton.setTitle("CLEAR  SELECTION");
+        _newTripButton.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor);
+        //_newTripButton.getView().setStroke("white", "1pt");
+
         _newTripButton.onClick(function () {
             _newTripButton.getView().highlight(_selectColor, 600);
             model.getAreaOfInterestModel().clearPath();
+            model.getRecommenderModel().setSelectedTransport(null);
             deselectAllTransportButtons();
         });
         self.add(_newTripButton);
@@ -48,7 +51,8 @@ function UIModeViewController() {
         // RECTANGULAR SELECTION
         _rectModeButton.getView().setFrame(31, 108.5, 112, 113);
         _rectModeButton.getView().setViewBox(0, 0, 112, 113);
-        _rectModeButton.setImage("assets/icon/rectMode_selected.svg");
+        _rectModeButton.setImage("assets/icon/rectMode_deselected.svg");
+        _rectModeButton.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor);
         _rectModeButton.onClick(function () {
             model.getAreaOfInterestModel().setAreaOfInterestType(AreaOfInterestType.RECTANGLE);
             updateModeIcon();
@@ -59,11 +63,14 @@ function UIModeViewController() {
         _pathModeButton.getView().setFrame(175, 108.5, 112, 113);
         _pathModeButton.getView().setViewBox(0, 0, 112, 113);
         _pathModeButton.setImage("assets/icon/pathMode_deselected.svg");
+        _pathModeButton.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor);
         _pathModeButton.onClick(function () {
             model.getAreaOfInterestModel().setAreaOfInterestType(AreaOfInterestType.PATH);
             updateModeIcon();
         });
         self.add(_pathModeButton);
+
+        updateModeIcon();
 
         // RECOMMENDER
 
@@ -130,6 +137,20 @@ function UIModeViewController() {
 
     /////////////////////  PRIVATE METHODS /////////////////////
 
+    var updateModeIcon = function () {
+        if (model.getAreaOfInterestModel().getAreaOfInterestType() === AreaOfInterestType.RECTANGLE) {
+            _pathModeButton.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor);
+            _rectModeButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor);
+            //_rectModeButton.setImage("assets/icon/rectMode_selected.svg");
+            //_pathModeButton.setImage("assets/icon/pathMode_deselected.svg");
+        } else {
+            _rectModeButton.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor);
+            _pathModeButton.getView().setBackgroundColor(model.getThemeModel().deselectedButtonColor);
+            //_rectModeButton.setImage("assets/icon/rectMode_deselected.svg");
+            //_pathModeButton.setImage("assets/icon/pathMode_selected.svg");
+        }
+    };
+
     var init = function () {
         self.getView().addClass("ui-mode-view-controller");
 
@@ -146,16 +167,6 @@ function UIModeViewController() {
         _busButton = new UIButtonViewController;
 
     }();
-
-    var updateModeIcon = function () {
-        if (model.getAreaOfInterestModel().getAreaOfInterestType() === AreaOfInterestType.RECTANGLE) {
-            _rectModeButton.setImage("assets/icon/rectMode_selected.svg");
-            _pathModeButton.setImage("assets/icon/pathMode_deselected.svg");
-        } else {
-            _rectModeButton.setImage("assets/icon/rectMode_deselected.svg");
-            _pathModeButton.setImage("assets/icon/pathMode_selected.svg");
-        }
-    };
 
     var updateLayers = function () {
         var layers = model.getRecommenderModel().getRecommendedLayers();

@@ -26,6 +26,7 @@ function NewsFeedModel() {
 
         _newsList.splice(i, 0, news);
 
+        //console.warn(_newsList);
         notificationCenter.dispatch(Notifications.newsfeed.NEWS_POSTED);
     };
 
@@ -43,6 +44,7 @@ function NewsFeedModel() {
 
         _tweetList.splice(i, 0, tweet);
 
+        //console.warn(_tweetList);
         notificationCenter.dispatch(Notifications.newsfeed.NEWS_POSTED);
     };
 

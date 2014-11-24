@@ -168,6 +168,7 @@ function UINewsFeedViewController() {
 
         // Retrieve real-time feed
         var _feed = model.getNewsFeedModel().getNewsfeed();
+        console.log(_feed);
 
         // Clean newsfeed area
         _pageElements.forEach(function (e) {
@@ -178,6 +179,7 @@ function UINewsFeedViewController() {
         //var i = Math.max(_indexPage, _feed.length-1);
         var p = 0;
         for (i = _indexPage; i !== _indexPage + 3 && i < _feed.length; i++) {
+            console.warn(i);
 
             var news_ = _feed[i];
 
@@ -320,10 +322,12 @@ function UINewsFeedViewController() {
             if (_type === "RSS") {
                 var _feed = model.getNewsFeedModel().getNewsfeed();
                 _indexPage = _feed.length - 3;
+                console.log("drawing news");
                 self.drawNews();
             } else {
                 var _feedTweets = model.getNewsFeedModel().getTweets();
                 _indexPageTwitter = _feedTweets.length - 3;
+                console.log("drawing tweets");
                 self.drawTweets();
             }
 
@@ -351,28 +355,29 @@ function UINewsFeedViewController() {
 
         // Fake news
 
-        var news1 = new News("News1", "sono news1", "assets/icon/markers/crime_violent.svg", new Date());
-        var news2 = new News("News2", "sono news2", "assets/icon/markers/crime_violent.svg", new Date());
-        var news3 = new News("News3", "sono news3", "assets/icon/markers/crime_violent.svg", new Date());
+        var news1 = new News("", "", null, new Date(2014, 09, 10, 12, 55));
+        var news2 = new News("", "", null, new Date(2014, 09, 10, 12, 55));
+        var news3 = new News("", "", null, new Date(2014, 09, 10, 12, 55));
+        model.getNewsFeedModel().postNews(news1);
+        model.getNewsFeedModel().postNews(news2);
+        model.getNewsFeedModel().postNews(news3);
+        //Show first page of news
+        self.seeLastPage();
+
+        /*
         var news4 = new News("News4", "I'm the longest news ever!", "assets/icon/markers/crime_violent.svg", new Date());
         var news5 = new News("News5", "sono news5", "assets/icon/markers/crime_property.svg", new Date());
         var news6 = new News("News6", "sono news6", "assets/icon/markers/crime_violent.svg", new Date());
         //var news7 = new News("News7", "sono news7", "path5", new Date());
-        model.getNewsFeedModel().postNews(news1);
-        model.getNewsFeedModel().postNews(news2);
-        model.getNewsFeedModel().postNews(news3);
+        
         model.getNewsFeedModel().postNews(news4);
         model.getNewsFeedModel().postNews(news5);
         model.getNewsFeedModel().postNews(news6);
         //model.getNewsFeedModel().postNews(news7);
-
-
-        // Show first page of news
-        self.seeLastPage();
-        self.drawNews();
+        //self.drawNews();
+        */
 
         notificationCenter.subscribe(self, self.seeLastPage, Notifications.newsfeed.NEWS_POSTED);
-        //notificationCenter.subscribe(self, self.seeLastPageTweets, Notifications.newsfeed.TWEETS_POSTED);
 
     }();
 }

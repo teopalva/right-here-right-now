@@ -17,15 +17,15 @@
 <metadata>Produced by OmniGraffle 6.0.5<dc:date>2014-11-15 10:10Z</dc:date>
 <sfw  xmlns="&ns_sfw;">
 	<slices></slices>
-	<sliceSourceBounds  width="114.386" height="114.386" y="-4.386" x="-10" bottomLeftOrigin="true"></sliceSourceBounds>
+	<sliceSourceBounds  width="113.387" height="113.386" x="-9.5" y="-3.886" bottomLeftOrigin="true"></sliceSourceBounds>
 </sfw>
 </metadata>
 <g>
 	<title>Canvas 1</title>
 	<g>
 		<title>Layer 1</title>
-		<rect fill="#5C5754" width="113.386" height="113.386"/>
-		<rect fill="none" stroke="#F4F4F4" stroke-linecap="round" stroke-linejoin="round" width="113.386" height="113.386"/>
+		<rect fill="#5C5754" width="113.387" height="113.386"/>
+		<rect fill="none" width="113.387" height="113.386"/>
 		
 			<line fill="none" stroke="#F4F4F4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" x1="22.677" y1="93.543" x2="45.354" y2="59.527"/>
 		
