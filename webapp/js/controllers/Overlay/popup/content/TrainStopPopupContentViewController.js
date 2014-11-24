@@ -129,28 +129,28 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
 
         stations.forEach(function(s) {
             if(s["PARENT_STOP_ID"] == stationID) {
-                if(s.Blue == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Blue"))) {
+                if(s.Blue == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Blue")) === -1) {
                     colors.push(model.getCtaTrainModel().getLineColor("Blue"));
                 }
-                if(s.Brn == "1"  && colors.indexOf(model.getCtaTrainModel().getLineColor("Brn"))) {
+                if(s.Brn == "1"  && colors.indexOf(model.getCtaTrainModel().getLineColor("Brn")) === -1) {
                     colors.push(model.getCtaTrainModel().getLineColor("Brn"));
                 }
-                if(s.G == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("G"))) {
+                if(s.G == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("G")) === -1) {
                     colors.push(model.getCtaTrainModel().getLineColor("G"));
                 }
-                if(s.Org == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Org"))) {
+                if(s.Org == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Org")) === -1) {
                     colors.push(model.getCtaTrainModel().getLineColor("Org"));
                 }
-                if(s.Pink == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Pink"))) {
+                if(s.Pink == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Pink")) === -1) {
                     colors.push(model.getCtaTrainModel().getLineColor("Pink"));
                 }
-                if(s.Red == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Red"))) {
+                if(s.Red == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Red")) === -1) {
                     colors.push(model.getCtaTrainModel().getLineColor("Red"));
                 }
-                if(s.Y == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Y"))) {
+                if(s.Y == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("Y")) === -1) {
                     colors.push(model.getCtaTrainModel().getLineColor("Y"));
                 }
-                if(s.P == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("P"))) {
+                if(s.P == "1" && colors.indexOf(model.getCtaTrainModel().getLineColor("P")) === -1) {
                     colors.push(model.getCtaTrainModel().getLineColor("P"));
                 }
             }
@@ -190,7 +190,6 @@ function TrainStopPopupContentViewController(dictionary, _busStopFrameSize) {
         }
         _idLabel.setText(text);
         _idLabel.setTextColor(model.getThemeModel().defaultToolTextColor());
-        _idLabel.setTextSize(model.getThemeModel().mediumTextSize());
         self.add(_idLabel);
 
         _linesLabel = new UILabelViewController();

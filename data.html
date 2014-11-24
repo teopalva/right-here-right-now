@@ -199,6 +199,9 @@
         <li><b>getroutedirections?Rt=XXX</b>
             <p style="margin:0px 15px">which returns all the directions given a route</p>
         </li>
+        <li><b>getstops?rt=XXX&dir=YYY</b>
+            <p style="margin:0px 15px">which returns all the stops given a route and a direction</p>
+        </li>
         <li><b>getvehicles?Rt=XXX</b>
             <p style="margin:0px 15px">which returns all the vehicles given a route</p>
         </li>
@@ -240,10 +243,25 @@
     <p>
         Data about vehicles is updated on the CTA servers just once every minute. This is such a long time for information like
         position of buses and it is difficult to provide the user useful information. With this kind of update rate it is
-        even difficult to understand which direction they are moving to.
+        even difficult to understand which direction they are moving to.<br>
+        For these reasons it has been decided to simulate the positions of buses in between two consecutive updates.
+        This is pursued through some steps.
     </p>
     <h6>Mobile mean adjusted speed</h6>
-    <h6>Repositioning</h6>
+    <p>
+        Once an update arrives, data about the previous data is stored in order to compute the speed of the last "step".
+        The speed of the bus is set as a mean between an empirical value (that has been found analyzing the buses) and
+        the mobile mean of the latest 5 speed values of the bus.
+    </p>
+    <h6>Route Repositioning</h6>
+    <p>
+        Position data of the buses is not so accurate and in some particular conditions like, for instance, when the bus is
+        downtown among the skyscrapers, the signal is very noisy. For this reason each bus is repositioned on his track.<br>
+        Since every bus "is aware" of the route it is traveling on, it is possible to set the position of the bus on the route
+        in a precise way. This task is accomplished by computing the distance between the bus position and each segment
+        which the route path is composed of. The segment with the smaller distance is chosen and the bus is positioned in between it
+        by simply following a perpendicular line toward it.
+    </p>
     <h6>Animation</h6>
     <h6>New data update</h6>
 
