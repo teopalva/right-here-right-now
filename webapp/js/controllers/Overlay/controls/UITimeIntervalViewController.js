@@ -35,7 +35,7 @@ function UITimeIntervalViewController() {
         _weekButton.getView().setFrame(0, 35, 184, 32);
         _weekButton.getView().setViewBox(0, 0, 184, 32);
         _weekButton.setTitle("LAST 2 WEEKS");
-        _weekButton.setTitleSize(model.getThemeModel().mediumTextSize);
+        _weekButton.setTitleSize(+model.getThemeModel().mediumTextSize + 1);
         _weekButton.deselect();
         _weekButton.onClick(function () {
             weekSelected();
@@ -44,10 +44,10 @@ function UITimeIntervalViewController() {
         self.add(_weekButton);
 
         // month button
-        _monthButton.getView().setFrame(0, 67, 184, 32);
+        _monthButton.getView().setFrame(0, 69, 184, 32);
         _monthButton.getView().setViewBox(0, 0, 184, 32);
         _monthButton.setTitle("LAST MONTH");
-        _monthButton.setTitleSize(model.getThemeModel().mediumTextSize);
+        _monthButton.setTitleSize(+model.getThemeModel().mediumTextSize + 1);
         _monthButton.deselect();
         _monthButton.onClick(function () {
             monthSelected();

@@ -178,7 +178,6 @@ function UINewsFeedViewController() {
         //var i = Math.max(_indexPage, _feed.length-1);
         var p = 0;
         for (i = _indexPage; i !== _indexPage + 3 && i < _feed.length; i++) {
-            console.warn(i);
 
             var news_ = _feed[i];
             if (news_ === null || news_.getTitle() === "")
@@ -198,7 +197,12 @@ function UINewsFeedViewController() {
                 .attr("width", _pIcon.w)
                 .attr("height", _pIcon.h)
             _newsIconButton.onClick(function (d) {
+
+                console.log("click", d);
+
                 if (news_.getTitle() === PopupsType.DIVVY_BIKES) {
+                    console.log("bikes");
+
                     model.getPopupModel().addPopup({
                         type: PopupsType.DIVVY_BIKES,
                         layer: Layers.DIVVY_BIKES,
@@ -217,6 +221,8 @@ function UINewsFeedViewController() {
                     });
                 } else {
                     if (news_.getTitle() === PopupsType.CRIME) {
+                        console.log("crime");
+
                         model.getPopupModel().addPopup({
                             type: PopupsType.CRIME,
                             layer: Layers.VIOLENT_CRIMES,

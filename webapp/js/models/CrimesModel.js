@@ -306,7 +306,7 @@ function CrimesModel() {
                     iconPath = "assets/icon/markers/crime_quality-of-life.svg";
                     break;
             }
-            var news = new News("Crime" + new Date(), last[i]["primary_type"], iconPath, new Date(last[i].creation_date),"",last[i]);
+            var news = new News(PopupsType.CRIME, last[i]["primary_type"], iconPath, new Date(last[i].creation_date),"",last[i]);
             model.getNewsFeedModel().postNews(news);
         }
     };
