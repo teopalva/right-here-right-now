@@ -168,7 +168,6 @@ function UINewsFeedViewController() {
 
         // Retrieve real-time feed
         var _feed = model.getNewsFeedModel().getNewsfeed();
-        console.log(_feed);
 
         // Clean newsfeed area
         _pageElements.forEach(function (e) {
@@ -182,6 +181,8 @@ function UINewsFeedViewController() {
             console.warn(i);
 
             var news_ = _feed[i];
+            if (news_ === null || news_.getTitle() === "")
+                return;
 
             // Icon
             _newsIconButton = new UIButtonViewController();
@@ -196,9 +197,46 @@ function UINewsFeedViewController() {
             _newsIconButton.getView().getSvg()
                 .attr("width", _pIcon.w)
                 .attr("height", _pIcon.h)
-            _newsIconButton.onClick(function () {
-                // TODO interaction news-map
-            });
+            _newsIconButton.onClick(function (d) {
+                if (news_.getTitle() === PopupsType.DIVVY_BIKES) {
+                    model.getPopupModel().addPopup({
+                        type: PopupsType.DIVVY_BIKES,
+                        layer: Layers.DIVVY_BIKES,
+                        position: {
+                            latitude: d.latitude,
+                            longitude: d.longitude
+                        },
+                        last_update: model.getDivvyBikesModel().getLastUpdate(),
+                        location: d.location,
+                        id: d.id,
+                        availableDocks: d.availableDocks,
+                        availableBikes: d.availableBikes,
+                        stationName: d.stationName,
+                        statusValue: d.statusValue,
+                        totalDocks: d.totalDocks
+                    });
+                } else {
+                    if (news_.getTitle() === PopupsType.CRIME) {
+                        model.getPopupModel().addPopup({
+                            type: PopupsType.CRIME,
+                            layer: Layers.VIOLENT_CRIMES,
+                            position: {
+                                latitude: d.latitude,
+                                longitude: d.longitude
+                            },
+                            date: d.date,
+                            category: d.category,
+                            arrest: d.arrest,
+                            primaryType: d["primary_type"],
+                            id: d.id,
+                            description: d.description,
+                            location_description: d.location_description,
+                            block: d.block,
+                            case_number: d.case_number
+                        });
+                    }
+                }
+            }, news_.getObject());
             self.add(_newsIconButton);
             _pageElements.push(_newsIconButton);
 
