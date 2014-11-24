@@ -100,9 +100,6 @@ function PotholesModel() {
      *  Update the potholes information
      */
     this.updatePotholes = function() {
-        // remove the old potholes
-        _chicagoPotholesAllTime = [];
-
         var link = "http://data.cityofchicago.org/resource/7as2-ds3y.json";
         var days = TimeRange.LAST_MONTH;
         var elapsed = Date.now() - days * 86400000;
@@ -114,6 +111,8 @@ function PotholesModel() {
                     "latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
         d3.json(link + query, function(json){
+            // remove the old potholes
+            _chicagoPotholesAllTime = [];
            json.forEach(function(pothole){
                pothole.creation_date = parseDate(pothole.creation_date);
                _chicagoPotholesAllTime.push(pothole);
@@ -139,10 +138,6 @@ function PotholesModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        _areaPotholesAllTime = [];
-        _areaPotholesByDate = [];
-        _chicagoPotholesAllTime = [];
-        _chicagoPotholesByDate = [];
     };
 
 

@@ -99,9 +99,6 @@ function VehiclesModel() {
      *  Update the vehicles information
      */
     this.updateVehicles = function() {
-        // remove the old vehicles
-        _chicagoVehiclesAllTime = [];
-
         var link = "http://data.cityofchicago.org/resource/3c9v-pnva.json";
         var days = TimeRange.LAST_MONTH;
         var elapsed = Date.now() - days * 86400000;
@@ -113,6 +110,8 @@ function VehiclesModel() {
 
 
         d3.json(link + query, function(json){
+            // remove the old vehicles
+            _chicagoVehiclesAllTime = [];
             json.forEach(function(vehicle){
                 vehicle.creation_date = parseDate(vehicle.creation_date);
                 _chicagoVehiclesAllTime.push(vehicle);
@@ -138,10 +137,6 @@ function VehiclesModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        _areaVehiclesAllTime = [];
-        _areaVehiclesByDate = [];
-        _chicagoVehiclesAllTime = [];
-        _chicagoVehiclesByDate = [];
     };
 
 
