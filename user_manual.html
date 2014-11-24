@@ -90,12 +90,24 @@
         <br>
         <p>
             The two main buttons here are those which allow to change type of selection of the <b>area of interest</b> on the map:
-            <ul>
-                <li> <strong>Rectangular Selection</strong>
-                </li>
-                <li> <strong>Custom Path</strong>
-                </li>
-            </ul>
+        </p>
+        <div class="col-sm-6 col-md-6">
+            <img src="image/rectangular.png" class="img-responsive center" alt="Responsive image" />
+            <strong>Rectangular Selection</strong>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <img src="image/custom_path.png" class="img-responsive center" alt="Responsive image" />
+            <strong>Custom Path</strong>
+        </div>
+        <div class="clearfix"></div>
+        <br>
+        <p> <strong>Rectangular Selection</strong> allows to click on the map to pin a point (starting point). On the next click we pin the arrival point. From now on when we will click on the map the previous point which is closer to the new selected point will be moved to the new position, thus updating the rectangle (selected area).
+            <br>
+            <strong>Custom Path</strong> leverages the use of the Google Maps API to retrieve a suggested path from start to end. Each new point added to the map here gets considered as a new arrival point and all the previous points are intermediate points through which the path has to pass.
+            <br>The area of interest here is a shape which surrounds the path with a distance which is around 2 blocks in average.
+        </p>
+        <p>The <b>clear selection</b> button allows to clear all the shapes drawn on the map, so that all the map is cleared and the user can restart his selections.
+            <br>Let us notice that we decided not to disable the enabled layers when this button is clicked, since it is likely that the user wants to draw a new selection, but keeping the layers already activeted (or changing only few of them).
         </p>
 
         <h4>Recommender System</h4>
@@ -106,7 +118,8 @@
         <br>
         <p>
             The idea behind our decision to add a recommender system comes from the question: "How can we facilitate the choice of the enabled layers for the user?"
-        </p>
+            <br>The answer was simple: we can just ask him to declare which kind of means of transportation he is going to use. Given this information the system uses it together with the information on the time of the day to predict which layers are more probable to be of some interest for the user.
+            <br>For example, if it's night and the user is going to walk, then the system will automatically activate the layers about the abandoned vehicles and criminality, to let him see if the area is dangerous (especially if crossed going on foot). The layer of the street lights out will be activated too, since it's night, so this is an important information. At any time the user can modify (enable/disable) layers.</p>
 
         <hr>
         <!--//////////////////////////////////////////////////////////////////////////////-->
