@@ -54,17 +54,27 @@ function UIStreetIssuesChartsViewController() {
     };
 
     /**
-     *  Handler method for notifications update on crimes
+     *
      */
-    this.dataChanged = function() {
+    this.potholesChanged = function() {
         if(model.getPotholesModel().isDataAvailable()) {
             drawPotholes();
         }
+    };
 
+    /**
+     *
+     */
+    this.vehiclesChanged = function() {
         if(model.getVehiclesModel().isDataAvailable()) {
             drawAbandonedVehicles();
         }
+    };
 
+    /**
+     *
+     */
+    this.streetLightsOutChanged = function() {
         if(model.getLightsModel().isDataAvailable()) {
             drawStreetLightsOut();
         }
@@ -128,7 +138,9 @@ function UIStreetIssuesChartsViewController() {
 
     var drawPotholes = function() {
         var chicagoPotholesDensity = model.getPotholesModel().getPotholesDensityInChicago();
-        var areaPotholesDensity = model.getPotholesModel().getPotholesDensityWithinArea();
+        var areaPotholesDensity =
+            model.getAreaOfInterestModel().getAreaOfInterest() != null ?
+                model.getPotholesModel().getPotholesDensityWithinArea() : 0;
         var totalReportedCases = model.getPotholesModel().getPotholes().length;
         var areaReportedCases = model.getPotholesModel().getPotholesWithinArea().length;
 
@@ -142,7 +154,9 @@ function UIStreetIssuesChartsViewController() {
             [potholesColor, potholesColor]
         );
 
-        _reportedPotholesLabel.setText(areaReportedCases + " out of " + totalReportedCases + " reported");
+        _reportedPotholesLabel
+            .setText(areaReportedCases + " / " + totalReportedCases + " reported" +
+                " (" + parseInt((areaReportedCases/totalReportedCases) * 100) + "%)");
 
         // Draw matrix plot
         var matrix = [];
@@ -162,7 +176,9 @@ function UIStreetIssuesChartsViewController() {
 
     var drawAbandonedVehicles = function() {
         var chicagoDensity = model.getVehiclesModel().getVehiclesDensityInChicago();
-        var areaDensity = model.getVehiclesModel().getVehiclesDensityWithinArea();
+        var areaDensity =
+                model.getAreaOfInterestModel().getAreaOfInterest() != null ?
+                    model.getVehiclesModel().getVehiclesDensityWithinArea() : 0;
         var totalReportedCases = model.getVehiclesModel().getVehicles().length;
         var areaReportedCases = model.getVehiclesModel().getVehiclesWithinArea().length;
 
@@ -175,7 +191,9 @@ function UIStreetIssuesChartsViewController() {
             [vehiclesColor, vehiclesColor]
         );
 
-        _reportedVehiclesLabel.setText(areaReportedCases + " out of " + totalReportedCases + " reported");
+        _reportedVehiclesLabel
+            .setText(areaReportedCases + " / " + totalReportedCases + " reported" +
+                " (" + parseInt((areaReportedCases/totalReportedCases) * 100) + "%)");
 
         // Draw matrix plot
         var matrix = [];
@@ -195,7 +213,9 @@ function UIStreetIssuesChartsViewController() {
 
     var drawStreetLightsOut = function() {
         var chicagoDensity = model.getLightsModel().getLightsDensityInChicago();
-        var areaDensity = model.getLightsModel().getLightsDensityWithinArea();
+        var areaDensity =
+                model.getAreaOfInterestModel().getAreaOfInterest() != null ?
+                    model.getLightsModel().getLightsDensityWithinArea() : 0;
         var totalReportedCases = model.getLightsModel().getLights().length;
         var areaReportedCases = model.getLightsModel().getLightsWithinArea().length;
 
@@ -208,7 +228,9 @@ function UIStreetIssuesChartsViewController() {
             [color, color]
         );
 
-        _reportedStreetLightsLabel.setText(areaReportedCases + " out of " + totalReportedCases + " reported");
+        _reportedStreetLightsLabel
+            .setText(areaReportedCases + " / " + totalReportedCases + " reported" +
+                " (" + parseInt((areaReportedCases/totalReportedCases) * 100) + "%)");
 
         // Draw matrix plot
         var matrix = [];
@@ -307,8 +329,12 @@ function UIStreetIssuesChartsViewController() {
 
         addBehavior();
 
-        notificationCenter.subscribe(self, self.dataChanged, Notifications.areaOfInterest.PATH_UPDATED);
-        notificationCenter.subscribe(self, self.dataChanged, Notifications.potholes.DATA_CHANGED);
+        notificationCenter.subscribe(self, self.potholesChanged, Notifications.potholes.SELECTION_UPDATED);
+        notificationCenter.subscribe(self, self.potholesChanged, Notifications.potholes.DATA_CHANGED);
+        notificationCenter.subscribe(self, self.vehiclesChanged, Notifications.vehicles.SELECTION_UPDATED);
+        notificationCenter.subscribe(self, self.vehiclesChanged, Notifications.vehicles.DATA_CHANGED);
+        notificationCenter.subscribe(self, self.streetLightsOutChanged, Notifications.lights.SELECTION_UPDATED);
+        notificationCenter.subscribe(self, self.streetLightsOutChanged, Notifications.lights.DATA_CHANGED);
     } ();
 }
 

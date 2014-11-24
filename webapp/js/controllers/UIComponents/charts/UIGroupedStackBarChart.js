@@ -235,13 +235,15 @@ function UIGroupedStackBarChart() {
             var columnWidth = x0.rangeBand() / maxColumnNumberPerGroup;
 
             var columns = groups.selectAll("rect")
-                .data(function(d) { return d.group; })
+                .data(function(d) {
+                    return d.group;
+                })
                 .attr("y", function(d) { return y(d.value); })
                 .attr("height", function(d) { return height - y(d.value); })
                 .style("pointer-events", "visiblePainted")
                 .style("cursor", "pointer")
                 .on("click", function(d, i) {
-                    updateTooltip(d3.select(this.parentNode),d,i,d3.select(this));
+                    updateTooltip(d3.select(this.parentNode),d,i,d3.select(this), columnWidth);
                 });
             columns.enter()
                 .append("rect")
@@ -255,7 +257,7 @@ function UIGroupedStackBarChart() {
                 .style("pointer-events", "visiblePainted")
                 .style("cursor", "pointer")
                 .on("click", function(d, i) {
-                    updateTooltip(d3.select(this.parentNode),d,i,d3.select(this));
+                    updateTooltip(d3.select(this.parentNode),d,i,d3.select(this), columnWidth);
                 });
             columns.exit().remove();
 
@@ -273,30 +275,62 @@ function UIGroupedStackBarChart() {
                     return x0.rangeBand();
                 })
                 .attr("height", "10px")
-                //.style("stroke-width", "10px")
                 .style("fill", function(d) { return d.color });
 
         }
     };
 
     // Init
-    var updateTooltip = function(g, d, i,column) {
-        var tip = g.selectAll(".crime-tip");
+    var updateTooltip = function(g, d, i,column, colWidth) {
+        var tipColor;
+
+        var macro = model.getCrimesModel().getMacroCategory(d.label);
+        switch (macro) {
+            case CrimeCategory.VIOLENT:
+                tipColor = model.getVisualizationModel().violentCrimesMarkerColor();
+                break;
+            case CrimeCategory.PROPERTY:
+                tipColor = model.getVisualizationModel().propertyCrimesMarkerColor();
+                break;
+            case CrimeCategory.QUALITY_OF_LIFE:
+                tipColor = model.getVisualizationModel().qualityOfLifeCrimesMarkerColor();
+                break;
+        }
+
+        var tip = d3.selectAll(".crime-tip");
         if(!tip.empty() && tip.select("text").text() == d.label) {
             tip.remove();
         } else {
             if(!tip.empty()) {
-                console.log("remove");
                 tip.remove();
             }
             tip = g.append("g")
                 .classed("crime-tip", true)
-                .attr("transform", "translate(" + parseFloat(column.attr("x")) + ",0)")
-                .append("text")
-                .style("fill", "rgba(246,246,246, 1.0)")
+                .attr("transform", "translate(" + (parseFloat(column.attr("x")) + colWidth/2) + "," + (column.attr("y") - 20) + ")");
+            var text = tip.append("text")
+                .style("fill", "rgba(41,36,33, 1.0)")
                 .style("text-anchor", "middle")
+                .style("font-size", "24px")
+                .style("font-weight", "400")
                 .style()
                 .text(d.label);
+
+            var textLength = text.node().getComputedTextLength() + 20;
+
+            tip.insert("rect", "text")
+                .attr("x", - (textLength / 2))
+                .attr("y", -35)
+                .attr("width", textLength)
+                .attr("height", 45)
+                .style("fill", tipColor);
+
+            var triangle = d3.svg.symbol().type("triangle-down");
+
+            tip.append("g")
+                .attr("transform", "translate(0, 15)")
+                .append("path")
+                .attr("d", triangle)
+                .style("fill", tipColor);
         }
     };
 

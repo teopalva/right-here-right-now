@@ -310,7 +310,7 @@ function VisualizationModel() {
      */
     this.potholesColor = function ( /**opacity=1*/ opacity) {
         opacity = opacity || 1;
-        return "rgba(106,81,163," + opacity + ")";
+        return "rgba(68, 47, 116," + opacity + ")";
     };
 
     /**
@@ -431,7 +431,7 @@ function VisualizationModel() {
      */
     this.abandonedVehiclesColor = function ( /**opacity=1*/ opacity) {
         opacity = opacity || 1;
-        return "rgba(128,125,186," + opacity + ")";
+        return "rgba(106,81,163," + opacity + ")";
     };
 
     /**
@@ -470,7 +470,8 @@ function VisualizationModel() {
      */
     this.streetLightsColor = function ( /**opacity=1*/ opacity) {
         opacity = opacity || 1;
-        return "rgba(188,189,220," + opacity + ")";
+
+        return "rgba(128,125,186," + opacity + ")";
     };
 
     /**
