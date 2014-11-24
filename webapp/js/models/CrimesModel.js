@@ -169,20 +169,10 @@ function CrimesModel() {
         return filtered.length;
     };
 
-    // TODO !!???
-    /**
-     * Remove the old violentCrimes
-     */
-    this.clearCrimes = function () {
-        _areaCrimesAllTime = [];
-    };
-
     /**
      *  Update the violentCrimes information
      */
     this.updateCrimes = function () {
-        // remove the old violentCrimes
-        self.clearCrimes();
 
         // retrieve new data
         var link = "https://data.cityofchicago.org/resource/ijzp-q8t2.json";
@@ -236,9 +226,11 @@ function CrimesModel() {
      */
     var q;
     this.updateSelection = function () {
+        _dataAvailable = false;
         q = queue(1);
         q.defer(filterObjectInSelectedArea, _chicagoCrimesAllTime);
         q.awaitAll(function () {
+            _dataAvailable = true;
             notificationCenter.dispatch(Notifications.crimes.SELECTION_UPDATED);
         });
     };
@@ -258,6 +250,7 @@ function CrimesModel() {
 
 
     var classifyLocations = function (array, category) {
+
         var locations = [];
         var len = 0;
 
@@ -279,6 +272,7 @@ function CrimesModel() {
 
         for(var i in locations)
             locations[i].percentage = locations[i].number / len * 100;
+
 
         return locations.sort(compareLocations);
     };
