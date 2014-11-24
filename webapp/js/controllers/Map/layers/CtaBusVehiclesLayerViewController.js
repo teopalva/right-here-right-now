@@ -64,7 +64,7 @@ function CtaBusVehiclesLayerViewController() {
         stopAnimation();
         model.getCtaModel().stopUpdates();
         _vehicles = [];
-        _counter = 0;
+        _counter = model.getCtaModel().getRoutes().length-1;
         //draw();
         self.vehiclesChanged();
     };
