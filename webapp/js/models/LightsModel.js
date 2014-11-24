@@ -101,8 +101,6 @@ function LightsModel() {
      *  Update the lights information
      */
     this.updateLights = function() {
-        // remove the old lights
-        _chicagoLightsAllTime = [];
 
         var link = "http://data.cityofchicago.org/resource/zuxi-7xem.json";
         var days = TimeRange.LAST_MONTH;
@@ -115,6 +113,8 @@ function LightsModel() {
                     "latitude%20IS%20NOT%20NULL%20and%20longitude%20IS%20NOT%20NULL";
 
         d3.json(link + query, function(json){
+            // remove the old lights
+            _chicagoLightsAllTime = [];
             json.forEach(function(light){
                 light.creation_date = parseDate(light.creation_date);
                 light.number_out = "3 or more";
@@ -149,10 +149,6 @@ function LightsModel() {
      */
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
-        _areaLightsAllTime = [];
-        _areaLightsByDate = [];
-        _chicagoLightsAllTime = [];
-        _chicagoLightsByDate = [];
     };
 
 

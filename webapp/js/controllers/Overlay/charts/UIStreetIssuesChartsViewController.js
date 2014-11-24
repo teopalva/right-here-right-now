@@ -89,7 +89,7 @@ function UIStreetIssuesChartsViewController() {
         var y = 0;
 
         // Title label
-        _titleLabel.getView().setFrame(0, y, box.width, 100);
+        _titleLabel.getView().setFrame(40, y, box.width, 100);
         y += 100;
 
         // Potholes label
@@ -156,7 +156,7 @@ function UIStreetIssuesChartsViewController() {
 
         _reportedPotholesLabel
             .setText(areaReportedCases + " / " + totalReportedCases + " reported" +
-                " (" + parseInt((areaReportedCases/totalReportedCases) * 100) + "%)");
+                " (" + ((areaReportedCases/totalReportedCases) * 100).toFixed(1) + "%)");
 
         // Draw matrix plot
         var matrix = [];
@@ -193,7 +193,7 @@ function UIStreetIssuesChartsViewController() {
 
         _reportedVehiclesLabel
             .setText(areaReportedCases + " / " + totalReportedCases + " reported" +
-                " (" + parseInt((areaReportedCases/totalReportedCases) * 100) + "%)");
+                " (" + ((areaReportedCases/totalReportedCases) * 100).toFixed(1) + "%)");
 
         // Draw matrix plot
         var matrix = [];
@@ -230,7 +230,7 @@ function UIStreetIssuesChartsViewController() {
 
         _reportedStreetLightsLabel
             .setText(areaReportedCases + " / " + totalReportedCases + " reported" +
-                " (" + parseInt((areaReportedCases/totalReportedCases) * 100) + "%)");
+                " (" + ((areaReportedCases/totalReportedCases) * 100).toFixed(1) + "%)");
 
         // Draw matrix plot
         var matrix = [];
