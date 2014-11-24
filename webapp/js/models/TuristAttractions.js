@@ -62,5 +62,15 @@ var TuristAttraction = {
         image: "http://www.destination360.com/north-america/us/illinois/chicago/images/s/navy-pier.jpg",
         wiki: "http://en.wikipedia.org/wiki/Navy_Pier",
         description: "Navy Pier is a 3,300-foot-long pier on the Chicago shoreline of Lake Michigan. It is located in the Streeterville neighborhood of the Near North Side community area. The pier was built in 1916 at a cost of $4.5 million."
+    },
+    MILLENIUM_PARK:{
+        name: "Millenium Park",
+        latitude: 41.882580,
+        longitude:-87.622519,
+        address: "201 E Randolph St, Chicago, IL 60602",
+        url:"assets/icon/markers/star.svg",
+        image:"http://www.peoplefluent.com/sites/default/files/chicago-millennium-park-kapoor-sculpture-03.jpg",
+        wiki:"http://en.wikipedia.org/wiki/Millennium_Park",
+        description:"Millennium Park is a public park located in the Loop community area of Chicago in Illinois, US, and originally intended to celebrate the millennium. It is a prominent civic center near the city's Lake Michigan shoreline that covers a 24.5-acre (99,000 m2) section of northwestern Grant Park."
     }
 };
