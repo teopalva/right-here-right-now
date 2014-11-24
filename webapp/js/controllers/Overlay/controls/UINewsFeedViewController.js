@@ -249,7 +249,6 @@ function UINewsFeedViewController() {
             // Description
             _descriptionLabel = new UILabelViewController();
             var description = news_.getDescription();
-            console.log(description);
             if (description.length > 17)
                 description = description.substring(0, 17) + "...";
             _descriptionLabel.setText(description);
