@@ -156,7 +156,7 @@ function UIStreetIssuesChartsViewController() {
 
         _reportedPotholesLabel
             .setText(areaReportedCases + " / " + totalReportedCases + " reported" +
-                " (" + parseInt((areaReportedCases/totalReportedCases) * 100) + "%)");
+                " (" + ((areaReportedCases/totalReportedCases) * 100).toFixed(2) + "%)");
 
         // Draw matrix plot
         var matrix = [];
