@@ -16,9 +16,7 @@ function DirectionsLayerViewController() {
      * This methods handles DIRECTIONS_UPDATED notification
      */
     this.directionsUpdated = function() {
-        console.time("Directions updated");
         draw();
-        console.timeEnd("Directions updated");
     };
 
 
