@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://getbootstrap.com/examples/grid/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+		<title>User Manual</title>
+
+		<link href="bootstrap.min.css" rel="stylesheet">
+		<link href="grid.css" rel="stylesheet">
+		<style type="text/css">
+			.center {
+				margin: auto;
+			}
+		</style>
+	</head>
+
+	<body style="padding-top: 70px;">
+
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	      <div class="container">
+	        <ul class="nav navbar-nav">
+	            <li><a href="index.html">Home</a></li>
+	            <li><a href="team.html">Team</a></li>
+	            <li class="active"><a href="user_manual.html">User manual</a></li>
+	            <li><a href="code.html">Download</a></li>
+	            <li><a href="installation.html">Installation</a></li>
+	            <li><a href="data.html">Data</a></li>
+	            <li><a href="progress.html">Progress</a></li>
+	            <li><a href="discovery.html">Discovery</a></li>
+	          </ul>
+	      </div>
+	    </nav>
+
+		<div class="container">
+
+			<div class="page-header">
+				<h1>User Manual</h1>
+				<p class="lead">How to use this powerful tool</p>
+			</div>
+
+			<h3>Map</h3>
+			<p>
+				The aim of the project is displaying geographical data regarging <strong>Divvy bikes</strong> in the time period that goes from July to December 2013. For that reason it is map centered: evey data is geolocalized on the map that cover the entire surface of the application. An overlay layer of semi-transparent controls is present to let the user iteract with the application. Every control is present only when the user need it. In every moment the user can move the map, zoom in for a more detailed view or zoom out for see more general patterns. 
+			</p>
+
+			<h4>Single map mode</h4>
+			<p>
+				In this mode the user can display all the graphs and compare the data using different charts (that are present at the same time). The user can choose:
+				<ul>
+					<li>A day of the year</li>
+					<li>An hour of the day</li>
+					<li>The gender: male, female</li>
+					<li>The user type: customer, subscriber</li>
+					<li>An age range</li>
+				</ul> 
+				All the filters are independent and the user can enable/disable them in any order (except for the hour that can be only choosen after the day).
+			</p>
+			<div class="col-sm-12 col-md-12">
+          		<img src="image/single_map.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Single map streets visualization</p>
+      		</div>
+      		<div class="col-sm-12 col-md-12">
+          		<img src="image/single_map_satellite.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Single map satellite visualization</p>
+      		</div>
+      		<div class="col-sm-12 col-md-12">
+          		<img src="image/single_map_graphs.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Single map visualization with charts</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<h4>Multi map mode</h4>
+			<p>
+				In this modality the user can compare data for more than one day. The data is displayed directly on the maps, there are no constraint on the number of stations selected or on the day and hour choosen. In this mode every functionality is replicated twice for maintain the separation between the two maps and allow the best user experience possible. The two maps can be also controlled by different person because the controllers behind them are completely separated and can manage more than one workflow at the same time (for the moment only one user per map is supported).
+			</p>
+      		<div class="col-sm-12 col-md-12">
+          		<img src="image/multimap_viz.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Multimap visualization</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<h4>Stations representation</h4>
+			<p>
+				In order to represent Divvy bikes stations there are markers on the location. This markers represent the actual location of every single station, and has a color according to the visualization mode selected by the user.
+				There are three different station visualization modality:
+				<ul>
+					<li>
+						<strong>Popularity visualization:</strong> every station has its own popularity, computed as the number of travels over the period of time and normalized over the maximum (of the stations in city). If the popularity is near 100% the marker will be completely blue, if the popularity is near 0% it will be white. This visualization modality is active by default and doesn't require any use interaction.
+					</li>
+					<li>
+						<strong>Inflow visualization:</strong> the user has previously activated the inflow using the <strng>inflow</strong> button on <atrong>station control</strong>. In this modality every station has a marker with colors that goes from white (no flow from current station to the selected one) to red (every bikes that goes in the selected station comes from the current one).
+					</li>
+					<li>
+						<strong>Outflow visualization:</strong> it is exactly the same as <strong>inflow visualization</strong> but with the flow of bikes that leave the selected station.
+					</li>
+				</ul> 
+			</p>
+			<div class="col-sm-6 col-md-2">
+          		<img src="image/pop0.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Popularity 0%</p>
+      		</div>
+      		<div class="col-sm-6 col-md-2">
+          		<img src="image/pop1.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Popularity 20%</p>
+      		</div>
+      		<div class="col-sm-6 col-md-2">
+          		<img src="image/pop2.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Popularity 40%</p>
+      		</div>
+      		<div class="col-sm-6 col-md-2">
+          		<img src="image/pop3.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Popularity 60%</p>
+      		</div>
+      		<div class="col-sm-6 col-md-2">
+          		<img src="image/pop4.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Popularity 80%</p>
+      		</div>
+      		<div class="col-sm-6 col-md-2">
+          		<img src="image/pop5.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Popularity 100%</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+      		<h4>Community areas representation and selection</h4>
+      		<p>
+      			In order to falicitate the station selection there's the possibility to enable the community areas directly on the map. To enable CA the user has to click on Show CA from <stong>selection control</strong>.
+      		</p>
+      		<p>
+      			When CAs are enabled the user can click on one of them to select (multiple selection) all the stations inside it. On mouseover the community area will change color in order to provide the best user experience possible.
+      		</p>
+      		<div class="col-sm-12 col-md-6">
+          		<img src="image/map_no_ca.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Map without CAs</p>
+      		</div>
+      		<div class="col-sm-12 col-md-6">
+          		<img src="image/map_ca.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Map with CAs</p>
+      		</div>
+      		<div class="col-sm-12 col-md-6">
+          		<img src="image/map_ca_hover.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Map with CAs and mouse hover</p>
+      		</div>
+      		<div class="col-sm-12 col-md-6">
+          		<img src="image/map_ca_selected.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Map with CAs and an area selected</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+      		<h4>Bikes patter representation</h4>
+      		<p>
+      			This visualization modality is active when the user select the day using <strong>calendar control</strong> and the desired hour using <strong>day control</strong>. This type of representation is focused on trips. Every trip that started before the selected hour and is not yet terminated is displayed on the map. The actual position of the bike is obtained interpolating the start station and the end station coordinates and it is displayed as a red circle. 
+      		</p>
+      		<p>
+      			If the user zoom in he/she can actually distinguish every bike and every path. While the user zoom out it is possible to see general patterns. This type of visualization is very useful in combination with <strong>moment of day chart</strong> and <strong>bikes out per hour of the day chart</strong> (all visible in the same moment on the screen). User can turn on and off the stations that he/she want to include in the pattern visualization selecting them in <strong>station control</strong> (compare all modality) or using the community are selection mode.
+      		</p>
+      		<div class="col-sm-6 col-md-4">
+          		<img src="image/pattern0.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Single bike visualization</p>
+      		</div>
+      		<div class="col-sm-6 col-md-4">
+          		<img src="image/pattern1.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Three bikes moving pattern</p>
+      		</div>
+      		<div class="col-sm-6 col-md-4">
+          		<img src="image/pattern2.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>North suburbs bikes moving south pattern</p>
+      		</div>
+      		<div class="col-sm-6 col-md-4">
+          		<img src="image/pattern3.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Entire city trips pattern during the night</p>
+      		</div>
+      		<div class="col-sm-6 col-md-4">
+          		<img src="image/pattern4.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Central stations bikes pattern during afternoon</p>
+      		</div>
+      		<div class="col-sm-6 col-md-4">
+          		<img src="image/pattern5.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>South suburbs bikes moving north pattern</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<hr>
+
+			<h3>Controls</h3>
+			<p>
+				Controls are the graphical elements that let the user interact. They are designed in a minimalistic style in order to provide only the useful functions in a intuitive and straightforward way. There are two different type of controllers: 
+				<ul>
+					<li>
+						<strong>Active controllers:</strong> that enable the user to request information (that the application will display in different way). They can be hidden when the user don't need them.
+					</li>
+					<li>
+						<strong>Enable controllers:</strong> this kind of controllers enable/disable the visualization of other controllers and for that reason are always visible.
+					</li>
+				</ul>
+			</p>
+
+			<h4>Map layer control</h4>
+			<p>
+				This control enable the user to choose a type of map that he/she want to visualize. There are two buttons:
+				<ui>
+					<li><strong>Satellitar map:</strong> visualize real photo taken from satellite.</li>
+					<li><strong>Street map: visualize a cartographic reconstruction on Chicago.</strong></li>
+				</ui>
+			</p>
+			<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+          		<img src="image/map_selection.png" class="img-responsive center" alt="Map selection image"/>
+          		<p>Map selection</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<h4>Stations selection control</h4>
+			<p>
+				This controller contains the buttons that enable the selection and deselection of all the stations in Chicago. There is also a button that enable/disable the visualization of the community areas present in city.
+			</p>
+			<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+          		<img src="image/selection.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Stations selection</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<h4>Station control</h4>
+			<p>
+				This is the most important control in the entire application. It is visible only when a user select a station clicking on markers on the map.
+			</p>
+			<p>
+				This control displays information about the selected station:
+				<ul>
+					<li>Name of the station</li>
+					<li>Id of the station</li>
+					<li>Popularity of the station</li>
+				</ul>
+			</p>
+			<p>
+				It contains two buttons that enables the <strong>inflow</strong> and <strong>outflow visualization</strong>.
+			</p>
+			<p>
+				It contains also two buttons that insert the station in one of the two compare sets: <strong>compare all</strong> and <strong>compare two</strong>. When a station is inserted in a compare set that comparison will be automatically enabled and all the graphs redrawn.
+			</p>
+			<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+          		<img src="image/station.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Station control</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<h4>Calendar control</h4>
+			<p>
+				This control displays a calendar, the user can select a month from it clicking on the number of the mount (on the left of the controller). After selecting the month in the right part the controller enable the user to choose the day of the month. Once the user select both mount and day a new controller will appear on the screen: <storng>day controller</strong>
+			</p>
+			<p>
+				In order to display and hide the calendar the user can press on the <strong>enable calendar control</strong>
+			</p>
+			<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+          		<img src="image/calendar.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>calendar control</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<h4>Day control</h4>
+			<p>
+				This controller displays details regarding the selected day (previously selected by the user with the <strong>calendar control</strong>). The details are: 
+				<ul>
+					<li>Selected date</li>
+					<li>Weather of the day</li>
+					<li>Sunrise and sunset</li>
+					<li>Temprerature (in °F)</li>
+				</ul>
+				Additionally it contains also a slider that enables the user to select an hour of the day. If the user move the slider automatically the map will display trips that are active at that time and also the percentage of completion for every trip. The trip informations are displayed directly on the map, every bike is a red circle, and its path is marked with a black line. The portion of path already completed is in red. The path is calculated interpolating the initial station and the final station coordinates and estimate the position of the bike at that time. When that user select the hour automatically the weather and the temperature will be adjusted to the nearest measure.
+			</p>
+
+			<p>This controller contains also a button that hides it from the map. When the <strong>day controller</strong> is hidden also the bikes visualization will be hidden.</p>
+
+			<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+          		<img src="image/station.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Station control</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<h4>Zoom control</h4>
+			<p>
+				This control enable the user to zoom in and zoom out on the map. In order to provide the best possible user experience there are a minimum and a maximum level of zoom that let the user focus on the Chicago map instead of let him explore the entire world.
+			</p>
+			<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+          		<img src="image/zoom.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Zoom control</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<h4>Multi-map and Single-map buttons</h4>
+			<p>
+				Multi-map is a button that enable the multimap visualization. During the multimap visualization in the same place will appear a <strong>Single-map button</strong> that disable multimap visualization.
+			</p>
+			<div class="col-sm-6 col-md-4 col-md-offset-2">
+          		<img src="image/multimap.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Multi-map button</p>
+      		</div>
+      		<div class="col-sm-6 col-md-4">
+          		<img src="image/singlemap.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Single-map button</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<h4>Show and hide chart buttons</h4>
+			<p>
+				This are two buttons that let the user choose which category of graph visualize.
+			</p>
+			<div class="col-sm-6 col-md-3">
+          		<img src="image/show_charts.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Show charts</p>
+      		</div>
+      		<div class="col-sm-6 col-md-3">
+          		<img src="image/hide_charts.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Hide charts</p>
+      		</div>
+      		<div class="col-sm-6 col-md-3">
+          		<img src="image/show_static_charts.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Show static charts</p>
+      		</div>
+      		<div class="col-sm-6 col-md-3">
+          		<img src="image/hide_static_charts.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Hide static charts</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<h4>Filter control</h4>
+			<p>
+				This controller let the user choose how to filters data displayed on the graphs. When the application starts all filters are disabled.
+			</p>
+			<p>
+				There are three filters:
+				<ul>
+					<li>
+						<strong>Gender filer:</strong> is composed by two buttons (male/female)
+					</li>
+					<li>
+						<strong>Age filer:</strong> it is a double slider, one cursor permits to select the minimum age and the other the maximum. This GUI component is specifically designed for this application in order to provide the best user experience and improve usability. The user can move independently the two cursors of the slider, the application will automatically recognize the ages choosen.
+					</li>
+					<li>
+						<strong>Filter by user type:</strong> there are two type of Dyvvy bikes user: <strong>customer</strong>: the casual user and the <strong>subscriber</strong>: the user that buy a subscription.
+					</li>
+				</ul>
+				Since only subscribers give their personal data the user can't select customer filter and gender filter at the same time (unless he/she accept to see nothing on the graphs).
+			</p>
+
+			<div class="col-sm-6 col-md-3 col-md-offset-1">
+          		<img src="image/filter_gender.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Gender filter</p>
+      		</div>
+      		<div class="col-sm-6 col-md-4">
+          		<img src="image/filter_age.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Age filter</p>
+      		</div>
+      		<div class="col-sm-6 col-md-3">
+          		<img src="image/filter_user.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>User (customer/subscriber) filter</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+			<hr>
+
+			<h3>Charts</h3>
+			<p>
+				Charts display information about the selected stations. Since there are two different comparison modalities they will adapt to the selected one:
+				<ul>
+					<li>
+						<strong>Compare all:</strong> the user can select unbounded number of stations and it can compare all of them in the same time. Every trip is intended from and to the selected stations. See the explanation of every graph (that you can find below) for details on how the information is displayed.
+						<strong>Compare two:</strong> the user can select up to two stations and all graphs will display only trips between this two stations. This modality enable the possibility for the user to pick every couple of stations and see fluw from one to the other. 
+					</li>
+				</ul>
+			</p>
+			<p>
+			There are two category of charts:
+				<ul>
+					<li>
+						<strong>Static charts:</strong> displays information about general statistical information about bikes and trips. This informations are not dependent from the date, and for that reason are called static. The user can also apply filters on this graphs using the <strong>filters controller</strong>.
+					</li>
+					<li>
+						<strong>Dynamic charts:</strong> displays information about the trips in different formats simultaneusly. This graphs depends on the selected date (if there's one) and on the active filetrs.
+ 					</li>
+				</ul>
+			</p>
+
+			<h4>Bikes out per day of the week</h4>
+			<p>
+				A bar graph representation gives the trend of bike usage spread across the seven days of the week for the overall data. This view helps the user to look for patterns in usage over the week. For instance, some stations record a very low bike usage during the weekend. This chart is one of the dynamic charts. When more than one station is selected, this chart shows the trend of the cumulative data of all the selected stations. Data in this case is more in the form of bins rather than being continuous. We decided to use bars to display this data as bars are more suited to represent bins of data(in this case, data for each day)
+			</p>
+			<div class="col-sm-6 col-md-6 col-md-offset-3">
+          		<img src="image/dayOfTheWeek.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Day of the Week</p>
+      		</div>
+      		<div class="clearfix"></div>
+			<h4>Bikes out per hour of the day</h4>
+			<p>
+				This chart gives a usage trend of bikes for selected stations as a spread over the 24 hours of the day for the overall data. It is a multi-line graph where each line represents the usage of bikes for one of the selected stations. In this form, the data is more continuous as we have a clear idea of usage from one hour of the day to the next. Thus we have used line graph to show this continuity. When multiple stations are selected, lines representing different stations are given different colors to help the user easily distinguish between different stations. However, as the number of stations increase(and colors increase in turn!) a few issues arise. Too many colors can adversely affect the ease with which the users differentiate between stations. Even if the user somehow gets beyond the issue of dealing with many colors and looking them up from the legend, it becomes impossible to show legends for these colors in a limited space. For this reason, we remove color information from these graphs(even other graphs where colors represent stations) when the number of stations go beyond a reasonable limit. However, in order to allow the user to still distinguish between data from different stations, we have added an element of interactivity to these graphs. When the user clicks on a line in the chart, the corresponding station is highlighted on the map.
+			</p>
+			<div class="col-sm-4 col-md-4">
+          		<img src="image/hourOfTheDay.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Hour of the Day</p>
+      		</div>
+      		<div class="col-sm-4 col-md-4">
+          		<img src="image/hourOfTheDay2.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Hour of the Day, Few stations</p>
+      		</div>
+      		<div class="col-sm-4 col-md-4">
+          		<img src="image/hourOfTheDay3.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Hour of the Day, Many stations</p>
+      		</div>
+      		<div class="clearfix"></div>
+			<h4>Bikes out per hour of the day (summary of all stations)</h4>
+			<p>
+				This chart gives an idea about the pattern for the cumulative data for all the selected stations. With this graph it becomes easy to see the overview of general usage pattern during different times of the day. We have also shown the same data in a different representation in which we created a star plot of the trips infromation and put it on a pie representing the 24 hours of the day. This gives a connection between the two ends of the chart and thus helps the user to make more sense of the pattern in the data.
+			</p>
+			<div class="col-sm-6 col-md-6">
+          		<img src="image/hourOfTheDaySum.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Hour of the Day, Sum</p>
+      		</div>
+			<div class="col-sm-6 col-md-6">
+          		<img src="image/star.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Hour of the Day, Sum</p>
+      		</div>
+      		<div class="clearfix"></div>
+			<h4>Trips per day of the year</h4>
+			<p>
+				The data of all trips that have occurred from July 2013 to December 2013 for stations is visualized in this chart. This representation helps the user to see the overall usage pattern on different days and how usage changes during different parts of the year. This is a multi-line graph. Each line represents one station.  
+			</p>
+			<div class="col-sm-6 col-md-6">
+          		<img src="image/dayOfTheYear.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Day of the Year</p>
+      		</div>
+      		<div class="col-sm-6 col-md-6">
+          		<img src="image/dayOfTheYear2.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Day of the Year, Many stations</p>
+      		</div>
+      		<div class="clearfix"></div>
+			<h4>Trips per day of the year (summary of all stations)</h4>
+			<p>
+				The cumulative data, for all selected stations, from July 2013 to December 2013 is shown in this chart. This is the most high level view of the entire data for the selected stations.
+			</p>
+			<div class="col-sm-6 col-md-6 col-md-offset-3">
+          		<img src="image/dayOfTheYearSum.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Day of the Year, Sum</p>
+      		</div>
+      		<div class="clearfix"></div>
+			<h4>Imbalance chart</h4>
+			<p>
+				This chart shows the relative difference in the inflow and outflow information for the selected stations in a bi-directional bar graph. Each bar represents the difference between inflow and outflow for one station. If the inflow is more than the outflow, the bar extends upwards to an extent proportional to the difference and it extends downwards if the outflow is more. The data for the imbalance is sorted and the data of stations is displayed in descending order. If many stations are selected, then ten stations that have the largest imbalances are displayed.
+			</p>
+			<div class="col-sm-6 col-md-6 col-md-offset-3">
+          		<img src="image/imbalance.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Inflow vs Outflow</p>
+      		</div>
+      		<div class="clearfix"></div>
+			<h4>Demographic pie charts</h4>
+			<p>
+				These charts show general information about the rider demographic. One of the charts shows the break up of riders on the basis of gender. The second one shows the break up of riders on the basis of age, where the riders are grouped into different age bins. The third chart shows the ratio of subscribers versus pay-and-use customers. These graphs show cumulative data over all the selected stations.
+			</p>
+			<div class="col-sm-6 col-md-6 col-md-offset-3">
+          		<img src="image/demograph.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Demographics</p>
+      		</div>
+      		<div class="clearfix"></div>
+			<h4>Static Charts</h4>
+			<p>
+				These charts show bar graphs that display distribution of bikes by total time taken, total distance covered, and rides by their distances. The mean values are shown as lines to help users see the ditribution around the means. Additionally box-and-whisker plots that accompany these graphs show quartile information for the same data. 
+			</p>
+			<div class="col-sm-6 col-md-6 col-md-offset-3">
+          		<img src="image/static.png" class="img-responsive center" alt="Responsive image"/>
+          		<p>Distrbution Charts (Static)</p>
+      		</div>
+      		<div class="clearfix"></div>
+
+      		<hr>
+ 
+			<h3>A small demo of the charts</h3>
+			<div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+				<iframe width="600" height="338" allowfullscreen="" src="//www.youtube.com/embed/A3BtZBHa0Ko" frameborder="0"></iframe>
+			</div>
+
+			<hr>
+		</div> <!-- /container -->
+	</body>
+</html>
