@@ -19,6 +19,11 @@ function CtaModel() {
     // CTA Time
     var _time;
 
+    // Update CTA Time timer
+    var _updateTimeTimer = null;
+    var _timeIntervalMillis = 30000;
+
+
     // CTA Routes
     var _routes = [];
 
@@ -40,6 +45,7 @@ function CtaModel() {
     // Update timer
     var _updateTimer = null;
     var _intervalMillis = 5000;
+
 
     //////////////////////// PUBLIC METHODS ////////////////////////
     this.getUpdateInterval = function() {
@@ -235,6 +241,11 @@ function CtaModel() {
             self.updateVehicles();
             _updateTimer = setInterval(self.updateVehicles, _intervalMillis);
         }
+
+        if(_updateTimeTimer === null) {
+            self.updateTime();
+            _updateTimeTimer = setInterval(self.updateTime, _timeIntervalMillis);
+        }
     };
 
     /**
@@ -243,6 +254,9 @@ function CtaModel() {
     this.stopUpdates = function() {
         clearInterval(_updateTimer);
         _updateTimer = null;
+        clearInterval(_updateTimeTimer);
+        _updateTimeTimer = null;
+
         self.clearVehicles();
     };
 

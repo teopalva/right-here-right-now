@@ -57,7 +57,6 @@ function CtaTrainModel() {
         d3.json("/webapp/data/cta_L_stops.json",function(json){
             json.forEach(function(station){
 
-                // TODO clean?
                 station["latitude"] = station["LAT"];
                 station["longitude"] = station["LON"];
                 delete station["LAT"];

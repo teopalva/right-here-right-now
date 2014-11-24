@@ -123,11 +123,6 @@ function CtaBusRoutesLayerViewController() {
 
         var canvas = self.getView().getSvg();
 
-        // TODO: has to be done?
-        //if(routePath == null || routePath.length == 0) {
-        //    canvas.select(".directions").remove();
-        //}
-        //else {
         var lineFunction = d3.svg.line()
             .x(function(d) {
                 var point = self.project(d.latitude, d.longitude);
