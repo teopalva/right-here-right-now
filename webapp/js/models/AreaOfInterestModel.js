@@ -226,7 +226,6 @@ function AreaOfInterestModel() {
         return _directions;
     };
 
-    // TODO: convert steradians to squared miles
     this.getSquaredMiles = function() {
         return d3.geo.area(_featureCollection) * 15668767.5070028;
     };
