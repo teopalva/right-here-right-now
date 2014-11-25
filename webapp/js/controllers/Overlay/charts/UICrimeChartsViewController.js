@@ -177,13 +177,17 @@ function UICrimeChartsViewController() {
 
                 for(var i = 0; i < _topNumber; i++) {
                     for(var j = 0; j < 3; j++) {
-                        var intPercent = parseInt(locations[j][i].percentage);
-                        var space = "";
-                        if(intPercent < 10) {
-                            space = "\xA0   ";
+                        if(locations[j][i] != undefined) {
+                            var intPercent = parseInt(locations[j][i].percentage);
+                            var space = "";
+                            if(intPercent < 10) {
+                                space = "\xA0   ";
+                            }
+                            _selectedAreaLocationsLabels[i][j]
+                                .setText(space + intPercent + "% | " + locations[j][i].location);
+                        } else {
+                            _selectedAreaLocationsLabels[i][j].setText("");
                         }
-                        _selectedAreaLocationsLabels[i][j]
-                            .setText(space + intPercent + "% | " + locations[j][i].location);
                     }
                 }
             } else {

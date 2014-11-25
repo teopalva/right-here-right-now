@@ -612,7 +612,7 @@ function VisualizationModel() {
 
         "Top Restaurants": "rgba(31,123,53, 1.0)",
         "Inspection Failed Restaurants": "rgba(107,196,105, 1.0)",
-        "Turist Attractions": "#00294C"
+        "Tourist Attractions": "#00294C"
     };
     
     ///////////////////////////// PRIVATE METHODS /////////////////////////////

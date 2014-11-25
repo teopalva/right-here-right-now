@@ -48,14 +48,14 @@ var PlaceOfInterest = {
         wiki: "http://en.wikipedia.org/wiki/Museum_Campus",
         description: "Museum Campus is a 57-acre museum that sits near Lake Michigan in Chicago and surrounds three of the city's most notable museums, all dedicated to the natural sciences."
     },
-    LINCOLN_PARK: {
-        name: "Lincoln Park",
-        latitude: 41.922863,
-        longitude: -87.636485,
+    OLD_TOWN: {
+        name: "Old Town",
+        latitude: 41.911178,
+        longitude: -87.639955,
         address: "Lincoln Park, Chicago, IL 60614",
         url: "assets/icon/markers/star.svg",
-        image: "http://www.lincolnparkconservancy.org/images/shyline_from_park.jpg",
-        wiki: "http://en.wikipedia.org/wiki/Lincoln_Park,_Chicago",
-        description: "Lincoln Park, is one of the 77 community areas of Chicago, Illinois, United States, situated on its north side."
+        image: "http://upload.wikimedia.org/wikipedia/commons/0/0e/Old_town_sign.JPG",
+        wiki: "http://en.wikipedia.org/wiki/Old_Town,_Chicago",
+        description: "Old Town is an affluent and historic neighborhood, home to many of Chicago's older, Victorian-era buildings like St. Michael's Church, originally a Bavarian-built church, and one of 7 to survive the Great Chicago Fire."
     }
 };
