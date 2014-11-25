@@ -43,6 +43,7 @@ function UIMapTypeViewController() {
     var init = function () {
         self.getView().addClass("ui-map-type-view-controller");
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
+        self.getView().setCornerRadius(8);
 
         // Setup UI
         _mapButton = new UIButtonViewController;

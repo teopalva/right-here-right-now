@@ -53,7 +53,7 @@ function UIZoomViewController() {
     var init = function () {
         self.getView().addClass("ui-time-interval-view-controller");
         self.getView().setBackgroundColor(model.getThemeModel().toolBackgroundColor());
-
+        self.getView().setCornerRadius(8);
 
         // Setup UI
         _zoomPlusButton = new UIButtonViewController;

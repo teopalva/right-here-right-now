@@ -42,7 +42,7 @@ function MapOverlayViewController() {
 
     var _timeIntervalViewController;
     var _timeIntervalViewSize = {
-        width: 184.5,
+        width: 214.5,
         height: 105
     };
 
@@ -100,15 +100,15 @@ function MapOverlayViewController() {
         _chartsAreaViewController.getView().setViewBox(0, 0, _chartsAreaFrame.width, _chartsAreaFrame.height);
         self.add(_chartsAreaViewController);
 
-        _timeIntervalViewController.getView().setFrame(1140, 882, _timeIntervalViewSize.width, _timeIntervalViewSize.height);
+        _timeIntervalViewController.getView().setFrame(1110 + 60, 882, _timeIntervalViewSize.width, _timeIntervalViewSize.height);
         _timeIntervalViewController.getView().setViewBox(0, 0, _timeIntervalViewSize.width, _timeIntervalViewSize.height);
         self.add(_timeIntervalViewController);
 
-        _zoomViewController.getView().setFrame(1337, 882, _zoomViewSize.width, _zoomViewSize.height);
+        _zoomViewController.getView().setFrame(1337 + 60, 882, _zoomViewSize.width, _zoomViewSize.height);
         _zoomViewController.getView().setViewBox(0, 0, _zoomViewSize.width, _zoomViewSize.height);
         self.add(_zoomViewController);
 
-        _mapTypeViewController.getView().setFrame(1416, 882, _mapTypeViewSize.width, _mapTypeViewSize.height);
+        _mapTypeViewController.getView().setFrame(1416 + 60, 882, _mapTypeViewSize.width, _mapTypeViewSize.height);
         _mapTypeViewController.getView().setViewBox(0, 0, _mapTypeViewSize.width, _mapTypeViewSize.height);
         self.add(_mapTypeViewController);
 
