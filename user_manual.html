@@ -19,437 +19,532 @@
 
 <body style="padding-top: 70px;">
 
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <ul class="nav navbar-nav">
-                <li><a href="index.html">Home</a>
-                </li>
-                <li><a href="team.html">Team and Roles</a>
-                </li>
-                <li><a href="progress.html">Progress</a>
-                </li>
-                <li class="active"><a href="user_manual.html">User Manual</a>
-                </li>
-                <li><a href="data.html">Data</a>
-                </li>
-                <li><a href="source_code.html">Source Code</a>
-                </li>
-                <li><a href="findings.html">Findings</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
-
-        <div class="page-header">
-            <h1>User Manual</h1>
-
-            <p class="lead">How to use this powerful tool</p>
-        </div>
-
-        <h3>Find your way through Chicago</h3>
-
-        <p>The main purpose of this application is to help users make more informed choices for how they want to get from point A to point B on the map of Chicago.
-            <br>To do this, the users can choose between two different types of selection of the path, between different enabled layers of data and they're also able to select the desired temporal interval for the past data displayed. Moreover, a comparison between the city as a whole and the selected area is always available to get even more insights about the characteristics of a path.
-            <br>In this manual page we will explain the details about all the features of the app.</p>
-
-        <div class="col-sm-12 col-md-12">
-            <img src="image/app1.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-
-        <hr>
-
-        <!--//////////////////////////////////////////////////////////////////////////////-->
-
-        <h3>Controls</h3>
-
-        <p>As we can see from the following picture, the app has plenty of controls to interact on a wide range of different aspects.
-        </p>
-
-        <div class="col-sm-9 col-md-9">
-            <img src="image/controls.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>
-            Let us see in detail every control.
-        </p>
-
-        <h4>Day control</h4>
-
-        <div class="col-sm-6 col-md-3">
-            <img src="image/day.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>
-            In this app the control for the day information is not interactive, since the app automatically and periodically retrieves data about real-time hour, weather and temperature. It also shows the current date and hours of sunrise and sunset.
-        </p>
-
-        <h4>Selection control</h4>
-
-        <div class="col-sm-6 col-md-3">
-            <img src="image/control_mode.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>
-            The two main buttons here are those which allow to change type of selection of the <b>area of interest</b> on the map:
-        </p>
-
-        <div class="col-sm-6 col-md-6">
-            <img src="image/rectangular.png" class="img-responsive center" alt="Responsive image" />
-            <strong>Rectangular Selection</strong>
-        </div>
-        <div class="col-sm-6 col-md-6">
-            <img src="image/custom_path.png" class="img-responsive center" alt="Responsive image" />
-            <strong>Custom Path</strong>
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p><strong>Rectangular Selection</strong> allows to click on the map to pin a point (starting point). On the next click we pin the arrival point. From now on when we will click on the map the previous point which is closer to the new selected point will be moved to the new position, thus updating the rectangle (selected area).
-            <br>
-            <strong>Custom Path</strong> leverages the use of the Google Maps API to retrieve a suggested path from start to end. Each new point added to the map here gets considered as a new arrival point and all the previous points are intermediate points through which the path has to pass.
-            <br>The area of interest here is a shape which surrounds the path with a distance which is around 2 blocks in average.
-        </p>
-
-        <p>The <b>clear selection</b> button allows to clear all the shapes drawn on the map, so that all the map is cleared and the user can restart his selections.
-            <br>Let us notice that we decided not to disable the enabled layers when this button is clicked, since it is likely that the user wants to draw a new selection, but keeping the layers already activeted (or changing only few of them).
-            <br>
-            <br>The selection control contains also another module, the <b>Recommender System</b>, which is here because it is thought to be primarily used after the user has cleared the selection and/or changed type of selection.
-        </p>
-
-        <h4>Recommender System</h4>
-
-        <div class="col-sm-6 col-md-3">
-            <img src="image/recommender.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>
-            The idea behind our decision to add a recommender system comes from the question: "How can we facilitate the choice of the enabled layers for the user?"
-            <br>The answer was simple: we can just ask him to declare which kind of means of transportation he is going to use. Given this information the system uses it together with the information on the time of the day to predict which layers are more probable to be of some interest for the user.
-            <br>For example, if it's night and the user is going to walk, then the system will automatically activate the layers about the abandoned vehicles and criminality, to let him see if the area is dangerous (especially if crossed going on foot). The layer of the street lights out will be activated too, since it's night, so this is an important information. At any time the user can modify (enable/disable) layers.</p>
-
-        <h4>Layers control</h4>
-
-        <div class="col-sm-3 col-md-3">
-            <img src="image/layers.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>
-            The selection of the layers is one of the key features of the app. This control contains buttons to enable/disable layers. The layers are subdivided into 4 main categories, each of which is characterized by a scale of colors in the same range.
-            <br>In the next section each layer will be described more in detail.
-        </p>
-
-        <h4>Space and Time controls</h4>
-
-        <div class="col-sm-3 col-md-3">
-            <img src="image/map_controls.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>In order from the left:
-        <ul>
-            <li><b>Time interval control</b>: it lets the user specify which is the time interval to look in the past for data. By default it is set to a month, but the user can select "last 2 weeks" to request more recent data.
+        <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a>
             </li>
-            <li><b>Zoom control</b>: custom zoom to move in/out wrt the map
+            <li><a href="team.html">Team and Roles</a>
             </li>
-            <li><b>Type of map control</b>: by clicking on it the user can change the map from street view to satellite and vice versa.
+            <li><a href="progress.html">Progress</a>
+            </li>
+            <li class="active"><a href="user_manual.html">User Manual</a>
+            </li>
+            <li><a href="data.html">Data</a>
+            </li>
+            <li><a href="source_code.html">Source Code</a>
+            </li>
+            <li><a href="findings.html">Findings</a>
             </li>
         </ul>
+    </div>
+</nav>
 
-        <hr>
-        <!--//////////////////////////////////////////////////////////////////////////////-->
+<div class="container">
 
-        <h3>Layers</h3>
+    <div class="page-header">
+        <h1>User Manual</h1>
 
-        <p>
-            The layers are the core element of this application: they allow the user to enable/disable on-demand the information he wants to see/hide.
-            <br>We have introduced a control with many buttons dedicated to managing the layers. Each button has its own color and it is associated to the color of the markers on the map, so that the user can at anytime have an instant understanding of which kind of data he's looking at.
-            <br>Moreover, the layers are divided in significant categories and each category has its own gradient of color for the layers that belong to it.
-            <br>Finally, the markers, besides having the same color of the layer's button, change based of the zoom level: at low level of zoom they're only circles, so that to create a heatmap to give overall patterns. After a certain level of zoom the markers change and they represent their specificity by different shape and icon, but still mantaining their representing color.
-            <br>The rest of this section describes each layer's characteristics.</p>
-
-        <h4>Transport</h4>
-
-        <p>
-            This section contains data about different means of transportation in Chicago.
-        </p>
-        <h5>CTA bus</h5>
-
-        <p>
-            By selecting the “CTA bus” label, the layer containing information about the cta bus stations, vehicles and lines is displayed. Once displayed, this layer shows the stations as markers on the map as well as the vehicles travelling around the city.
-        </p>
-
-        <div class="col-sm-9 col-md-9">
-            <img src="image/cta_bus_overview.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>
-            By clicking on one of these station markers, the lines passing through that station are drawn on the map and a popup is displayed. This popup contains information about the station itself (Name, ID) and time predictions of the next two buses that are coming to that station. Once the popup is closed the lines associated to it are removed from the map.
-        </p>
-
-        <div class="col-sm-9 col-md-9">
-            <img src="image/cta_bus_popup.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>
-            Vehicles positions are estimated according to the last data retrieved from CTA. The CTA APIs, in fact, provide updates of the bus positions just once every minute. To face this lack of information the bus positions are simulated using data like their last known positions and their speed. This information are exploited producing an animation of the buses.
-        </p>
-
-        <h5>CTA train</h5>
-
-        <p>
-            By selecting the “CTA train” label, the layer of CTA trains is activated. It displays the train stations as markers on the map.
-            <br>
-        </p>
-
-        <p>
-            By clicking on one of these markers, a popup is shown. It contains the name and ID of the selected station as well as the lines that pass through that station. The predictions of the next 4 trains with the respective information are displayed too.
-        </p>
-
-        <div class="col-sm-9 col-md-9">
-            <img src="image/cta_train.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-        <h5>Divvy Bike</h5>
-
-        <p>
-            By clicking the "Divvy Bikes" label, the layer that shows all the Divvy stations is activated.
-        </p>
-
-        <p>
-            Clicking on the markers, both the circle when the zoom level is low and the icon when the zoom level is high, will show a popup with the information related to that station. In particular will be shown the number of free docks available at the station, and the number of bike available for picking.
-        </p>
-
-        <div class="col-sm-9 col-md-9">
-            <img src="image/divvy.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-
-        <h4>Street Issues</h4>
-
-        <p>
-            This macro category has been divided into 3 subcategories: <b>potholes</b> in the street, broken <b>street
-        lights</b> and <b>abandoned vehicles</b> on the street. Each of them is activated by clicking on the corresponding button, has two different icons that change with respect to the zoom level, and can be clicked to show a popup that gives a bunch of information about the specific issue.
-
-        </p>
-        </p>
-        <div class="col-sm-9 col-md-9">
-            <img src="image/street_issues.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-
-        <h4>Crimes</h4>
-
-        <p>
-            Also this macrocategory has been split into 3 different subcategories:
-            <ul>
-                <li><b>Violent Crimes</b> are crimes in which an offender uses or threatens force upon a victim. (Battery, Homicide, Abuse etc..)
-                </li>
-                <li><b>Property Crimes</b> that are crimes that do not necessarily involve harm to another person. Instead, they involve an interference with another person’s right to use or enjoy their property (Theft, Burglary etc..).
-                </li>
-                <li><b>Quality of Life Crimes</b> Crimes against the public include offenses that affect the quality of life, group violence such as gang activity, and vice crimes.(Gambling, Prostitution and so on...)
-                </li>
-            </ul>
-        </p>
-        <p>
-            Each of them is activated by clicking on the corresponding button, has two different icons that change with respect to the zoom level, and can be clicked to show a popup that gives a bunch of information about the specific issue.
-        </p>
-
-        <div class="col-sm-9 col-md-9">
-            <img src="image/crimes.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-
-        <h4>Places of Interest</h4>
-
-        <p>
-            This application is mainly supposed to be used by tourists, so having a list of important places to show is fairly meaningful. This layer is very similar to the ones described above, whit the only difference that when the marker is clicked, other than showing a popup with relevant information, the place is also used as a point to build a path trough it.
-        </p>
-
-        <div class="col-sm-9 col-md-9">
-            <img src="image/places_of_interest.png" class="img-responsive center" alt="Responsive image" />
-            <p>In this image we can see the path from UIC to the WIllis tower, with the restaurants displayed in between</p>
-        </div>
-        <div class="clearfix"></div>
-
-        <hr>
-        <!--//////////////////////////////////////////////////////////////////////////////-->
-
-        <h3>Real-Time notifications: Newsfeed</h3>
-
-        <p>To <b>highlight any new relevant data </b> that has appeared while the application has been running, we have introduced a newfeed.
-            <br>The newsfeed has three rows, each one for a news, and a new row is added going down the feed whenever a new relevant change happens to the enabled data (through a layer) in the selected area.</p>
-
-        <div class="col-sm-3 col-md-3">
-            <img src="image/newsfeed1.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>In the following example 2 divvy bikes stations have had a change of number of bikes and the feed notifies it.
-        </p>
-
-        <div class="col-sm-3 col-md-3">
-            <img src="image/newsfeed_divvy.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>If the user is interested in a specific news, he can <b>click on the icon</b> in the feed and the correspondent popup of that event will automatically appear on the map, so that the user can have more information both on the location and the details of the event.</p>
-
-        <div class="col-sm-6 col-md-9">
-            <img src="image/divvy_click.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>The newsfeed has also some controls to allow for a complete personalization at user's discretion:</p>
-
-        <div class="col-sm-3 col-md-3">
-            <img src="image/newsfeed_detail.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>In order from the left:
-        <ul>
-            <li><b>Up and down arrows</b>: to scroll the feed, going down for more recent uodates, up for past news. By default every time a new news arrives, the feed skips automatically to the first page to let it be visible.
-            </li>
-            <li><b>Play/Pause button</b>: sometimes you may want to pause the real-time need to always see the last updated data. In this case you just have to pause the stream: the new news will continue to be fetched but the feed won't automatically skip to display them: the user can scroll through the past news to see what happened a few minutes/hours from the present, which can be useful since it is always a near-real-time information which otherwise would have been missing.
-            </li>
-            <li><b>Change of stream</b>: the RSS button and the Twitter button allow to switch between two modes for the newsfeed: the first is the standard mode which shows relevant news about changes of data for the selected layers, the second one shows the stream of real-time tweets.
-            </li>
-        </ul>
-        <p>Here's the Twitter feed:</p>
-
-        <div class="col-sm-3 col-md-3">
-            <img src="image/newsfeed_twitter.png" class="img-responsive center" alt="Responsive image" />
-        </div>
-        <div class="clearfix"></div>
-        <br>
-
-        <p>For the criterion with which to fetch tweets, we realized that geolocalized tweets are not much interesting for the purposes of our app, since they are posted by random people who are talking about any kind of topic throughout the city.
-            <br>We discovered, instead, that there are some particular Twitter keywords and hashtags which localize the topic and location of the tweets even better. In fact, we look for tweets with the keywords "Breaking Nes" and "Chicago" so that only relevant updates for important facts happening in the city are retrieved.
-            <br>The user can see the first words of the tweet in the feed and then click on the Twitter icon to open a popup which shows the complete tweet:</p>
-
-        <div class="col-sm-3 col-md-5">
-            <img src="image/tweet1.png" class="img-responsive center" alt="Responsive image" />
-
-            <p>In this example, the tweet notifies that a fire has been reported in Chicago and there's also a link if the user wants more information about that.</p>
-        </div>
-        <div class="clearfix"></div>
-
-        <br>
-
-        <div class="images col-sm-6 col-md-6">
-            <div class="embed-responsive embed-responsive-16by9 img-thumbnail">
-                <video autoplay="true" loop="true" class="embed-responsive-item">
-                    <source src="image/feed.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-
-        <hr>
-        <!--//////////////////////////////////////////////////////////////////////////////-->
-
-        <h3>Charts</h3>
-
-        <p>
-            Charts have been designed to show a general overview of Chicago crime data and general street issues and to allow comparisons between a selected area and Chicago as a whole.
-            <br/>The charts panel is placed on the right part of the screen and offers two views, one regarding the crime data and the other regarding street issues; By clicking the two buttons on the bottom part of the chart panel user can switch between the two views.
-
-        </p>
-
-        <div class="col-sm-12 col-md-12">
-            <img src="image/chart-switch-views.png" class="img-responsive center" alt="Responsive image" />
-
-            <p>Buttons to switch between crimes view and street issues view</p>
-        </div>
-        <div class="clearfix"></div>
-        <h4>Crimes charts</h4>
-
-        <p>
-            In the crime view the user can look at crime data in two different ways. The chart at the top shows crime data in term of crime density (crimes per squared mile); In this way it is possible to investigate whether a given area is more criminal than Chicago as a whole. Crimes are divided in three macro category, namely violent crimes, property crimes and quality of life crimes as shown by the chart groups.
-        </p>
-
-        <div class="col-sm-12 col-md-12">
-            <img src="image/crime_density.png" class="img-responsive center" alt="Responsive image" />
-
-            <p>Column chart that shows crime density of the selected area and of Chicago as a whole.</p>
-        </div>
-        <div class="clearfix"></div>
-        <br/>
-
-        <p>
-            By clicking on the columns of the charts a tool tip appears to show the name of the specific crime.
-        </p>
-
-        <div class="col-sm-12 col-md-12">
-            <img src="image/tooltip.png" class="img-responsive center" alt="Responsive image" />
-
-            <p>Tooltip that shows which crime the column refers to.</p>
-        </div>
-        <div class="clearfix"></div>
-        <p>
-            At the bottom part of the crime view crime is shown by means of most frequent crime locations. The tables show which locations are more frequent for a given category of crime, both for the selected area and for chicago as a whole. Percentages of the locations frequency are also shown.
-        </p>
-
-        <div class="col-sm-12 col-md-12">
-            <img src="image/crime-locations.png" class="img-responsive center" alt="Responsive image" />
-
-            <p>Most frequent crime locations by category and area.</p>
-        </div>
-        <div class="clearfix"></div>
-
-        <h4>Street issues charts</h4>
-
-        <p>
-            In the street issues charts data about potholes, abandoned vehicles and street lights out are shown. Charts at the top shows the various pieces of data by means of density (reported cases per squared mile) both for Chicago as a whole and the selected area.
-        </p>
-
-        <div class="col-sm-12 col-md-12">
-            <img src="image/street-issues-density.png" class="img-responsive center" alt="Responsive image" />
-
-            <p>Column charts that shows reported cases per squared miles respectively for potholes, abandoned vehicles and street lights out.</p>
-        </div>
-        <div class="clearfix"></div>
-        <br/>
-
-        <p>
-            At the bottom part of the street issues view the raw numbers are shown in term of reported cases in the selected area, all the Chicago reported cases and the percentage of the Chicago cases in the selected area. The raw data is represented also with matrix plots in which the whole plot represents Chicago reported cases and the highlighted squares represent the cases within the selected area.
-        </p>
-
-        <div class="col-sm-12 col-md-12">
-            <img src="image/street-issues-cases.png" class="img-responsive center" alt="Responsive image" />
-
-            <p>Raw data for potholes, abandoned vehicles and street lights out is shown in term of cases in the selected area / chicago cases and the percentage. These pieces of data are represented in the matrix plot.
-            </p>
-        </div>
-        <div class="clearfix"></div>
-
-        <hr>
-        <!--//////////////////////////////////////////////////////////////////////////////-->
-
-
+        <p class="lead">How to use this powerful tool</p>
     </div>
 
+    <h3>Find your way through Chicago</h3>
+
+    <p>The main purpose of this application is to help users make more informed choices for how they want to get from
+        point A to point B on the map of Chicago.
+        <br>To do this, the users can choose between two different types of selection of the path, between different
+        enabled layers of data and they're also able to select the desired temporal interval for the past data
+        displayed. Moreover, a comparison between the city as a whole and the selected area is always available to get
+        even more insights about the characteristics of a path.
+        <br>In this manual page we will explain the details about all the features of the app.</p>
+
+    <div class="col-sm-12 col-md-12">
+        <img src="image/app1.png" class="img-responsive center" alt="Responsive image"/>
     </div>
-    <!-- /container -->
+    <div class="clearfix"></div>
+
+    <hr>
+
+    <!--//////////////////////////////////////////////////////////////////////////////-->
+
+    <h3>Controls</h3>
+
+    <p>As we can see from the following picture, the app has plenty of controls to interact on a wide range of different
+        aspects.
+    </p>
+
+    <div class="col-sm-9 col-md-9">
+        <img src="image/controls.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p>
+        Let us see in detail every control.
+    </p>
+
+    <h4>Day control</h4>
+
+    <div class="col-sm-6 col-md-3">
+        <img src="image/day.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p>
+        In this app the control for the day information is not interactive, since the app automatically and periodically
+        retrieves data about real-time hour, weather and temperature. It also shows the current date and hours of
+        sunrise and sunset.
+    </p>
+
+    <h4>Selection control</h4>
+
+    <div class="col-sm-6 col-md-3">
+        <img src="image/control_mode.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p>
+        The two main buttons here are those which allow to change type of selection of the <b>area of interest</b> on
+        the map:
+    </p>
+
+    <div class="col-sm-6 col-md-6">
+        <img src="image/rectangular.png" class="img-responsive center" alt="Responsive image"/>
+        <strong>Rectangular Selection</strong>
+    </div>
+    <div class="col-sm-6 col-md-6">
+        <img src="image/custom_path.png" class="img-responsive center" alt="Responsive image"/>
+        <strong>Custom Path</strong>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p><strong>Rectangular Selection</strong> allows to click on the map to pin a point (starting point). On the next
+        click we pin the arrival point. From now on when we will click on the map the previous point which is closer to
+        the new selected point will be moved to the new position, thus updating the rectangle (selected area).
+        <br>
+        <strong>Custom Path</strong> leverages the use of the Google Maps API to retrieve a suggested path from start to
+        end. Each new point added to the map here gets considered as a new arrival point and all the previous points are
+        intermediate points through which the path has to pass.
+        <br>The area of interest here is a shape which surrounds the path with a distance which is around 2 blocks in
+        average.
+    </p>
+
+    <p>The <b>clear selection</b> button allows to clear all the shapes drawn on the map, so that all the map is cleared
+        and the user can restart his selections.
+        <br>Let us notice that we decided not to disable the enabled layers when this button is clicked, since it is
+        likely that the user wants to draw a new selection, but keeping the layers already activeted (or changing only
+        few of them).
+        <br>
+        <br>The selection control contains also another module, the <b>Recommender System</b>, which is here because it
+        is thought to be primarily used after the user has cleared the selection and/or changed type of selection.
+    </p>
+
+    <h4>Recommender System</h4>
+
+    <div class="col-sm-6 col-md-3">
+        <img src="image/recommender.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p>
+        The idea behind our decision to add a recommender system comes from the question: "How can we facilitate the
+        choice of the enabled layers for the user?"
+        <br>The answer was simple: we can just ask him to declare which kind of means of transportation he is going to
+        use. Given this information the system uses it together with the information on the time of the day to predict
+        which layers are more probable to be of some interest for the user.
+        <br>For example, if it's night and the user is going to walk, then the system will automatically activate the
+        layers about the abandoned vehicles and criminality, to let him see if the area is dangerous (especially if
+        crossed going on foot). The layer of the street lights out will be activated too, since it's night, so this is
+        an important information. At any time the user can modify (enable/disable) layers.</p>
+
+    <h4>Layers control</h4>
+
+    <div class="col-sm-3 col-md-3">
+        <img src="image/layers.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p>
+        The selection of the layers is one of the key features of the app. This control contains buttons to
+        enable/disable layers. The layers are subdivided into 4 main categories, each of which is characterized by a
+        scale of colors in the same range.
+        <br>In the next section each layer will be described more in detail.
+    </p>
+
+    <h4>Space and Time controls</h4>
+
+    <div class="col-sm-3 col-md-3">
+        <img src="image/map_controls.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>In order from the left:
+    <ul>
+        <li><b>Time interval control</b>: it lets the user specify which is the time interval to look in the past for
+            data. By default it is set to a month, but the user can select "last 2 weeks" to request more recent data.
+        </li>
+        <li><b>Zoom control</b>: custom zoom to move in/out wrt the map
+        </li>
+        <li><b>Type of map control</b>: by clicking on it the user can change the map from street view to satellite and
+            vice versa.
+        </li>
+    </ul>
+
+    <hr>
+    <!--//////////////////////////////////////////////////////////////////////////////-->
+
+    <h3>Layers</h3>
+
+    <p>
+        Intro
+    </p>
+
+    <h4>Transport</h4>
+
+    <p>
+        This section contains data about different means of transportation in Chicago.
+    </p>
+    <h5>CTA bus</h5>
+
+    <p>
+        By selecting the “CTA bus” label, the layer containing information about the cta bus stations, vehicles and
+        lines is displayed. Once displayed, this layer shows the stations as markers on the map as well as the vehicles
+        travelling around the city.
+    </p>
+
+    <div class="col-sm-9 col-md-9">
+        <img src="image/cta_bus_overview.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p>
+        By clicking on one of these station markers, the lines passing through that station are drawn on the map and a
+        popup is displayed. This popup contains information about the station itself (Name, ID) and time predictions of
+        the next two buses that are coming to that station. Once the popup is closed the lines associated to it are
+        removed from the map.
+    </p>
+
+    <div class="col-sm-9 col-md-9">
+        <img src="image/cta_bus_popup.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+
+    <p>
+        Vehicles positions are estimated according to the last data retrieved from CTA. The CTA APIs, in fact, provide
+        updates of the bus positions just once every minute. To face this lack of information the bus positions are
+        simulated using data like their last known positions and their speed. This information are exploited producing
+        an animation of the buses.
+    </p>
+
+
+    <div class="images col-sm-5 col-md-12">
+        <div class="embed-responsive embed-responsive-16by9 img-thumbnail">
+            <video autoplay="true" loop="true" class="embed-responsive-item">
+                <source src="image/buses.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <h5>CTA train</h5>
+
+    <p>
+        By selecting the “CTA train” label, the layer of CTA trains is activated. It displays the train stations as
+        markers on the map.
+        <br>
+    </p>
+
+    <p>
+        By clicking on one of these markers, a popup is shown. It contains the name and ID of the selected station as
+        well as the lines that pass through that station. The predictions of the next 4 trains with the respective
+        information are displayed too.
+    </p>
+
+    <div class="col-sm-9 col-md-9">
+        <img src="image/cta_train.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+    <h5>Divvy Bike</h5>
+
+    <p>
+        By clicking the "Divvy Bikes" label, the layer that shows all the Divvy stations is activated.
+    </p>
+
+    <p>
+        Clicking on the markers, both the circle when the zoom level is low and the icon when the zoom level is high,
+        will show a popup with the information related to that station. In particular will be shown the number of free
+        docks available at the station, and the number of bike available for picking.
+    </p>
+
+    <div class="col-sm-9 col-md-9">
+        <img src="image/divvy.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+
+    <h4>Street Issues</h4>
+
+    <p>
+        This macro category has been divided into 3 subcategories: <b>potholes</b> in the street, broken <b>street
+        lights</b> and <b>abandoned vehicles</b> on the street.
+        Each of them is activated by clicking on the corresponding button, has two different icons that change with
+        respect to the zoom level, and can be clicked
+        to show a popup that gives a bunch of information about the specific issue.
+
+    </p>
+    </p>
+    <div class="col-sm-9 col-md-9">
+        <img src="image/street_issues.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+
+    <h4>Crimes</h4>
+
+    <p>
+        Also this macrocategory has been split into 3 different subcategories:
+    <ul>
+        <li><b>Violent Crimes</b> are crimes in which an offender uses or threatens force upon a victim. (Battery,
+            Homicide, Abuse etc..)
+        </li>
+        <li><b>Property Crimes</b> that are crimes that do not necessarily involve harm to another person. Instead, they
+            involve an interference with another person’s right to use or enjoy their property (Theft, Burglary etc..).
+        </li>
+        <li><b>Quality of Life Crimes</b> Crimes against the public include offenses that affect the quality of life,
+            group violence such as gang activity, and vice crimes.(Gambling, Prostitution and so on...)
+        </li>
+    </ul>
+    </p>
+    <p>
+        Each of them is activated by clicking on the corresponding button, has two different icons that change with
+        respect to the zoom level, and can be clicked
+        to show a popup that gives a bunch of information about the specific issue.
+    </p>
+
+    <div class="col-sm-9 col-md-9">
+        <img src="image/crimes.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+
+    <h4>Places of Interest</h4>
+
+    <p>
+        This application is mainly supposed to be used by tourists, so having a list of important places to show is
+        fairly meaningful. This layer is very similar to
+        the ones described above, whit the only difference that when the marker is clicked, other than showing a popup
+        with relevant information, the place
+        is also used as a point to build a path trough it.
+    </p>
+
+    <div class="col-sm-9 col-md-9">
+        <img src="image/places_of_interest.png" class="img-responsive center" alt="Responsive image"/>
+        <p>In this image we can see the path from UIC to the WIllis tower, with the restaurants displayed in between</p>
+    </div>
+    <div class="clearfix"></div>
+
+    <hr>
+    <!--//////////////////////////////////////////////////////////////////////////////-->
+
+    <h3>Real-Time notifications: Newsfeed</h3>
+
+    <p>To <b>highlight any new relevant data </b> that has appeared while the application has been running, we have
+        introduced a newfeed.
+        <br>The newsfeed has three rows, each one for a news, and a new row is added going down the feed whenever a new
+        relevant change happens to the enabled data (through a layer) in the selected area.</p>
+
+    <div class="col-sm-3 col-md-3">
+        <img src="image/newsfeed1.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p>In the following example 2 divvy bikes stations have had a change of number of bikes and the feed notifies
+        it.</p>
+
+    <div class="col-sm-3 col-md-3">
+        <img src="image/newsfeed_divvy.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p>If the user is interested in a specific news, he can <b>click on the icon</b> in the feed and the correspondent
+        popup of that event will automatically appear on the map, so that the user can have more information both on the
+        location and the details of the event.</p>
+
+    <div class="col-sm-6 col-md-9">
+        <img src="image/divvy_click.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p>The newsfeed has also some controls to allow for a complete personalization at user's discretion:</p>
+
+    <div class="col-sm-3 col-md-3">
+        <img src="image/newsfeed_detail.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>In order from the left:
+    <ul>
+        <li><b>Up and down arrows</b>: to scroll the feed, going down for more recent uodates, up for past news. By
+            default every time a new news arrives, the feed skips automatically to the first page to let it be visible.
+        </li>
+        <li><b>Play/Pause button</b>: sometimes you may want to pause the real-time need to always see the last updated
+            data. In this case you just have to pause the stream: the new news will continue to be fetched but the feed
+            won't automatically skip to display them: the user can scroll through the past news to see what happened a
+            few minutes/hours from the present, which can be useful since it is always a near-real-time information
+            which otherwise would have been missing.
+        </li>
+        <li><b>Change of stream</b>: the RSS button and the Twitter button allow to switch between two modes for the
+            newsfeed: the first is the standard mode which shows relevant news about changes of data for the selected
+            layers, the second one shows the stream of real-time tweets.
+        </li>
+    </ul>
+    <p>Here's the Twitter feed:</p>
+
+    <div class="col-sm-3 col-md-3">
+        <img src="image/newsfeed_twitter.png" class="img-responsive center" alt="Responsive image"/>
+    </div>
+    <div class="clearfix"></div>
+    <br>
+
+    <p>For the criterion with which to fetch tweets, we realized that geolocalized tweets are not much interesting for
+        the purposes of our app, since they are posted by random people who are talking about any kind of topic
+        throughout the city.
+        <br>We discovered, instead, that there are some particular Twitter keywords and hashtags which localize the
+        topic and location of the tweets even better. In fact, we look for tweets with the keywords "Breaking Nes" and
+        "Chicago" so that only relevant updates for important facts happening in the city are retrieved.
+        <br>The user can see the first words of the tweet in the feed and then click on the Twitter icon to open a popup
+        which shows the complete tweet:</p>
+
+    <div class="col-sm-3 col-md-5">
+        <img src="image/tweet1.png" class="img-responsive center" alt="Responsive image"/>
+
+        <p>In this example, the tweet notifies that a fire has been reported in Chicago and there's also a link if the
+            user wants more information about that.</p>
+    </div>
+    <div class="clearfix"></div>
+
+    <br>
+
+    <div class="images col-sm-6 col-md-6">
+        <div class="embed-responsive embed-responsive-16by9 img-thumbnail">
+            <video autoplay="true" loop="true" class="embed-responsive-item">
+                <source src="image/feed.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <hr>
+    <!--//////////////////////////////////////////////////////////////////////////////-->
+
+    <h3>Charts</h3>
+
+    <p>
+        Charts have been designed to show a general overview of Chicago crime data and general street
+        issues and to allow comparisons between a selected area and Chicago as a whole. <br/>
+        The charts panel is placed on the right part of the screen and offers two views, one regarding the crime
+        data and the other regarding street issues; By clicking the two buttons on the bottom part of the
+        chart panel user can switch between the two views.
+
+    </p>
+
+    <div class="col-sm-12 col-md-12">
+        <img src="image/chart-switch-views.png" class="img-responsive center" alt="Responsive image"/>
+
+        <p>Buttons to switch between crimes view and street issues view</p>
+    </div>
+    <div class="clearfix"></div>
+    <h4>Crimes charts</h4>
+
+    <p>
+        In the crime view the user can look at crime data in two different ways.
+        The chart at the top shows crime data
+        in term of crime density (crimes per squared mile); In this way it is possible to investigate whether a given
+        area is more criminal than Chicago as a whole.
+        Crimes are divided in three macro category, namely violent crimes, property crimes and quality of life crimes
+        as shown by the chart groups.
+    </p>
+
+    <div class="col-sm-12 col-md-12">
+        <img src="image/crime_density.png" class="img-responsive center" alt="Responsive image"/>
+
+        <p>Column chart that shows crime density of the selected area and of Chicago as a whole.</p>
+    </div>
+    <div class="clearfix"></div>
+    <br/>
+
+    <p>
+        By clicking on the columns of the charts a tool tip appears to show the name of
+        the specific crime.
+    </p>
+
+    <div class="col-sm-12 col-md-12">
+        <img src="image/tooltip.png" class="img-responsive center" alt="Responsive image"/>
+
+        <p>Tooltip that shows which crime the column refers to.</p>
+    </div>
+    <div class="clearfix"></div>
+    <p>
+        At the bottom part of the crime view crime is shown by means of most frequent crime locations. The tables
+        show which locations are more frequent for a given category of crime, both for the selected area and for
+        chicago as a whole. Percentages of the locations frequency are also shown.
+    </p>
+
+    <div class="col-sm-12 col-md-12">
+        <img src="image/crime-locations.png" class="img-responsive center" alt="Responsive image"/>
+
+        <p>Most frequent crime locations by category and area.</p>
+    </div>
+    <div class="clearfix"></div>
+
+    <h4>Street issues charts</h4>
+
+    <p>
+        In the street issues charts data about potholes, abandoned vehicles and street lights out are shown.
+        Charts at the top shows the various pieces of data by means of density (reported cases per squared mile) both
+        for Chicago as a whole and the selected area.
+    </p>
+
+    <div class="col-sm-12 col-md-12">
+        <img src="image/street-issues-density.png" class="img-responsive center" alt="Responsive image"/>
+
+        <p>Column charts that shows reported cases per squared miles respectively for potholes, abandoned vehicles
+            and street lights out.</p>
+    </div>
+    <div class="clearfix"></div>
+    <br/>
+
+    <p>
+        At the bottom part of the street issues view the raw numbers are shown in term of reported cases
+        in the selected area, all the Chicago reported cases and the percentage of the Chicago cases in the selected
+        area. The raw data is represented also with matrix plots in which the whole plot represents Chicago reported
+        cases and the highlighted squares represent the cases within the selected area.
+    </p>
+
+    <div class="col-sm-12 col-md-12">
+        <img src="image/street-issues-cases.png" class="img-responsive center" alt="Responsive image"/>
+
+        <p>Raw data for potholes, abandoned vehicles and street lights out is shown in term of cases in the
+            selected area / chicago cases and the percentage. These pieces of data are represented in the matrix
+            plot.</p>
+    </div>
+    <div class="clearfix"></div>
+
+    <hr>
+    <!--//////////////////////////////////////////////////////////////////////////////-->
+
+
+</div>
+
+</div>
+<!-- /container -->
 </body>
 
 </html>
