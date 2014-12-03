@@ -78,6 +78,7 @@ function RestaurantsModel() {
         var proxy = "https://script.google.com/a/macros/mcpher.com/s/AKfycbzGgpLEWS0rKSBqXG5PcvJ7Fpe02fvGqiCqq54SVQmBJSpy_6s/exec";
         var yelplink = "http://paolobruzzo.comuf.com/project3/yelp.php?offset=";
         var limit = 900;
+        var count = limit;
         for (var offset = 0; offset < limit; offset += 20) {
             d3.json(proxy + "?url=" + yelplink + offset, function (json) {
                 // Stupid google proxy returns me an ugly string with extra characters
@@ -86,12 +87,16 @@ function RestaurantsModel() {
 
                 parsedJson.businesses.forEach(function (restaurant) {
                     // Put the coordinates information at the top level like all the other layers
-                    restaurant.latitude = restaurant.location.coordinate.latitude;
-                    restaurant.longitude = restaurant.location.coordinate.longitude;
-                    restaurant.categories = restaurant.categories[0][0];
-                    _yelpRestaurants.push(restaurant);
+                    if(restaurant.location.coordinate) {
+                        restaurant.latitude = restaurant.location.coordinate.latitude;
+                        restaurant.longitude = restaurant.location.coordinate.longitude;
+                        restaurant.categories = restaurant.categories[0][0];
+                        _yelpRestaurants.push(restaurant);
+                    }
+                    else
+                        count--;
                 });
-                if (_yelpRestaurants.length >= limit)
+                if (_yelpRestaurants.length >= count)
                     _yelpDownloaded = true;
             });
         }
