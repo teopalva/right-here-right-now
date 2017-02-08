@@ -1,29 +1,8 @@
-# README #
+Right Here Right Now
+===================
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Personal repository for CS 424 - Visualization and Visual Analytics - Project 3
 
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+## Website
+Please visit the dedicated website for all of the information about this project:
+https://chicagosafetravel.bitbucket.io
